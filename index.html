@@ -1,5 +1,3 @@
-
-);
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -23,13 +21,13 @@ body {
 header {
   background: #1f1f1f;
   color: white;
-  padding: 22px 18px;
+  padding: 24px 18px;
   text-align: center;
 }
 
 header h1 {
   margin: 0;
-  font-size: 30px;
+  font-size: 32px;
 }
 
 header p {
@@ -48,7 +46,7 @@ header p {
   border-radius: 14px;
   padding: 20px;
   margin-bottom: 18px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 3px 12px rgba(0,0,0,.08);
 }
 
 h2 {
@@ -58,26 +56,21 @@ h2 {
 input {
   width: 100%;
   padding: 14px;
+  margin: 6px 0;
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 16px;
-  margin-bottom: 10px;
 }
 
 button {
   width: 100%;
   padding: 14px;
-  border: none;
+  margin-top: 10px;
+  border: 0;
   border-radius: 10px;
   background: #222;
   color: white;
   font-size: 16px;
-  margin-top: 8px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #444;
 }
 
 .result {
@@ -87,16 +80,16 @@ button:hover {
   border-radius: 10px;
 }
 
-.ingredient {
+.tag {
   display: inline-block;
+  background: #ddd5c8;
   padding: 7px 10px;
   margin: 4px;
-  background: #ddd5c8;
   border-radius: 20px;
 }
 
 .score {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
 }
 
@@ -112,777 +105,631 @@ footer {
 
 <header>
   <h1>FoodPairing</h1>
-  <p>Scopri gli abbinamenti tra ingredienti</p>
+  <p>Il motore intelligente per gli abbinamenti gastronomici</p>
 </header>
 
 <div class="container">
 
   <div class="card">
-    <h2>🔎 Cerca un ingrediente</h2>
+
+    <h2>🔎 Cerca ingrediente</h2>
 
     <input
+      id="search"
       type="text"
-      id="ingredientInput"
-      placeholder="Es. manzo, mela, cioccolato..."
+      placeholder="Es. mela, manzo, cioccolato..."
     >
 
-    <button onclick="searchIngredient()">
-      Cerca abbinamenti
+    <button onclick="cerca()">
+      Cerca
     </button>
 
-    <div id="searchResult"></div>
+    <div id="risultato"></div>
+
   </div>
 
 
   <div class="card">
+
     <h2>🍽️ Trova il terzo ingrediente</h2>
 
     <input
+      id="ingrediente1"
       type="text"
-      id="ingredientA"
       placeholder="Primo ingrediente"
     >
 
     <input
+      id="ingrediente2"
       type="text"
-      id="ingredientB"
       placeholder="Secondo ingrediente"
     >
 
-    <button onclick="findThirdIngredient()">
+    <button onclick="terzoIngrediente()">
       Trova il terzo ingrediente
     </button>
 
-    <div id="thirdResult"></div>
+    <div id="terzo"></div>
+
   </div>
 
 
   <div class="card">
+
     <h2>🔺 Analizza tre ingredienti</h2>
 
     <input
+      id="tri1"
       type="text"
-      id="triangleA"
       placeholder="Ingrediente 1"
     >
 
     <input
+      id="tri2"
       type="text"
-      id="triangleB"
       placeholder="Ingrediente 2"
     >
 
     <input
+      id="tri3"
       type="text"
-      id="triangleC"
       placeholder="Ingrediente 3"
     >
 
-    <button onclick="analyzeTriangle()">
-      Analizza combinazione
+    <button onclick="triangolo()">
+      Analizza
     </button>
 
-    <div id="triangleResult"></div>
+    <div id="analisi"></div>
+
   </div>
 
 </div>
 
 <footer>
-  FoodPairing — versione in sviluppo
+  FoodPairing — sviluppo in corso
 </footer>
 
 
 <script>
 
+/* =========================
+   DATABASE INGREDIENTI
+========================= */
+
 const ingredients = {
 
-  mela: {
-    category: "frutta",
-    pairings: ["maiale", "formaggio", "cannella", "zenzero", "noci", "caramello"]
-  },
+mela: {
+nome:"Mela",
+categoria:"Frutta",
+famiglia:"Pomacee",
+profili:["dolce","acido","fruttato","fresco"],
+pairing:{
+maiale:5,
+formaggio:5,
+cannella:5,
+zenzero:4,
+nocciola:4,
+caramello:4,
+timo:3,
+cipolla:3
+}
+},
 
-  maiale: {
-    category: "carne",
-    pairings: ["mela", "senape", "timo", "rosmarino", "cipolla", "vino rosso"]
-  },
+pera: {
+nome:"Pera",
+categoria:"Frutta",
+famiglia:"Pomacee",
+profili:["dolce","fruttato","fresco"],
+pairing:{
+gorgonzola:5,
+cioccolato:4,
+nocciola:5,
+vaniglia:4,
+cannella:4,
+caramello:4,
+maiale:4
+}
+},
 
-  manzo: {
-    category: "carne",
-    pairings: ["tartufo", "funghi", "pepe nero", "rosmarino", "vino rosso", "senape"]
-  },
+limone: {
+nome:"Limone",
+categoria:"Agrumi",
+famiglia:"Agrumi",
+profili:["acido","fresco","agrumato"],
+pairing:{
+pesce:5,
+pollo:4,
+basilico:5,
+aglio:4,
+olio:5,
+zucchero:4
+}
+},
 
-  pomodoro: {
-    category: "verdura",
-    pairings: ["basilico", "mozzarella", "olio extravergine", "aglio", "origano", "acciuga"]
-  },
+pomodoro: {
+nome:"Pomodoro",
+categoria:"Verdure",
+famiglia:"Solanacee",
+profili:["acido","umami","fruttato","vegetale"],
+pairing:{
+basilico:5,
+mozzarella:5,
+aglio:5,
+origano:5,
+acciuga:5,
+olio:5,
+parmigiano:4,
+peperoncino:4
+}
+},
 
-  cioccolato: {
-    category: "dolce",
-    pairings: ["nocciola", "caffè", "arancia", "vaniglia", "sale", "lampone"]
-  },
+patata: {
+nome:"Patata",
+categoria:"Tuberi",
+famiglia:"Tuberi",
+profili:["terroso","amidaceo","neutro"],
+pairing:{
+rosmarino:5,
+timo:5,
+burro:5,
+parmigiano:4,
+aglio:4,
+cipolla:4,
+carne:4
+}
+},
 
-  nocciola: {
-    category: "frutta secca",
-    pairings: ["cioccolato", "caffè", "pera", "caramello", "vaniglia"]
-  },
+cipolla: {
+nome:"Cipolla",
+categoria:"Verdure",
+famiglia:"Allium",
+profili:["piccante","dolce","solforato"],
+pairing:{
+carne:5,
+pomodoro:5,
+formaggio:4,
+mela:4,
+vino:4,
+timo:4,
+rosmarino:4
+}
+},
 
-  pera: {
-    category: "frutta",
-    pairings: ["gorgonzola", "cioccolato", "nocciola", "vaniglia", "cannella"]
-  },
+manzo: {
+nome:"Manzo",
+categoria:"Carne",
+famiglia:"Carni rosse",
+profili:["umami","grasso","tostato","sapido"],
+pairing:{
+tartufo:5,
+funghi:5,
+pepe:5,
+rosmarino:4,
+vino:5,
+senape:4,
+aglio:4,
+cipolla:4
+}
+},
 
-  patata: {
-    category: "tubero",
-    pairings: ["rosmarino", "timo", "burro", "formaggio", "cipolla", "carne"]
-  },
+maiale: {
+nome:"Maiale",
+categoria:"Carne",
+famiglia:"Carni suine",
+profili:["grasso","sapido","dolce","umami"],
+pairing:{
+mela:5,
+senape:5,
+timo:4,
+rosmarino:4,
+cipolla:4,
+vino:4,
+miele:5,
+prugna:4
+}
+},
 
-  cipolla: {
-    category: "verdura",
-    pairings: ["carne", "pomodoro", "formaggio", "mela", "vino rosso"]
-  },
+pollo: {
+nome:"Pollo",
+categoria:"Carne",
+famiglia:"Carni bianche",
+profili:["delicato","umami","grasso"],
+pairing:{
+limone:5,
+rosmarino:5,
+timo:5,
+aglio:4,
+cipolla:4,
+burro:4,
+funghi:4
+}
+},
 
-  limone: {
-    category: "agrumi",
-    pairings: ["pesce", "pollo", "basilico", "olio extravergine", "zucchero"]
-  },
+cioccolato: {
+nome:"Cioccolato",
+categoria:"Dolci",
+famiglia:"Cacao",
+profili:["amaro","dolce","tostato"],
+pairing:{
+nocciola:5,
+caffe:5,
+arancia:5,
+vaniglia:4,
+sale:4,
+lampone:4,
+pera:4
+}
+},
 
-  caffè: {
-    category: "bevanda",
-    pairings: ["cioccolato", "nocciola", "vaniglia", "caramello", "arancia"]
-  }
+nocciola: {
+nome:"Nocciola",
+categoria:"Frutta secca",
+famiglia:"Frutta secca",
+profili:["tostato","grasso","dolce"],
+pairing:{
+cioccolato:5,
+caffe:5,
+pera:5,
+caramello:5,
+vaniglia:4,
+mela:4
+}
+},
+
+caffe: {
+nome:"Caffè",
+categoria:"Bevande",
+famiglia:"Tostati",
+profili:["amaro","tostato","terroso"],
+pairing:{
+cioccolato:5,
+nocciola:5,
+vaniglia:4,
+caramello:5,
+arancia:4,
+cannella:4
+}
+},
+
+basilico: {
+nome:"Basilico",
+categoria:"Erbe",
+famiglia:"Erbe aromatiche",
+profili:["erbaceo","fresco","dolce"],
+pairing:{
+pomodoro:5,
+limone:5,
+mozzarella:5,
+aglio:4,
+olio:5
+}
+},
+
+rosmarino: {
+nome:"Rosmarino",
+categoria:"Erbe",
+famiglia:"Erbe aromatiche",
+profili:["resinoso","erbaceo","balsamico"],
+pairing:{
+patata:5,
+pollo:5,
+maiale:4,
+manzo:4,
+aglio:5,
+limone:4
+}
+},
+
+timo: {
+nome:"Timo",
+categoria:"Erbe",
+famiglia:"Erbe aromatiche",
+profili:["erbaceo","terroso","balsamico"],
+pairing:{
+patata:5,
+pollo:5,
+maiale:4,
+mela:3,
+funghi:5,
+limone:4
+}
+},
+
+aglio: {
+nome:"Aglio",
+categoria:"Verdure",
+famiglia:"Allium",
+profili:["piccante","solforato","intenso"],
+pairing:{
+pomodoro:5,
+patata:5,
+basilico:4,
+rosmarino:5,
+limone:4
+}
+}
 
 };
 
 
-/* NORMALIZZAZIONE */
-
-function normalize(text) {
-  return text
-    .toLowerCase()
-    .trim();
-}
-
-
-/* CERCA INGREDIENTE */
-
-function searchIngredient() {
-
-  const input = normalize(
-    document.getElementById("ingredientInput").value
-  );
-
-  const result = document.getElementById("searchResult");
-
-  if (!input) {
-    result.innerHTML = "<div class='result'>Inserisci un ingrediente.</div>";
-    return;
-  }
-
-  const ingredient = ingredients[input];
-
-  if (!ingredient) {
-    result.innerHTML = `
-      <div class="result">
-        Ingrediente non ancora presente nel database.
-      </div>
-    `;
-    return;
-  }
-
-  let html = `
-    <div class="result">
-      <h3>${input}</h3>
-      <p>Categoria: ${ingredient.category}</p>
-      <p><strong>Abbinamenti:</strong></p>
-  `;
-
-  ingredient.pairings.forEach(item => {
-    html += `<span class="ingredient">${item}</span>`;
-  });
-
-  html += "</div>";
-
-  result.innerHTML = html;
-}
-
-
-/* TROVA TERZO INGREDIENTE */
-
-function findThirdIngredient() {
-
-  const a = normalize(
-    document.getElementById("ingredientA").value
-  );
-
-  const b = normalize(
-    document.getElementById("ingredientB").value
-  );
-
-  const result = document.getElementById("thirdResult");
-
-  if (!a || !b) {
-    result.innerHTML =
-      "<div class='result'>Inserisci entrambi gli ingredienti.</div>";
-    return;
-  }
-
-  const ingredientA = ingredients[a];
-
-  const ingredientB = ingredients[b];
-
-  if (!ingredientA || !ingredientB) {
-    result.innerHTML =
-      "<div class='result'>Uno degli ingredienti non è ancora nel database.</div>";
-    return;
-  }
-
-  const common = ingredientA.pairings.filter(
-    item => ingredientB.pairings.includes(item)
-  );
-
-  if (common.length === 0) {
-
-    result.innerHTML = `
-      <div class="result">
-        Nessun terzo ingrediente comune trovato.
-      </div>
-    `;
-
-    return;
-  }
-
-  let html = `
-    <div class="result">
-      <h3>Terzi ingredienti compatibili</h3>
-  `;
-
-  common.forEach(item => {
-    html += `<span class="ingredient">${item}</span>`;
-  });
-
-  html += "</div>";
-
-  result.innerHTML = html;
-}
-
-
-/* ANALISI TRIANGOLO */
-
-function analyzeTriangle() {
-
-  const a = normalize(
-    document.getElementById("triangleA").value
-  );
-
-  const b = normalize(
-    document.getElementById("triangleB").value
-  );
-
-  const c = normalize(
-    document.getElementById("triangleC").value
-  );
-
-  const result = document.getElementById("triangleResult");
-
-  if (!a || !b || !c) {
-    result.innerHTML =
-      "<div class='result'>Inserisci tre ingredienti.</div>";
-    return;
-  }
-
-  const ia = ingredients[a];
-  const ib = ingredients[b];
-  const ic = ingredients[c];
-
-  if (!ia || !ib || !ic) {
-    result.innerHTML = `
-      <div class="result">
-        Uno o più ingredienti non sono ancora presenti nel database.
-      </div>
-    `;
-    return;
-  }
-
-  let score = 0;
-
-  if (ia.pairings.includes(b)) score++;
-  if (ia.pairings.includes(c)) score++;
-
-  if (ib.pairings.includes(a)) score++;
-  if (ib.pairings.includes(c)) score++;
-
-  if (ic.pairings.includes(a)) score++;
-  if (ic.pairings.includes(b)) score++;
-
-  let message = "";
-
-  if (score >= 5) {
-    message = "Combinazione molto interessante.";
-  } else if (score >= 3) {
-    message = "Combinazione potenzialmente equilibrata.";
-  } else {
-    message = "Abbinamento da verificare.";
-  }
-
-  result.innerHTML = `
-    <div class="result">
-      <h3>${a} + ${b} + ${c}</h3>
-      <div class="score">${score}/6</div>
-      <p>${message}</p>
-    </div>
-  `;
-}
-
-</script>
-
-</body>
-</html>
-}
-
-
-/* =====================================================
-   PAIRING COMPLETO
-===================================================== */
-
-function calculatePairing(aName,bName) {
-
-const a = getIngredient(aName);
-const b = getIngredient(bName);
-
-if (!a || !b) {
-return null;
-}
-
-
-const known = getPairing(a.name,b.name);
-
-const theoretical =
-calculateCompatibility(a,b);
-
-
-if (known) {
-
-return {
-
-score: Math.round(
-known[2] * 0.70 +
-theoretical * 0.30
-),
-
-type: known[3]
-
-};
+/* =========================
+   NORMALIZZAZIONE
+========================= */
+
+function normalizza(testo){
+
+return testo
+.toLowerCase()
+.trim()
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"");
 
 }
 
 
-return {
+/* =========================
+   CERCA
+========================= */
 
-score: theoretical,
+function cerca(){
 
-type: "compatibilità teorica"
-
-};
-
-}
-
-
-/* =====================================================
-   CERCA INGREDIENTE
-===================================================== */
-
-function searchIngredient() {
-
-const query =
-normalize(
+const input=normalizza(
 document.getElementById("search").value
 );
 
-const output =
-document.getElementById("searchResults");
+const risultato=document.getElementById("risultato");
 
+if(!input){
 
-if (!query) {
-
-output.innerHTML = "";
-
-return;
-
-}
-
-
-const results =
-ingredients.filter(function(item) {
-
-return item.name.includes(query);
-
-});
-
-
-if (results.length === 0) {
-
-output.innerHTML =
-'<div class="empty">Ingrediente non presente nel database.</div>';
+risultato.innerHTML=
+"<div class='result'>Inserisci un ingrediente.</div>";
 
 return;
-
 }
 
+const ingrediente=ingredients[input];
 
-output.innerHTML =
-results.map(function(item) {
+if(!ingrediente){
 
-return `
+risultato.innerHTML=
+"<div class='result'>Ingrediente non ancora presente nel database.</div>";
 
+return;
+}
+
+let html=`
 <div class="result">
 
-<strong>${item.name}</strong>
+<h3>${ingrediente.nome}</h3>
 
-<br>
+<p>
+<strong>Categoria:</strong>
+${ingrediente.categoria}
+</p>
 
-<span class="tag">
-${item.category}
-</span>
+<p>
+<strong>Famiglia:</strong>
+${ingrediente.famiglia}
+</p>
 
-<span class="tag">
-${item.family}
-</span>
+<p>
+<strong>Profilo:</strong>
+${ingrediente.profili.join(", ")}
+</p>
 
-<span class="tag">
-intensità ${item.intensity}/10
-</span>
-
-</div>
-
+<p>
+<strong>Abbinamenti:</strong>
+</p>
 `;
 
-}).join("");
+const ordinati=
+Object.entries(ingrediente.pairing)
+.sort((a,b)=>b[1]-a[1]);
+
+ordinati.forEach(([nome,punteggio])=>{
+
+html+=`
+<span class="tag">
+${nome} ⭐ ${punteggio}
+</span>
+`;
+
+});
+
+html+="</div>";
+
+risultato.innerHTML=html;
 
 }
 
 
-/* =====================================================
-   TROVA TERZO
-===================================================== */
+/* =========================
+   TERZO INGREDIENTE
+========================= */
 
-function findThird() {
+function terzoIngrediente(){
 
-const a =
-normalize(
-document.getElementById("ingredientA").value
+const a=normalizza(
+document.getElementById("ingrediente1").value
 );
 
-const b =
-normalize(
-document.getElementById("ingredientB").value
+const b=normalizza(
+document.getElementById("ingrediente2").value
 );
 
-const output =
-document.getElementById("thirdResults");
+const risultato=document.getElementById("terzo");
 
+if(!a||!b){
 
-if (!a || !b) {
-
-output.innerHTML =
-'<div class="empty">Inserisci entrambi gli ingredienti.</div>';
+risultato.innerHTML=
+"<div class='result'>Inserisci due ingredienti.</div>";
 
 return;
-
 }
 
+const A=ingredients[a];
+const B=ingredients[b];
 
-if (!getIngredient(a) || !getIngredient(b)) {
+if(!A||!B){
 
-output.innerHTML =
-'<div class="empty">Uno dei due ingredienti non è nel database.</div>';
+risultato.innerHTML=
+"<div class='result'>Uno degli ingredienti non è presente nel database.</div>";
 
 return;
+}
+
+const comuni=[];
+
+for(const ingrediente in A.pairing){
+
+if(B.pairing[ingrediente]){
+
+const score=
+A.pairing[ingrediente]+
+B.pairing[ingrediente];
+
+comuni.push({
+nome:ingrediente,
+score:score
+});
 
 }
 
+}
 
-let results = [];
+comuni.sort((a,b)=>b.score-a.score);
 
-
-ingredients.forEach(function(candidate) {
-
-if (
-candidate.name === a ||
-candidate.name === b
-) return;
-
-
-const pairA =
-calculatePairing(a,candidate.name);
-
-const pairB =
-calculatePairing(b,candidate.name);
-
-
-if (!pairA || !pairB) return;
-
-
-const score =
-Math.round(
-(pairA.score + pairB.score) / 2
-);
-
-
-results.push({
-
-ingredient:candidate.name,
-score:score,
-typeA:pairA.type,
-typeB:pairB.type
-
-});
-
-});
-
-
-results.sort(function(a,b) {
-
-return b.score - a.score;
-
-});
-
-
-output.innerHTML = `
-
-<h3>Migliori risultati</h3>
-
-` +
-
-results
-.slice(0,10)
-.map(function(result) {
-
-return `
-
+let html=`
 <div class="result">
 
-<strong>
-${result.ingredient}
-</strong>
+<h3>${A.nome} + ${B.nome}</h3>
 
-<span class="score">
-${result.score}/100
-</span>
-
-<br>
-
-<span class="tag">
-${result.typeA}
-</span>
-
-<span class="tag">
-${result.typeB}
-</span>
-
-</div>
-
+<p>
+<strong>Terzi ingredienti suggeriti:</strong>
+</p>
 `;
 
-}).join("");
+if(comuni.length===0){
+
+html+="Nessun terzo ingrediente comune trovato.";
+
+}else{
+
+comuni.slice(0,8).forEach(item=>{
+
+html+=`
+<span class="tag">
+${item.nome} ⭐ ${item.score}
+</span>
+`;
+
+});
+
+}
+
+html+="</div>";
+
+risultato.innerHTML=html;
 
 }
 
 
-/* =====================================================
+/* =========================
    TRIANGOLO
-===================================================== */
+========================= */
 
-function analyzeTriangle() {
+function triangolo(){
 
-const a =
-normalize(
-document.getElementById("triangleA").value
+const a=normalizza(
+document.getElementById("tri1").value
 );
 
-const b =
-normalize(
-document.getElementById("triangleB").value
+const b=normalizza(
+document.getElementById("tri2").value
 );
 
-const c =
-normalize(
-document.getElementById("triangleC").value
+const c=normalizza(
+document.getElementById("tri3").value
 );
 
-const output =
-document.getElementById("triangleResults");
+const risultato=document.getElementById("analisi");
 
+if(!a||!b||!c){
 
-if (!a || !b || !c) {
-
-output.innerHTML =
-'<div class="empty">Inserisci tre ingredienti.</div>';
+risultato.innerHTML=
+"<div class='result'>Inserisci tre ingredienti.</div>";
 
 return;
-
 }
 
+const A=ingredients[a];
+const B=ingredients[b];
+const C=ingredients[c];
 
-const pairs = [
-[a,b],
-[a,c],
-[b,c]
-];
+if(!A||!B||!C){
 
-
-let html = "";
-let total = 0;
-let count = 0;
-
-
-pairs.forEach(function(pair) {
-
-const result =
-calculatePairing(
-pair[0],
-pair[1]
-);
-
-
-if (result) {
-
-total += result.score;
-count++;
-
-
-html += `
-
-<div class="result">
-
-<strong>
-${pair[0]} ↔ ${pair[1]}
-</strong>
-
-<span class="score">
-${result.score}/100
-</span>
-
-<br>
-
-<span class="tag">
-${result.type}
-</span>
-
-</div>
-
-`;
-
-}
-
-else {
-
-html += `
-
-<div class="result">
-
-${pair[0]} ↔ ${pair[1]}
-
-<br>
-
-<span class="empty">
-Dati insufficienti.
-</span>
-
-</div>
-
-`;
-
-}
-
-});
-
-
-if (count > 0) {
-
-const average =
-Math.round(total / count);
-
-
-html += `
-
-<div class="result">
-
-<strong>
-Compatibilità media
-</strong>
-
-<span class="score">
-${average}/100
-</span>
-
-</div>
-
-`;
-
-}
-
-
-output.innerHTML = html;
-
-}
-
-
-/* =====================================================
-   PROFILO INGREDIENTE
-===================================================== */
-
-function showProfile() {
-
-const name =
-normalize(
-document.getElementById("profileIngredient").value
-);
-
-const output =
-document.getElementById("profileResults");
-
-
-const item =
-getIngredient(name);
-
-
-if (!item) {
-
-output.innerHTML =
-'<div class="empty">Ingrediente non presente nel database.</div>';
+risultato.innerHTML=
+"<div class='result'>Uno o più ingredienti non sono presenti nel database.</div>";
 
 return;
+}
+
+let score=0;
+
+score+=A.pairing[b]||0;
+score+=A.pairing[c]||0;
+
+score+=B.pairing[a]||0;
+score+=B.pairing[c]||0;
+
+score+=C.pairing[a]||0;
+score+=C.pairing[b]||0;
+
+const massimo=30;
+
+const percentuale=
+Math.round((score/massimo)*100);
+
+let giudizio;
+
+if(percentuale>=75){
+
+giudizio="Compatibilità elevata";
+
+}else if(percentuale>=50){
+
+giudizio="Compatibilità interessante";
+
+}else if(percentuale>=30){
+
+giudizio="Compatibilità moderata";
+
+}else{
+
+giudizio="Compatibilità debole";
 
 }
 
-
-output.innerHTML = `
+risultato.innerHTML=`
 
 <div class="result">
 
-<h3>${item.name}</h3>
+<h3>
+${A.nome} + ${B.nome} + ${C.nome}
+</h3>
 
-<span class="tag">
-${item.category}
-</span>
-
-<span class="tag">
-${item.family}
-</span>
-
-<div class="reason">
-
-Dolce: ${item.sweet}/10<br>
-Acido: ${item.acid}/10<br>
-Amaro: ${item.bitter}/10<br>
-Salato: ${item.salty}/10<br>
-Umami: ${item.umami}/10<br>
-Grasso: ${item.fat}/10<br>
-Aromaticità: ${item.aromatic}/10<br>
-Intensità: ${item.intensity}/10<br>
-Texture: ${item.texture}
-
+<div class="score">
+${percentuale}%
 </div>
+
+<p>
+<strong>${giudizio}</strong>
+</p>
+
+<p>
+Il punteggio deriva dalle relazioni presenti nel database.
+</p>
 
 </div>
 
