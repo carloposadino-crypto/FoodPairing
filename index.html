@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>FoodPairing</title>
 
 <style>
-
 * {
   box-sizing: border-box;
 }
@@ -55,15 +53,13 @@ h2 {
   margin-top: 0;
 }
 
-input,
-select {
+input {
   width: 100%;
   padding: 14px;
   margin: 5px 0;
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 16px;
-  background: white;
 }
 
 button {
@@ -75,30 +71,20 @@ button {
   background: #222;
   color: white;
   font-size: 16px;
-  cursor: pointer;
 }
 
 button.secondary {
   background: #666;
 }
 
-button:hover {
-  opacity: .9;
-}
-
 .result {
   border-top: 1px solid #eee;
-  padding: 15px 0;
-}
-
-.result:first-child {
-  border-top: none;
+  padding: 14px 0;
 }
 
 .score {
   float: right;
   font-weight: bold;
-  font-size: 17px;
 }
 
 .tag {
@@ -121,60 +107,35 @@ button:hover {
   padding-top: 10px;
 }
 
-.profile {
-  margin-top: 8px;
-  font-size: 13px;
-  color: #666;
-  line-height: 1.5;
-}
-
 footer {
   text-align: center;
   color: #888;
   font-size: 12px;
   padding: 20px;
 }
-
-.top-result {
-  background: #faf8f3;
-  border-radius: 12px;
-  padding: 12px;
-  margin-top: 10px;
-}
-
 </style>
-
 </head>
 
 <body>
 
 <header>
-
-<h1>FoodPairing</h1>
-
-<p>
-Strumento per creare e analizzare abbinamenti di sapori
-</p>
-
+  <h1>FoodPairing</h1>
+  <p>Analisi degli abbinamenti tra ingredienti</p>
 </header>
-
 
 <main>
 
-
-<!-- =========================
-     RICERCA INGREDIENTE
-========================= -->
+<!-- CERCA INGREDIENTE -->
 
 <div class="card">
 
 <h2>🔎 Cerca ingrediente</h2>
 
 <input
-id="search"
-type="text"
-placeholder="Es. mela, timo, maiale..."
-oninput="searchIngredient()"
+  id="search"
+  type="text"
+  placeholder="Es. mela, maiale, timo..."
+  oninput="searchIngredient()"
 >
 
 <div id="searchResults"></div>
@@ -182,38 +143,29 @@ oninput="searchIngredient()"
 </div>
 
 
-<!-- =========================
-     TROVA IL TERZO
-========================= -->
+<!-- TROVA TERZO INGREDIENTE -->
 
 <div class="card">
 
 <h2>➕ Trova il terzo ingrediente</h2>
 
 <p>
-Inserisci due ingredienti e trova un terzo ingrediente
+Inserisci due ingredienti per trovare un terzo ingrediente
 compatibile con entrambi.
 </p>
 
 <input
-id="ingredientA"
-placeholder="Primo ingrediente"
+  id="ingredientA"
+  placeholder="Primo ingrediente"
 >
 
 <input
-id="ingredientB"
-placeholder="Secondo ingrediente"
+  id="ingredientB"
+  placeholder="Secondo ingrediente"
 >
 
 <button onclick="findThird()">
 TROVA IL TERZO
-</button>
-
-<button
-class="secondary"
-onclick="explore()"
->
-✨ ESPLORA ABBINAMENTI
 </button>
 
 <div id="thirdResults"></div>
@@ -221,31 +173,29 @@ onclick="explore()"
 </div>
 
 
-<!-- =========================
-     TRIANGOLO
-========================= -->
+<!-- ANALISI TRIANGOLO -->
 
 <div class="card">
 
 <h2>🔺 Analizza tre ingredienti</h2>
 
 <input
-id="triangleA"
-placeholder="Primo ingrediente"
+  id="triangleA"
+  placeholder="Primo ingrediente"
 >
 
 <input
-id="triangleB"
-placeholder="Secondo ingrediente"
+  id="triangleB"
+  placeholder="Secondo ingrediente"
 >
 
 <input
-id="triangleC"
-placeholder="Terzo ingrediente"
+  id="triangleC"
+  placeholder="Terzo ingrediente"
 >
 
 <button onclick="analyzeTriangle()">
-ANALIZZA TRIANGOLO
+ANALIZZA
 </button>
 
 <div id="triangleResults"></div>
@@ -253,17 +203,15 @@ ANALIZZA TRIANGOLO
 </div>
 
 
-<!-- =========================
-     PROFILO INGREDIENTE
-========================= -->
+<!-- PROFILO -->
 
 <div class="card">
 
 <h2>🧬 Profilo ingrediente</h2>
 
 <input
-id="profileIngredient"
-placeholder="Es. mela"
+  id="profileIngredient"
+  placeholder="Es. mela"
 >
 
 <button onclick="showProfile()">
@@ -274,400 +222,373 @@ ANALIZZA PROFILO
 
 </div>
 
-
 </main>
 
 
 <footer>
-
-FoodPairing · motore di pairing · prototipo evoluto
-
+FoodPairing · versione 1
 </footer>
 
 
 <script>
 
-
-/* =========================================================
+/* =====================================================
    DATABASE INGREDIENTI
-========================================================= */
+===================================================== */
 
 const ingredients = [
 
 {
-name:"mela",
-category:"frutta",
-family:"fruttato",
-sweet:8,
-acid:5,
-bitter:1,
-salty:0,
-umami:0,
-fat:1,
-aromatic:6,
-intensity:5,
-texture:"croccante",
-tags:["fresco","fruttato","dolce","acido"]
+name: "mela",
+category: "frutta",
+family: "fruttato",
+sweet: 8,
+acid: 5,
+bitter: 1,
+salty: 0,
+umami: 0,
+fat: 1,
+aromatic: 6,
+intensity: 5,
+texture: "croccante"
 },
 
 {
-name:"pera",
-category:"frutta",
-family:"fruttato",
-sweet:8,
-acid:3,
-bitter:0,
-salty:0,
-umami:0,
-fat:1,
-aromatic:5,
-intensity:4,
-texture:"morbida",
-tags:["fresco","fruttato","dolce"]
+name: "pera",
+category: "frutta",
+family: "fruttato",
+sweet: 8,
+acid: 3,
+bitter: 0,
+salty: 0,
+umami: 0,
+fat: 1,
+aromatic: 5,
+intensity: 4,
+texture: "morbida"
 },
 
 {
-name:"limone",
-category:"frutta",
-family:"agrumato",
-sweet:2,
-acid:10,
-bitter:3,
-salty:0,
-umami:0,
-fat:0,
-aromatic:9,
-intensity:8,
-texture:"succoso",
-tags:["acido","agrumato","fresco"]
+name: "limone",
+category: "frutta",
+family: "agrumato",
+sweet: 2,
+acid: 10,
+bitter: 3,
+salty: 0,
+umami: 0,
+fat: 0,
+aromatic: 9,
+intensity: 8,
+texture: "succoso"
 },
 
 {
-name:"arancia",
-category:"frutta",
-family:"agrumato",
-sweet:7,
-acid:6,
-bitter:2,
-salty:0,
-umami:0,
-fat:0,
-aromatic:8,
-intensity:6,
-texture:"succoso",
-tags:["agrumato","dolce","fresco"]
+name: "arancia",
+category: "frutta",
+family: "agrumato",
+sweet: 7,
+acid: 6,
+bitter: 2,
+salty: 0,
+umami: 0,
+fat: 0,
+aromatic: 8,
+intensity: 6,
+texture: "succoso"
 },
 
 {
-name:"miele",
-category:"dolcificante",
-family:"dolce",
-sweet:10,
-acid:1,
-bitter:0,
-salty:0,
-umami:0,
-fat:0,
-aromatic:7,
-intensity:7,
-texture:"viscoso",
-tags:["dolce","aromatico"]
+name: "maiale",
+category: "carne",
+family: "carneo",
+sweet: 1,
+acid: 0,
+bitter: 0,
+salty: 3,
+umami: 8,
+fat: 8,
+aromatic: 5,
+intensity: 8,
+texture: "fibroso"
 },
 
 {
-name:"maiale",
-category:"carne",
-family:"carne",
-sweet:1,
-acid:0,
-bitter:0,
-salty:3,
-umami:8,
-fat:8,
-aromatic:5,
-intensity:8,
-texture:"fibroso",
-tags:["grasso","umami","carneo"]
+name: "manzo",
+category: "carne",
+family: "carneo",
+sweet: 1,
+acid: 0,
+bitter: 0,
+salty: 3,
+umami: 10,
+fat: 7,
+aromatic: 6,
+intensity: 9,
+texture: "fibroso"
 },
 
 {
-name:"manzo",
-category:"carne",
-family:"carne",
-sweet:1,
-acid:0,
-bitter:0,
-salty:3,
-umami:10,
-fat:7,
-aromatic:6,
-intensity:9,
-texture:"fibroso",
-tags:["umami","carneo","intenso"]
+name: "pollo",
+category: "carne",
+family: "carneo",
+sweet: 1,
+acid: 0,
+bitter: 0,
+salty: 2,
+umami: 6,
+fat: 4,
+aromatic: 3,
+intensity: 5,
+texture: "tenero"
 },
 
 {
-name:"pollo",
-category:"carne",
-family:"carne",
-sweet:1,
-acid:0,
-bitter:0,
-salty:2,
-umami:6,
-fat:4,
-aromatic:3,
-intensity:5,
-texture:"tenero",
-tags:["delicato","umami"]
+name: "timo",
+category: "erba",
+family: "erbaceo",
+sweet: 1,
+acid: 0,
+bitter: 2,
+salty: 0,
+umami: 0,
+fat: 0,
+aromatic: 9,
+intensity: 8,
+texture: "fibroso"
 },
 
 {
-name:"timo",
-category:"erba",
-family:"erbaceo",
-sweet:1,
-acid:0,
-bitter:2,
-salty:0,
-umami:0,
-fat:0,
-aromatic:9,
-intensity:8,
-texture:"fibroso",
-tags:["erbaceo","aromatico"]
+name: "rosmarino",
+category: "erba",
+family: "erbaceo",
+sweet: 1,
+acid: 0,
+bitter: 3,
+salty: 0,
+umami: 0,
+fat: 0,
+aromatic: 10,
+intensity: 9,
+texture: "fibroso"
 },
 
 {
-name:"rosmarino",
-category:"erba",
-family:"erbaceo",
-sweet:1,
-acid:0,
-bitter:3,
-salty:0,
-umami:0,
-fat:0,
-aromatic:10,
-intensity:9,
-texture:"fibroso",
-tags:["erbaceo","aromatico","intenso"]
+name: "basilico",
+category: "erba",
+family: "erbaceo",
+sweet: 2,
+acid: 0,
+bitter: 1,
+salty: 0,
+umami: 0,
+fat: 0,
+aromatic: 9,
+intensity: 7,
+texture: "morbido"
 },
 
 {
-name:"salvia",
-category:"erba",
-family:"erbaceo",
-sweet:1,
-acid:0,
-bitter:4,
-salty:0,
-umami:0,
-fat:0,
-aromatic:9,
-intensity:8,
-texture:"fibroso",
-tags:["erbaceo","aromatico"]
+name: "salvia",
+category: "erba",
+family: "erbaceo",
+sweet: 1,
+acid: 0,
+bitter: 4,
+salty: 0,
+umami: 0,
+fat: 0,
+aromatic: 9,
+intensity: 8,
+texture: "fibroso"
 },
 
 {
-name:"basilico",
-category:"erba",
-family:"erbaceo",
-sweet:2,
-acid:0,
-bitter:1,
-salty:0,
-umami:0,
-fat:0,
-aromatic:9,
-intensity:7,
-texture:"morbido",
-tags:["erbaceo","fresco"]
+name: "cannella",
+category: "spezia",
+family: "speziato",
+sweet: 5,
+acid: 0,
+bitter: 2,
+salty: 0,
+umami: 0,
+fat: 0,
+aromatic: 10,
+intensity: 9,
+texture: "secco"
 },
 
 {
-name:"cannella",
-category:"spezia",
-family:"speziato",
-sweet:5,
-acid:0,
-bitter:2,
-salty:0,
-umami:0,
-fat:0,
-aromatic:10,
-intensity:9,
-texture:"secco",
-tags:["speziato","dolce","caldo"]
+name: "zenzero",
+category: "spezia",
+family: "speziato",
+sweet: 2,
+acid: 2,
+bitter: 2,
+salty: 0,
+umami: 0,
+fat: 0,
+aromatic: 9,
+intensity: 8,
+texture: "fibroso"
 },
 
 {
-name:"zenzero",
-category:"spezia",
-family:"speziato",
-sweet:2,
-acid:2,
-bitter:2,
-salty:0,
-umami:0,
-fat:0,
-aromatic:9,
-intensity:8,
-texture:"fibroso",
-tags:["speziato","fresco","piccante"]
+name: "nocciola",
+category: "frutta secca",
+family: "tostato",
+sweet: 4,
+acid: 0,
+bitter: 2,
+salty: 1,
+umami: 4,
+fat: 9,
+aromatic: 8,
+intensity: 7,
+texture: "croccante"
 },
 
 {
-name:"nocciola",
-category:"frutta secca",
-family:"tostato",
-sweet:4,
-acid:0,
-bitter:2,
-salty:1,
-umami:4,
-fat:9,
-aromatic:8,
-intensity:7,
-texture:"croccante",
-tags:["grasso","tostato","frutta secca"]
+name: "mandorla",
+category: "frutta secca",
+family: "tostato",
+sweet: 4,
+acid: 0,
+bitter: 1,
+salty: 1,
+umami: 3,
+fat: 8,
+aromatic: 7,
+intensity: 6,
+texture: "croccante"
 },
 
 {
-name:"mandorla",
-category:"frutta secca",
-family:"tostato",
-sweet:4,
-acid:0,
-bitter:1,
-salty:1,
-umami:3,
-fat:8,
-aromatic:7,
-intensity:6,
-texture:"croccante",
-tags:["grasso","tostato"]
+name: "miele",
+category: "dolcificante",
+family: "dolce",
+sweet: 10,
+acid: 1,
+bitter: 0,
+salty: 0,
+umami: 0,
+fat: 0,
+aromatic: 7,
+intensity: 7,
+texture: "viscoso"
 },
 
 {
-name:"senape",
-category:"condimento",
-family:"piccante",
-sweet:2,
-acid:6,
-bitter:2,
-salty:5,
-umami:2,
-fat:2,
-aromatic:8,
-intensity:8,
-texture:"cremoso",
-tags:["piccante","acido","sapido"]
+name: "senape",
+category: "condimento",
+family: "piccante",
+sweet: 2,
+acid: 6,
+bitter: 2,
+salty: 5,
+umami: 2,
+fat: 2,
+aromatic: 8,
+intensity: 8,
+texture: "cremoso"
 },
 
 {
-name:"sedano",
-category:"ortaggio",
-family:"erbaceo",
-sweet:2,
-acid:1,
-bitter:3,
-salty:2,
-umami:2,
-fat:0,
-aromatic:7,
-intensity:6,
-texture:"croccante",
-tags:["erbaceo","fresco","sapido"]
+name: "sedano",
+category: "ortaggio",
+family: "erbaceo",
+sweet: 2,
+acid: 1,
+bitter: 3,
+salty: 2,
+umami: 2,
+fat: 0,
+aromatic: 7,
+intensity: 6,
+texture: "croccante"
 },
 
 {
-name:"carota",
-category:"ortaggio",
-family:"dolce-vegetale",
-sweet:7,
-acid:1,
-bitter:0,
-salty:1,
-umami:1,
-fat:0,
-aromatic:4,
-intensity:4,
-texture:"croccante",
-tags:["dolce","vegetale"]
+name: "carota",
+category: "ortaggio",
+family: "vegetale",
+sweet: 7,
+acid: 1,
+bitter: 0,
+salty: 1,
+umami: 1,
+fat: 0,
+aromatic: 4,
+intensity: 4,
+texture: "croccante"
 },
 
 {
-name:"cipolla",
-category:"ortaggio",
-family:"solforato",
-sweet:5,
-acid:1,
-bitter:2,
-salty:1,
-umami:3,
-fat:0,
-aromatic:8,
-intensity:8,
-texture:"croccante",
-tags:["dolce","aromatico","solforato"]
+name: "cipolla",
+category: "ortaggio",
+family: "solforato",
+sweet: 5,
+acid: 1,
+bitter: 2,
+salty: 1,
+umami: 3,
+fat: 0,
+aromatic: 8,
+intensity: 8,
+texture: "croccante"
 },
 
 {
-name:"patata",
-category:"tubero",
-family:"terroso",
-sweet:3,
-acid:0,
-bitter:0,
-salty:1,
-umami:2,
-fat:0,
-aromatic:2,
-intensity:3,
-texture:"farinosa",
-tags:["terroso","neutro"]
+name: "patata",
+category: "tubero",
+family: "terroso",
+sweet: 3,
+acid: 0,
+bitter: 0,
+salty: 1,
+umami: 2,
+fat: 0,
+aromatic: 2,
+intensity: 3,
+texture: "farinosa"
 },
 
 {
-name:"funghi",
-category:"vegetale",
-family:"terroso",
-sweet:1,
-acid:0,
-bitter:2,
-salty:1,
-umami:9,
-fat:1,
-aromatic:8,
-intensity:8,
-texture:"carnosa",
-tags:["terroso","umami"]
+name: "funghi",
+category: "vegetale",
+family: "terroso",
+sweet: 1,
+acid: 0,
+bitter: 2,
+salty: 1,
+umami: 9,
+fat: 1,
+aromatic: 8,
+intensity: 8,
+texture: "carnosa"
 },
 
 {
-name:"aceto di mele",
-category:"aceto",
-family:"acido",
-sweet:2,
-acid:10,
-bitter:1,
-salty:0,
-umami:0,
-fat:0,
-aromatic:6,
-intensity:7,
-texture:"liquido",
-tags:["acido","fruttato"]
+name: "aceto di mele",
+category: "aceto",
+family: "acido",
+sweet: 2,
+acid: 10,
+bitter: 1,
+salty: 0,
+umami: 0,
+fat: 0,
+aromatic: 6,
+intensity: 7,
+texture: "liquido"
 }
 
 ];
 
 
-/* =========================================================
+/* =====================================================
    PAIRING NOTI
-========================================================= */
+===================================================== */
 
 const pairings = [
 
@@ -726,9 +647,9 @@ const pairings = [
 ];
 
 
-/* =========================================================
-   NORMALIZZAZIONE
-========================================================= */
+/* =====================================================
+   FUNZIONI
+===================================================== */
 
 function normalize(text) {
 
@@ -738,10 +659,6 @@ return text
 
 }
 
-
-/* =========================================================
-   TROVA INGREDIENTE
-========================================================= */
 
 function getIngredient(name) {
 
@@ -756,10 +673,6 @@ return item.name === name;
 }
 
 
-/* =========================================================
-   TROVA PAIRING
-========================================================= */
-
 function getPairing(a,b) {
 
 a = normalize(a);
@@ -768,11 +681,8 @@ b = normalize(b);
 return pairings.find(function(pair) {
 
 return (
-
 (pair[0] === a && pair[1] === b) ||
-
 (pair[0] === b && pair[1] === a)
-
 );
 
 });
@@ -780,37 +690,23 @@ return (
 }
 
 
-/* =========================================================
-   CALCOLO COMPATIBILITÀ PROFILO
-========================================================= */
+/* =====================================================
+   CALCOLO TEORICO
+===================================================== */
 
-function profileCompatibility(a,b) {
+function calculateCompatibility(a,b) {
 
 let score = 50;
 
-const differences = {
 
-sweet: Math.abs(a.sweet - b.sweet),
-acid: Math.abs(a.acid - b.acid),
-bitter: Math.abs(a.bitter - b.bitter),
-salty: Math.abs(a.salty - b.salty),
-umami: Math.abs(a.umami - b.umami),
-fat: Math.abs(a.fat - b.fat),
-aromatic: Math.abs(a.aromatic - b.aromatic)
+/* aromaticità */
 
-};
+score += 12 - Math.abs(
+a.aromatic - b.aromatic
+);
 
 
-/*
-  Similarità aromatica
-*/
-
-score += 12 - differences.aromatic;
-
-
-/*
-  Contrasto dolce/acido
-*/
+/* dolce + acido */
 
 if (
 (a.sweet >= 7 && b.acid >= 6) ||
@@ -822,9 +718,7 @@ score += 12;
 }
 
 
-/*
-  Grasso + acidità
-*/
+/* grasso + acido */
 
 if (
 (a.fat >= 6 && b.acid >= 6) ||
@@ -836,9 +730,7 @@ score += 10;
 }
 
 
-/*
-  Umami + aromaticità
-*/
+/* umami + aromaticità */
 
 if (
 (a.umami >= 6 && b.aromatic >= 7) ||
@@ -850,9 +742,7 @@ score += 8;
 }
 
 
-/*
-  Famiglia aromatica
-*/
+/* stessa famiglia */
 
 if (a.family === b.family) {
 
@@ -860,10 +750,6 @@ score += 8;
 
 }
 
-
-/*
-  Evita punteggi fuori scala
-*/
 
 return Math.max(
 0,
@@ -873,9 +759,9 @@ Math.min(100,Math.round(score))
 }
 
 
-/* =========================================================
-   PUNTEGGIO PAIRING
-========================================================= */
+/* =====================================================
+   PAIRING COMPLETO
+===================================================== */
 
 function calculatePairing(aName,bName) {
 
@@ -883,35 +769,26 @@ const a = getIngredient(aName);
 const b = getIngredient(bName);
 
 if (!a || !b) {
-
 return null;
-
 }
 
 
 const known = getPairing(a.name,b.name);
 
-const calculated =
-profileCompatibility(a,b);
+const theoretical =
+calculateCompatibility(a,b);
 
-
-/*
-  Se abbiamo un pairing documentato,
-  gli diamo maggior peso.
-*/
 
 if (known) {
 
 return {
 
 score: Math.round(
-(known[2] * 0.70) +
-(calculated * 0.30)
+known[2] * 0.70 +
+theoretical * 0.30
 ),
 
-type: known[3],
-
-known:true
+type: known[3]
 
 };
 
@@ -920,20 +797,18 @@ known:true
 
 return {
 
-score: calculated,
+score: theoretical,
 
-type:"compatibilità teorica",
-
-known:false
+type: "compatibilità teorica"
 
 };
 
 }
 
 
-/* =========================================================
-   RICERCA INGREDIENTE
-========================================================= */
+/* =====================================================
+   CERCA INGREDIENTE
+===================================================== */
 
 function searchIngredient() {
 
@@ -982,13 +857,19 @@ return `
 
 <strong>${item.name}</strong>
 
-<div class="profile">
+<br>
 
-${item.category} ·
-${item.family} ·
+<span class="tag">
+${item.category}
+</span>
+
+<span class="tag">
+${item.family}
+</span>
+
+<span class="tag">
 intensità ${item.intensity}/10
-
-</div>
+</span>
 
 </div>
 
@@ -999,9 +880,9 @@ intensità ${item.intensity}/10
 }
 
 
-/* =========================================================
-   TROVA IL TERZO INGREDIENTE
-========================================================= */
+/* =====================================================
+   TROVA TERZO
+===================================================== */
 
 function findThird() {
 
@@ -1032,7 +913,7 @@ return;
 if (!getIngredient(a) || !getIngredient(b)) {
 
 output.innerHTML =
-'<div class="empty">Uno dei due ingredienti non è presente nel database.</div>';
+'<div class="empty">Uno dei due ingredienti non è nel database.</div>';
 
 return;
 
@@ -1061,17 +942,16 @@ if (!pairA || !pairB) return;
 
 
 const score =
-(pairA.score + pairB.score) / 2;
+Math.round(
+(pairA.score + pairB.score) / 2
+);
 
 
 results.push({
 
 ingredient:candidate.name,
-
-score:Math.round(score),
-
+score:score,
 typeA:pairA.type,
-
 typeB:pairB.type
 
 });
@@ -1086,25 +966,9 @@ return b.score - a.score;
 });
 
 
-if (results.length === 0) {
-
-output.innerHTML =
-'<div class="empty">Non ho ancora dati sufficienti.</div>';
-
-return;
-
-}
-
-
 output.innerHTML = `
 
-<div class="top-result">
-
-<strong>
-Migliori compatibilità trovate
-</strong>
-
-</div>
+<h3>Migliori risultati</h3>
 
 ` +
 
@@ -1138,26 +1002,14 @@ ${result.typeB}
 
 `;
 
-})
-.join("");
+}).join("");
 
 }
 
 
-/* =========================================================
-   ESPLORA
-========================================================= */
-
-function explore() {
-
-findThird();
-
-}
-
-
-/* =========================================================
-   ANALISI TRIANGOLO
-========================================================= */
+/* =====================================================
+   TRIANGOLO
+===================================================== */
 
 function analyzeTriangle() {
 
@@ -1191,18 +1043,14 @@ return;
 
 
 const pairs = [
-
 [a,b],
 [a,c],
 [b,c]
-
 ];
 
 
 let html = "";
-
 let total = 0;
-
 let count = 0;
 
 
@@ -1218,7 +1066,6 @@ pair[1]
 if (result) {
 
 total += result.score;
-
 count++;
 
 
@@ -1257,7 +1104,7 @@ ${pair[0]} ↔ ${pair[1]}
 <br>
 
 <span class="empty">
-Ingrediente non presente nel database.
+Dati insufficienti.
 </span>
 
 </div>
@@ -1277,10 +1124,10 @@ Math.round(total / count);
 
 html += `
 
-<div class="top-result">
+<div class="result">
 
 <strong>
-Compatibilità complessiva del triangolo
+Compatibilità media
 </strong>
 
 <span class="score">
@@ -1299,9 +1146,9 @@ output.innerHTML = html;
 }
 
 
-/* =========================================================
+/* =====================================================
    PROFILO INGREDIENTE
-========================================================= */
+===================================================== */
 
 function showProfile() {
 
@@ -1334,68 +1181,25 @@ output.innerHTML = `
 
 <h3>${item.name}</h3>
 
-<div class="profile">
-
-<strong>Categoria:</strong>
+<span class="tag">
 ${item.category}
+</span>
 
-<br>
-
-<strong>Famiglia:</strong>
+<span class="tag">
 ${item.family}
+</span>
 
-<br>
+<div class="reason">
 
-<strong>Dolce:</strong>
-${item.sweet}/10
-
-<br>
-
-<strong>Acido:</strong>
-${item.acid}/10
-
-<br>
-
-<strong>Amaro:</strong>
-${item.bitter}/10
-
-<br>
-
-<strong>Salato:</strong>
-${item.salty}/10
-
-<br>
-
-<strong>Umami:</strong>
-${item.umami}/10
-
-<br>
-
-<strong>Grasso:</strong>
-${item.fat}/10
-
-<br>
-
-<strong>Aromaticità:</strong>
-${item.aromatic}/10
-
-<br>
-
-<strong>Intensità:</strong>
-${item.intensity}/10
-
-<br>
-
-<strong>Texture:</strong>
-${item.texture}
-
-<br><br>
-
-${item.tags.map(function(tag) {
-
-return `<span class="tag">${tag}</span>`;
-
-}).join("")}
+Dolce: ${item.sweet}/10<br>
+Acido: ${item.acid}/10<br>
+Amaro: ${item.bitter}/10<br>
+Salato: ${item.salty}/10<br>
+Umami: ${item.umami}/10<br>
+Grasso: ${item.fat}/10<br>
+Aromaticità: ${item.aromatic}/10<br>
+Intensità: ${item.intensity}/10<br>
+Texture: ${item.texture}
 
 </div>
 
@@ -1408,4 +1212,4 @@ return `<span class="tag">${tag}</span>`;
 </script>
 
 </body>
-  </html>
+</html>
