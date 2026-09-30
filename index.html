@@ -1,3 +1,5 @@
+
+);
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -14,14 +16,14 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f4f1eb;
+  background: #f5f2ed;
   color: #222;
 }
 
 header {
-  background: #222;
+  background: #1f1f1f;
   color: white;
-  padding: 24px 18px;
+  padding: 22px 18px;
   text-align: center;
 }
 
@@ -31,22 +33,22 @@ header h1 {
 }
 
 header p {
-  margin: 7px 0 0;
+  margin: 8px 0 0;
   color: #ccc;
 }
 
-main {
-  max-width: 760px;
+.container {
+  max-width: 700px;
   margin: auto;
-  padding: 15px;
+  padding: 20px;
 }
 
 .card {
   background: white;
-  border-radius: 16px;
-  padding: 18px;
-  margin-bottom: 15px;
-  box-shadow: 0 3px 12px rgba(0,0,0,.08);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
 }
 
 h2 {
@@ -56,62 +58,52 @@ h2 {
 input {
   width: 100%;
   padding: 14px;
-  margin: 5px 0;
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 16px;
+  margin-bottom: 10px;
 }
 
 button {
   width: 100%;
   padding: 14px;
-  margin-top: 8px;
   border: none;
   border-radius: 10px;
   background: #222;
   color: white;
   font-size: 16px;
+  margin-top: 8px;
+  cursor: pointer;
 }
 
-button.secondary {
-  background: #666;
+button:hover {
+  background: #444;
 }
 
 .result {
-  border-top: 1px solid #eee;
-  padding: 14px 0;
+  margin-top: 15px;
+  padding: 15px;
+  background: #f1eee8;
+  border-radius: 10px;
+}
+
+.ingredient {
+  display: inline-block;
+  padding: 7px 10px;
+  margin: 4px;
+  background: #ddd5c8;
+  border-radius: 20px;
 }
 
 .score {
-  float: right;
+  font-size: 24px;
   font-weight: bold;
-}
-
-.tag {
-  display: inline-block;
-  background: #eee;
-  padding: 5px 9px;
-  border-radius: 20px;
-  font-size: 12px;
-  margin: 5px 4px 0 0;
-}
-
-.reason {
-  margin-top: 8px;
-  color: #555;
-  line-height: 1.4;
-}
-
-.empty {
-  color: #777;
-  padding-top: 10px;
 }
 
 footer {
   text-align: center;
-  color: #888;
-  font-size: 12px;
-  padding: 20px;
+  padding: 25px;
+  color: #777;
 }
 </style>
 </head>
@@ -120,642 +112,331 @@ footer {
 
 <header>
   <h1>FoodPairing</h1>
-  <p>Analisi degli abbinamenti tra ingredienti</p>
+  <p>Scopri gli abbinamenti tra ingredienti</p>
 </header>
 
-<main>
+<div class="container">
 
-<!-- CERCA INGREDIENTE -->
+  <div class="card">
+    <h2>🔎 Cerca un ingrediente</h2>
 
-<div class="card">
+    <input
+      type="text"
+      id="ingredientInput"
+      placeholder="Es. manzo, mela, cioccolato..."
+    >
 
-<h2>🔎 Cerca ingrediente</h2>
+    <button onclick="searchIngredient()">
+      Cerca abbinamenti
+    </button>
 
-<input
-  id="search"
-  type="text"
-  placeholder="Es. mela, maiale, timo..."
-  oninput="searchIngredient()"
->
-
-<div id="searchResults"></div>
-
-</div>
-
-
-<!-- TROVA TERZO INGREDIENTE -->
-
-<div class="card">
-
-<h2>➕ Trova il terzo ingrediente</h2>
-
-<p>
-Inserisci due ingredienti per trovare un terzo ingrediente
-compatibile con entrambi.
-</p>
-
-<input
-  id="ingredientA"
-  placeholder="Primo ingrediente"
->
-
-<input
-  id="ingredientB"
-  placeholder="Secondo ingrediente"
->
-
-<button onclick="findThird()">
-TROVA IL TERZO
-</button>
-
-<div id="thirdResults"></div>
-
-</div>
+    <div id="searchResult"></div>
+  </div>
 
 
-<!-- ANALISI TRIANGOLO -->
+  <div class="card">
+    <h2>🍽️ Trova il terzo ingrediente</h2>
 
-<div class="card">
+    <input
+      type="text"
+      id="ingredientA"
+      placeholder="Primo ingrediente"
+    >
 
-<h2>🔺 Analizza tre ingredienti</h2>
+    <input
+      type="text"
+      id="ingredientB"
+      placeholder="Secondo ingrediente"
+    >
 
-<input
-  id="triangleA"
-  placeholder="Primo ingrediente"
->
+    <button onclick="findThirdIngredient()">
+      Trova il terzo ingrediente
+    </button>
 
-<input
-  id="triangleB"
-  placeholder="Secondo ingrediente"
->
+    <div id="thirdResult"></div>
+  </div>
 
-<input
-  id="triangleC"
-  placeholder="Terzo ingrediente"
->
 
-<button onclick="analyzeTriangle()">
-ANALIZZA
-</button>
+  <div class="card">
+    <h2>🔺 Analizza tre ingredienti</h2>
 
-<div id="triangleResults"></div>
+    <input
+      type="text"
+      id="triangleA"
+      placeholder="Ingrediente 1"
+    >
+
+    <input
+      type="text"
+      id="triangleB"
+      placeholder="Ingrediente 2"
+    >
+
+    <input
+      type="text"
+      id="triangleC"
+      placeholder="Ingrediente 3"
+    >
+
+    <button onclick="analyzeTriangle()">
+      Analizza combinazione
+    </button>
+
+    <div id="triangleResult"></div>
+  </div>
 
 </div>
-
-
-<!-- PROFILO -->
-
-<div class="card">
-
-<h2>🧬 Profilo ingrediente</h2>
-
-<input
-  id="profileIngredient"
-  placeholder="Es. mela"
->
-
-<button onclick="showProfile()">
-ANALIZZA PROFILO
-</button>
-
-<div id="profileResults"></div>
-
-</div>
-
-</main>
-
 
 <footer>
-FoodPairing · versione 1
+  FoodPairing — versione in sviluppo
 </footer>
 
 
 <script>
 
-/* =====================================================
-   DATABASE INGREDIENTI
-===================================================== */
+const ingredients = {
 
-const ingredients = [
+  mela: {
+    category: "frutta",
+    pairings: ["maiale", "formaggio", "cannella", "zenzero", "noci", "caramello"]
+  },
 
-{
-name: "mela",
-category: "frutta",
-family: "fruttato",
-sweet: 8,
-acid: 5,
-bitter: 1,
-salty: 0,
-umami: 0,
-fat: 1,
-aromatic: 6,
-intensity: 5,
-texture: "croccante"
-},
+  maiale: {
+    category: "carne",
+    pairings: ["mela", "senape", "timo", "rosmarino", "cipolla", "vino rosso"]
+  },
 
-{
-name: "pera",
-category: "frutta",
-family: "fruttato",
-sweet: 8,
-acid: 3,
-bitter: 0,
-salty: 0,
-umami: 0,
-fat: 1,
-aromatic: 5,
-intensity: 4,
-texture: "morbida"
-},
+  manzo: {
+    category: "carne",
+    pairings: ["tartufo", "funghi", "pepe nero", "rosmarino", "vino rosso", "senape"]
+  },
 
-{
-name: "limone",
-category: "frutta",
-family: "agrumato",
-sweet: 2,
-acid: 10,
-bitter: 3,
-salty: 0,
-umami: 0,
-fat: 0,
-aromatic: 9,
-intensity: 8,
-texture: "succoso"
-},
+  pomodoro: {
+    category: "verdura",
+    pairings: ["basilico", "mozzarella", "olio extravergine", "aglio", "origano", "acciuga"]
+  },
 
-{
-name: "arancia",
-category: "frutta",
-family: "agrumato",
-sweet: 7,
-acid: 6,
-bitter: 2,
-salty: 0,
-umami: 0,
-fat: 0,
-aromatic: 8,
-intensity: 6,
-texture: "succoso"
-},
+  cioccolato: {
+    category: "dolce",
+    pairings: ["nocciola", "caffè", "arancia", "vaniglia", "sale", "lampone"]
+  },
 
-{
-name: "maiale",
-category: "carne",
-family: "carneo",
-sweet: 1,
-acid: 0,
-bitter: 0,
-salty: 3,
-umami: 8,
-fat: 8,
-aromatic: 5,
-intensity: 8,
-texture: "fibroso"
-},
+  nocciola: {
+    category: "frutta secca",
+    pairings: ["cioccolato", "caffè", "pera", "caramello", "vaniglia"]
+  },
 
-{
-name: "manzo",
-category: "carne",
-family: "carneo",
-sweet: 1,
-acid: 0,
-bitter: 0,
-salty: 3,
-umami: 10,
-fat: 7,
-aromatic: 6,
-intensity: 9,
-texture: "fibroso"
-},
+  pera: {
+    category: "frutta",
+    pairings: ["gorgonzola", "cioccolato", "nocciola", "vaniglia", "cannella"]
+  },
 
-{
-name: "pollo",
-category: "carne",
-family: "carneo",
-sweet: 1,
-acid: 0,
-bitter: 0,
-salty: 2,
-umami: 6,
-fat: 4,
-aromatic: 3,
-intensity: 5,
-texture: "tenero"
-},
+  patata: {
+    category: "tubero",
+    pairings: ["rosmarino", "timo", "burro", "formaggio", "cipolla", "carne"]
+  },
 
-{
-name: "timo",
-category: "erba",
-family: "erbaceo",
-sweet: 1,
-acid: 0,
-bitter: 2,
-salty: 0,
-umami: 0,
-fat: 0,
-aromatic: 9,
-intensity: 8,
-texture: "fibroso"
-},
+  cipolla: {
+    category: "verdura",
+    pairings: ["carne", "pomodoro", "formaggio", "mela", "vino rosso"]
+  },
 
-{
-name: "rosmarino",
-category: "erba",
-family: "erbaceo",
-sweet: 1,
-acid: 0,
-bitter: 3,
-salty: 0,
-umami: 0,
-fat: 0,
-aromatic: 10,
-intensity: 9,
-texture: "fibroso"
-},
+  limone: {
+    category: "agrumi",
+    pairings: ["pesce", "pollo", "basilico", "olio extravergine", "zucchero"]
+  },
 
-{
-name: "basilico",
-category: "erba",
-family: "erbaceo",
-sweet: 2,
-acid: 0,
-bitter: 1,
-salty: 0,
-umami: 0,
-fat: 0,
-aromatic: 9,
-intensity: 7,
-texture: "morbido"
-},
+  caffè: {
+    category: "bevanda",
+    pairings: ["cioccolato", "nocciola", "vaniglia", "caramello", "arancia"]
+  }
 
-{
-name: "salvia",
-category: "erba",
-family: "erbaceo",
-sweet: 1,
-acid: 0,
-bitter: 4,
-salty: 0,
-umami: 0,
-fat: 0,
-aromatic: 9,
-intensity: 8,
-texture: "fibroso"
-},
-
-{
-name: "cannella",
-category: "spezia",
-family: "speziato",
-sweet: 5,
-acid: 0,
-bitter: 2,
-salty: 0,
-umami: 0,
-fat: 0,
-aromatic: 10,
-intensity: 9,
-texture: "secco"
-},
-
-{
-name: "zenzero",
-category: "spezia",
-family: "speziato",
-sweet: 2,
-acid: 2,
-bitter: 2,
-salty: 0,
-umami: 0,
-fat: 0,
-aromatic: 9,
-intensity: 8,
-texture: "fibroso"
-},
-
-{
-name: "nocciola",
-category: "frutta secca",
-family: "tostato",
-sweet: 4,
-acid: 0,
-bitter: 2,
-salty: 1,
-umami: 4,
-fat: 9,
-aromatic: 8,
-intensity: 7,
-texture: "croccante"
-},
-
-{
-name: "mandorla",
-category: "frutta secca",
-family: "tostato",
-sweet: 4,
-acid: 0,
-bitter: 1,
-salty: 1,
-umami: 3,
-fat: 8,
-aromatic: 7,
-intensity: 6,
-texture: "croccante"
-},
-
-{
-name: "miele",
-category: "dolcificante",
-family: "dolce",
-sweet: 10,
-acid: 1,
-bitter: 0,
-salty: 0,
-umami: 0,
-fat: 0,
-aromatic: 7,
-intensity: 7,
-texture: "viscoso"
-},
-
-{
-name: "senape",
-category: "condimento",
-family: "piccante",
-sweet: 2,
-acid: 6,
-bitter: 2,
-salty: 5,
-umami: 2,
-fat: 2,
-aromatic: 8,
-intensity: 8,
-texture: "cremoso"
-},
-
-{
-name: "sedano",
-category: "ortaggio",
-family: "erbaceo",
-sweet: 2,
-acid: 1,
-bitter: 3,
-salty: 2,
-umami: 2,
-fat: 0,
-aromatic: 7,
-intensity: 6,
-texture: "croccante"
-},
-
-{
-name: "carota",
-category: "ortaggio",
-family: "vegetale",
-sweet: 7,
-acid: 1,
-bitter: 0,
-salty: 1,
-umami: 1,
-fat: 0,
-aromatic: 4,
-intensity: 4,
-texture: "croccante"
-},
-
-{
-name: "cipolla",
-category: "ortaggio",
-family: "solforato",
-sweet: 5,
-acid: 1,
-bitter: 2,
-salty: 1,
-umami: 3,
-fat: 0,
-aromatic: 8,
-intensity: 8,
-texture: "croccante"
-},
-
-{
-name: "patata",
-category: "tubero",
-family: "terroso",
-sweet: 3,
-acid: 0,
-bitter: 0,
-salty: 1,
-umami: 2,
-fat: 0,
-aromatic: 2,
-intensity: 3,
-texture: "farinosa"
-},
-
-{
-name: "funghi",
-category: "vegetale",
-family: "terroso",
-sweet: 1,
-acid: 0,
-bitter: 2,
-salty: 1,
-umami: 9,
-fat: 1,
-aromatic: 8,
-intensity: 8,
-texture: "carnosa"
-},
-
-{
-name: "aceto di mele",
-category: "aceto",
-family: "acido",
-sweet: 2,
-acid: 10,
-bitter: 1,
-salty: 0,
-umami: 0,
-fat: 0,
-aromatic: 6,
-intensity: 7,
-texture: "liquido"
-}
-
-];
+};
 
 
-/* =====================================================
-   PAIRING NOTI
-===================================================== */
-
-const pairings = [
-
-["mela","maiale",88,"complementarità"],
-["mela","timo",86,"ponte aromatico"],
-["mela","cannella",92,"affinità"],
-["mela","nocciola",84,"complementarità"],
-["mela","senape",72,"contrasto"],
-["mela","zenzero",79,"contrasto"],
-["mela","rosmarino",76,"ponte aromatico"],
-["mela","sedano",78,"ponte aromatico"],
-["mela","limone",81,"affinità"],
-["mela","miele",85,"affinità"],
-["mela","aceto di mele",90,"affinità"],
-
-["maiale","timo",82,"ponte aromatico"],
-["maiale","senape",86,"contrasto"],
-["maiale","rosmarino",84,"ponte aromatico"],
-["maiale","miele",80,"contrasto"],
-["maiale","zenzero",73,"contrasto"],
-["maiale","nocciola",77,"complementarità"],
-
-["pera","nocciola",87,"complementarità"],
-["pera","timo",78,"ponte aromatico"],
-["pera","miele",89,"affinità"],
-
-["limone","zenzero",88,"affinità"],
-["limone","basilico",82,"ponte aromatico"],
-["limone","pollo",76,"contrasto"],
-
-["manzo","rosmarino",86,"ponte aromatico"],
-["manzo","funghi",91,"complementarità"],
-["manzo","patata",88,"complementarità"],
-["manzo","senape",82,"contrasto"],
-
-["patata","timo",84,"ponte aromatico"],
-["patata","rosmarino",80,"ponte aromatico"],
-["patata","funghi",86,"complementarità"],
-
-["carota","zenzero",82,"contrasto"],
-["carota","timo",74,"ponte aromatico"],
-["carota","miele",78,"affinità"],
-
-["cipolla","maiale",85,"complementarità"],
-["cipolla","manzo",84,"complementarità"],
-["cipolla","miele",70,"contrasto"],
-
-["nocciola","cannella",90,"affinità"],
-["nocciola","miele",88,"affinità"],
-["nocciola","zenzero",72,"contrasto"],
-
-["funghi","timo",88,"ponte aromatico"],
-["funghi","rosmarino",82,"ponte aromatico"],
-["funghi","sedano",74,"ponte aromatico"]
-
-];
-
-
-/* =====================================================
-   FUNZIONI
-===================================================== */
+/* NORMALIZZAZIONE */
 
 function normalize(text) {
-
-return text
-.toLowerCase()
-.trim();
-
+  return text
+    .toLowerCase()
+    .trim();
 }
 
 
-function getIngredient(name) {
+/* CERCA INGREDIENTE */
 
-name = normalize(name);
+function searchIngredient() {
 
-return ingredients.find(function(item) {
+  const input = normalize(
+    document.getElementById("ingredientInput").value
+  );
 
-return item.name === name;
+  const result = document.getElementById("searchResult");
 
-});
+  if (!input) {
+    result.innerHTML = "<div class='result'>Inserisci un ingrediente.</div>";
+    return;
+  }
 
+  const ingredient = ingredients[input];
+
+  if (!ingredient) {
+    result.innerHTML = `
+      <div class="result">
+        Ingrediente non ancora presente nel database.
+      </div>
+    `;
+    return;
+  }
+
+  let html = `
+    <div class="result">
+      <h3>${input}</h3>
+      <p>Categoria: ${ingredient.category}</p>
+      <p><strong>Abbinamenti:</strong></p>
+  `;
+
+  ingredient.pairings.forEach(item => {
+    html += `<span class="ingredient">${item}</span>`;
+  });
+
+  html += "</div>";
+
+  result.innerHTML = html;
 }
 
 
-function getPairing(a,b) {
+/* TROVA TERZO INGREDIENTE */
 
-a = normalize(a);
-b = normalize(b);
+function findThirdIngredient() {
 
-return pairings.find(function(pair) {
+  const a = normalize(
+    document.getElementById("ingredientA").value
+  );
 
-return (
-(pair[0] === a && pair[1] === b) ||
-(pair[0] === b && pair[1] === a)
-);
+  const b = normalize(
+    document.getElementById("ingredientB").value
+  );
 
-});
+  const result = document.getElementById("thirdResult");
 
+  if (!a || !b) {
+    result.innerHTML =
+      "<div class='result'>Inserisci entrambi gli ingredienti.</div>";
+    return;
+  }
+
+  const ingredientA = ingredients[a];
+
+  const ingredientB = ingredients[b];
+
+  if (!ingredientA || !ingredientB) {
+    result.innerHTML =
+      "<div class='result'>Uno degli ingredienti non è ancora nel database.</div>";
+    return;
+  }
+
+  const common = ingredientA.pairings.filter(
+    item => ingredientB.pairings.includes(item)
+  );
+
+  if (common.length === 0) {
+
+    result.innerHTML = `
+      <div class="result">
+        Nessun terzo ingrediente comune trovato.
+      </div>
+    `;
+
+    return;
+  }
+
+  let html = `
+    <div class="result">
+      <h3>Terzi ingredienti compatibili</h3>
+  `;
+
+  common.forEach(item => {
+    html += `<span class="ingredient">${item}</span>`;
+  });
+
+  html += "</div>";
+
+  result.innerHTML = html;
 }
 
 
-/* =====================================================
-   CALCOLO TEORICO
-===================================================== */
+/* ANALISI TRIANGOLO */
 
-function calculateCompatibility(a,b) {
+function analyzeTriangle() {
 
-let score = 50;
+  const a = normalize(
+    document.getElementById("triangleA").value
+  );
 
+  const b = normalize(
+    document.getElementById("triangleB").value
+  );
 
-/* aromaticità */
+  const c = normalize(
+    document.getElementById("triangleC").value
+  );
 
-score += 12 - Math.abs(
-a.aromatic - b.aromatic
-);
+  const result = document.getElementById("triangleResult");
 
+  if (!a || !b || !c) {
+    result.innerHTML =
+      "<div class='result'>Inserisci tre ingredienti.</div>";
+    return;
+  }
 
-/* dolce + acido */
+  const ia = ingredients[a];
+  const ib = ingredients[b];
+  const ic = ingredients[c];
 
-if (
-(a.sweet >= 7 && b.acid >= 6) ||
-(b.sweet >= 7 && a.acid >= 6)
-) {
+  if (!ia || !ib || !ic) {
+    result.innerHTML = `
+      <div class="result">
+        Uno o più ingredienti non sono ancora presenti nel database.
+      </div>
+    `;
+    return;
+  }
 
-score += 12;
+  let score = 0;
 
+  if (ia.pairings.includes(b)) score++;
+  if (ia.pairings.includes(c)) score++;
+
+  if (ib.pairings.includes(a)) score++;
+  if (ib.pairings.includes(c)) score++;
+
+  if (ic.pairings.includes(a)) score++;
+  if (ic.pairings.includes(b)) score++;
+
+  let message = "";
+
+  if (score >= 5) {
+    message = "Combinazione molto interessante.";
+  } else if (score >= 3) {
+    message = "Combinazione potenzialmente equilibrata.";
+  } else {
+    message = "Abbinamento da verificare.";
+  }
+
+  result.innerHTML = `
+    <div class="result">
+      <h3>${a} + ${b} + ${c}</h3>
+      <div class="score">${score}/6</div>
+      <p>${message}</p>
+    </div>
+  `;
 }
 
+</script>
 
-/* grasso + acido */
-
-if (
-(a.fat >= 6 && b.acid >= 6) ||
-(b.fat >= 6 && a.acid >= 6)
-) {
-
-score += 10;
-
-}
-
-
-/* umami + aromaticità */
-
-if (
-(a.umami >= 6 && b.aromatic >= 7) ||
-(b.umami >= 6 && a.aromatic >= 7)
-) {
-
-score += 8;
-
-}
-
-
-/* stessa famiglia */
-
-if (a.family === b.family) {
-
-score += 8;
-
-}
-
-
-return Math.max(
-0,
-Math.min(100,Math.round(score))
-);
-
+</body>
+</html>
 }
 
 
