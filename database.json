@@ -1,0 +1,252 @@
+{
+  "mela": {
+    "nome": "Mela",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": ["dolce", "acido", "fruttato", "fresco"],
+    "pairing": {
+      "maiale": 5,
+      "formaggio": 5,
+      "cannella": 5,
+      "zenzero": 4,
+      "nocciola": 4,
+      "caramello": 4,
+      "timo": 3,
+      "cipolla": 3
+    }
+  },
+
+  "pera": {
+    "nome": "Pera",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": ["dolce", "fruttato", "fresco"],
+    "pairing": {
+      "gorgonzola": 5,
+      "cioccolato": 4,
+      "nocciola": 5,
+      "vaniglia": 4,
+      "cannella": 4,
+      "caramello": 4,
+      "maiale": 4
+    }
+  },
+
+  "limone": {
+    "nome": "Limone",
+    "categoria": "Agrumi",
+    "famiglia": "Agrumi",
+    "profilo": ["acido", "fresco", "agrumato"],
+    "pairing": {
+      "pesce": 5,
+      "pollo": 4,
+      "basilico": 5,
+      "aglio": 4,
+      "olio": 5,
+      "zucchero": 4
+    }
+  },
+
+  "pomodoro": {
+    "nome": "Pomodoro",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": ["acido", "umami", "fruttato", "vegetale"],
+    "pairing": {
+      "basilico": 5,
+      "mozzarella": 5,
+      "aglio": 5,
+      "origano": 5,
+      "acciuga": 5,
+      "olio": 5,
+      "parmigiano": 4,
+      "peperoncino": 4
+    }
+  },
+
+  "patata": {
+    "nome": "Patata",
+    "categoria": "Tuberi",
+    "famiglia": "Tuberi",
+    "profilo": ["terroso", "amidaceo", "neutro"],
+    "pairing": {
+      "rosmarino": 5,
+      "timo": 5,
+      "burro": 5,
+      "parmigiano": 4,
+      "aglio": 4,
+      "cipolla": 4,
+      "carne": 4
+    }
+  },
+
+  "cipolla": {
+    "nome": "Cipolla",
+    "categoria": "Verdure",
+    "famiglia": "Allium",
+    "profilo": ["piccante", "dolce", "solforato"],
+    "pairing": {
+      "carne": 5,
+      "pomodoro": 5,
+      "formaggio": 4,
+      "mela": 4,
+      "vino": 4,
+      "timo": 4,
+      "rosmarino": 4
+    }
+  },
+
+  "manzo": {
+    "nome": "Manzo",
+    "categoria": "Carne",
+    "famiglia": "Carni rosse",
+    "profilo": ["umami", "grasso", "tostato", "sapido"],
+    "pairing": {
+      "tartufo": 5,
+      "funghi": 5,
+      "pepe": 5,
+      "rosmarino": 4,
+      "vino": 5,
+      "senape": 4,
+      "aglio": 4,
+      "cipolla": 4
+    }
+  },
+
+  "maiale": {
+    "nome": "Maiale",
+    "categoria": "Carne",
+    "famiglia": "Carni suine",
+    "profilo": ["grasso", "sapido", "dolce", "umami"],
+    "pairing": {
+      "mela": 5,
+      "senape": 5,
+      "timo": 4,
+      "rosmarino": 4,
+      "cipolla": 4,
+      "vino": 4,
+      "miele": 5,
+      "prugna": 4
+    }
+  },
+
+  "pollo": {
+    "nome": "Pollo",
+    "categoria": "Carne",
+    "famiglia": "Carni bianche",
+    "profilo": ["delicato", "umami", "grasso"],
+    "pairing": {
+      "limone": 5,
+      "rosmarino": 5,
+      "timo": 5,
+      "aglio": 4,
+      "cipolla": 4,
+      "burro": 4,
+      "funghi": 4
+    }
+  },
+
+  "cioccolato": {
+    "nome": "Cioccolato",
+    "categoria": "Dolci",
+    "famiglia": "Cacao",
+    "profilo": ["amaro", "dolce", "tostato"],
+    "pairing": {
+      "nocciola": 5,
+      "caffe": 5,
+      "arancia": 5,
+      "vaniglia": 4,
+      "sale": 4,
+      "lampone": 4,
+      "pera": 4
+    }
+  },
+
+  "nocciola": {
+    "nome": "Nocciola",
+    "categoria": "Frutta secca",
+    "famiglia": "Frutta secca",
+    "profilo": ["tostato", "grasso", "dolce"],
+    "pairing": {
+      "cioccolato": 5,
+      "caffe": 5,
+      "pera": 5,
+      "caramello": 5,
+      "vaniglia": 4,
+      "mela": 4
+    }
+  },
+
+  "caffe": {
+    "nome": "Caffè",
+    "categoria": "Bevande",
+    "famiglia": "Tostati",
+    "profilo": ["amaro", "tostato", "terroso"],
+    "pairing": {
+      "cioccolato": 5,
+      "nocciola": 5,
+      "vaniglia": 4,
+      "caramello": 5,
+      "arancia": 4,
+      "cannella": 4
+    }
+  },
+
+  "basilico": {
+    "nome": "Basilico",
+    "categoria": "Erbe",
+    "famiglia": "Erbe aromatiche",
+    "profilo": ["erbaceo", "fresco", "dolce"],
+    "pairing": {
+      "pomodoro": 5,
+      "limone": 5,
+      "mozzarella": 5,
+      "aglio": 4,
+      "olio": 5
+    }
+  },
+
+  "rosmarino": {
+    "nome": "Rosmarino",
+    "categoria": "Erbe",
+    "famiglia": "Erbe aromatiche",
+    "profilo": ["resinoso", "erbaceo", "balsamico"],
+    "pairing": {
+      "patata": 5,
+      "pollo": 5,
+      "maiale": 4,
+      "manzo": 4,
+      "aglio": 5,
+      "limone": 4
+    }
+  },
+
+  "timo": {
+    "nome": "Timo",
+    "categoria": "Erbe",
+    "famiglia": "Erbe aromatiche",
+    "profilo": ["erbaceo", "terroso", "balsamico"],
+    "pairing": {
+      "patata": 5,
+      "pollo": 5,
+      "maiale": 4,
+      "mela": 3,
+      "funghi": 5,
+      "limone": 4
+    }
+  },
+
+  "aglio": {
+    "nome": "Aglio",
+    "categoria": "Verdure",
+    "famiglia": "Allium",
+    "profilo": ["piccante", "solforato", "intenso"],
+    "pairing": {
+      "pomodoro": 5,
+      "patata": 5,
+      "basilico": 4,
+      "rosmarino": 5,
+      "limone": 4
+    }
+  }
+  }
