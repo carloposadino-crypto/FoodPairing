@@ -114,6 +114,16 @@ button:active {
   white-space: nowrap;
 }
 
+.status {
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  background: #e8e4dc;
+  color: #555;
+  font-size: 14px;
+}
+
 footer {
   text-align: center;
   padding: 25px;
@@ -130,6 +140,11 @@ footer {
 </header>
 
 <div class="container">
+
+  <div id="databaseStatus" class="status">
+    Caricamento database...
+  </div>
+
 
   <div class="card">
 
@@ -221,272 +236,66 @@ footer {
 <script>
 
 /* =====================================================
-   DATABASE
+   DATABASE ESTERNO
 ===================================================== */
 
-const ingredients = {
+let ingredients = {};
 
-  mela: {
-    nome: "Mela",
-    categoria: "Frutta",
-    famiglia: "Pomacee",
-    profilo: ["dolce", "acido", "fruttato", "fresco"],
-    pairing: {
-      maiale: 5,
-      formaggio: 5,
-      cannella: 5,
-      zenzero: 4,
-      nocciola: 4,
-      caramello: 4,
-      timo: 3,
-      cipolla: 3
-    }
-  },
 
-  pera: {
-    nome: "Pera",
-    categoria: "Frutta",
-    famiglia: "Pomacee",
-    profilo: ["dolce", "fruttato", "fresco"],
-    pairing: {
-      gorgonzola: 5,
-      cioccolato: 4,
-      nocciola: 5,
-      vaniglia: 4,
-      cannella: 4,
-      caramello: 4,
-      maiale: 4
-    }
-  },
+/* =====================================================
+   CARICAMENTO DATABASE.JSON
+===================================================== */
 
-  limone: {
-    nome: "Limone",
-    categoria: "Agrumi",
-    famiglia: "Agrumi",
-    profilo: ["acido", "fresco", "agrumato"],
-    pairing: {
-      pesce: 5,
-      pollo: 4,
-      basilico: 5,
-      aglio: 4,
-      olio: 5,
-      zucchero: 4
-    }
-  },
+async function loadDatabase() {
 
-  pomodoro: {
-    nome: "Pomodoro",
-    categoria: "Verdure",
-    famiglia: "Solanacee",
-    profilo: ["acido", "umami", "fruttato", "vegetale"],
-    pairing: {
-      basilico: 5,
-      mozzarella: 5,
-      aglio: 5,
-      origano: 5,
-      acciuga: 5,
-      olio: 5,
-      parmigiano: 4,
-      peperoncino: 4
-    }
-  },
+  const status =
+    document.getElementById("databaseStatus");
 
-  patata: {
-    nome: "Patata",
-    categoria: "Tuberi",
-    famiglia: "Tuberi",
-    profilo: ["terroso", "amidaceo", "neutro"],
-    pairing: {
-      rosmarino: 5,
-      timo: 5,
-      burro: 5,
-      parmigiano: 4,
-      aglio: 4,
-      cipolla: 4,
-      carne: 4
-    }
-  },
+  try {
 
-  cipolla: {
-    nome: "Cipolla",
-    categoria: "Verdure",
-    famiglia: "Allium",
-    profilo: ["piccante", "dolce", "solforato"],
-    pairing: {
-      carne: 5,
-      pomodoro: 5,
-      formaggio: 4,
-      mela: 4,
-      vino: 4,
-      timo: 4,
-      rosmarino: 4
-    }
-  },
+    const response =
+      await fetch("database.json");
 
-  manzo: {
-    nome: "Manzo",
-    categoria: "Carne",
-    famiglia: "Carni rosse",
-    profilo: ["umami", "grasso", "tostato", "sapido"],
-    pairing: {
-      tartufo: 5,
-      funghi: 5,
-      pepe: 5,
-      rosmarino: 4,
-      vino: 5,
-      senape: 4,
-      aglio: 4,
-      cipolla: 4
+    if (!response.ok) {
+      throw new Error("Database non trovato");
     }
-  },
 
-  maiale: {
-    nome: "Maiale",
-    categoria: "Carne",
-    famiglia: "Carni suine",
-    profilo: ["grasso", "sapido", "dolce", "umami"],
-    pairing: {
-      mela: 5,
-      senape: 5,
-      timo: 4,
-      rosmarino: 4,
-      cipolla: 4,
-      vino: 4,
-      miele: 5,
-      prugna: 4
-    }
-  },
+    ingredients =
+      await response.json();
 
-  pollo: {
-    nome: "Pollo",
-    categoria: "Carne",
-    famiglia: "Carni bianche",
-    profilo: ["delicato", "umami", "grasso"],
-    pairing: {
-      limone: 5,
-      rosmarino: 5,
-      timo: 5,
-      aglio: 4,
-      cipolla: 4,
-      burro: 4,
-      funghi: 4
-    }
-  },
+    status.innerHTML =
+      "✓ Database caricato correttamente";
 
-  cioccolato: {
-    nome: "Cioccolato",
-    categoria: "Dolci",
-    famiglia: "Cacao",
-    profilo: ["amaro", "dolce", "tostato"],
-    pairing: {
-      nocciola: 5,
-      caffe: 5,
-      arancia: 5,
-      vaniglia: 4,
-      sale: 4,
-      lampone: 4,
-      pera: 4
-    }
-  },
+    console.log(
+      "FoodPairing database:",
+      ingredients
+    );
 
-  nocciola: {
-    nome: "Nocciola",
-    categoria: "Frutta secca",
-    famiglia: "Frutta secca",
-    profilo: ["tostato", "grasso", "dolce"],
-    pairing: {
-      cioccolato: 5,
-      caffe: 5,
-      pera: 5,
-      caramello: 5,
-      vaniglia: 4,
-      mela: 4
-    }
-  },
+  } catch (error) {
 
-  caffe: {
-    nome: "Caffè",
-    categoria: "Bevande",
-    famiglia: "Tostati",
-    profilo: ["amaro", "tostato", "terroso"],
-    pairing: {
-      cioccolato: 5,
-      nocciola: 5,
-      vaniglia: 4,
-      caramello: 5,
-      arancia: 4,
-      cannella: 4
-    }
-  },
+    console.error(error);
 
-  basilico: {
-    nome: "Basilico",
-    categoria: "Erbe",
-    famiglia: "Erbe aromatiche",
-    profilo: ["erbaceo", "fresco", "dolce"],
-    pairing: {
-      pomodoro: 5,
-      limone: 5,
-      mozzarella: 5,
-      aglio: 4,
-      olio: 5
-    }
-  },
+    status.innerHTML =
+      "❌ Errore nel caricamento del database";
 
-  rosmarino: {
-    nome: "Rosmarino",
-    categoria: "Erbe",
-    famiglia: "Erbe aromatiche",
-    profilo: ["resinoso", "erbaceo", "balsamico"],
-    pairing: {
-      patata: 5,
-      pollo: 5,
-      maiale: 4,
-      manzo: 4,
-      aglio: 5,
-      limone: 4
-    }
-  },
+    document.getElementById("risultato").innerHTML = `
+      <div class="result">
+        <strong>Database non disponibile.</strong>
+        <p>
+          Controlla che il file
+          <strong>database.json</strong>
+          sia presente nel repository.
+        </p>
+      </div>
+    `;
 
-  timo: {
-    nome: "Timo",
-    categoria: "Erbe",
-    famiglia: "Erbe aromatiche",
-    profilo: ["erbaceo", "terroso", "balsamico"],
-    pairing: {
-      patata: 5,
-      pollo: 5,
-      maiale: 4,
-      mela: 3,
-      funghi: 5,
-      limone: 4
-    }
-  },
-
-  aglio: {
-    nome: "Aglio",
-    categoria: "Verdure",
-    famiglia: "Allium",
-    profilo: ["piccante", "solforato", "intenso"],
-    pairing: {
-      pomodoro: 5,
-      patata: 5,
-      basilico: 4,
-      rosmarino: 5,
-      limone: 4
-    }
   }
 
-};
+}
 
 
 /* =====================================================
    NORMALIZZAZIONE
-   Riconosce:
-   Mela
-   mela
-   MELA
-   mela con spazi
 ===================================================== */
 
 function normalizza(testo) {
@@ -506,9 +315,10 @@ function normalizza(testo) {
 
 function cerca() {
 
-  const input = normalizza(
-    document.getElementById("search").value
-  );
+  const input =
+    normalizza(
+      document.getElementById("search").value
+    );
 
   const risultato =
     document.getElementById("risultato");
@@ -521,17 +331,21 @@ function cerca() {
     return;
   }
 
-  const ingrediente = ingredients[input];
+  const ingrediente =
+    ingredients[input];
 
   if (!ingrediente) {
 
     risultato.innerHTML = `
       <div class="result">
+
         <strong>Ingrediente non trovato.</strong>
+
         <p>
-        Questo ingrediente non è ancora presente
-        nel database.
+          Questo ingrediente non è ancora
+          presente nel database.
         </p>
+
       </div>
     `;
 
@@ -539,8 +353,9 @@ function cerca() {
   }
 
   const ordinati =
-    Object.entries(ingrediente.pairing)
-    .sort((a,b) => b[1] - a[1]);
+    Object.entries(ingrediente.pairing || {})
+      .sort((a,b) => b[1] - a[1]);
+
 
   let html = `
 
@@ -566,25 +381,41 @@ function cerca() {
       <hr>
 
       <h4>Abbinamenti</h4>
+
   `;
 
-  ordinati.forEach(([nome, punteggio]) => {
 
-    html += `
+  if (ordinati.length === 0) {
 
-      <div class="item">
+    html +=
+      "<p>Nessun pairing registrato.</p>";
 
-        <span>${nome}</span>
+  } else {
 
-        <span class="stars">
-          ${"★".repeat(punteggio)}
-        </span>
+    ordinati.forEach(
+      ([nome, punteggio]) => {
 
-      </div>
+        html += `
 
-    `;
+          <div class="item">
 
-  });
+            <span>
+              ${nome}
+            </span>
+
+            <span class="stars">
+              ${"★".repeat(punteggio)}
+            </span>
+
+          </div>
+
+        `;
+
+      }
+    );
+
+  }
+
 
   html += "</div>";
 
@@ -594,21 +425,24 @@ function cerca() {
 
 
 /* =====================================================
-   TERZO INGREDIENTE
+   TROVA IL TERZO INGREDIENTE
 ===================================================== */
 
 function terzoIngrediente() {
 
-  const a = normalizza(
-    document.getElementById("ingrediente1").value
-  );
+  const a =
+    normalizza(
+      document.getElementById("ingrediente1").value
+    );
 
-  const b = normalizza(
-    document.getElementById("ingrediente2").value
-  );
+  const b =
+    normalizza(
+      document.getElementById("ingrediente2").value
+    );
 
   const risultato =
     document.getElementById("terzo");
+
 
   if (!a || !b) {
 
@@ -618,30 +452,45 @@ function terzoIngrediente() {
     return;
   }
 
-  const A = ingredients[a];
-  const B = ingredients[b];
+
+  const A =
+    ingredients[a];
+
+  const B =
+    ingredients[b];
+
 
   if (!A || !B) {
 
     risultato.innerHTML = `
       <div class="result">
-        Uno degli ingredienti non è presente
-        nel database.
+
+        Uno degli ingredienti non è
+        presente nel database.
+
       </div>
     `;
 
     return;
   }
 
+
   const comuni = [];
 
-  for (const ingrediente in A.pairing) {
 
-    if (B.pairing[ingrediente]) {
+  for (
+    const ingrediente in (A.pairing || {})
+  ) {
+
+    if (
+      B.pairing &&
+      B.pairing[ingrediente]
+    ) {
 
       const score =
         A.pairing[ingrediente] +
         B.pairing[ingrediente];
+
 
       comuni.push({
         nome: ingrediente,
@@ -652,7 +501,11 @@ function terzoIngrediente() {
 
   }
 
-  comuni.sort((a,b) => b.score - a.score);
+
+  comuni.sort(
+    (a,b) => b.score - a.score
+  );
+
 
   let html = `
 
@@ -663,10 +516,13 @@ function terzoIngrediente() {
       </h3>
 
       <p>
-        <strong>Terzi ingredienti suggeriti:</strong>
+        <strong>
+          Terzi ingredienti suggeriti:
+        </strong>
       </p>
 
   `;
+
 
   if (comuni.length === 0) {
 
@@ -675,25 +531,30 @@ function terzoIngrediente() {
 
   } else {
 
-    comuni.slice(0,8).forEach(item => {
+    comuni
+      .slice(0,8)
+      .forEach(item => {
 
-      html += `
+        html += `
 
-        <div class="item">
+          <div class="item">
 
-          <span>${item.nome}</span>
+            <span>
+              ${item.nome}
+            </span>
 
-          <span>
-            ${item.score}
-          </span>
+            <span>
+              ${item.score}
+            </span>
 
-        </div>
+          </div>
 
-      `;
+        `;
 
-    });
+      });
 
   }
+
 
   html += "</div>";
 
@@ -703,25 +564,30 @@ function terzoIngrediente() {
 
 
 /* =====================================================
-   TRIANGOLO
+   ANALISI TRIANGOLO
 ===================================================== */
 
 function triangolo() {
 
-  const a = normalizza(
-    document.getElementById("tri1").value
-  );
+  const a =
+    normalizza(
+      document.getElementById("tri1").value
+    );
 
-  const b = normalizza(
-    document.getElementById("tri2").value
-  );
+  const b =
+    normalizza(
+      document.getElementById("tri2").value
+    );
 
-  const c = normalizza(
-    document.getElementById("tri3").value
-  );
+  const c =
+    normalizza(
+      document.getElementById("tri3").value
+    );
+
 
   const risultato =
     document.getElementById("analisi");
+
 
   if (!a || !b || !c) {
 
@@ -731,42 +597,94 @@ function triangolo() {
     return;
   }
 
-  const A = ingredients[a];
-  const B = ingredients[b];
-  const C = ingredients[c];
+
+  const A =
+    ingredients[a];
+
+  const B =
+    ingredients[b];
+
+  const C =
+    ingredients[c];
+
 
   if (!A || !B || !C) {
 
     risultato.innerHTML = `
       <div class="result">
-        Uno o più ingredienti non sono presenti
-        nel database.
+
+        Uno o più ingredienti non sono
+        presenti nel database.
+
       </div>
     `;
 
     return;
   }
 
+
   let score = 0;
 
-  score += A.pairing[b] || 0;
-  score += A.pairing[c] || 0;
 
-  score += B.pairing[a] || 0;
-  score += B.pairing[c] || 0;
+  score +=
+    A.pairing?.[b] || 0;
 
-  score += C.pairing[a] || 0;
-  score += C.pairing[b] || 0;
+  score +=
+    A.pairing?.[c] || 0;
+
+  score +=
+    B.pairing?.[a] || 0;
+
+  score +=
+    B.pairing?.[c] || 0;
+
+  score +=
+    C.pairing?.[a] || 0;
+
+  score +=
+    C.pairing?.[b] || 0;
+
 
   const percentuale =
-    Math.round((score / 30) * 100);
+    Math.round(
+      (score / 30) * 100
+    );
+
+
+  let giudizio;
+
+
+  if (percentuale >= 75) {
+
+    giudizio =
+      "Compatibilità elevata";
+
+  } else if (percentuale >= 50) {
+
+    giudizio =
+      "Compatibilità interessante";
+
+  } else if (percentuale >= 30) {
+
+    giudizio =
+      "Compatibilità moderata";
+
+  } else {
+
+    giudizio =
+      "Compatibilità debole";
+
+  }
+
 
   risultato.innerHTML = `
 
     <div class="result">
 
       <h3>
-        ${A.nome} + ${B.nome} + ${C.nome}
+        ${A.nome} +
+        ${B.nome} +
+        ${C.nome}
       </h3>
 
       <div class="score">
@@ -774,9 +692,15 @@ function triangolo() {
       </div>
 
       <p>
-        Compatibilità calcolata
-        sulla base dei pairing presenti
-        nel database.
+        <strong>
+          ${giudizio}
+        </strong>
+      </p>
+
+      <p>
+        Il punteggio è calcolato
+        utilizzando le relazioni
+        presenti nel database.
       </p>
 
     </div>
@@ -784,6 +708,13 @@ function triangolo() {
   `;
 
 }
+
+
+/* =====================================================
+   AVVIO APP
+===================================================== */
+
+loadDatabase();
 
 </script>
 
