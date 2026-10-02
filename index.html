@@ -78,6 +78,16 @@ button:active {
   transform: scale(.99);
 }
 
+.status {
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  background: #e8e4dc;
+  color: #555;
+  font-size: 14px;
+}
+
 .result {
   margin-top: 15px;
   padding: 15px;
@@ -85,24 +95,8 @@ button:active {
   border-radius: 10px;
 }
 
-.tag {
-  display: inline-block;
-  background: #ddd5c8;
-  padding: 8px 10px;
-  margin: 4px;
-  border-radius: 20px;
-}
-
-.score {
-  font-size: 28px;
-  font-weight: bold;
-}
-
 .item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
+  padding: 12px 0;
   border-bottom: 1px solid #ddd;
 }
 
@@ -110,24 +104,64 @@ button:active {
   border-bottom: none;
 }
 
-.stars {
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.score {
+  font-weight: bold;
   white-space: nowrap;
 }
 
-.status {
-  text-align: center;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 10px;
-  background: #e8e4dc;
-  color: #555;
-  font-size: 14px;
+.stars {
+  margin-top: 5px;
+  letter-spacing: 2px;
+}
+
+.tag {
+  display: inline-block;
+  background: #ddd5c8;
+  padding: 6px 9px;
+  margin: 3px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.suggestion-box {
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  background: white;
+}
+
+.suggestion {
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.suggestion:hover {
+  background: #f1eee8;
+}
+
+.triangle-score {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.good {
+  font-weight: bold;
 }
 
 footer {
   text-align: center;
   padding: 25px;
   color: #777;
+  font-size: 13px;
 }
 </style>
 </head>
@@ -146,6 +180,10 @@ footer {
   </div>
 
 
+  <!-- =========================
+       RICERCA
+  ========================== -->
+
   <div class="card">
 
     <h2>🔎 Cerca ingrediente</h2>
@@ -155,7 +193,10 @@ footer {
       type="text"
       placeholder="Es. mela, manzo, cioccolato..."
       autocomplete="off"
+      oninput="mostraSuggerimenti('search','searchSuggestions')"
     >
+
+    <div id="searchSuggestions"></div>
 
     <button onclick="cerca()">
       Cerca abbinamenti
@@ -166,32 +207,52 @@ footer {
   </div>
 
 
+  <!-- =========================
+       TERZO INGREDIENTE
+  ========================== -->
+
   <div class="card">
 
     <h2>🍽️ Trova il terzo ingrediente</h2>
+
+    <p>
+      Inserisci due ingredienti. FoodPairing
+      cercherà gli ingredienti che funzionano
+      con entrambi.
+    </p>
 
     <input
       id="ingrediente1"
       type="text"
       placeholder="Primo ingrediente"
       autocomplete="off"
+      oninput="mostraSuggerimenti('ingrediente1','suggestions1')"
     >
+
+    <div id="suggestions1"></div>
 
     <input
       id="ingrediente2"
       type="text"
       placeholder="Secondo ingrediente"
       autocomplete="off"
+      oninput="mostraSuggerimenti('ingrediente2','suggestions2')"
     >
 
+    <div id="suggestions2"></div>
+
     <button onclick="terzoIngrediente()">
-      Trova il terzo ingrediente
+      TROVA IL TERZO INGREDIENTE
     </button>
 
     <div id="terzo"></div>
 
   </div>
 
+
+  <!-- =========================
+       TRIANGOLO
+  ========================== -->
 
   <div class="card">
 
@@ -219,7 +280,7 @@ footer {
     >
 
     <button onclick="triangolo()">
-      Analizza combinazione
+      ANALIZZA COMBINAZIONE
     </button>
 
     <div id="analisi"></div>
@@ -229,21 +290,21 @@ footer {
 </div>
 
 <footer>
-  FoodPairing — sviluppo in corso
+  FoodPairing — motore di abbinamento gastronomico
 </footer>
 
 
 <script>
 
 /* =====================================================
-   DATABASE ESTERNO
+   DATABASE
 ===================================================== */
 
 let ingredients = {};
 
 
 /* =====================================================
-   CARICAMENTO DATABASE.JSON
+   CARICAMENTO DATABASE
 ===================================================== */
 
 async function loadDatabase() {
@@ -266,28 +327,12 @@ async function loadDatabase() {
     status.innerHTML =
       "✓ Database caricato correttamente";
 
-    console.log(
-      "FoodPairing database:",
-      ingredients
-    );
-
   } catch (error) {
 
     console.error(error);
 
     status.innerHTML =
       "❌ Errore nel caricamento del database";
-
-    document.getElementById("risultato").innerHTML = `
-      <div class="result">
-        <strong>Database non disponibile.</strong>
-        <p>
-          Controlla che il file
-          <strong>database.json</strong>
-          sia presente nel repository.
-        </p>
-      </div>
-    `;
 
   }
 
@@ -310,7 +355,96 @@ function normalizza(testo) {
 
 
 /* =====================================================
-   CERCA INGREDIENTE
+   NOME VISUALIZZATO
+===================================================== */
+
+function nomeIngrediente(chiave) {
+
+  if (ingredients[chiave]) {
+    return ingredients[chiave].nome;
+  }
+
+  return chiave;
+
+}
+
+
+/* =====================================================
+   SUGGERIMENTI
+===================================================== */
+
+function mostraSuggerimenti(inputId, boxId) {
+
+  const input =
+    normalizza(
+      document.getElementById(inputId).value
+    );
+
+  const box =
+    document.getElementById(boxId);
+
+  if (!input) {
+
+    box.innerHTML = "";
+
+    return;
+
+  }
+
+  const risultati =
+    Object.keys(ingredients)
+      .filter(key =>
+        key.includes(input) ||
+        normalizza(ingredients[key].nome)
+          .includes(input)
+      )
+      .slice(0,6);
+
+  if (risultati.length === 0) {
+
+    box.innerHTML = "";
+
+    return;
+
+  }
+
+  box.className = "suggestion-box";
+
+  box.innerHTML =
+    risultati.map(key => `
+
+      <div
+        class="suggestion"
+        onclick="selezionaIngrediente('${inputId}','${boxId}','${key}')"
+      >
+        ${ingredients[key].nome}
+      </div>
+
+    `).join("");
+
+}
+
+
+/* =====================================================
+   SELEZIONE SUGGERIMENTO
+===================================================== */
+
+function selezionaIngrediente(
+  inputId,
+  boxId,
+  key
+) {
+
+  document.getElementById(inputId).value =
+    ingredients[key].nome;
+
+  document.getElementById(boxId).innerHTML = "";
+
+}
+
+
+/* =====================================================
+   CERCA
 ===================================================== */
 
 function cerca() {
@@ -323,38 +457,48 @@ function cerca() {
   const risultato =
     document.getElementById("risultato");
 
+
   if (!input) {
 
     risultato.innerHTML =
       "<div class='result'>Inserisci un ingrediente.</div>";
 
     return;
+
   }
+
 
   const ingrediente =
     ingredients[input];
 
+
   if (!ingrediente) {
 
     risultato.innerHTML = `
+
       <div class="result">
 
         <strong>Ingrediente non trovato.</strong>
 
         <p>
-          Questo ingrediente non è ancora
-          presente nel database.
+          Prova a scegliere uno degli
+          ingredienti suggeriti.
         </p>
 
       </div>
+
     `;
 
     return;
+
   }
 
-  const ordinati =
-    Object.entries(ingrediente.pairing || {})
-      .sort((a,b) => b[1] - a[1]);
+
+  const pairing =
+    Object.entries(
+      ingrediente.pairing || {}
+    )
+    .sort((a,b) => b[1] - a[1]);
 
 
   let html = `
@@ -369,52 +513,47 @@ function cerca() {
       </p>
 
       <p>
-        <strong>Famiglia:</strong>
-        ${ingrediente.famiglia}
-      </p>
-
-      <p>
         <strong>Profilo:</strong>
         ${ingrediente.profilo.join(", ")}
       </p>
 
       <hr>
 
-      <h4>Abbinamenti</h4>
+      <h4>Abbinamenti principali</h4>
 
   `;
 
 
-  if (ordinati.length === 0) {
+  pairing.forEach(
+    ([key, score]) => {
 
-    html +=
-      "<p>Nessun pairing registrato.</p>";
+      html += `
 
-  } else {
+        <div class="item">
 
-    ordinati.forEach(
-      ([nome, punteggio]) => {
+          <div class="item-header">
 
-        html += `
+            <strong>
+              ${nomeIngrediente(key)}
+            </strong>
 
-          <div class="item">
-
-            <span>
-              ${nome}
-            </span>
-
-            <span class="stars">
-              ${"★".repeat(punteggio)}
+            <span class="score">
+              ${score}/5
             </span>
 
           </div>
 
-        `;
+          <div class="stars">
+            ${"★".repeat(score)}
+            ${"☆".repeat(5-score)}
+          </div>
 
-      }
-    );
+        </div>
 
-  }
+      `;
+
+    }
+  );
 
 
   html += "</div>";
@@ -425,7 +564,7 @@ function cerca() {
 
 
 /* =====================================================
-   TROVA IL TERZO INGREDIENTE
+   TERZO INGREDIENTE
 ===================================================== */
 
 function terzoIngrediente() {
@@ -440,71 +579,120 @@ function terzoIngrediente() {
       document.getElementById("ingrediente2").value
     );
 
-  const risultato =
+  const output =
     document.getElementById("terzo");
 
 
   if (!a || !b) {
 
-    risultato.innerHTML =
+    output.innerHTML =
       "<div class='result'>Inserisci due ingredienti.</div>";
 
     return;
+
   }
 
 
-  const A =
-    ingredients[a];
-
-  const B =
-    ingredients[b];
+  const A = ingredients[a];
+  const B = ingredients[b];
 
 
   if (!A || !B) {
 
-    risultato.innerHTML = `
+    output.innerHTML = `
+
       <div class="result">
 
         Uno degli ingredienti non è
         presente nel database.
 
       </div>
+
     `;
 
     return;
+
   }
 
 
-  const comuni = [];
+  const candidati = [];
 
 
-  for (
-    const ingrediente in (A.pairing || {})
-  ) {
+  /*
+    Cerchiamo tutti gli ingredienti
+    presenti nei pairing di A e B.
+  */
+
+  const possibili =
+    new Set([
+      ...Object.keys(A.pairing || {}),
+      ...Object.keys(B.pairing || {})
+    ]);
+
+
+  possibili.forEach(key => {
 
     if (
-      B.pairing &&
-      B.pairing[ingrediente]
-    ) {
-
-      const score =
-        A.pairing[ingrediente] +
-        B.pairing[ingrediente];
+      key === a ||
+      key === b
+    ) return;
 
 
-      comuni.push({
-        nome: ingrediente,
-        score: score
-      });
+    const scoreA =
+      A.pairing?.[key] || 0;
+
+    const scoreB =
+      B.pairing?.[key] || 0;
+
+
+    /*
+      Un ingrediente che funziona
+      con entrambi riceve il massimo
+      del punteggio.
+    */
+
+    let score;
+
+    if (scoreA && scoreB) {
+
+      score =
+        (scoreA + scoreB) / 2;
+
+    } else {
+
+      /*
+        Se funziona bene solo con uno
+        dei due ingredienti lo penalizziamo.
+      */
+
+      score =
+        Math.max(scoreA,scoreB) * 0.55;
 
     }
 
-  }
+
+    candidati.push({
+
+      key: key,
+
+      score: score,
+
+      scoreA: scoreA,
+
+      scoreB: scoreB
+
+    });
+
+  });
 
 
-  comuni.sort(
+  candidati.sort(
     (a,b) => b.score - a.score
   );
+
+
+  const migliori =
+    candidati.slice(0,8);
 
 
   let html = `
@@ -517,54 +705,92 @@ function terzoIngrediente() {
 
       <p>
         <strong>
-          Terzi ingredienti suggeriti:
+          Terzi ingredienti suggeriti
         </strong>
       </p>
 
   `;
 
 
-  if (comuni.length === 0) {
+  if (migliori.length === 0) {
 
     html +=
-      "Nessun terzo ingrediente comune trovato.";
+      "<p>Nessun risultato disponibile.</p>";
 
   } else {
 
-    comuni
-      .slice(0,8)
-      .forEach(item => {
+    migliori.forEach(item => {
 
-        html += `
+      let spiegazione;
 
-          <div class="item">
 
-            <span>
-              ${item.nome}
-            </span>
+      if (
+        item.scoreA >= 4 &&
+        item.scoreB >= 4
+      ) {
 
-            <span>
-              ${item.score}
+        spiegazione =
+          `funziona bene con entrambi`;
+
+      } else if (
+        item.scoreA >= item.scoreB
+      ) {
+
+        spiegazione =
+          `forte affinità con ${A.nome}`;
+
+      } else {
+
+        spiegazione =
+          `forte affinità con ${B.nome}`;
+
+      }
+
+
+      html += `
+
+        <div class="item">
+
+          <div class="item-header">
+
+            <strong>
+              ${nomeIngrediente(item.key)}
+            </strong>
+
+            <span class="score">
+              ${item.score.toFixed(1)}/5
             </span>
 
           </div>
 
-        `;
+          <div class="stars">
+            ${"★".repeat(
+              Math.round(item.score)
+            )}
+          </div>
 
-      });
+          <small>
+            ${spiegazione}
+          </small>
+
+        </div>
+
+      `;
+
+    });
 
   }
 
 
   html += "</div>";
 
-  risultato.innerHTML = html;
+  output.innerHTML = html;
 
 }
 
 
 /* =====================================================
-   ANALISI TRIANGOLO
+   TRIANGOLO
 ===================================================== */
 
 function triangolo() {
@@ -584,134 +810,203 @@ function triangolo() {
       document.getElementById("tri3").value
     );
 
-
-  const risultato =
+  const output =
     document.getElementById("analisi");
 
 
   if (!a || !b || !c) {
 
-    risultato.innerHTML =
+    output.innerHTML =
       "<div class='result'>Inserisci tre ingredienti.</div>";
 
     return;
+
   }
 
 
-  const A =
-    ingredients[a];
-
-  const B =
-    ingredients[b];
-
-  const C =
-    ingredients[c];
+  const A = ingredients[a];
+  const B = ingredients[b];
+  const C = ingredients[c];
 
 
   if (!A || !B || !C) {
 
-    risultato.innerHTML = `
+    output.innerHTML = `
+
       <div class="result">
 
         Uno o più ingredienti non sono
         presenti nel database.
 
       </div>
+
     `;
 
     return;
+
   }
 
 
-  let score = 0;
+  const coppie = [
+
+    {
+      a: A,
+      b: B
+    },
+
+    {
+      a: A,
+      b: C
+    },
+
+    {
+      a: B,
+      b: C
+    }
+
+  ];
 
 
-  score +=
-    A.pairing?.[b] || 0;
+  let totale = 0;
 
-  score +=
-    A.pairing?.[c] || 0;
+  let numeroCoppie = 0;
 
-  score +=
-    B.pairing?.[a] || 0;
 
-  score +=
-    B.pairing?.[c] || 0;
+  let html = `
 
-  score +=
-    C.pairing?.[a] || 0;
+    <div class="result">
 
-  score +=
-    C.pairing?.[b] || 0;
+      <h3>
+        ${A.nome} + ${B.nome} + ${C.nome}
+      </h3>
+
+  `;
+
+
+  coppie.forEach(coppia => {
+
+    const score =
+      coppia.a.pairing?.[
+        normalizza(coppia.b.nome)
+      ] || 0;
+
+
+    const reverse =
+      coppia.b.pairing?.[
+        normalizza(coppia.a.nome)
+      ] || 0;
+
+
+    const valore =
+      Math.max(score,reverse);
+
+
+    totale += valore;
+
+    numeroCoppie++;
+
+
+    html += `
+
+      <div class="item">
+
+        <div class="item-header">
+
+          <strong>
+            ${coppia.a.nome}
+            ↔
+            ${coppia.b.nome}
+          </strong>
+
+          <span class="score">
+            ${valore}/5
+          </span>
+
+        </div>
+
+        <div class="stars">
+
+          ${
+            "★".repeat(valore) +
+            "☆".repeat(5-valore)
+          }
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+
+  const media =
+    totale / numeroCoppie;
 
 
   const percentuale =
     Math.round(
-      (score / 30) * 100
+      (media / 5) * 100
     );
 
 
   let giudizio;
 
 
-  if (percentuale >= 75) {
+  if (media >= 4) {
 
     giudizio =
-      "Compatibilità elevata";
+      "Combinazione molto interessante";
 
-  } else if (percentuale >= 50) {
-
-    giudizio =
-      "Compatibilità interessante";
-
-  } else if (percentuale >= 30) {
+  } else if (media >= 3) {
 
     giudizio =
-      "Compatibilità moderata";
+      "Combinazione interessante";
+
+  } else if (media >= 2) {
+
+    giudizio =
+      "Combinazione da valutare";
 
   } else {
 
     giudizio =
-      "Compatibilità debole";
+      "Dati insufficienti nel database";
 
   }
 
 
-  risultato.innerHTML = `
+  html += `
 
-    <div class="result">
+      <hr>
 
-      <h3>
-        ${A.nome} +
-        ${B.nome} +
-        ${C.nome}
-      </h3>
-
-      <div class="score">
+      <div class="triangle-score">
         ${percentuale}%
       </div>
 
-      <p>
-        <strong>
-          ${giudizio}
-        </strong>
+      <p class="good">
+        ${giudizio}
       </p>
 
       <p>
-        Il punteggio è calcolato
-        utilizzando le relazioni
-        presenti nel database.
+        Media dei tre abbinamenti:
+        <strong>
+          ${media.toFixed(1)}/5
+        </strong>
       </p>
 
     </div>
 
   `;
 
+
+  output.innerHTML = html;
+
 }
 
 
 /* =====================================================
-   AVVIO APP
+   AVVIO
 ===================================================== */
 
 loadDatabase();
@@ -719,4 +1014,4 @@ loadDatabase();
 </script>
 
 </body>
-</html>
+  </html>
