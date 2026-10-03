@@ -607,5 +607,24 @@
       "verdure": 5,
       "olio": 5
     }
-  }
+  },
+
+  "_pairing_types": {
+    "affinita": {
+      "nome": "Affinità",
+      "descrizione": "Profili aromatici simili o compatibili."
+    },
+    "contrasto": {
+      "nome": "Contrasto",
+      "descrizione": "Elementi che bilanciano caratteristiche opposte."
+    },
+    "ponte_aromatico": {
+      "nome": "Ponte aromatico",
+      "descrizione": "Un ingrediente che collega due profili differenti."
+    },
+    "complementarita": {
+      "nome": "Complementarità",
+      "descrizione": "Ingredienti diversi che si completano nel piatto."
     }
+  }
+}
