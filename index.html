@@ -96,7 +96,7 @@ button.secondary {
 }
 
 .item {
-  padding: 13px 0;
+  padding: 14px 0;
   border-bottom: 1px solid #ddd;
 }
 
@@ -130,6 +130,22 @@ button.secondary {
   font-size: 13px;
 }
 
+.tag.affinita {
+  background: #dcebd8;
+}
+
+.tag.contrasto {
+  background: #f1d9d1;
+}
+
+.tag.ponte {
+  background: #d9e5ef;
+}
+
+.tag.complementarita {
+  background: #e8ddc5;
+}
+
 .suggestion-box {
   border: 1px solid #ddd;
   border-top: none;
@@ -160,7 +176,12 @@ button.secondary {
 .reason {
   color: #555;
   font-size: 14px;
-  margin-top: 6px;
+  margin-top: 7px;
+}
+
+.small {
+  font-size: 13px;
+  color: #666;
 }
 
 footer {
@@ -186,7 +207,7 @@ footer {
   </div>
 
 
-  <!-- RICERCA INGREDIENTE -->
+  <!-- CERCA -->
 
   <div class="card">
 
@@ -195,7 +216,7 @@ footer {
     <input
       id="search"
       type="text"
-      placeholder="Es. mela, manzo, cioccolato..."
+      placeholder="Es. mela, maiale, timo..."
       autocomplete="off"
       oninput="mostraSuggerimenti('search','searchSuggestions')"
     >
@@ -218,8 +239,8 @@ footer {
     <h2>🍽️ Trova il terzo ingrediente</h2>
 
     <p>
-      Inserisci due ingredienti. FoodPairing analizzerà
-      sia i pairing conosciuti sia i profili aromatici.
+      Inserisci due ingredienti e FoodPairing
+      cercherà il terzo ingrediente più compatibile.
     </p>
 
     <input
@@ -295,15 +316,13 @@ footer {
 
 <script>
 
-/* =====================================================
-   DATABASE
-===================================================== */
-
 let ingredients = {};
 
+let pairingTypes = {};
+
 
 /* =====================================================
-   CARICAMENTO
+   CARICAMENTO DATABASE
 ===================================================== */
 
 async function loadDatabase() {
@@ -320,11 +339,20 @@ async function loadDatabase() {
       throw new Error("Database non trovato");
     }
 
-    ingredients =
+    const data =
       await response.json();
 
+    pairingTypes =
+      data._pairing_types || {};
+
+    delete data._pairing_types;
+
+    ingredients = data;
+
     status.innerHTML =
-      "✓ Database caricato correttamente";
+      "✓ Database caricato correttamente — " +
+      Object.keys(ingredients).length +
+      " ingredienti";
 
   } catch (error) {
 
@@ -354,7 +382,7 @@ function normalizza(testo) {
 
 
 /* =====================================================
-   TROVA CHIAVE INGREDIENTE
+   TROVA INGREDIENTE
 ===================================================== */
 
 function trovaChiave(testo) {
@@ -432,7 +460,7 @@ function mostraSuggerimenti(inputId, boxId) {
         );
 
       })
-      .slice(0,6);
+      .slice(0, 6);
 
 
   if (!risultati.length) {
@@ -470,7 +498,7 @@ function mostraSuggerimenti(inputId, boxId) {
 
 
 /* =====================================================
-   SELEZIONA
+   SELEZIONA SUGGERIMENTO
 ===================================================== */
 
 function selezionaIngrediente(
@@ -488,7 +516,7 @@ function selezionaIngrediente(
 
 
 /* =====================================================
-   PROFILO AROMATICO
+   PROFILO
 ===================================================== */
 
 function profiloIngrediente(key) {
@@ -499,7 +527,7 @@ function profiloIngrediente(key) {
 
 
 /* =====================================================
-   AFFINITÀ TRA PROFILI
+   AFFINITÀ PROFILI
 ===================================================== */
 
 function affinitaProfili(a, b) {
@@ -514,32 +542,127 @@ function affinitaProfili(a, b) {
     !profiloA.length ||
     !profiloB.length
   ) {
-
     return 0;
-
   }
-
 
   let comuni = 0;
 
-
   profiloA.forEach(profilo => {
 
-    if (
-      profiloB.includes(profilo)
-    ) {
-
+    if (profiloB.includes(profilo)) {
       comuni++;
-
     }
 
   });
 
-
   return Math.min(
-    comuni * 0.7,
+    comuni * 0.5,
     2.5
   );
+
+}
+
+
+/* =====================================================
+   TIPO DI ABBINAMENTO
+===================================================== */
+
+function tipoAbbinamento(a, b) {
+
+  const profiloA =
+    profiloIngrediente(a);
+
+  const profiloB =
+    profiloIngrediente(b);
+
+
+  const comuni =
+    profiloA.filter(
+      p => profiloB.includes(p)
+    );
+
+
+  /*
+    Profili condivisi:
+    → Affinità
+
+    Profili differenti ma complementari:
+    → Complementarità
+
+    Forte differenza:
+    → Contrasto
+
+    Quando un ingrediente
+    condivide elementi aromatici
+    intermedi:
+    → Ponte aromatico
+  */
+
+
+  if (comuni.length >= 2) {
+
+    return {
+      key: "affinita",
+      nome: "Affinità",
+      motivo:
+        "I due ingredienti condividono più caratteristiche aromatiche."
+    };
+
+  }
+
+
+  if (
+    comuni.length === 1 &&
+    profiloA.length &&
+    profiloB.length
+  ) {
+
+    return {
+      key: "ponte_aromatico",
+      nome: "Ponte aromatico",
+      motivo:
+        "Un elemento aromatico comune collega i due profili."
+    };
+
+  }
+
+
+  if (
+    profiloA.includes("dolce") &&
+    profiloB.includes("acido")
+  ) {
+
+    return {
+      key: "contrasto",
+      nome: "Contrasto",
+      motivo:
+        "Dolcezza e acidità possono creare equilibrio."
+    };
+
+  }
+
+
+  if (
+    profiloA.includes("grasso") &&
+    profiloB.includes("acido")
+  ) {
+
+    return {
+      key: "contrasto",
+      nome: "Contrasto",
+      motivo:
+        "L'acidità può bilanciare la componente grassa."
+    };
+
+  }
+
+
+  return {
+    key: "complementarita",
+    nome: "Complementarità",
+    motivo:
+      "I due ingredienti possono completarsi per caratteristiche diverse."
+  };
 
 }
 
@@ -577,17 +700,8 @@ function punteggioCoppia(a, b) {
 
 
   const profilo =
-    affinitaProfili(a,b);
+    affinitaProfili(a, b);
 
-
-  /*
-    Il pairing già conosciuto
-    pesa maggiormente.
-
-    Il profilo aromatico
-    serve per scoprire
-    relazioni nuove.
-  */
 
   let risultato =
     diretto +
@@ -605,7 +719,7 @@ function punteggioCoppia(a, b) {
 
 
 /* =====================================================
-   CERCA INGREDIENTE
+   CERCA ABBINAMENTI
 ===================================================== */
 
 function cerca() {
@@ -625,11 +739,7 @@ function cerca() {
     output.innerHTML = `
 
       <div class="result">
-
-        <strong>
-          Ingrediente non trovato.
-        </strong>
-
+        <strong>Ingrediente non trovato.</strong>
       </div>
 
     `;
@@ -649,18 +759,15 @@ function cerca() {
       .map(k => {
 
         return {
-
           key: k,
-
-          score:
-            punteggioCoppia(key,k)
-
+          score: punteggioCoppia(key, k),
+          tipo: tipoAbbinamento(key, k)
         };
 
       })
       .filter(x => x.score > 0)
       .sort(
-        (a,b) => b.score - a.score
+        (a, b) => b.score - a.score
       );
 
 
@@ -682,29 +789,28 @@ function cerca() {
       <div class="profile">
 
         ${ingrediente.profilo
-          .map(p => `
-            <span class="tag">${p}</span>
-          `)
+          .map(p =>
+            `<span class="tag">${p}</span>`
+          )
           .join("")}
 
       </div>
 
       <hr>
 
-      <h4>Abbinamenti</h4>
+      <h4>Migliori abbinamenti</h4>
 
   `;
 
 
   pairing
-    .slice(0,12)
+    .slice(0, 12)
     .forEach(item => {
 
       const valore =
-        Math.min(
-          Math.round(item.score * 10) / 10,
-          5
-        );
+        Math.round(
+          item.score * 10
+        ) / 10;
 
 
       html += `
@@ -724,12 +830,23 @@ function cerca() {
           </div>
 
           <div class="stars">
+
             ${"★".repeat(
               Math.round(valore)
             )}
+
             ${"☆".repeat(
               5 - Math.round(valore)
             )}
+
+          </div>
+
+          <span class="tag ${classeTipo(item.tipo.key)}">
+            ${item.tipo.nome}
+          </span>
+
+          <div class="reason">
+            ${item.tipo.motivo}
           </div>
 
         </div>
@@ -742,6 +859,29 @@ function cerca() {
   html += "</div>";
 
   output.innerHTML = html;
+
+}
+
+
+/* =====================================================
+   CLASSE TIPO
+===================================================== */
+
+function classeTipo(tipo) {
+
+  if (tipo === "ponte_aromatico") {
+    return "ponte";
+  }
+
+  if (tipo === "complementarita") {
+    return "complementarita";
+  }
+
+  if (tipo === "contrasto") {
+    return "contrasto";
+  }
+
+  return "affinita";
 
 }
 
@@ -772,10 +912,7 @@ function terzoIngrediente() {
     output.innerHTML = `
 
       <div class="result">
-
-        Inserisci due ingredienti
-        presenti nel database.
-
+        Inserisci due ingredienti presenti nel database.
       </div>
 
     `;
@@ -790,9 +927,7 @@ function terzoIngrediente() {
     output.innerHTML = `
 
       <div class="result">
-
         Scegli due ingredienti diversi.
-
       </div>
 
     `;
@@ -815,10 +950,10 @@ function terzoIngrediente() {
 
 
       const scoreA =
-        punteggioCoppia(a,key);
+        punteggioCoppia(a, key);
 
       const scoreB =
-        punteggioCoppia(b,key);
+        punteggioCoppia(b, key);
 
 
       if (
@@ -826,15 +961,6 @@ function terzoIngrediente() {
         scoreB <= 0
       ) return;
 
-
-      /*
-        Il candidato deve funzionare
-        con entrambi.
-
-        La media premia l'equilibrio.
-        Il bonus premia i candidati
-        forti su entrambe le coppie.
-      */
 
       const media =
         (scoreA + scoreB) / 2;
@@ -857,12 +983,13 @@ function terzoIngrediente() {
       candidati.push({
 
         key,
-
         scoreA,
-
         scoreB,
-
-        finale
+        finale,
+        tipoA:
+          tipoAbbinamento(a, key),
+        tipoB:
+          tipoAbbinamento(b, key)
 
       });
 
@@ -870,13 +997,13 @@ function terzoIngrediente() {
 
 
   candidati.sort(
-    (a,b) =>
+    (a, b) =>
       b.finale - a.finale
   );
 
 
   const migliori =
-    candidati.slice(0,10);
+    candidati.slice(0, 10);
 
 
   let html = `
@@ -904,36 +1031,6 @@ function terzoIngrediente() {
       Math.round(
         item.finale * 10
       ) / 10;
-
-
-    let motivo;
-
-
-    if (
-      item.scoreA >= 4 &&
-      item.scoreB >= 4
-    ) {
-
-      motivo =
-        `forte compatibilità con entrambi`;
-
-    }
-
-    else if (
-      item.scoreA > item.scoreB
-    ) {
-
-      motivo =
-        `più vicino al profilo di ${nomeIngrediente(a)}`;
-
-    }
-
-    else {
-
-      motivo =
-        `più vicino al profilo di ${nomeIngrediente(b)}`;
-
-    }
 
 
     html += `
@@ -964,8 +1061,22 @@ function terzoIngrediente() {
 
         </div>
 
+        <span class="tag ${classeTipo(item.tipoA.key)}">
+          ${item.tipoA.nome}
+        </span>
+
+        <span class="tag ${classeTipo(item.tipoB.key)}">
+          ${item.tipoB.nome}
+        </span>
+
         <div class="reason">
-          ${motivo}
+
+          ${item.tipoA.motivo}
+
+          <br>
+
+          ${item.tipoB.motivo}
+
         </div>
 
       </div>
@@ -979,8 +1090,7 @@ function terzoIngrediente() {
 
     html += `
       <p>
-        Non ci sono ancora dati sufficienti
-        per costruire il terzo ingrediente.
+        Non ci sono ancora dati sufficienti.
       </p>
     `;
 
@@ -995,7 +1105,7 @@ function terzoIngrediente() {
 
 
 /* =====================================================
-   TRIANGOLO
+   ANALISI TRIANGOLO
 ===================================================== */
 
 function triangolo() {
@@ -1025,10 +1135,7 @@ function triangolo() {
     output.innerHTML = `
 
       <div class="result">
-
-        Inserisci tre ingredienti
-        presenti nel database.
-
+        Inserisci tre ingredienti presenti nel database.
       </div>
 
     `;
@@ -1039,13 +1146,13 @@ function triangolo() {
 
 
   const ab =
-    punteggioCoppia(a,b);
+    punteggioCoppia(a, b);
 
   const ac =
-    punteggioCoppia(a,c);
+    punteggioCoppia(a, c);
 
   const bc =
-    punteggioCoppia(b,c);
+    punteggioCoppia(b, c);
 
 
   const media =
@@ -1058,36 +1165,14 @@ function triangolo() {
     );
 
 
-  let giudizio;
+  const tipoAB =
+    tipoAbbinamento(a, b);
 
+  const tipoAC =
+    tipoAbbinamento(a, c);
 
-  if (media >= 4) {
-
-    giudizio =
-      "Combinazione molto interessante";
-
-  }
-
-  else if (media >= 3) {
-
-    giudizio =
-      "Combinazione interessante";
-
-  }
-
-  else if (media >= 2) {
-
-    giudizio =
-      "Combinazione da valutare";
-
-  }
-
-  else {
-
-    giudizio =
-      "Dati insufficienti";
-
-  }
+  const tipoBC =
+    tipoAbbinamento(b, c);
 
 
   let html = `
@@ -1107,50 +1192,42 @@ function triangolo() {
       </div>
 
       <p>
-        <strong>${giudizio}</strong>
+        <strong>
+          Analisi della combinazione
+        </strong>
       </p>
 
-      <div class="item">
+  `;
 
-        ${nomeIngrediente(a)}
-        ↔
-        ${nomeIngrediente(b)}
 
-        <span class="score">
-          ${ab.toFixed(1)}/5
-        </span>
+  html += coppiaHTML(
+    a,
+    b,
+    ab,
+    tipoAB
+  );
 
-      </div>
+  html += coppiaHTML(
+    a,
+    c,
+    ac,
+    tipoAC
+  );
 
-      <div class="item">
+  html += coppiaHTML(
+    b,
+    c,
+    bc,
+    tipoBC
+  );
 
-        ${nomeIngrediente(a)}
-        ↔
-        ${nomeIngrediente(c)}
 
-        <span class="score">
-          ${ac.toFixed(1)}/5
-        </span>
-
-      </div>
-
-      <div class="item">
-
-        ${nomeIngrediente(b)}
-        ↔
-        ${nomeIngrediente(c)}
-
-        <span class="score">
-          ${bc.toFixed(1)}/5
-        </span>
-
-      </div>
+  html += `
 
       <p class="reason">
 
-        Il risultato considera sia i pairing
-        presenti nel database sia le affinità
-        tra i profili aromatici.
+        Il risultato combina i dati di pairing
+        conosciuti con i profili aromatici.
 
       </p>
 
@@ -1160,6 +1237,45 @@ function triangolo() {
 
 
   output.innerHTML = html;
+
+}
+
+
+/* =====================================================
+   HTML COPPIA
+===================================================== */
+
+function coppiaHTML(a, b, score, tipo) {
+
+  return `
+
+    <div class="item">
+
+      <div class="item-header">
+
+        <strong>
+          ${nomeIngrediente(a)}
+          ↔
+          ${nomeIngrediente(b)}
+        </strong>
+
+        <span class="score">
+          ${score.toFixed(1)}/5
+        </span>
+
+      </div>
+
+      <span class="tag ${classeTipo(tipo.key)}">
+        ${tipo.nome}
+      </span>
+
+      <div class="reason">
+        ${tipo.motivo}
+      </div>
+
+    </div>
+
+  `;
 
 }
 
