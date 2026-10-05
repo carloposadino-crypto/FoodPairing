@@ -53,13 +53,15 @@ h2 {
   margin-top: 0;
 }
 
-input {
+input,
+select {
   width: 100%;
   padding: 14px;
   margin: 6px 0;
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 16px;
+  background: white;
 }
 
 button {
@@ -163,16 +165,6 @@ button.secondary {
   background: #f1eee8;
 }
 
-.profile {
-  margin-top: 10px;
-}
-
-.triangle-score {
-  font-size: 36px;
-  font-weight: bold;
-  margin: 10px 0;
-}
-
 .reason {
   color: #555;
   font-size: 14px;
@@ -182,6 +174,12 @@ button.secondary {
 .small {
   font-size: 13px;
   color: #666;
+}
+
+.filter-title {
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 5px;
 }
 
 footer {
@@ -207,7 +205,9 @@ footer {
   </div>
 
 
-  <!-- CERCA -->
+  <!-- =================================================
+       CERCA INGREDIENTE
+  ================================================== -->
 
   <div class="card">
 
@@ -223,6 +223,64 @@ footer {
 
     <div id="searchSuggestions"></div>
 
+    <div class="filter-title">
+      Tipo di abbinamento
+    </div>
+
+    <select id="tipoFiltro">
+
+      <option value="tutti">
+        Tutti gli abbinamenti
+      </option>
+
+      <option value="affinita">
+        Affinità
+      </option>
+
+      <option value="contrasto">
+        Contrasto
+      </option>
+
+      <option value="ponte_aromatico">
+        Ponte aromatico
+      </option>
+
+      <option value="complementarita">
+        Complementarità
+      </option>
+
+    </select>
+
+
+    <div class="filter-title">
+      Intensità minima
+    </div>
+
+    <select id="intensitaFiltro">
+
+      <option value="0">
+        Tutte
+      </option>
+
+      <option value="2">
+        ★★ — minima
+      </option>
+
+      <option value="3">
+        ★★★ — buona
+      </option>
+
+      <option value="4">
+        ★★★★ — molto buona
+      </option>
+
+      <option value="4.5">
+        ★★★★★ — eccellente
+      </option>
+
+    </select>
+
+
     <button onclick="cerca()">
       CERCA ABBINAMENTI
     </button>
@@ -232,7 +290,9 @@ footer {
   </div>
 
 
-  <!-- TERZO INGREDIENTE -->
+  <!-- =================================================
+       TERZO INGREDIENTE
+  ================================================== -->
 
   <div class="card">
 
@@ -263,6 +323,36 @@ footer {
 
     <div id="suggestions2"></div>
 
+
+    <div class="filter-title">
+      Cosa vuoi ottenere?
+    </div>
+
+    <select id="tipoTerzo">
+
+      <option value="tutti">
+        Miglior equilibrio
+      </option>
+
+      <option value="affinita">
+        Più affinità
+      </option>
+
+      <option value="contrasto">
+        Più contrasto
+      </option>
+
+      <option value="ponte_aromatico">
+        Ponte aromatico
+      </option>
+
+      <option value="complementarita">
+        Complementarità
+      </option>
+
+    </select>
+
+
     <button onclick="terzoIngrediente()">
       TROVA IL TERZO INGREDIENTE
     </button>
@@ -272,7 +362,9 @@ footer {
   </div>
 
 
-  <!-- TRIANGOLO -->
+  <!-- =================================================
+       TRIANGOLO
+  ================================================== -->
 
   <div class="card">
 
@@ -317,12 +409,11 @@ footer {
 <script>
 
 let ingredients = {};
-
 let pairingTypes = {};
 
 
 /* =====================================================
-   CARICAMENTO DATABASE
+   DATABASE
 ===================================================== */
 
 async function loadDatabase() {
@@ -382,7 +473,7 @@ function normalizza(testo) {
 
 
 /* =====================================================
-   TROVA INGREDIENTE
+   TROVA CHIAVE
 ===================================================== */
 
 function trovaChiave(testo) {
@@ -498,7 +589,7 @@ function mostraSuggerimenti(inputId, boxId) {
 
 
 /* =====================================================
-   SELEZIONA SUGGERIMENTO
+   SELEZIONA
 ===================================================== */
 
 function selezionaIngrediente(
@@ -564,7 +655,7 @@ function affinitaProfili(a, b) {
 
 
 /* =====================================================
-   TIPO DI ABBINAMENTO
+   TIPO ABBINAMENTO
 ===================================================== */
 
 function tipoAbbinamento(a, b) {
@@ -582,46 +673,13 @@ function tipoAbbinamento(a, b) {
     );
 
 
-  /*
-    Profili condivisi:
-    → Affinità
-
-    Profili differenti ma complementari:
-    → Complementarità
-
-    Forte differenza:
-    → Contrasto
-
-    Quando un ingrediente
-    condivide elementi aromatici
-    intermedi:
-    → Ponte aromatico
-  */
-
-
   if (comuni.length >= 2) {
 
     return {
       key: "affinita",
       nome: "Affinità",
       motivo:
-        "I due ingredienti condividono più caratteristiche aromatiche."
-    };
-
-  }
-
-
-  if (
-    comuni.length === 1 &&
-    profiloA.length &&
-    profiloB.length
-  ) {
-
-    return {
-      key: "ponte_aromatico",
-      nome: "Ponte aromatico",
-      motivo:
-        "Un elemento aromatico comune collega i due profili."
+        "I due ingredienti condividono caratteristiche aromatiche."
     };
 
   }
@@ -636,7 +694,7 @@ function tipoAbbinamento(a, b) {
       key: "contrasto",
       nome: "Contrasto",
       motivo:
-        "Dolcezza e acidità possono creare equilibrio."
+        "L'acidità può bilanciare la componente dolce."
     };
 
   }
@@ -657,18 +715,30 @@ function tipoAbbinamento(a, b) {
   }
 
 
+  if (comuni.length === 1) {
+
+    return {
+      key: "ponte_aromatico",
+      nome: "Ponte aromatico",
+      motivo:
+        "Un elemento aromatico comune collega i due profili."
+    };
+
+  }
+
+
   return {
     key: "complementarita",
     nome: "Complementarità",
     motivo:
-      "I due ingredienti possono completarsi per caratteristiche diverse."
+      "I due ingredienti possono completarsi attraverso caratteristiche differenti."
   };
 
 }
 
 
 /* =====================================================
-   PUNTEGGIO COPPIA
+   PUNTEGGIO
 ===================================================== */
 
 function punteggioCoppia(a, b) {
@@ -703,23 +773,39 @@ function punteggioCoppia(a, b) {
     affinitaProfili(a, b);
 
 
-  let risultato =
-    diretto +
-    profilo;
-
-
-  if (risultato > 5) {
-    risultato = 5;
-  }
-
-
-  return risultato;
+  return Math.min(
+    diretto + profilo,
+    5
+  );
 
 }
 
 
 /* =====================================================
-   CERCA ABBINAMENTI
+   CLASSE TIPO
+===================================================== */
+
+function classeTipo(tipo) {
+
+  if (tipo === "ponte_aromatico") {
+    return "ponte";
+  }
+
+  if (tipo === "complementarita") {
+    return "complementarita";
+  }
+
+  if (tipo === "contrasto") {
+    return "contrasto";
+  }
+
+  return "affinita";
+
+}
+
+
+/* =====================================================
+   CERCA
 ===================================================== */
 
 function cerca() {
@@ -734,12 +820,22 @@ function cerca() {
     document.getElementById("risultato");
 
 
+  const filtro =
+    document.getElementById("tipoFiltro").value;
+
+
+  const intensita =
+    Number(
+      document.getElementById("intensitaFiltro").value
+    );
+
+
   if (!key) {
 
     output.innerHTML = `
 
       <div class="result">
-        <strong>Ingrediente non trovato.</strong>
+        Ingrediente non trovato.
       </div>
 
     `;
@@ -753,22 +849,51 @@ function cerca() {
     ingredients[key];
 
 
-  const pairing =
+  let pairing =
     Object.keys(ingredients)
       .filter(k => k !== key)
       .map(k => {
 
+        const tipo =
+          tipoAbbinamento(key, k);
+
         return {
+
           key: k,
-          score: punteggioCoppia(key, k),
-          tipo: tipoAbbinamento(key, k)
+
+          score:
+            punteggioCoppia(key, k),
+
+          tipo
+
         };
 
-      })
-      .filter(x => x.score > 0)
-      .sort(
-        (a, b) => b.score - a.score
-      );
+      });
+
+
+  pairing =
+    pairing.filter(item => {
+
+      if (item.score < intensita) {
+        return false;
+      }
+
+      if (
+        filtro !== "tutti" &&
+        item.tipo.key !== filtro
+      ) {
+        return false;
+      }
+
+      return item.score > 0;
+
+    });
+
+
+  pairing.sort(
+    (a, b) =>
+      b.score - a.score
+  );
 
 
   let html = `
@@ -783,28 +908,41 @@ function cerca() {
       </p>
 
       <p>
-        <strong>Profilo aromatico:</strong>
+        <strong>Profilo:</strong>
       </p>
 
-      <div class="profile">
-
-        ${ingrediente.profilo
-          .map(p =>
-            `<span class="tag">${p}</span>`
-          )
-          .join("")}
-
-      </div>
+      ${ingrediente.profilo
+        .map(p =>
+          `<span class="tag">${p}</span>`
+        )
+        .join("")}
 
       <hr>
 
-      <h4>Migliori abbinamenti</h4>
+      <h4>
+        ${pairing.length}
+        abbinamenti trovati
+      </h4>
 
   `;
 
 
+  if (!pairing.length) {
+
+    html += `
+
+      <p>
+        Nessun abbinamento soddisfa
+        i filtri selezionati.
+      </p>
+
+    `;
+
+  }
+
+
   pairing
-    .slice(0, 12)
+    .slice(0, 15)
     .forEach(item => {
 
       const valore =
@@ -864,30 +1002,7 @@ function cerca() {
 
 
 /* =====================================================
-   CLASSE TIPO
-===================================================== */
-
-function classeTipo(tipo) {
-
-  if (tipo === "ponte_aromatico") {
-    return "ponte";
-  }
-
-  if (tipo === "complementarita") {
-    return "complementarita";
-  }
-
-  if (tipo === "contrasto") {
-    return "contrasto";
-  }
-
-  return "affinita";
-
-}
-
-
-/* =====================================================
-   TROVA TERZO INGREDIENTE
+   TERZO INGREDIENTE
 ===================================================== */
 
 function terzoIngrediente() {
@@ -901,6 +1016,10 @@ function terzoIngrediente() {
     trovaChiave(
       document.getElementById("ingrediente2").value
     );
+
+
+  const filtro =
+    document.getElementById("tipoTerzo").value;
 
 
   const output =
@@ -937,7 +1056,7 @@ function terzoIngrediente() {
   }
 
 
-  const candidati = [];
+  let candidati = [];
 
 
   Object.keys(ingredients)
@@ -957,9 +1076,38 @@ function terzoIngrediente() {
 
 
       if (
-        scoreA <= 0 &&
+        scoreA <= 0 ||
         scoreB <= 0
-      ) return;
+      ) {
+        return;
+      }
+
+
+      const tipoA =
+        tipoAbbinamento(a, key);
+
+      const tipoB =
+        tipoAbbinamento(b, key);
+
+
+      let bonusTipo = 0;
+
+
+      if (filtro !== "tutti") {
+
+        if (
+          tipoA.key === filtro
+        ) {
+          bonusTipo += 0.5;
+        }
+
+        if (
+          tipoB.key === filtro
+        ) {
+          bonusTipo += 0.5;
+        }
+
+      }
 
 
       const media =
@@ -975,7 +1123,9 @@ function terzoIngrediente() {
 
       const finale =
         Math.min(
-          media + equilibrio,
+          media +
+          equilibrio +
+          bonusTipo,
           5
         );
 
@@ -983,13 +1133,16 @@ function terzoIngrediente() {
       candidati.push({
 
         key,
-        scoreA,
-        scoreB,
+
         finale,
-        tipoA:
-          tipoAbbinamento(a, key),
-        tipoB:
-          tipoAbbinamento(b, key)
+
+        scoreA,
+
+        scoreB,
+
+        tipoA,
+
+        tipoB
 
       });
 
@@ -1018,7 +1171,7 @@ function terzoIngrediente() {
 
       <p>
         <strong>
-          Terzi ingredienti suggeriti
+          Terzi ingredienti consigliati
         </strong>
       </p>
 
@@ -1072,9 +1225,7 @@ function terzoIngrediente() {
         <div class="reason">
 
           ${item.tipoA.motivo}
-
           <br>
-
           ${item.tipoB.motivo}
 
         </div>
@@ -1086,17 +1237,6 @@ function terzoIngrediente() {
   });
 
 
-  if (!migliori.length) {
-
-    html += `
-      <p>
-        Non ci sono ancora dati sufficienti.
-      </p>
-    `;
-
-  }
-
-
   html += "</div>";
 
   output.innerHTML = html;
@@ -1105,7 +1245,7 @@ function terzoIngrediente() {
 
 
 /* =====================================================
-   ANALISI TRIANGOLO
+   TRIANGOLO
 ===================================================== */
 
 function triangolo() {
@@ -1165,16 +1305,6 @@ function triangolo() {
     );
 
 
-  const tipoAB =
-    tipoAbbinamento(a, b);
-
-  const tipoAC =
-    tipoAbbinamento(a, c);
-
-  const tipoBC =
-    tipoAbbinamento(b, c);
-
-
   let html = `
 
     <div class="result">
@@ -1187,13 +1317,14 @@ function triangolo() {
         ${nomeIngrediente(c)}
       </h3>
 
-      <div class="triangle-score">
+      <div class="score"
+           style="font-size:32px;margin:15px 0;">
         ${percentuale}%
       </div>
 
       <p>
         <strong>
-          Analisi della combinazione
+          Compatibilità complessiva
         </strong>
       </p>
 
@@ -1204,32 +1335,27 @@ function triangolo() {
     a,
     b,
     ab,
-    tipoAB
+    tipoAbbinamento(a, b)
   );
+
 
   html += coppiaHTML(
     a,
     c,
     ac,
-    tipoAC
+    tipoAbbinamento(a, c)
   );
+
 
   html += coppiaHTML(
     b,
     c,
     bc,
-    tipoBC
+    tipoAbbinamento(b, c)
   );
 
 
   html += `
-
-      <p class="reason">
-
-        Il risultato combina i dati di pairing
-        conosciuti con i profili aromatici.
-
-      </p>
 
     </div>
 
@@ -1241,52 +1367,4 @@ function triangolo() {
 }
 
 
-/* =====================================================
-   HTML COPPIA
-===================================================== */
-
-function coppiaHTML(a, b, score, tipo) {
-
-  return `
-
-    <div class="item">
-
-      <div class="item-header">
-
-        <strong>
-          ${nomeIngrediente(a)}
-          ↔
-          ${nomeIngrediente(b)}
-        </strong>
-
-        <span class="score">
-          ${score.toFixed(1)}/5
-        </span>
-
-      </div>
-
-      <span class="tag ${classeTipo(tipo.key)}">
-        ${tipo.nome}
-      </span>
-
-      <div class="reason">
-        ${tipo.motivo}
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =====================================================
-   AVVIO
-===================================================== */
-
-loadDatabase();
-
-</script>
-
-</body>
-</html>
+/* ===================
