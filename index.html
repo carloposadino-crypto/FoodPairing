@@ -108,16 +108,41 @@
       gap: 12px;
     }
 
+    /* ==========================================
+       RISULTATI SELEZIONABILI
+    ========================================== */
+
     .result {
       margin-top: 12px;
       padding: 15px;
       border: 1px solid #ddd;
       border-radius: 10px;
       background: #fafafa;
+      cursor: pointer;
+      transition: transform 0.15s ease,
+                  box-shadow 0.15s ease,
+                  background 0.15s ease;
+    }
+
+    .result:hover {
+      transform: translateY(-2px);
+      background: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    .result:active {
+      transform: scale(0.99);
     }
 
     .result h3 {
       margin: 0 0 8px;
+    }
+
+    .result-click {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #777;
+      font-weight: bold;
     }
 
     .score {
@@ -143,6 +168,17 @@
     .empty {
       margin-top: 15px;
       color: #777;
+    }
+
+    .risultati-titolo {
+      margin-top: 22px;
+      margin-bottom: 10px;
+    }
+
+    .risultato-numero {
+      color: #777;
+      font-size: 13px;
+      font-weight: normal;
     }
 
     /* ==========================================
@@ -193,17 +229,6 @@
       color: #777;
     }
 
-    .risultati-titolo {
-      margin-top: 22px;
-      margin-bottom: 10px;
-    }
-
-    .risultato-numero {
-      color: #777;
-      font-size: 13px;
-      font-weight: normal;
-    }
-
     @media (max-width: 650px) {
 
       .grid {
@@ -220,7 +245,9 @@
 
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -233,6 +260,7 @@
 
 <main>
 
+
   <!-- ==========================================
        STATO DATABASE
   ========================================== -->
@@ -243,7 +271,7 @@
 
 
   <!-- ==========================================
-       RICERCA
+       RICERCA INGREDIENTE
   ========================================== -->
 
   <div class="box">
@@ -265,6 +293,7 @@
         autocomplete="off"
       >
 
+
       <div id="suggerimenti"></div>
 
     </div>
@@ -274,13 +303,18 @@
          FILTRI
     ========================================== -->
 
-    <div class="grid" style="margin-top:15px;">
+    <div
+      class="grid"
+      style="margin-top:15px;"
+    >
+
 
       <div>
 
         <label for="tipoFiltro">
           Tipo di abbinamento
         </label>
+
 
         <select id="tipoFiltro">
 
@@ -315,6 +349,7 @@
           Intensità minima
         </label>
 
+
         <select id="intensitaFiltro">
 
           <option value="0">
@@ -341,6 +376,7 @@
 
       </div>
 
+
     </div>
 
 
@@ -353,10 +389,12 @@
 
   </div>
 
+
 </main>
 
 
 <script>
+
 
   /* ==========================================
      DATABASE
@@ -382,8 +420,6 @@
 
   /* ==========================================
      ESCAPE HTML
-     Evita problemi se un ingrediente
-     contiene caratteri HTML.
   ========================================== */
 
   function escapeHTML(testo) {
@@ -404,25 +440,36 @@
 
   function trovaIngrediente(nome) {
 
-    const ricerca = normalizza(nome);
+    const ricerca =
+      normalizza(nome);
+
 
     if (!ricerca) {
+
       return null;
+
     }
 
 
-    for (const chiave of Object.keys(database)) {
+    for (
+      const chiave of Object.keys(database)
+    ) {
 
-      const ingrediente = database[chiave];
+      const ingrediente =
+        database[chiave];
 
 
       if (
-        normalizza(chiave) === ricerca
+        normalizza(chiave) ===
+        ricerca
       ) {
 
         return {
+
           chiave: chiave,
+
           dati: ingrediente
+
         };
 
       }
@@ -431,12 +478,17 @@
       if (
         ingrediente &&
         ingrediente.nome &&
-        normalizza(ingrediente.nome) === ricerca
+        normalizza(
+          ingrediente.nome
+        ) === ricerca
       ) {
 
         return {
+
           chiave: chiave,
+
           dati: ingrediente
+
         };
 
       }
@@ -456,10 +508,15 @@
   function mostraSuggerimenti() {
 
     const input =
-      document.getElementById("ingrediente");
+      document.getElementById(
+        "ingrediente"
+      );
+
 
     const box =
-      document.getElementById("suggerimenti");
+      document.getElementById(
+        "suggerimenti"
+      );
 
 
     const testo =
@@ -471,7 +528,8 @@
 
     if (!testo) {
 
-      box.style.display = "none";
+      box.style.display =
+        "none";
 
       return;
 
@@ -481,9 +539,13 @@
     const risultati = [];
 
 
-    for (const chiave of Object.keys(database)) {
+    for (
+      const chiave of Object.keys(database)
+    ) {
 
-      const dati = database[chiave];
+      const dati =
+        database[chiave];
+
 
       const nome =
         dati && dati.nome
@@ -491,22 +553,22 @@
           : chiave;
 
 
-      const nomeNormalizzato =
-        normalizza(nome);
-
-      const chiaveNormalizzata =
-        normalizza(chiave);
-
-
       if (
-        nomeNormalizzato.includes(testo) ||
-        chiaveNormalizzata.includes(testo)
+        normalizza(nome)
+          .includes(testo)
+        ||
+        normalizza(chiave)
+          .includes(testo)
       ) {
 
         risultati.push({
+
           chiave: chiave,
+
           dati: dati,
+
           nome: nome
+
         });
 
       }
@@ -514,111 +576,104 @@
     }
 
 
-    risultati.sort(function(a, b) {
+    risultati.sort(
+      function(a, b) {
 
-      const aNome =
-        normalizza(a.nome);
+        return a.nome.localeCompare(
+          b.nome,
+          "it"
+        );
 
-      const bNome =
-        normalizza(b.nome);
-
-
-      const aInizio =
-        aNome.startsWith(testo);
-
-      const bInizio =
-        bNome.startsWith(testo);
-
-
-      if (aInizio && !bInizio) {
-        return -1;
       }
-
-      if (!aInizio && bInizio) {
-        return 1;
-      }
+    );
 
 
-      return aNome.localeCompare(
-        bNome,
-        "it"
+    risultati
+      .slice(0, 12)
+      .forEach(
+        function(item) {
+
+          const elemento =
+            document.createElement(
+              "div"
+            );
+
+
+          elemento.className =
+            "suggerimento";
+
+
+          const profilo =
+            Array.isArray(
+              item.dati?.profilo
+            )
+              ? item.dati.profilo.join(", ")
+              : "";
+
+
+          elemento.innerHTML = `
+
+            <div class="suggerimento-nome">
+              ${escapeHTML(item.nome)}
+            </div>
+
+            ${
+              profilo
+                ? `
+                  <div class="suggerimento-profilo">
+                    ${escapeHTML(profilo)}
+                  </div>
+                `
+                : ""
+            }
+
+          `;
+
+
+          elemento.addEventListener(
+            "click",
+            function(event) {
+
+              event.stopPropagation();
+
+
+              input.value =
+                item.nome;
+
+
+              box.style.display =
+                "none";
+
+
+              cercaAbbinamenti();
+
+            }
+          );
+
+
+          box.appendChild(
+            elemento
+          );
+
+        }
       );
-
-    });
-
-
-    const risultatiLimitati =
-      risultati.slice(0, 12);
 
 
     if (
-      risultatiLimitati.length === 0
+      box.children.length > 0
     ) {
 
-      box.style.display = "none";
-
-      return;
+      box.style.display =
+        "block";
 
     }
 
+    else {
 
-    risultatiLimitati.forEach(function(item) {
+      box.style.display =
+        "none";
 
-      const elemento =
-        document.createElement("div");
-
-
-      elemento.className =
-        "suggerimento";
-
-
-      const profilo =
-        Array.isArray(item.dati?.profilo)
-          ? item.dati.profilo.join(", ")
-          : "";
-
-
-      elemento.innerHTML = `
-
-        <div class="suggerimento-nome">
-          ${escapeHTML(item.nome)}
-        </div>
-
-        ${
-          profilo
-            ? `
-              <div class="suggerimento-profilo">
-                ${escapeHTML(profilo)}
-              </div>
-            `
-            : ""
-        }
-
-      `;
-
-
-      elemento.addEventListener(
-        "click",
-        function() {
-
-          input.value =
-            item.nome;
-
-          box.style.display =
-            "none";
-
-          cercaAbbinamenti();
-
-        }
-      );
-
-
-      box.appendChild(elemento);
-
-    });
-
-
-    box.style.display = "block";
+    }
 
   }
 
@@ -679,7 +734,8 @@
         ) {
 
           if (
-            typeof valore.score === "number"
+            typeof valore.score ===
+            "number"
           ) {
 
             migliore =
@@ -692,7 +748,8 @@
 
 
           if (
-            typeof valore.intensita === "number"
+            typeof valore.intensita ===
+            "number"
           ) {
 
             migliore =
@@ -845,11 +902,6 @@
       }
 
 
-      /*
-       * Eliminiamo la sezione tecnica
-       * dei tipi di pairing.
-       */
-
       if (
         dati._pairing_types
       ) {
@@ -859,7 +911,8 @@
       }
 
 
-      database = dati;
+      database =
+        dati;
 
 
       const numeroIngredienti =
@@ -875,8 +928,8 @@
         numeroIngredienti +
         " ingredienti";
 
-
     }
+
 
     catch (errore) {
 
@@ -895,6 +948,46 @@
         errore.message;
 
     }
+
+  }
+
+
+  /* ==========================================
+     SELEZIONA UN RISULTATO
+  ========================================== */
+
+  function selezionaRisultato(
+    nomeIngrediente
+  ) {
+
+    const input =
+      document.getElementById(
+        "ingrediente"
+      );
+
+
+    input.value =
+      nomeIngrediente;
+
+
+    document
+      .getElementById(
+        "suggerimenti"
+      )
+      .style.display =
+        "none";
+
+
+    cercaAbbinamenti();
+
+
+    window.scrollTo({
+
+      top: 0,
+
+      behavior: "smooth"
+
+    });
 
   }
 
@@ -931,7 +1024,8 @@
       );
 
 
-    risultatiBox.innerHTML = "";
+    risultatiBox.innerHTML =
+      "";
 
 
     const trovato =
@@ -971,11 +1065,6 @@
         database[chiave];
 
 
-      /*
-       * Cerchiamo il punteggio
-       * dall'ingrediente principale.
-       */
-
       let score =
         punteggioAbbinamento(
           trovato.dati,
@@ -984,8 +1073,7 @@
 
 
       /*
-       * Se non trovato, controlliamo
-       * anche il rapporto inverso.
+       * Controllo anche il rapporto inverso.
        */
 
       if (score === 0) {
@@ -1078,17 +1166,21 @@
     }
 
 
-    const titolo =
+    /* ==========================================
+       TITOLO RISULTATI
+    ========================================== */
+
+    const titulo =
       document.createElement(
         "h3"
       );
 
 
-    titolo.className =
+    titulo.className =
       "risultati-titolo";
 
 
-    titolo.innerHTML =
+    titulo.innerHTML =
       "Abbinamenti per " +
       escapeHTML(
         trovato.dati.nome ||
@@ -1102,14 +1194,18 @@
 
 
     risultatiBox.appendChild(
-      titolo
+      titulo
     );
 
+
+    /* ==========================================
+       CREA RISULTATI
+    ========================================== */
 
     risultati
       .slice(0, 30)
       .forEach(
-        risultato => {
+        function(risultato) {
 
           const div =
             document.createElement(
@@ -1142,12 +1238,16 @@
 
             <div class="score">
               Intensità:
-              ${escapeHTML(risultato.score)}/5
+              ${escapeHTML(
+                risultato.score
+              )}/5
             </div>
 
             <div class="type">
               ${escapeHTML(
-                nomeTipo(risultato.tipo)
+                nomeTipo(
+                  risultato.tipo
+                )
               )}
             </div>
 
@@ -1160,7 +1260,27 @@
               }
             </div>
 
+            <div class="result-click">
+              Tocca per esplorare questo ingrediente →
+            </div>
+
           `;
+
+
+          /* ======================================
+             CLICK SUL RISULTATO
+          ====================================== */
+
+          div.addEventListener(
+            "click",
+            function() {
+
+              selezionaRisultato(
+                nome
+              );
+
+            }
+          );
 
 
           risultatiBox.appendChild(
@@ -1174,23 +1294,39 @@
 
 
   /* ==========================================
-     EVENTO PULSANTE
+     PULSANTE CERCA
   ========================================== */
 
   document
-    .getElementById("cercaBtn")
+    .getElementById(
+      "cercaBtn"
+    )
     .addEventListener(
       "click",
-      cercaAbbinamenti
+      function() {
+
+        document
+          .getElementById(
+            "suggerimenti"
+          )
+          .style.display =
+            "none";
+
+
+        cercaAbbinamenti();
+
+      }
     );
 
 
   /* ==========================================
-     RICERCA MENTRE SI SCRIVE
+     INPUT
   ========================================== */
 
   document
-    .getElementById("ingrediente")
+    .getElementById(
+      "ingrediente"
+    )
     .addEventListener(
       "input",
       mostraSuggerimenti
@@ -1198,11 +1334,13 @@
 
 
   /* ==========================================
-     INVIO DA TASTIERA
+     TASTO INVIO
   ========================================== */
 
   document
-    .getElementById("ingrediente")
+    .getElementById(
+      "ingrediente"
+    )
     .addEventListener(
       "keydown",
       function(event) {
@@ -1213,11 +1351,14 @@
 
           event.preventDefault();
 
+
           document
             .getElementById(
               "suggerimenti"
             )
-            .style.display = "none";
+            .style.display =
+              "none";
+
 
           cercaAbbinamenti();
 
@@ -1229,7 +1370,6 @@
 
   /* ==========================================
      CHIUDI SUGGERIMENTI
-     Cliccando fuori dal campo.
   ========================================== */
 
   document.addEventListener(
@@ -1252,7 +1392,8 @@
           .getElementById(
             "suggerimenti"
           )
-          .style.display = "none";
+          .style.display =
+            "none";
 
       }
 
@@ -1266,7 +1407,9 @@
 
   caricaDatabase();
 
+
 </script>
+
 
 </body>
 
