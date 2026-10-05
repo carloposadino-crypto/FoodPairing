@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>FoodPairing</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -143,41 +145,134 @@
       color: #777;
     }
 
+    /* ==========================================
+       SUGGERIMENTI INGREDIENTI
+    ========================================== */
+
+    .search-wrapper {
+      position: relative;
+    }
+
+    #suggerimenti {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      z-index: 1000;
+      background: white;
+      border: 1px solid #ccc;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      max-height: 260px;
+      overflow-y: auto;
+      display: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    .suggerimento {
+      padding: 11px 12px;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+    }
+
+    .suggerimento:last-child {
+      border-bottom: none;
+    }
+
+    .suggerimento:hover {
+      background: #f0f0f0;
+    }
+
+    .suggerimento-nome {
+      font-weight: bold;
+    }
+
+    .suggerimento-profilo {
+      margin-top: 3px;
+      font-size: 12px;
+      color: #777;
+    }
+
+    .risultati-titolo {
+      margin-top: 22px;
+      margin-bottom: 10px;
+    }
+
+    .risultato-numero {
+      color: #777;
+      font-size: 13px;
+      font-weight: normal;
+    }
+
     @media (max-width: 650px) {
+
       .grid {
         grid-template-columns: 1fr;
       }
+
+      header h1 {
+        font-size: 26px;
+      }
+
     }
+
   </style>
+
 </head>
 
 <body>
 
 <header>
+
   <h1>FoodPairing</h1>
+
   <p>Ingredienti e abbinamenti</p>
+
 </header>
 
+
 <main>
+
+  <!-- ==========================================
+       STATO DATABASE
+  ========================================== -->
 
   <div id="databaseStatus" class="status">
     Caricamento database...
   </div>
 
+
+  <!-- ==========================================
+       RICERCA
+  ========================================== -->
+
   <div class="box">
 
     <h2>Ricerca ingrediente</h2>
+
 
     <label for="ingrediente">
       Ingrediente
     </label>
 
-    <input
-      id="ingrediente"
-      type="text"
-      placeholder="Es. mela"
-      autocomplete="off"
-    >
+
+    <div class="search-wrapper">
+
+      <input
+        id="ingrediente"
+        type="text"
+        placeholder="Es. mela"
+        autocomplete="off"
+      >
+
+      <div id="suggerimenti"></div>
+
+    </div>
+
+
+    <!-- ==========================================
+         FILTRI
+    ========================================== -->
 
     <div class="grid" style="margin-top:15px;">
 
@@ -213,6 +308,7 @@
 
       </div>
 
+
       <div>
 
         <label for="intensitaFiltro">
@@ -247,9 +343,11 @@
 
     </div>
 
+
     <button id="cercaBtn">
       Cerca abbinamenti
     </button>
+
 
     <div id="risultati"></div>
 
@@ -260,627 +358,916 @@
 
 <script>
 
-let database = {};
+  /* ==========================================
+     DATABASE
+  ========================================== */
+
+  let database = {};
 
 
-/* ==========================================
-   NORMALIZZA TESTO
-========================================== */
+  /* ==========================================
+     NORMALIZZA TESTO
+  ========================================== */
 
-function normalizza(testo) {
+  function normalizza(testo) {
 
-  return String(testo || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .trim();
+    return String(testo || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
 
-}
-
-
-/* ==========================================
-   TROVA INGREDIENTE
-========================================== */
-
-function trovaIngrediente(nome) {
-
-  const ricerca = normalizza(nome);
-
-  if (!ricerca) {
-    return null;
   }
 
 
-  for (const chiave of Object.keys(database)) {
+  /* ==========================================
+     ESCAPE HTML
+     Evita problemi se un ingrediente
+     contiene caratteri HTML.
+  ========================================== */
 
-    const ingrediente = database[chiave];
+  function escapeHTML(testo) {
 
-    if (
-      normalizza(chiave) === ricerca
-    ) {
+    return String(testo || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
-      return {
-        chiave: chiave,
-        dati: ingrediente
-      };
+  }
 
+
+  /* ==========================================
+     TROVA INGREDIENTE
+  ========================================== */
+
+  function trovaIngrediente(nome) {
+
+    const ricerca = normalizza(nome);
+
+    if (!ricerca) {
+      return null;
     }
 
 
-    if (
-      ingrediente &&
-      ingrediente.nome &&
-      normalizza(ingrediente.nome) === ricerca
-    ) {
+    for (const chiave of Object.keys(database)) {
 
-      return {
-        chiave: chiave,
-        dati: ingrediente
-      };
-
-    }
-
-  }
-
-
-  return null;
-
-}
-
-
-/* ==========================================
-   PUNTEGGIO ABBINAMENTO
-========================================== */
-
-function punteggioAbbinamento(
-  ingredienteA,
-  chiaveB
-) {
-
-  if (
-    !ingredienteA ||
-    !ingredienteA.pairing
-  ) {
-
-    return 0;
-
-  }
-
-
-  let migliore = 0;
-
-
-  for (
-    const chiave of Object.keys(
-      ingredienteA.pairing
-    )
-  ) {
-
-    if (
-      normalizza(chiave) ===
-      normalizza(chiaveB)
-    ) {
-
-      const valore =
-        ingredienteA.pairing[chiave];
+      const ingrediente = database[chiave];
 
 
       if (
-        typeof valore === "number"
+        normalizza(chiave) === ricerca
       ) {
 
-        migliore =
-          Math.max(
-            migliore,
-            valore
-          );
+        return {
+          chiave: chiave,
+          dati: ingrediente
+        };
 
       }
 
 
       if (
-        valore &&
-        typeof valore === "object"
+        ingrediente &&
+        ingrediente.nome &&
+        normalizza(ingrediente.nome) === ricerca
       ) {
 
-        if (
-          typeof valore.score === "number"
-        ) {
-
-          migliore =
-            Math.max(
-              migliore,
-              valore.score
-            );
-
-        }
-
-
-        if (
-          typeof valore.intensita === "number"
-        ) {
-
-          migliore =
-            Math.max(
-              migliore,
-              valore.intensita
-            );
-
-        }
+        return {
+          chiave: chiave,
+          dati: ingrediente
+        };
 
       }
 
     }
 
-  }
-
-
-  return migliore;
-
-}
-
-
-/* ==========================================
-   TIPO ABBINAMENTO
-========================================== */
-
-function tipoAbbinamento(
-  ingrediente,
-  chiaveAltro
-) {
-
-  if (
-    !ingrediente ||
-    !ingrediente.pairing
-  ) {
 
     return null;
 
   }
 
 
-  for (
-    const chiave of Object.keys(
-      ingrediente.pairing
-    )
-  ) {
+  /* ==========================================
+     SUGGERIMENTI
+  ========================================== */
 
-    if (
-      normalizza(chiave) ===
-      normalizza(chiaveAltro)
-    ) {
+  function mostraSuggerimenti() {
 
-      const valore =
-        ingrediente.pairing[chiave];
+    const input =
+      document.getElementById("ingrediente");
+
+    const box =
+      document.getElementById("suggerimenti");
+
+
+    const testo =
+      normalizza(input.value);
+
+
+    box.innerHTML = "";
+
+
+    if (!testo) {
+
+      box.style.display = "none";
+
+      return;
+
+    }
+
+
+    const risultati = [];
+
+
+    for (const chiave of Object.keys(database)) {
+
+      const dati = database[chiave];
+
+      const nome =
+        dati && dati.nome
+          ? dati.nome
+          : chiave;
+
+
+      const nomeNormalizzato =
+        normalizza(nome);
+
+      const chiaveNormalizzata =
+        normalizza(chiave);
 
 
       if (
-        valore &&
-        typeof valore === "object" &&
-        valore.tipo
+        nomeNormalizzato.includes(testo) ||
+        chiaveNormalizzata.includes(testo)
       ) {
 
-        return valore.tipo;
+        risultati.push({
+          chiave: chiave,
+          dati: dati,
+          nome: nome
+        });
 
       }
 
     }
 
-  }
+
+    risultati.sort(function(a, b) {
+
+      const aNome =
+        normalizza(a.nome);
+
+      const bNome =
+        normalizza(b.nome);
 
 
-  return null;
+      const aInizio =
+        aNome.startsWith(testo);
 
-}
-
-
-/* ==========================================
-   NOME TIPO
-========================================== */
-
-function nomeTipo(tipo) {
-
-  const tipi = {
-
-    affinita:
-      "Affinità",
-
-    contrasto:
-      "Contrasto",
-
-    ponte_aromatico:
-      "Ponte aromatico",
-
-    complementarita:
-      "Complementarità"
-
-  };
-
-  return tipi[tipo] || "Abbinamento";
-
-}
+      const bInizio =
+        bNome.startsWith(testo);
 
 
-/* ==========================================
-   CARICA DATABASE
-========================================== */
+      if (aInizio && !bInizio) {
+        return -1;
+      }
 
-async function caricaDatabase() {
-
-  const status =
-    document.getElementById(
-      "databaseStatus"
-    );
+      if (!aInizio && bInizio) {
+        return 1;
+      }
 
 
-  try {
-
-    const risposta =
-      await fetch(
-        "./database.json?v=" +
-        Date.now()
+      return aNome.localeCompare(
+        bNome,
+        "it"
       );
-
-
-    if (!risposta.ok) {
-
-      throw new Error(
-        "Errore HTTP " +
-        risposta.status
-      );
-
-    }
-
-
-    const dati =
-      await risposta.json();
-
-
-    if (
-      !dati ||
-      typeof dati !== "object"
-    ) {
-
-      throw new Error(
-        "Il database non è un JSON valido."
-      );
-
-    }
-
-
-    /*
-     * Eliminiamo la sezione tecnica
-     * dei tipi di pairing.
-     */
-
-    if (
-      dati._pairing_types
-    ) {
-
-      delete dati._pairing_types;
-
-    }
-
-
-    database = dati;
-
-
-    const numeroIngredienti =
-      Object.keys(database).length;
-
-
-    status.className =
-      "status ok";
-
-
-    status.textContent =
-      "✓ Database caricato correttamente — " +
-      numeroIngredienti +
-      " ingredienti";
-
-
-  }
-
-  catch (errore) {
-
-    console.error(
-      "Errore:",
-      errore
-    );
-
-
-    status.className =
-      "status error";
-
-
-    status.textContent =
-      "❌ Errore: " +
-      errore.message;
-
-  }
-
-}
-
-
-/* ==========================================
-   CERCA ABBINAMENTI
-========================================== */
-
-function cercaAbbinamenti() {
-
-  const testo =
-    document.getElementById(
-      "ingrediente"
-    ).value;
-
-
-  const risultatiBox =
-    document.getElementById(
-      "risultati"
-    );
-
-
-  const tipoFiltro =
-    document.getElementById(
-      "tipoFiltro"
-    ).value;
-
-
-  const intensitaMinima =
-    parseFloat(
-      document.getElementById(
-        "intensitaFiltro"
-      ).value
-    );
-
-
-  risultatiBox.innerHTML = "";
-
-
-  const trovato =
-    trovaIngrediente(testo);
-
-
-  if (!trovato) {
-
-    risultatiBox.innerHTML =
-      '<div class="empty">' +
-      'Ingrediente non trovato nel database.' +
-      '</div>';
-
-    return;
-
-  }
-
-
-  const risultati = [];
-
-
-  for (
-    const chiave of Object.keys(database)
-  ) {
-
-    if (
-      chiave === trovato.chiave
-    ) {
-
-      continue;
-
-    }
-
-
-    const altro =
-      database[chiave];
-
-
-    /*
-     * Cerchiamo il punteggio
-     * dall'ingrediente principale.
-     */
-
-    let score =
-      punteggioAbbinamento(
-        trovato.dati,
-        chiave
-      );
-
-
-    /*
-     * Se non trovato, controlliamo
-     * anche il rapporto inverso.
-     */
-
-    if (score === 0) {
-
-      score =
-        punteggioAbbinamento(
-          altro,
-          trovato.chiave
-        );
-
-    }
-
-
-    if (
-      score < intensitaMinima
-    ) {
-
-      continue;
-
-    }
-
-
-    if (score <= 0) {
-
-      continue;
-
-    }
-
-
-    let tipo =
-      tipoAbbinamento(
-        trovato.dati,
-        chiave
-      );
-
-
-    if (!tipo) {
-
-      tipo =
-        tipoAbbinamento(
-          altro,
-          trovato.chiave
-        );
-
-    }
-
-
-    if (
-      tipoFiltro !== "tutti" &&
-      tipo !== tipoFiltro
-    ) {
-
-      continue;
-
-    }
-
-
-    risultati.push({
-
-      chiave: chiave,
-
-      dati: altro,
-
-      score: score,
-
-      tipo: tipo
 
     });
 
+
+    const risultatiLimitati =
+      risultati.slice(0, 12);
+
+
+    if (
+      risultatiLimitati.length === 0
+    ) {
+
+      box.style.display = "none";
+
+      return;
+
+    }
+
+
+    risultatiLimitati.forEach(function(item) {
+
+      const elemento =
+        document.createElement("div");
+
+
+      elemento.className =
+        "suggerimento";
+
+
+      const profilo =
+        Array.isArray(item.dati?.profilo)
+          ? item.dati.profilo.join(", ")
+          : "";
+
+
+      elemento.innerHTML = `
+
+        <div class="suggerimento-nome">
+          ${escapeHTML(item.nome)}
+        </div>
+
+        ${
+          profilo
+            ? `
+              <div class="suggerimento-profilo">
+                ${escapeHTML(profilo)}
+              </div>
+            `
+            : ""
+        }
+
+      `;
+
+
+      elemento.addEventListener(
+        "click",
+        function() {
+
+          input.value =
+            item.nome;
+
+          box.style.display =
+            "none";
+
+          cercaAbbinamenti();
+
+        }
+      );
+
+
+      box.appendChild(elemento);
+
+    });
+
+
+    box.style.display = "block";
+
   }
 
 
-  risultati.sort(
-    (a, b) =>
-      b.score - a.score
-  );
+  /* ==========================================
+     PUNTEGGIO ABBINAMENTO
+  ========================================== */
 
-
-  if (
-    risultati.length === 0
+  function punteggioAbbinamento(
+    ingredienteA,
+    chiaveB
   ) {
 
-    risultatiBox.innerHTML =
-      '<div class="empty">' +
-      'Nessun abbinamento trovato con i filtri selezionati.' +
-      '</div>';
+    if (
+      !ingredienteA ||
+      !ingredienteA.pairing
+    ) {
 
-    return;
+      return 0;
+
+    }
+
+
+    let migliore = 0;
+
+
+    for (
+      const chiave of Object.keys(
+        ingredienteA.pairing
+      )
+    ) {
+
+      if (
+        normalizza(chiave) ===
+        normalizza(chiaveB)
+      ) {
+
+        const valore =
+          ingredienteA.pairing[chiave];
+
+
+        if (
+          typeof valore === "number"
+        ) {
+
+          migliore =
+            Math.max(
+              migliore,
+              valore
+            );
+
+        }
+
+
+        if (
+          valore &&
+          typeof valore === "object"
+        ) {
+
+          if (
+            typeof valore.score === "number"
+          ) {
+
+            migliore =
+              Math.max(
+                migliore,
+                valore.score
+              );
+
+          }
+
+
+          if (
+            typeof valore.intensita === "number"
+          ) {
+
+            migliore =
+              Math.max(
+                migliore,
+                valore.intensita
+              );
+
+          }
+
+        }
+
+      }
+
+    }
+
+
+    return migliore;
 
   }
 
 
-  const titolo =
-    document.createElement(
-      "h3"
-    );
+  /* ==========================================
+     TIPO ABBINAMENTO
+  ========================================== */
+
+  function tipoAbbinamento(
+    ingrediente,
+    chiaveAltro
+  ) {
+
+    if (
+      !ingrediente ||
+      !ingrediente.pairing
+    ) {
+
+      return null;
+
+    }
 
 
-  titolo.textContent =
-    "Abbinamenti per " +
-    (
-      trovato.dati.nome ||
-      trovato.chiave
-    );
+    for (
+      const chiave of Object.keys(
+        ingrediente.pairing
+      )
+    ) {
+
+      if (
+        normalizza(chiave) ===
+        normalizza(chiaveAltro)
+      ) {
+
+        const valore =
+          ingrediente.pairing[chiave];
 
 
-  risultatiBox.appendChild(
-    titolo
-  );
+        if (
+          valore &&
+          typeof valore === "object" &&
+          valore.tipo
+        ) {
+
+          return valore.tipo;
+
+        }
+
+      }
+
+    }
 
 
-  risultati
-    .slice(0, 30)
-    .forEach(
-      risultato => {
+    return null;
 
-        const div =
-          document.createElement(
-            "div"
+  }
+
+
+  /* ==========================================
+     NOME TIPO
+  ========================================== */
+
+  function nomeTipo(tipo) {
+
+    const tipi = {
+
+      affinita:
+        "Affinità",
+
+      contrasto:
+        "Contrasto",
+
+      ponte_aromatico:
+        "Ponte aromatico",
+
+      complementarita:
+        "Complementarità"
+
+    };
+
+
+    return tipi[tipo] ||
+      "Abbinamento";
+
+  }
+
+
+  /* ==========================================
+     CARICA DATABASE
+  ========================================== */
+
+  async function caricaDatabase() {
+
+    const status =
+      document.getElementById(
+        "databaseStatus"
+      );
+
+
+    try {
+
+      const risposta =
+        await fetch(
+          "./database.json?v=" +
+          Date.now()
+        );
+
+
+      if (!risposta.ok) {
+
+        throw new Error(
+          "Errore HTTP " +
+          risposta.status
+        );
+
+      }
+
+
+      const dati =
+        await risposta.json();
+
+
+      if (
+        !dati ||
+        typeof dati !== "object"
+      ) {
+
+        throw new Error(
+          "Il database non è un JSON valido."
+        );
+
+      }
+
+
+      /*
+       * Eliminiamo la sezione tecnica
+       * dei tipi di pairing.
+       */
+
+      if (
+        dati._pairing_types
+      ) {
+
+        delete dati._pairing_types;
+
+      }
+
+
+      database = dati;
+
+
+      const numeroIngredienti =
+        Object.keys(database).length;
+
+
+      status.className =
+        "status ok";
+
+
+      status.textContent =
+        "✓ Database caricato correttamente — " +
+        numeroIngredienti +
+        " ingredienti";
+
+
+    }
+
+    catch (errore) {
+
+      console.error(
+        "Errore:",
+        errore
+      );
+
+
+      status.className =
+        "status error";
+
+
+      status.textContent =
+        "❌ Errore: " +
+        errore.message;
+
+    }
+
+  }
+
+
+  /* ==========================================
+     CERCA ABBINAMENTI
+  ========================================== */
+
+  function cercaAbbinamenti() {
+
+    const testo =
+      document.getElementById(
+        "ingrediente"
+      ).value;
+
+
+    const risultatiBox =
+      document.getElementById(
+        "risultati"
+      );
+
+
+    const tipoFiltro =
+      document.getElementById(
+        "tipoFiltro"
+      ).value;
+
+
+    const intensitaMinima =
+      parseFloat(
+        document.getElementById(
+          "intensitaFiltro"
+        ).value
+      );
+
+
+    risultatiBox.innerHTML = "";
+
+
+    const trovato =
+      trovaIngrediente(testo);
+
+
+    if (!trovato) {
+
+      risultatiBox.innerHTML =
+        '<div class="empty">' +
+        'Ingrediente non trovato nel database.' +
+        '</div>';
+
+      return;
+
+    }
+
+
+    const risultati = [];
+
+
+    for (
+      const chiave of Object.keys(database)
+    ) {
+
+      if (
+        normalizza(chiave) ===
+        normalizza(trovato.chiave)
+      ) {
+
+        continue;
+
+      }
+
+
+      const altro =
+        database[chiave];
+
+
+      /*
+       * Cerchiamo il punteggio
+       * dall'ingrediente principale.
+       */
+
+      let score =
+        punteggioAbbinamento(
+          trovato.dati,
+          chiave
+        );
+
+
+      /*
+       * Se non trovato, controlliamo
+       * anche il rapporto inverso.
+       */
+
+      if (score === 0) {
+
+        score =
+          punteggioAbbinamento(
+            altro,
+            trovato.chiave
           );
 
-
-        div.className =
-          "result";
+      }
 
 
-        const nome =
-          risultato.dati.nome ||
-          risultato.chiave;
+      if (
+        score < intensitaMinima
+      ) {
+
+        continue;
+
+      }
 
 
-        const profilo =
-          Array.isArray(
-            risultato.dati.profilo
-          )
-            ? risultato.dati.profilo.join(", ")
-            : "";
+      if (score <= 0) {
+
+        continue;
+
+      }
 
 
-        div.innerHTML = `
-
-          <h3>
-            ${nome}
-          </h3>
-
-          <div class="score">
-            Intensità:
-            ${risultato.score}/5
-          </div>
-
-          <div class="type">
-            ${nomeTipo(
-              risultato.tipo
-            )}
-          </div>
-
-          <div class="profile">
-            Profilo:
-            ${profilo || "non disponibile"}
-          </div>
-
-        `;
-
-
-        risultatiBox.appendChild(
-          div
+      let tipo =
+        tipoAbbinamento(
+          trovato.dati,
+          chiave
         );
+
+
+      if (!tipo) {
+
+        tipo =
+          tipoAbbinamento(
+            altro,
+            trovato.chiave
+          );
+
+      }
+
+
+      if (
+        tipoFiltro !== "tutti" &&
+        tipo !== tipoFiltro
+      ) {
+
+        continue;
+
+      }
+
+
+      risultati.push({
+
+        chiave: chiave,
+
+        dati: altro,
+
+        score: score,
+
+        tipo: tipo
+
+      });
+
+    }
+
+
+    risultati.sort(
+      (a, b) =>
+        b.score - a.score
+    );
+
+
+    if (
+      risultati.length === 0
+    ) {
+
+      risultatiBox.innerHTML =
+        '<div class="empty">' +
+        'Nessun abbinamento trovato con i filtri selezionati.' +
+        '</div>';
+
+      return;
+
+    }
+
+
+    const titolo =
+      document.createElement(
+        "h3"
+      );
+
+
+    titolo.className =
+      "risultati-titolo";
+
+
+    titolo.innerHTML =
+      "Abbinamenti per " +
+      escapeHTML(
+        trovato.dati.nome ||
+        trovato.chiave
+      ) +
+      ' <span class="risultato-numero">' +
+      "(" +
+      risultati.length +
+      " trovati)" +
+      "</span>";
+
+
+    risultatiBox.appendChild(
+      titolo
+    );
+
+
+    risultati
+      .slice(0, 30)
+      .forEach(
+        risultato => {
+
+          const div =
+            document.createElement(
+              "div"
+            );
+
+
+          div.className =
+            "result";
+
+
+          const nome =
+            risultato.dati.nome ||
+            risultato.chiave;
+
+
+          const profilo =
+            Array.isArray(
+              risultato.dati.profilo
+            )
+              ? risultato.dati.profilo.join(", ")
+              : "";
+
+
+          div.innerHTML = `
+
+            <h3>
+              ${escapeHTML(nome)}
+            </h3>
+
+            <div class="score">
+              Intensità:
+              ${escapeHTML(risultato.score)}/5
+            </div>
+
+            <div class="type">
+              ${escapeHTML(
+                nomeTipo(risultato.tipo)
+              )}
+            </div>
+
+            <div class="profile">
+              Profilo:
+              ${
+                profilo
+                  ? escapeHTML(profilo)
+                  : "non disponibile"
+              }
+            </div>
+
+          `;
+
+
+          risultatiBox.appendChild(
+            div
+          );
+
+        }
+      );
+
+  }
+
+
+  /* ==========================================
+     EVENTO PULSANTE
+  ========================================== */
+
+  document
+    .getElementById("cercaBtn")
+    .addEventListener(
+      "click",
+      cercaAbbinamenti
+    );
+
+
+  /* ==========================================
+     RICERCA MENTRE SI SCRIVE
+  ========================================== */
+
+  document
+    .getElementById("ingrediente")
+    .addEventListener(
+      "input",
+      mostraSuggerimenti
+    );
+
+
+  /* ==========================================
+     INVIO DA TASTIERA
+  ========================================== */
+
+  document
+    .getElementById("ingrediente")
+    .addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          event.key === "Enter"
+        ) {
+
+          event.preventDefault();
+
+          document
+            .getElementById(
+              "suggerimenti"
+            )
+            .style.display = "none";
+
+          cercaAbbinamenti();
+
+        }
 
       }
     );
 
-}
 
+  /* ==========================================
+     CHIUDI SUGGERIMENTI
+     Cliccando fuori dal campo.
+  ========================================== */
 
-/* ==========================================
-   EVENTO PULSANTE
-========================================== */
-
-document
-  .getElementById("cercaBtn")
-  .addEventListener(
+  document.addEventListener(
     "click",
-    cercaAbbinamenti
+    function(event) {
+
+      const wrapper =
+        document.querySelector(
+          ".search-wrapper"
+        );
+
+
+      if (
+        !wrapper.contains(
+          event.target
+        )
+      ) {
+
+        document
+          .getElementById(
+            "suggerimenti"
+          )
+          .style.display = "none";
+
+      }
+
+    }
   );
 
 
-/* ==========================================
-   AVVIO
-========================================== */
+  /* ==========================================
+     AVVIO
+  ========================================== */
 
-caricaDatabase();
+  caricaDatabase();
 
 </script>
 
 </body>
+
 </html>
