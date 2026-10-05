@@ -3,62 +3,882 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FoodPairing Test</title>
+
+  <title>FoodPairing</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      color: #222;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 24px 15px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    header p {
+      margin: 7px 0 0;
+      opacity: 0.8;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 15px 40px;
+    }
+
+    .box {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+
+    input,
+    select {
+      border: 1px solid #ccc;
+      background: white;
+    }
+
+    button {
+      margin-top: 12px;
+      border: none;
+      background: #111;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .status {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      background: #eee;
+    }
+
+    .status.ok {
+      background: #e5f6e8;
+      color: #176b2c;
+    }
+
+    .status.error {
+      background: #fde5e5;
+      color: #a00000;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .result {
+      margin-top: 12px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #fafafa;
+    }
+
+    .result h3 {
+      margin: 0 0 8px;
+    }
+
+    .score {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .type {
+      display: inline-block;
+      margin-top: 7px;
+      padding: 5px 8px;
+      background: #e8e8e8;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    .profile {
+      margin-top: 8px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .empty {
+      margin-top: 15px;
+      color: #777;
+    }
+
+    @media (max-width: 650px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>FoodPairing</h1>
+<header>
+  <h1>FoodPairing</h1>
+  <p>Ingredienti e abbinamenti</p>
+</header>
 
-<div id="databaseStatus">
-  Caricamento database...
-</div>
+<main>
+
+  <div id="databaseStatus" class="status">
+    Caricamento database...
+  </div>
+
+  <div class="box">
+
+    <h2>Ricerca ingrediente</h2>
+
+    <label for="ingrediente">
+      Ingrediente
+    </label>
+
+    <input
+      id="ingrediente"
+      type="text"
+      placeholder="Es. mela"
+      autocomplete="off"
+    >
+
+    <div class="grid" style="margin-top:15px;">
+
+      <div>
+
+        <label for="tipoFiltro">
+          Tipo di abbinamento
+        </label>
+
+        <select id="tipoFiltro">
+
+          <option value="tutti">
+            Tutti
+          </option>
+
+          <option value="affinita">
+            Affinità
+          </option>
+
+          <option value="contrasto">
+            Contrasto
+          </option>
+
+          <option value="ponte_aromatico">
+            Ponte aromatico
+          </option>
+
+          <option value="complementarita">
+            Complementarità
+          </option>
+
+        </select>
+
+      </div>
+
+      <div>
+
+        <label for="intensitaFiltro">
+          Intensità minima
+        </label>
+
+        <select id="intensitaFiltro">
+
+          <option value="0">
+            Tutte
+          </option>
+
+          <option value="2">
+            ≥ 2
+          </option>
+
+          <option value="3">
+            ≥ 3
+          </option>
+
+          <option value="4">
+            ≥ 4
+          </option>
+
+          <option value="4.5">
+            ≥ 4.5
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+    <button id="cercaBtn">
+      Cerca abbinamenti
+    </button>
+
+    <div id="risultati"></div>
+
+  </div>
+
+</main>
+
 
 <script>
 
-document.getElementById("databaseStatus").textContent =
-  "JavaScript funzionante — provo a caricare il database...";
+let database = {};
 
-async function testDatabase() {
+
+/* ==========================================
+   NORMALIZZA TESTO
+========================================== */
+
+function normalizza(testo) {
+
+  return String(testo || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+
+}
+
+
+/* ==========================================
+   TROVA INGREDIENTE
+========================================== */
+
+function trovaIngrediente(nome) {
+
+  const ricerca = normalizza(nome);
+
+  if (!ricerca) {
+    return null;
+  }
+
+
+  for (const chiave of Object.keys(database)) {
+
+    const ingrediente = database[chiave];
+
+    if (
+      normalizza(chiave) === ricerca
+    ) {
+
+      return {
+        chiave: chiave,
+        dati: ingrediente
+      };
+
+    }
+
+
+    if (
+      ingrediente &&
+      ingrediente.nome &&
+      normalizza(ingrediente.nome) === ricerca
+    ) {
+
+      return {
+        chiave: chiave,
+        dati: ingrediente
+      };
+
+    }
+
+  }
+
+
+  return null;
+
+}
+
+
+/* ==========================================
+   PUNTEGGIO ABBINAMENTO
+========================================== */
+
+function punteggioAbbinamento(
+  ingredienteA,
+  chiaveB
+) {
+
+  if (
+    !ingredienteA ||
+    !ingredienteA.pairing
+  ) {
+
+    return 0;
+
+  }
+
+
+  let migliore = 0;
+
+
+  for (
+    const chiave of Object.keys(
+      ingredienteA.pairing
+    )
+  ) {
+
+    if (
+      normalizza(chiave) ===
+      normalizza(chiaveB)
+    ) {
+
+      const valore =
+        ingredienteA.pairing[chiave];
+
+
+      if (
+        typeof valore === "number"
+      ) {
+
+        migliore =
+          Math.max(
+            migliore,
+            valore
+          );
+
+      }
+
+
+      if (
+        valore &&
+        typeof valore === "object"
+      ) {
+
+        if (
+          typeof valore.score === "number"
+        ) {
+
+          migliore =
+            Math.max(
+              migliore,
+              valore.score
+            );
+
+        }
+
+
+        if (
+          typeof valore.intensita === "number"
+        ) {
+
+          migliore =
+            Math.max(
+              migliore,
+              valore.intensita
+            );
+
+        }
+
+      }
+
+    }
+
+  }
+
+
+  return migliore;
+
+}
+
+
+/* ==========================================
+   TIPO ABBINAMENTO
+========================================== */
+
+function tipoAbbinamento(
+  ingrediente,
+  chiaveAltro
+) {
+
+  if (
+    !ingrediente ||
+    !ingrediente.pairing
+  ) {
+
+    return null;
+
+  }
+
+
+  for (
+    const chiave of Object.keys(
+      ingrediente.pairing
+    )
+  ) {
+
+    if (
+      normalizza(chiave) ===
+      normalizza(chiaveAltro)
+    ) {
+
+      const valore =
+        ingrediente.pairing[chiave];
+
+
+      if (
+        valore &&
+        typeof valore === "object" &&
+        valore.tipo
+      ) {
+
+        return valore.tipo;
+
+      }
+
+    }
+
+  }
+
+
+  return null;
+
+}
+
+
+/* ==========================================
+   NOME TIPO
+========================================== */
+
+function nomeTipo(tipo) {
+
+  const tipi = {
+
+    affinita:
+      "Affinità",
+
+    contrasto:
+      "Contrasto",
+
+    ponte_aromatico:
+      "Ponte aromatico",
+
+    complementarita:
+      "Complementarità"
+
+  };
+
+  return tipi[tipo] || "Abbinamento";
+
+}
+
+
+/* ==========================================
+   CARICA DATABASE
+========================================== */
+
+async function caricaDatabase() {
+
+  const status =
+    document.getElementById(
+      "databaseStatus"
+    );
+
 
   try {
 
-    const risposta = await fetch("./database.json?v=" + Date.now());
+    const risposta =
+      await fetch(
+        "./database.json?v=" +
+        Date.now()
+      );
+
 
     if (!risposta.ok) {
 
       throw new Error(
-        "Errore HTTP: " + risposta.status
+        "Errore HTTP " +
+        risposta.status
       );
 
     }
 
-    const dati = await risposta.json();
 
-    const numero =
-      Object.keys(dati).length;
+    const dati =
+      await risposta.json();
 
-    document.getElementById("databaseStatus").innerHTML =
-      "✅ DATABASE CARICATO<br><br>" +
-      "Elementi trovati: " + numero;
 
-    console.log("DATABASE:", dati);
+    if (
+      !dati ||
+      typeof dati !== "object"
+    ) {
+
+      throw new Error(
+        "Il database non è un JSON valido."
+      );
+
+    }
+
+
+    /*
+     * Eliminiamo la sezione tecnica
+     * dei tipi di pairing.
+     */
+
+    if (
+      dati._pairing_types
+    ) {
+
+      delete dati._pairing_types;
+
+    }
+
+
+    database = dati;
+
+
+    const numeroIngredienti =
+      Object.keys(database).length;
+
+
+    status.className =
+      "status ok";
+
+
+    status.textContent =
+      "✓ Database caricato correttamente — " +
+      numeroIngredienti +
+      " ingredienti";
+
 
   }
 
   catch (errore) {
 
-    document.getElementById("databaseStatus").innerHTML =
-      "❌ ERRORE<br><br>" +
-      errore.message;
+    console.error(
+      "Errore:",
+      errore
+    );
 
-    console.error(errore);
+
+    status.className =
+      "status error";
+
+
+    status.textContent =
+      "❌ Errore: " +
+      errore.message;
 
   }
 
 }
 
-testDatabase();
+
+/* ==========================================
+   CERCA ABBINAMENTI
+========================================== */
+
+function cercaAbbinamenti() {
+
+  const testo =
+    document.getElementById(
+      "ingrediente"
+    ).value;
+
+
+  const risultatiBox =
+    document.getElementById(
+      "risultati"
+    );
+
+
+  const tipoFiltro =
+    document.getElementById(
+      "tipoFiltro"
+    ).value;
+
+
+  const intensitaMinima =
+    parseFloat(
+      document.getElementById(
+        "intensitaFiltro"
+      ).value
+    );
+
+
+  risultatiBox.innerHTML = "";
+
+
+  const trovato =
+    trovaIngrediente(testo);
+
+
+  if (!trovato) {
+
+    risultatiBox.innerHTML =
+      '<div class="empty">' +
+      'Ingrediente non trovato nel database.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  const risultati = [];
+
+
+  for (
+    const chiave of Object.keys(database)
+  ) {
+
+    if (
+      chiave === trovato.chiave
+    ) {
+
+      continue;
+
+    }
+
+
+    const altro =
+      database[chiave];
+
+
+    /*
+     * Cerchiamo il punteggio
+     * dall'ingrediente principale.
+     */
+
+    let score =
+      punteggioAbbinamento(
+        trovato.dati,
+        chiave
+      );
+
+
+    /*
+     * Se non trovato, controlliamo
+     * anche il rapporto inverso.
+     */
+
+    if (score === 0) {
+
+      score =
+        punteggioAbbinamento(
+          altro,
+          trovato.chiave
+        );
+
+    }
+
+
+    if (
+      score < intensitaMinima
+    ) {
+
+      continue;
+
+    }
+
+
+    if (score <= 0) {
+
+      continue;
+
+    }
+
+
+    let tipo =
+      tipoAbbinamento(
+        trovato.dati,
+        chiave
+      );
+
+
+    if (!tipo) {
+
+      tipo =
+        tipoAbbinamento(
+          altro,
+          trovato.chiave
+        );
+
+    }
+
+
+    if (
+      tipoFiltro !== "tutti" &&
+      tipo !== tipoFiltro
+    ) {
+
+      continue;
+
+    }
+
+
+    risultati.push({
+
+      chiave: chiave,
+
+      dati: altro,
+
+      score: score,
+
+      tipo: tipo
+
+    });
+
+  }
+
+
+  risultati.sort(
+    (a, b) =>
+      b.score - a.score
+  );
+
+
+  if (
+    risultati.length === 0
+  ) {
+
+    risultatiBox.innerHTML =
+      '<div class="empty">' +
+      'Nessun abbinamento trovato con i filtri selezionati.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  const titolo =
+    document.createElement(
+      "h3"
+    );
+
+
+  titolo.textContent =
+    "Abbinamenti per " +
+    (
+      trovato.dati.nome ||
+      trovato.chiave
+    );
+
+
+  risultatiBox.appendChild(
+    titolo
+  );
+
+
+  risultati
+    .slice(0, 30)
+    .forEach(
+      risultato => {
+
+        const div =
+          document.createElement(
+            "div"
+          );
+
+
+        div.className =
+          "result";
+
+
+        const nome =
+          risultato.dati.nome ||
+          risultato.chiave;
+
+
+        const profilo =
+          Array.isArray(
+            risultato.dati.profilo
+          )
+            ? risultato.dati.profilo.join(", ")
+            : "";
+
+
+        div.innerHTML = `
+
+          <h3>
+            ${nome}
+          </h3>
+
+          <div class="score">
+            Intensità:
+            ${risultato.score}/5
+          </div>
+
+          <div class="type">
+            ${nomeTipo(
+              risultato.tipo
+            )}
+          </div>
+
+          <div class="profile">
+            Profilo:
+            ${profilo || "non disponibile"}
+          </div>
+
+        `;
+
+
+        risultatiBox.appendChild(
+          div
+        );
+
+      }
+    );
+
+}
+
+
+/* ==========================================
+   EVENTO PULSANTE
+========================================== */
+
+document
+  .getElementById("cercaBtn")
+  .addEventListener(
+    "click",
+    cercaAbbinamenti
+  );
+
+
+/* ==========================================
+   AVVIO
+========================================== */
+
+caricaDatabase();
 
 </script>
 
