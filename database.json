@@ -1978,64 +1978,6 @@
     "varieta": "Renetta",
     "stagionatura": null
   },
-  "mela_annurca": {
-    "nome": "Mela Annurca",
-    "categoria": "Frutta",
-    "famiglia": "Pomacee",
-    "profilo": [
-      "dolce",
-      "acido",
-      "fruttato",
-      "fresco"
-    ],
-    "pairing": {
-      "maiale": 5,
-      "timo": 4,
-      "cannella": 5,
-      "zenzero": 4,
-      "nocciola": 4,
-      "miele": 5,
-      "limone": 4,
-      "sedano": 4,
-      "cipolla": 4,
-      "rosmarino": 3,
-      "senape": 4,
-      "aceto": 5
-    },
-    "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "varieta_tipologia",
-    "parent": "mela",
-    "tipologia": "",
-    "varieta": "Annurca",
-    "stagionatura": null
-  },
-  "pera_williams": {
-    "nome": "Pera Williams",
-    "categoria": "Frutta",
-    "famiglia": "Pomacee",
-    "profilo": [
-      "dolce",
-      "fruttato",
-      "fresco"
-    ],
-    "pairing": {
-      "gorgonzola": 5,
-      "nocciola": 5,
-      "cioccolato": 4,
-      "vaniglia": 5,
-      "cannella": 4,
-      "caramello": 5,
-      "maiale": 4,
-      "vino": 4,
-      "zenzero": 3
-    },
-    "immagine": "https://images.pexels.com/photos/14050491/pexels-photo-14050491.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pera",
-    "tipologia": "",
-    "varieta": "Williams",
-    "stagionatura": null
-  },
   "pera_abate": {
     "nome": "Pera Abate Fetel",
     "categoria": "Frutta",
@@ -2115,58 +2057,6 @@
     "parent": "pesca",
     "tipologia": "",
     "varieta": "Gialla",
-    "stagionatura": null
-  },
-  "pesca_bianca": {
-    "nome": "Pesca bianca",
-    "categoria": "Frutta",
-    "famiglia": "Drupacee",
-    "profilo": [
-      "dolce",
-      "fruttato",
-      "floreale",
-      "acido"
-    ],
-    "pairing": {
-      "mandorla": 5,
-      "vaniglia": 5,
-      "basilico": 4,
-      "prosciutto": 5,
-      "miele": 5,
-      "limone": 4,
-      "zenzero": 4,
-      "moscato": 5
-    },
-    "immagine": "https://images.pexels.com/photos/17674101/pexels-photo-17674101.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesca",
-    "tipologia": "",
-    "varieta": "Bianca",
-    "stagionatura": null
-  },
-  "ciliegia_ferrovia": {
-    "nome": "Ciliegia Ferrovia",
-    "categoria": "Frutta",
-    "famiglia": "Drupacee",
-    "profilo": [
-      "dolce",
-      "acido",
-      "fruttato"
-    ],
-    "pairing": {
-      "cioccolato": 5,
-      "mandorla": 5,
-      "vaniglia": 4,
-      "cannella": 4,
-      "maiale": 4,
-      "anatra": 5,
-      "vino": 5
-    },
-    "immagine": "https://images.pexels.com/photos/966416/pexels-photo-966416.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "varieta_tipologia",
-    "parent": "ciliegia",
-    "tipologia": "",
-    "varieta": "Ferrovia",
     "stagionatura": null
   },
   "ciliegia_marasca": {
@@ -2304,35 +2194,6 @@
     "varieta": "San Marzano",
     "stagionatura": null
   },
-  "pomodoro_cuore": {
-    "nome": "Pomodoro Cuore di Bue",
-    "categoria": "Verdure",
-    "famiglia": "Solanacee",
-    "profilo": [
-      "acido",
-      "umami",
-      "fruttato",
-      "vegetale"
-    ],
-    "pairing": {
-      "basilico": 5,
-      "mozzarella": 5,
-      "aglio": 5,
-      "origano": 5,
-      "acciuga": 5,
-      "olio": 5,
-      "parmigiano": 4,
-      "peperoncino": 4,
-      "olive": 5,
-      "cappero": 5
-    },
-    "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pomodoro",
-    "tipologia": "",
-    "varieta": "Cuore di Bue",
-    "stagionatura": null
-  },
   "pomodoro_datterino": {
     "nome": "Pomodoro Datterino",
     "categoria": "Verdure",
@@ -2413,27 +2274,6 @@
     "varieta": "Carmagnola",
     "stagionatura": null
   },
-  "peperone_senise": {
-    "nome": "Peperone di Senise IGP",
-    "categoria": "Verdure",
-    "famiglia": "Solanacee",
-    "profilo": [
-      "dolce",
-      "vegetale",
-      "fruttato"
-    ],
-    "pairing": {
-      "olio": 5,
-      "aglio": 5,
-      "pomodoro": 5,
-      "aceto": 4
-    },
-    "tipo_record": "varieta_tipologia",
-    "parent": "peperone",
-    "tipologia": "",
-    "varieta": "Senise IGP",
-    "stagionatura": null
-  },
   "peperone_piquillo": {
     "nome": "Peperone Piquillo",
     "categoria": "Verdure",
@@ -2481,32 +2321,6 @@
     "varieta": "",
     "stagionatura": null
   },
-  "melanzana_lunga": {
-    "nome": "Melanzana Lunga",
-    "categoria": "Verdure",
-    "famiglia": "Solanacee",
-    "profilo": [
-      "terroso",
-      "vegetale",
-      "affumicato"
-    ],
-    "pairing": {
-      "pomodoro": 5,
-      "basilico": 5,
-      "aglio": 5,
-      "menta": 4,
-      "parmigiano": 4,
-      "ricotta": 5,
-      "olio": 5,
-      "peperoncino": 4
-    },
-    "immagine": "https://images.pexels.com/photos/5701950/pexels-photo-5701950.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "varieta_tipologia",
-    "parent": "melanzana",
-    "tipologia": "Lunga",
-    "varieta": "",
-    "stagionatura": null
-  },
   "zucchina_romanesca": {
     "nome": "Zucchina Romanesca",
     "categoria": "Verdure",
@@ -2530,31 +2344,6 @@
     "parent": "zucchina",
     "tipologia": "",
     "varieta": "Romanesca",
-    "stagionatura": null
-  },
-  "zucchina_trombetta": {
-    "nome": "Zucchina Trombetta",
-    "categoria": "Verdure",
-    "famiglia": "Cucurbitacee",
-    "profilo": [
-      "vegetale",
-      "fresco",
-      "delicato"
-    ],
-    "pairing": {
-      "menta": 5,
-      "basilico": 5,
-      "limone": 5,
-      "parmigiano": 4,
-      "ricotta": 4,
-      "aglio": 4,
-      "timo": 4
-    },
-    "immagine": "https://images.pexels.com/photos/3375263/pexels-photo-3375263.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "varieta_tipologia",
-    "parent": "zucchina",
-    "tipologia": "",
-    "varieta": "Trombetta",
     "stagionatura": null
   },
   "patata_kennebec": {
@@ -2609,32 +2398,6 @@
     "varieta": "Vitelotte",
     "stagionatura": null
   },
-  "patata_rossa": {
-    "nome": "Patata Rossa",
-    "categoria": "Tuberi",
-    "famiglia": "Tuberi",
-    "profilo": [
-      "terroso",
-      "amidaceo",
-      "neutro"
-    ],
-    "pairing": {
-      "rosmarino": 5,
-      "timo": 5,
-      "burro": 5,
-      "parmigiano": 5,
-      "aglio": 4,
-      "cipolla": 4,
-      "formaggio": 5,
-      "carne": 4
-    },
-    "immagine": "https://images.pexels.com/photos/144248/potatoes-vegetables-mashed-potatoes-potatoes-144248.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "varieta_tipologia",
-    "parent": "patata",
-    "tipologia": "Rossa",
-    "varieta": "",
-    "stagionatura": null
-  },
   "cipolla_tropea": {
     "nome": "Cipolla Rossa di Tropea IGP",
     "categoria": "Verdure",
@@ -2659,32 +2422,6 @@
     "parent": "cipolla",
     "tipologia": "",
     "varieta": "Tropea IGP",
-    "stagionatura": null
-  },
-  "cipolla_bianca": {
-    "nome": "Cipolla bianca",
-    "categoria": "Verdure",
-    "famiglia": "Allium",
-    "profilo": [
-      "piccante",
-      "dolce",
-      "solforato"
-    ],
-    "pairing": {
-      "carne": 5,
-      "pomodoro": 5,
-      "formaggio": 4,
-      "mela": 4,
-      "vino": 4,
-      "timo": 4,
-      "rosmarino": 4,
-      "aceto": 5
-    },
-    "immagine": "https://images.pexels.com/photos/130049/pexels-photo-130049.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "varieta_tipologia",
-    "parent": "cipolla",
-    "tipologia": "Bianca",
-    "varieta": "",
     "stagionatura": null
   },
   "zucca_mantovana": {
@@ -2731,28 +2468,6 @@
     "varieta": "Delica",
     "stagionatura": null
   },
-  "zucca_butternut": {
-    "nome": "Zucca Butternut",
-    "categoria": "Verdure",
-    "famiglia": "Cucurbitacee",
-    "profilo": [
-      "dolce",
-      "terroso",
-      "vegetale",
-      "cremoso"
-    ],
-    "pairing": {
-      "timo": 5,
-      "salvia": 5,
-      "parmigiano": 5,
-      "burro": 5
-    },
-    "tipo_record": "varieta_tipologia",
-    "parent": "zucca",
-    "tipologia": "",
-    "varieta": "Butternut",
-    "stagionatura": null
-  },
   "radicchio_tardivo": {
     "nome": "Radicchio Rosso di Treviso Tardivo IGP",
     "categoria": "Verdure",
@@ -2795,28 +2510,6 @@
     "parent": "radicchio",
     "tipologia": "",
     "varieta": "Castelfranco IGP",
-    "stagionatura": null
-  },
-  "radicchio_chioggia": {
-    "nome": "Radicchio di Chioggia IGP",
-    "categoria": "Verdure",
-    "famiglia": "Asteracee",
-    "profilo": [
-      "amaro",
-      "vegetale",
-      "fresco",
-      "tannico"
-    ],
-    "pairing": {
-      "parmigiano": 4,
-      "noci": 5,
-      "aceto": 5,
-      "mela": 4
-    },
-    "tipo_record": "varieta_tipologia",
-    "parent": "radicchio",
-    "tipologia": "",
-    "varieta": "Chioggia IGP",
     "stagionatura": null
   },
   "cavolo_verza": {
@@ -2990,50 +2683,6 @@
     "varieta": "Barbera",
     "stagionatura": null
   },
-  "uva_dolcetto": {
-    "nome": "Uva Dolcetto",
-    "categoria": "Frutta",
-    "famiglia": "Vitacee",
-    "profilo": [
-      "dolce",
-      "acido",
-      "fruttato",
-      "floreale"
-    ],
-    "pairing": {
-      "formaggio": 5,
-      "prosciutto": 5,
-      "parmigiano": 4,
-      "noci": 5
-    },
-    "tipo_record": "varieta_tipologia",
-    "parent": "uva",
-    "tipologia": "",
-    "varieta": "Dolcetto",
-    "stagionatura": null
-  },
-  "uva_nerodavola": {
-    "nome": "Uva Nero d'Avola",
-    "categoria": "Frutta",
-    "famiglia": "Vitacee",
-    "profilo": [
-      "dolce",
-      "acido",
-      "fruttato",
-      "floreale"
-    ],
-    "pairing": {
-      "formaggio": 5,
-      "prosciutto": 5,
-      "parmigiano": 4,
-      "noci": 5
-    },
-    "tipo_record": "varieta_tipologia",
-    "parent": "uva",
-    "tipologia": "",
-    "varieta": "Nero d'Avola",
-    "stagionatura": null
-  },
   "uva_sangiovese": {
     "nome": "Uva Sangiovese",
     "categoria": "Frutta",
@@ -3122,28 +2771,6 @@
     "varieta": "Nocellara del Belice",
     "stagionatura": null
   },
-  "oliva_gaeta": {
-    "nome": "Oliva Gaeta",
-    "categoria": "Condimenti",
-    "famiglia": "Olive da tavola",
-    "profilo": [
-      "sapido",
-      "amaro",
-      "fruttato",
-      "fermentato"
-    ],
-    "pairing": {
-      "pomodoro": 5,
-      "cappero": 5,
-      "aglio": 5,
-      "formaggio": 4
-    },
-    "tipo_record": "varieta_tipologia",
-    "parent": "olive",
-    "tipologia": "",
-    "varieta": "Gaeta",
-    "stagionatura": null
-  },
   "riso_carnaroli": {
     "nome": "Riso Carnaroli",
     "categoria": "Cereali",
@@ -3228,27 +2855,6 @@
     "varieta": "Cannellino",
     "stagionatura": null
   },
-  "cece_cicerale": {
-    "nome": "Cece di Cicerale",
-    "categoria": "Legumi",
-    "famiglia": "Leguminose",
-    "profilo": [
-      "terroso",
-      "nocciolato",
-      "amidaceo"
-    ],
-    "pairing": {
-      "rosmarino": 5,
-      "aglio": 5,
-      "limone": 5,
-      "olio": 5
-    },
-    "tipo_record": "varieta_tipologia",
-    "parent": "cece",
-    "tipologia": "",
-    "varieta": "Cicerale",
-    "stagionatura": null
-  },
   "caffe_espresso": {
     "nome": "Caffè espresso",
     "categoria": "Bevande",
@@ -3270,30 +2876,6 @@
     "tipo_record": "varieta_tipologia",
     "parent": "caffe",
     "tipologia": "Espresso",
-    "varieta": "",
-    "stagionatura": null
-  },
-  "caffe_filtro": {
-    "nome": "Caffè filtro",
-    "categoria": "Bevande",
-    "famiglia": "Tostati",
-    "profilo": [
-      "amaro",
-      "tostato",
-      "terroso"
-    ],
-    "pairing": {
-      "cioccolato": 5,
-      "nocciola": 5,
-      "vaniglia": 4,
-      "caramello": 5,
-      "arancia": 4,
-      "cannella": 4
-    },
-    "immagine": "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "varieta_tipologia",
-    "parent": "caffe",
-    "tipologia": "Filtro",
     "varieta": "",
     "stagionatura": null
   },
@@ -3349,33 +2931,6 @@
     "parent": "cioccolato",
     "tipologia": "Fondente",
     "varieta": "85%",
-    "stagionatura": null
-  },
-  "cioccolato_latte": {
-    "nome": "Cioccolato al latte",
-    "categoria": "Dolci",
-    "famiglia": "Cacao",
-    "profilo": [
-      "amaro",
-      "dolce",
-      "tostato"
-    ],
-    "pairing": {
-      "nocciola": 5,
-      "caffe": 5,
-      "arancia": 5,
-      "vaniglia": 4,
-      "sale": 4,
-      "lampone": 5,
-      "pera": 4,
-      "ciliegia": 5,
-      "menta": 4
-    },
-    "immagine": "https://images.pexels.com/photos/918327/pexels-photo-918327.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "varieta_tipologia",
-    "parent": "cioccolato",
-    "tipologia": "Al latte",
-    "varieta": "",
     "stagionatura": null
   },
   "nocciola_piemonte": {
@@ -3530,32 +3085,6 @@
     "tipologia": "Parmigiano Reggiano",
     "varieta": "",
     "stagionatura": "27–34 mesi"
-  },
-  "parmigiano_35_45": {
-    "nome": "Parmigiano Reggiano 35–45 mesi",
-    "categoria": "Formaggi",
-    "famiglia": "Formaggi stagionati",
-    "profilo": [
-      "sapido",
-      "umami",
-      "tostato",
-      "grasso"
-    ],
-    "pairing": {
-      "mela": 4,
-      "pera": 5,
-      "funghi": 5,
-      "patata": 5,
-      "pomodoro": 4,
-      "balsamico": 5,
-      "noci": 5
-    },
-    "immagine": "https://images.pexels.com/photos/236010/pexels-photo-236010.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "varieta_tipologia",
-    "parent": "parmigiano",
-    "tipologia": "Parmigiano Reggiano",
-    "varieta": "",
-    "stagionatura": "35–45 mesi"
   },
   "gorgonzola_dolce": {
     "nome": "Gorgonzola Dolce",
@@ -3740,28 +3269,6 @@
     "varieta": "Romano",
     "stagionatura": null
   },
-  "pecorino_toscano": {
-    "nome": "Pecorino Toscano DOP",
-    "categoria": "Formaggi",
-    "famiglia": "Generico",
-    "profilo": [
-      "lattico",
-      "grasso",
-      "sapido",
-      "umami"
-    ],
-    "pairing": {
-      "miele": 5,
-      "noci": 5,
-      "pera": 5,
-      "mela": 4
-    },
-    "tipo_record": "varieta_tipologia",
-    "parent": "formaggio",
-    "tipologia": "Pecorino",
-    "varieta": "Toscano",
-    "stagionatura": null
-  },
   "fiore_sardo": {
     "nome": "Fiore Sardo DOP",
     "categoria": "Formaggi",
@@ -3784,72 +3291,6 @@
     "varieta": "Fiore Sardo",
     "stagionatura": null
   },
-  "provolone": {
-    "nome": "Provolone Valpadana DOP",
-    "categoria": "Formaggi",
-    "famiglia": "Generico",
-    "profilo": [
-      "lattico",
-      "grasso",
-      "sapido",
-      "umami"
-    ],
-    "pairing": {
-      "miele": 5,
-      "noci": 5,
-      "pera": 5,
-      "mela": 4
-    },
-    "tipo_record": "varieta_tipologia",
-    "parent": "formaggio",
-    "tipologia": "Pasta filata",
-    "varieta": "Provolone",
-    "stagionatura": null
-  },
-  "caciocavallo": {
-    "nome": "Caciocavallo",
-    "categoria": "Formaggi",
-    "famiglia": "Generico",
-    "profilo": [
-      "lattico",
-      "grasso",
-      "sapido",
-      "umami"
-    ],
-    "pairing": {
-      "miele": 5,
-      "noci": 5,
-      "pera": 5,
-      "mela": 4
-    },
-    "tipo_record": "varieta_tipologia",
-    "parent": "formaggio",
-    "tipologia": "Pasta filata",
-    "varieta": "Caciocavallo",
-    "stagionatura": null
-  },
-  "burrata": {
-    "nome": "Burrata",
-    "categoria": "Formaggi",
-    "famiglia": "Generico",
-    "profilo": [
-      "lattico",
-      "grasso",
-      "sapido",
-      "umami"
-    ],
-    "pairing": {
-      "miele": 5,
-      "noci": 5,
-      "pera": 5,
-      "mela": 4
-    },
-    "tipo_record": "varieta_tipologia",
-    "parent": "formaggio",
-    "tipologia": "Pasta filata",
-    "varieta": "Burrata",
-    "stagionatura": null
-  },
   "fassona_piemonte": {
     "nome": "Manzo di Razza Piemontese",
     "categoria": "Carne",
@@ -3870,50 +3311,6 @@
     "parent": "carne",
     "tipologia": "Carne bovina",
     "varieta": "Piemontese",
-    "stagionatura": null
-  },
-  "chianina": {
-    "nome": "Manzo di Chianina",
-    "categoria": "Carne",
-    "famiglia": "Generico",
-    "profilo": [
-      "umami",
-      "sapido",
-      "grasso",
-      "tostato"
-    ],
-    "pairing": {
-      "rosmarino": 5,
-      "timo": 5,
-      "cipolla": 5,
-      "vino": 5
-    },
-    "tipo_record": "varieta_tipologia",
-    "parent": "carne",
-    "tipologia": "Carne bovina",
-    "varieta": "Chianina",
-    "stagionatura": null
-  },
-  "scottona": {
-    "nome": "Scottona",
-    "categoria": "Carne",
-    "famiglia": "Generico",
-    "profilo": [
-      "umami",
-      "sapido",
-      "grasso",
-      "tostato"
-    ],
-    "pairing": {
-      "rosmarino": 5,
-      "timo": 5,
-      "cipolla": 5,
-      "vino": 5
-    },
-    "tipo_record": "varieta_tipologia",
-    "parent": "carne",
-    "tipologia": "Carne bovina",
-    "varieta": "",
     "stagionatura": null
   },
   "agnello_sardo": {
@@ -4419,100 +3816,6 @@
     "tipologia": "",
     "stagionatura": null
   },
-  "formaggio_bra_tenero": {
-    "nome": "Bra Tenero DOP",
-    "categoria": "Formaggi",
-    "famiglia": "Formaggi piemontesi",
-    "profilo": [
-      "lattico",
-      "grasso",
-      "sapido",
-      "umami"
-    ],
-    "pairing": {
-      "miele": 5,
-      "noci": 5,
-      "pera": 5,
-      "mela": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "formaggio",
-    "varieta": "Bra Tenero DOP",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "formaggio_murazzano": {
-    "nome": "Murazzano DOP",
-    "categoria": "Formaggi",
-    "famiglia": "Formaggi piemontesi",
-    "profilo": [
-      "lattico",
-      "grasso",
-      "sapido",
-      "umami"
-    ],
-    "pairing": {
-      "miele": 5,
-      "noci": 5,
-      "pera": 5,
-      "mela": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "formaggio",
-    "varieta": "Murazzano DOP",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "formaggio_roquefort": {
-    "nome": "Roquefort",
-    "categoria": "Formaggi",
-    "famiglia": "Erborinati",
-    "profilo": [
-      "lattico",
-      "grasso",
-      "sapido",
-      "umami"
-    ],
-    "pairing": {
-      "miele": 5,
-      "noci": 5,
-      "pera": 5,
-      "mela": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "formaggio",
-    "varieta": "Roquefort",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "aglio_voghiera": {
-    "nome": "Aglio di Voghiera DOP",
-    "categoria": "Verdure",
-    "famiglia": "Allium",
-    "profilo": [
-      "piccante",
-      "solforato",
-      "intenso"
-    ],
-    "pairing": {
-      "pomodoro": 5,
-      "patata": 5,
-      "basilico": 4,
-      "rosmarino": 5,
-      "limone": 4,
-      "prezzemolo": 5,
-      "olio": 5
-    },
-    "immagine": "https://images.pexels.com/photos/4197448/pexels-photo-4197448.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "varieta_tipologia",
-    "parent": "aglio",
-    "varieta": "Aglio di Voghiera DOP",
-    "tipologia": "",
-    "stagionatura": null
-  },
   "asparago": {
     "nome": "Asparago",
     "categoria": "Verdure",
@@ -4667,51 +3970,6 @@
     "tipologia": "",
     "stagionatura": null
   },
-  "cavolo_bruxelles": {
-    "nome": "Cavoletti di Bruxelles",
-    "categoria": "Verdure",
-    "famiglia": "Brassicacee",
-    "profilo": [
-      "vegetale",
-      "solforato",
-      "terroso"
-    ],
-    "pairing": {
-      "senape": 5,
-      "aceto": 5,
-      "mela": 4,
-      "maiale": 5
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "cavolo",
-    "varieta": "Bruxelles",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "prugna_susina": {
-    "nome": "Susina",
-    "categoria": "Frutta",
-    "famiglia": "Drupacee",
-    "profilo": [
-      "dolce",
-      "acido",
-      "fruttato",
-      "tannico"
-    ],
-    "pairing": {
-      "maiale": 5,
-      "anatra": 5,
-      "cannella": 4,
-      "cioccolato": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "prugna",
-    "varieta": "Susina",
-    "tipologia": "",
-    "stagionatura": null
-  },
   "pesca_perco": {
     "nome": "Pesca percoca",
     "categoria": "Frutta",
@@ -4736,50 +3994,6 @@
     "tipo_record": "varieta_tipologia",
     "parent": "pesca",
     "varieta": "Percoca",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "fico_dottato": {
-    "nome": "Fico Dottato",
-    "categoria": "Frutta",
-    "famiglia": "Fichi",
-    "profilo": [
-      "dolce",
-      "mielato",
-      "fruttato"
-    ],
-    "pairing": {
-      "prosciutto": 5,
-      "parmigiano": 5,
-      "noci": 5,
-      "gorgonzola": 5
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "fico",
-    "varieta": "Dottato",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "fico_bianco": {
-    "nome": "Fico Bianco del Cilento DOP",
-    "categoria": "Frutta",
-    "famiglia": "Fichi",
-    "profilo": [
-      "dolce",
-      "mielato",
-      "fruttato"
-    ],
-    "pairing": {
-      "prosciutto": 5,
-      "parmigiano": 5,
-      "noci": 5,
-      "gorgonzola": 5
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "fico",
-    "varieta": "Bianco del Cilento DOP",
     "tipologia": "",
     "stagionatura": null
   },
@@ -4837,33 +4051,6 @@
     "tipologia": "generico",
     "stagionatura": null
   },
-  "mandarino_tardivo": {
-    "nome": "Mandarino Tardivo di Ciaculli",
-    "categoria": "Agrumi",
-    "famiglia": "Agrumi",
-    "profilo": [
-      "dolce",
-      "acido",
-      "agrumato",
-      "fresco"
-    ],
-    "pairing": {
-      "cioccolato": 5,
-      "anatra": 5,
-      "cannella": 5,
-      "zenzero": 5,
-      "vaniglia": 4,
-      "finocchio": 4,
-      "maiale": 4,
-      "miele": 5
-    },
-    "immagine": "https://images.pexels.com/photos/161559/background-orange-fruit-orange-161559.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "base",
-    "parent": null,
-    "varieta": "",
-    "tipologia": "generico",
-    "stagionatura": null
-  },
   "bergamotto": {
     "nome": "Bergamotto",
     "categoria": "Agrumi",
@@ -4885,33 +4072,6 @@
       "burro": 4
     },
     "immagine": "https://images.pexels.com/photos/1414110/pexels-photo-1414110.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "base",
-    "parent": null,
-    "varieta": "",
-    "tipologia": "generico",
-    "stagionatura": null
-  },
-  "pompelmo": {
-    "nome": "Pompelmo",
-    "categoria": "Agrumi",
-    "famiglia": "Agrumi",
-    "profilo": [
-      "dolce",
-      "acido",
-      "agrumato",
-      "fresco"
-    ],
-    "pairing": {
-      "cioccolato": 5,
-      "anatra": 5,
-      "cannella": 5,
-      "zenzero": 5,
-      "vaniglia": 4,
-      "finocchio": 4,
-      "maiale": 4,
-      "miele": 5
-    },
-    "immagine": "https://images.pexels.com/photos/161559/background-orange-fruit-orange-161559.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
     "parent": null,
     "varieta": "",
@@ -4987,51 +4147,6 @@
     "tipo_record": "varieta_tipologia",
     "parent": "uva",
     "varieta": "Chardonnay",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "uva_pinot": {
-    "nome": "Uva Pinot Nero",
-    "categoria": "Frutta",
-    "famiglia": "Vitacee",
-    "profilo": [
-      "dolce",
-      "acido",
-      "fruttato",
-      "floreale"
-    ],
-    "pairing": {
-      "formaggio": 5,
-      "prosciutto": 5,
-      "parmigiano": 4,
-      "noci": 5
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "uva",
-    "varieta": "Pinot Nero",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "riso_venere": {
-    "nome": "Riso Venere",
-    "categoria": "Cereali",
-    "famiglia": "Poacee",
-    "profilo": [
-      "amidaceo",
-      "neutro",
-      "tostato"
-    ],
-    "pairing": {
-      "funghi": 5,
-      "parmigiano": 5,
-      "zafferano": 5,
-      "burro": 5
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "riso",
-    "varieta": "Venere",
     "tipologia": "",
     "stagionatura": null
   },
@@ -5123,28 +4238,6 @@
     "tipologia": "",
     "stagionatura": null
   },
-  "fagiolo_lamone": {
-    "nome": "Fagiolo di Lamon IGP",
-    "categoria": "Legumi",
-    "famiglia": "Leguminose",
-    "profilo": [
-      "terroso",
-      "amidaceo",
-      "vegetale"
-    ],
-    "pairing": {
-      "pomodoro": 5,
-      "cipolla": 5,
-      "rosmarino": 4,
-      "olio": 5
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "fagiolo",
-    "varieta": "Lamon IGP",
-    "tipologia": "",
-    "stagionatura": null
-  },
   "castagna": {
     "nome": "Castagna",
     "categoria": "Frutta secca",
@@ -5214,29 +4307,6 @@
       "cannella": 4
     },
     "immagine": "https://images.pexels.com/photos/372882/pexels-photo-372882.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "base",
-    "parent": null,
-    "varieta": "",
-    "tipologia": "generico",
-    "stagionatura": null
-  },
-  "noce_pecan": {
-    "nome": "Noce pecan",
-    "categoria": "Frutta secca",
-    "famiglia": "Frutta secca",
-    "profilo": [
-      "grasso",
-      "tostato",
-      "terroso",
-      "amaro"
-    ],
-    "pairing": {
-      "gorgonzola": 5,
-      "parmigiano": 5,
-      "miele": 5,
-      "pera": 5
-    },
-    "immagine": "",
     "tipo_record": "base",
     "parent": null,
     "varieta": "",
