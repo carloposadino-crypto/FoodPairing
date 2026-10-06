@@ -3,7 +3,12 @@
     "nome": "Mela",
     "categoria": "Frutta",
     "famiglia": "Pomacee",
-    "profilo": ["dolce", "acido", "fruttato", "fresco"],
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "fresco"
+    ],
     "pairing": {
       "maiale": 5,
       "timo": 4,
@@ -17,14 +22,18 @@
       "rosmarino": 3,
       "senape": 4,
       "aceto": 5
-    }
+    },
+    "immagine": "images/mela.jpg"
   },
-
   "pera": {
     "nome": "Pera",
     "categoria": "Frutta",
     "famiglia": "Pomacee",
-    "profilo": ["dolce", "fruttato", "fresco"],
+    "profilo": [
+      "dolce",
+      "fruttato",
+      "fresco"
+    ],
     "pairing": {
       "gorgonzola": 5,
       "nocciola": 5,
@@ -35,14 +44,19 @@
       "maiale": 4,
       "vino": 4,
       "zenzero": 3
-    }
+    },
+    "immagine": "images/pera.jpg"
   },
-
   "pesca": {
     "nome": "Pesca",
     "categoria": "Frutta",
     "famiglia": "Drupacee",
-    "profilo": ["dolce", "fruttato", "floreale", "acido"],
+    "profilo": [
+      "dolce",
+      "fruttato",
+      "floreale",
+      "acido"
+    ],
     "pairing": {
       "mandorla": 5,
       "vaniglia": 5,
@@ -52,14 +66,18 @@
       "limone": 4,
       "zenzero": 4,
       "moscato": 5
-    }
+    },
+    "immagine": "images/pesca.jpg"
   },
-
   "albicocca": {
     "nome": "Albicocca",
     "categoria": "Frutta",
     "famiglia": "Drupacee",
-    "profilo": ["dolce", "acido", "fruttato"],
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato"
+    ],
     "pairing": {
       "mandorla": 5,
       "pistacchio": 5,
@@ -68,14 +86,18 @@
       "miele": 5,
       "maiale": 4,
       "cannella": 4
-    }
+    },
+    "immagine": "images/albicocca.jpg"
   },
-
   "ciliegia": {
     "nome": "Ciliegia",
     "categoria": "Frutta",
     "famiglia": "Drupacee",
-    "profilo": ["dolce", "acido", "fruttato"],
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato"
+    ],
     "pairing": {
       "cioccolato": 5,
       "mandorla": 5,
@@ -84,14 +106,18 @@
       "maiale": 4,
       "anatra": 5,
       "vino": 5
-    }
+    },
+    "immagine": "images/ciliegia.jpg"
   },
-
   "limone": {
     "nome": "Limone",
     "categoria": "Agrumi",
     "famiglia": "Agrumi",
-    "profilo": ["acido", "fresco", "agrumato"],
+    "profilo": [
+      "acido",
+      "fresco",
+      "agrumato"
+    ],
     "pairing": {
       "pesce": 5,
       "pollo": 5,
@@ -102,14 +128,19 @@
       "prezzemolo": 5,
       "zenzero": 4,
       "burro": 4
-    }
+    },
+    "immagine": "images/limone.jpg"
   },
-
   "arancia": {
     "nome": "Arancia",
     "categoria": "Agrumi",
     "famiglia": "Agrumi",
-    "profilo": ["dolce", "acido", "agrumato", "fresco"],
+    "profilo": [
+      "dolce",
+      "acido",
+      "agrumato",
+      "fresco"
+    ],
     "pairing": {
       "cioccolato": 5,
       "anatra": 5,
@@ -119,14 +150,19 @@
       "finocchio": 4,
       "maiale": 4,
       "miele": 5
-    }
+    },
+    "immagine": "images/arancia.jpg"
   },
-
   "pomodoro": {
     "nome": "Pomodoro",
     "categoria": "Verdure",
     "famiglia": "Solanacee",
-    "profilo": ["acido", "umami", "fruttato", "vegetale"],
+    "profilo": [
+      "acido",
+      "umami",
+      "fruttato",
+      "vegetale"
+    ],
     "pairing": {
       "basilico": 5,
       "mozzarella": 5,
@@ -138,14 +174,18 @@
       "peperoncino": 4,
       "olive": 5,
       "cappero": 5
-    }
+    },
+    "immagine": "images/pomodoro.jpg"
   },
-
   "melanzana": {
     "nome": "Melanzana",
     "categoria": "Verdure",
     "famiglia": "Solanacee",
-    "profilo": ["terroso", "vegetale", "affumicato"],
+    "profilo": [
+      "terroso",
+      "vegetale",
+      "affumicato"
+    ],
     "pairing": {
       "pomodoro": 5,
       "basilico": 5,
@@ -155,14 +195,18 @@
       "ricotta": 5,
       "olio": 5,
       "peperoncino": 4
-    }
+    },
+    "immagine": "images/melanzana.jpg"
   },
-
   "zucchina": {
     "nome": "Zucchina",
     "categoria": "Verdure",
     "famiglia": "Cucurbitacee",
-    "profilo": ["vegetale", "fresco", "delicato"],
+    "profilo": [
+      "vegetale",
+      "fresco",
+      "delicato"
+    ],
     "pairing": {
       "menta": 5,
       "basilico": 5,
@@ -171,14 +215,18 @@
       "ricotta": 4,
       "aglio": 4,
       "timo": 4
-    }
+    },
+    "immagine": "images/zucchina.jpg"
   },
-
   "carota": {
     "nome": "Carota",
     "categoria": "Verdure",
     "famiglia": "Radici",
-    "profilo": ["dolce", "terroso", "vegetale"],
+    "profilo": [
+      "dolce",
+      "terroso",
+      "vegetale"
+    ],
     "pairing": {
       "zenzero": 5,
       "cumino": 4,
@@ -187,14 +235,19 @@
       "miele": 5,
       "burro": 4,
       "coriandolo": 4
-    }
+    },
+    "immagine": "images/carota.jpg"
   },
-
   "sedano": {
     "nome": "Sedano",
     "categoria": "Verdure",
     "famiglia": "Apiacee",
-    "profilo": ["vegetale", "fresco", "erbaceo", "sapido"],
+    "profilo": [
+      "vegetale",
+      "fresco",
+      "erbaceo",
+      "sapido"
+    ],
     "pairing": {
       "mela": 4,
       "limone": 4,
@@ -204,14 +257,18 @@
       "manzo": 4,
       "noci": 4,
       "parmigiano": 4
-    }
+    },
+    "immagine": "images/sedano.jpg"
   },
-
   "patata": {
     "nome": "Patata",
     "categoria": "Tuberi",
     "famiglia": "Tuberi",
-    "profilo": ["terroso", "amidaceo", "neutro"],
+    "profilo": [
+      "terroso",
+      "amidaceo",
+      "neutro"
+    ],
     "pairing": {
       "rosmarino": 5,
       "timo": 5,
@@ -221,14 +278,18 @@
       "cipolla": 4,
       "formaggio": 5,
       "carne": 4
-    }
+    },
+    "immagine": "images/patata.jpg"
   },
-
   "cipolla": {
     "nome": "Cipolla",
     "categoria": "Verdure",
     "famiglia": "Allium",
-    "profilo": ["piccante", "dolce", "solforato"],
+    "profilo": [
+      "piccante",
+      "dolce",
+      "solforato"
+    ],
     "pairing": {
       "carne": 5,
       "pomodoro": 5,
@@ -238,14 +299,18 @@
       "timo": 4,
       "rosmarino": 4,
       "aceto": 5
-    }
+    },
+    "immagine": "images/cipolla.jpg"
   },
-
   "aglio": {
     "nome": "Aglio",
     "categoria": "Verdure",
     "famiglia": "Allium",
-    "profilo": ["piccante", "solforato", "intenso"],
+    "profilo": [
+      "piccante",
+      "solforato",
+      "intenso"
+    ],
     "pairing": {
       "pomodoro": 5,
       "patata": 5,
@@ -254,14 +319,19 @@
       "limone": 4,
       "prezzemolo": 5,
       "olio": 5
-    }
+    },
+    "immagine": "images/aglio.jpg"
   },
-
   "manzo": {
     "nome": "Manzo",
     "categoria": "Carne",
     "famiglia": "Carni rosse",
-    "profilo": ["umami", "grasso", "tostato", "sapido"],
+    "profilo": [
+      "umami",
+      "grasso",
+      "tostato",
+      "sapido"
+    ],
     "pairing": {
       "tartufo": 5,
       "funghi": 5,
@@ -272,14 +342,19 @@
       "aglio": 4,
       "cipolla": 4,
       "sedano": 4
-    }
+    },
+    "immagine": "images/manzo.jpg"
   },
-
   "maiale": {
     "nome": "Maiale",
     "categoria": "Carne",
     "famiglia": "Carni suine",
-    "profilo": ["grasso", "sapido", "dolce", "umami"],
+    "profilo": [
+      "grasso",
+      "sapido",
+      "dolce",
+      "umami"
+    ],
     "pairing": {
       "mela": 5,
       "senape": 5,
@@ -290,14 +365,18 @@
       "miele": 5,
       "prugna": 5,
       "pesca": 4
-    }
+    },
+    "immagine": "images/maiale.jpg"
   },
-
   "pollo": {
     "nome": "Pollo",
     "categoria": "Carne",
     "famiglia": "Carni bianche",
-    "profilo": ["delicato", "umami", "grasso"],
+    "profilo": [
+      "delicato",
+      "umami",
+      "grasso"
+    ],
     "pairing": {
       "limone": 5,
       "rosmarino": 5,
@@ -307,14 +386,18 @@
       "burro": 4,
       "funghi": 4,
       "salvia": 5
-    }
+    },
+    "immagine": "images/pollo.jpg"
   },
-
   "anatra": {
     "nome": "Anatra",
     "categoria": "Carne",
     "famiglia": "Volatili",
-    "profilo": ["grasso", "intenso", "umami"],
+    "profilo": [
+      "grasso",
+      "intenso",
+      "umami"
+    ],
     "pairing": {
       "arancia": 5,
       "ciliegia": 5,
@@ -323,14 +406,18 @@
       "miele": 4,
       "vino": 5,
       "prugna": 5
-    }
+    },
+    "immagine": "images/anatra.jpg"
   },
-
   "cioccolato": {
     "nome": "Cioccolato",
     "categoria": "Dolci",
     "famiglia": "Cacao",
-    "profilo": ["amaro", "dolce", "tostato"],
+    "profilo": [
+      "amaro",
+      "dolce",
+      "tostato"
+    ],
     "pairing": {
       "nocciola": 5,
       "caffe": 5,
@@ -341,14 +428,18 @@
       "pera": 4,
       "ciliegia": 5,
       "menta": 4
-    }
+    },
+    "immagine": "images/cioccolato.jpg"
   },
-
   "nocciola": {
     "nome": "Nocciola",
     "categoria": "Frutta secca",
     "famiglia": "Frutta secca",
-    "profilo": ["tostato", "grasso", "dolce"],
+    "profilo": [
+      "tostato",
+      "grasso",
+      "dolce"
+    ],
     "pairing": {
       "cioccolato": 5,
       "caffe": 5,
@@ -357,14 +448,18 @@
       "vaniglia": 4,
       "mela": 4,
       "cannella": 4
-    }
+    },
+    "immagine": "images/nocciola.jpg"
   },
-
   "mandorla": {
     "nome": "Mandorla",
     "categoria": "Frutta secca",
     "famiglia": "Frutta secca",
-    "profilo": ["tostato", "grasso", "dolce"],
+    "profilo": [
+      "tostato",
+      "grasso",
+      "dolce"
+    ],
     "pairing": {
       "albicocca": 5,
       "pesca": 5,
@@ -373,14 +468,19 @@
       "vaniglia": 5,
       "limone": 4,
       "miele": 4
-    }
+    },
+    "immagine": "images/mandorla.jpg"
   },
-
   "pistacchio": {
     "nome": "Pistacchio",
     "categoria": "Frutta secca",
     "famiglia": "Frutta secca",
-    "profilo": ["grasso", "tostato", "dolce", "vegetale"],
+    "profilo": [
+      "grasso",
+      "tostato",
+      "dolce",
+      "vegetale"
+    ],
     "pairing": {
       "cioccolato": 5,
       "lampone": 5,
@@ -388,14 +488,18 @@
       "limone": 4,
       "miele": 4,
       "vaniglia": 5
-    }
+    },
+    "immagine": "images/pistacchio.jpg"
   },
-
   "basilico": {
     "nome": "Basilico",
     "categoria": "Erbe",
     "famiglia": "Erbe aromatiche",
-    "profilo": ["erbaceo", "fresco", "dolce"],
+    "profilo": [
+      "erbaceo",
+      "fresco",
+      "dolce"
+    ],
     "pairing": {
       "pomodoro": 5,
       "limone": 5,
@@ -404,14 +508,18 @@
       "olio": 5,
       "zucchina": 5,
       "melanzana": 5
-    }
+    },
+    "immagine": "images/basilico.jpg"
   },
-
   "rosmarino": {
     "nome": "Rosmarino",
     "categoria": "Erbe",
     "famiglia": "Erbe aromatiche",
-    "profilo": ["resinoso", "erbaceo", "balsamico"],
+    "profilo": [
+      "resinoso",
+      "erbaceo",
+      "balsamico"
+    ],
     "pairing": {
       "patata": 5,
       "pollo": 5,
@@ -420,14 +528,18 @@
       "aglio": 5,
       "limone": 4,
       "focaccia": 5
-    }
+    },
+    "immagine": "images/rosmarino.jpg"
   },
-
   "timo": {
     "nome": "Timo",
     "categoria": "Erbe",
     "famiglia": "Erbe aromatiche",
-    "profilo": ["erbaceo", "terroso", "balsamico"],
+    "profilo": [
+      "erbaceo",
+      "terroso",
+      "balsamico"
+    ],
     "pairing": {
       "patata": 5,
       "pollo": 5,
@@ -436,14 +548,18 @@
       "funghi": 5,
       "limone": 4,
       "carota": 4
-    }
+    },
+    "immagine": "images/timo.jpg"
   },
-
   "menta": {
     "nome": "Menta",
     "categoria": "Erbe",
     "famiglia": "Erbe aromatiche",
-    "profilo": ["fresco", "balsamico", "erbaceo"],
+    "profilo": [
+      "fresco",
+      "balsamico",
+      "erbaceo"
+    ],
     "pairing": {
       "zucchina": 5,
       "cioccolato": 4,
@@ -451,14 +567,18 @@
       "pisello": 5,
       "melanzana": 4,
       "fragola": 5
-    }
+    },
+    "immagine": "images/menta.jpg"
   },
-
   "zenzero": {
     "nome": "Zenzero",
     "categoria": "Spezie",
     "famiglia": "Rizomi",
-    "profilo": ["piccante", "fresco", "agrumato"],
+    "profilo": [
+      "piccante",
+      "fresco",
+      "agrumato"
+    ],
     "pairing": {
       "mela": 4,
       "carota": 5,
@@ -467,14 +587,19 @@
       "pera": 4,
       "maiale": 4,
       "anatra": 4
-    }
+    },
+    "immagine": "images/zenzero.jpg"
   },
-
   "cannella": {
     "nome": "Cannella",
     "categoria": "Spezie",
     "famiglia": "Spezie dolci",
-    "profilo": ["dolce", "caldo", "speziato", "legnoso"],
+    "profilo": [
+      "dolce",
+      "caldo",
+      "speziato",
+      "legnoso"
+    ],
     "pairing": {
       "mela": 5,
       "pera": 4,
@@ -483,14 +608,18 @@
       "ciliegia": 4,
       "carota": 4,
       "miele": 5
-    }
+    },
+    "immagine": "images/cannella.jpg"
   },
-
   "miele": {
     "nome": "Miele",
     "categoria": "Dolcificanti",
     "famiglia": "Miele",
-    "profilo": ["dolce", "floreale", "aromatico"],
+    "profilo": [
+      "dolce",
+      "floreale",
+      "aromatico"
+    ],
     "pairing": {
       "mela": 5,
       "maiale": 5,
@@ -499,14 +628,18 @@
       "carota": 5,
       "noci": 5,
       "formaggio": 5
-    }
+    },
+    "immagine": "images/miele.jpg"
   },
-
   "senape": {
     "nome": "Senape",
     "categoria": "Condimenti",
     "famiglia": "Salse",
-    "profilo": ["piccante", "acido", "sapido"],
+    "profilo": [
+      "piccante",
+      "acido",
+      "sapido"
+    ],
     "pairing": {
       "maiale": 5,
       "manzo": 4,
@@ -514,14 +647,18 @@
       "mela": 4,
       "miele": 5,
       "patata": 4
-    }
+    },
+    "immagine": "images/senape.jpg"
   },
-
   "funghi": {
     "nome": "Funghi",
     "categoria": "Funghi",
     "famiglia": "Funghi",
-    "profilo": ["umami", "terroso", "boscoso"],
+    "profilo": [
+      "umami",
+      "terroso",
+      "boscoso"
+    ],
     "pairing": {
       "manzo": 5,
       "timo": 5,
@@ -530,14 +667,19 @@
       "parmigiano": 5,
       "burro": 5,
       "patata": 5
-    }
+    },
+    "immagine": "images/funghi.jpg"
   },
-
   "parmigiano": {
     "nome": "Parmigiano",
     "categoria": "Formaggi",
     "famiglia": "Formaggi stagionati",
-    "profilo": ["sapido", "umami", "tostato", "grasso"],
+    "profilo": [
+      "sapido",
+      "umami",
+      "tostato",
+      "grasso"
+    ],
     "pairing": {
       "mela": 4,
       "pera": 5,
@@ -546,14 +688,19 @@
       "pomodoro": 4,
       "balsamico": 5,
       "noci": 5
-    }
+    },
+    "immagine": "images/parmigiano.jpg"
   },
-
   "gorgonzola": {
     "nome": "Gorgonzola",
     "categoria": "Formaggi",
     "famiglia": "Erborinati",
-    "profilo": ["sapido", "grasso", "intenso", "piccante"],
+    "profilo": [
+      "sapido",
+      "grasso",
+      "intenso",
+      "piccante"
+    ],
     "pairing": {
       "pera": 5,
       "mela": 4,
@@ -561,14 +708,18 @@
       "miele": 5,
       "sedano": 4,
       "vino": 5
-    }
+    },
+    "immagine": "images/gorgonzola.jpg"
   },
-
   "caffe": {
     "nome": "Caffè",
     "categoria": "Bevande",
     "famiglia": "Tostati",
-    "profilo": ["amaro", "tostato", "terroso"],
+    "profilo": [
+      "amaro",
+      "tostato",
+      "terroso"
+    ],
     "pairing": {
       "cioccolato": 5,
       "nocciola": 5,
@@ -576,14 +727,18 @@
       "caramello": 5,
       "arancia": 4,
       "cannella": 4
-    }
+    },
+    "immagine": "images/caffe.jpg"
   },
-
   "olio": {
     "nome": "Olio extravergine di oliva",
     "categoria": "Condimenti",
     "famiglia": "Grassi vegetali",
-    "profilo": ["fruttato", "grasso", "erbaceo"],
+    "profilo": [
+      "fruttato",
+      "grasso",
+      "erbaceo"
+    ],
     "pairing": {
       "pomodoro": 5,
       "basilico": 5,
@@ -591,14 +746,18 @@
       "aglio": 5,
       "pesce": 5,
       "verdure": 5
-    }
+    },
+    "immagine": "images/olio.jpg"
   },
-
   "aceto": {
     "nome": "Aceto",
     "categoria": "Condimenti",
     "famiglia": "Aceti",
-    "profilo": ["acido", "fruttato", "sapido"],
+    "profilo": [
+      "acido",
+      "fruttato",
+      "sapido"
+    ],
     "pairing": {
       "mela": 5,
       "cipolla": 5,
@@ -606,9 +765,9 @@
       "maiale": 4,
       "verdure": 5,
       "olio": 5
-    }
+    },
+    "immagine": "images/aceto.jpg"
   },
-
   "_pairing_types": {
     "affinita": {
       "nome": "Affinità",
