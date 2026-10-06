@@ -856,7 +856,7 @@ function importFlavonomics(file){
  };
  r.readAsText(file);
 }
-function getFlavoProxy(){return String(localStorage.getItem("foodpairing_flavo_proxy")||"").trim().replace(/\\/$/,"")}
+function getFlavoProxy(){return String(localStorage.getItem("foodpairing_flavo_proxy")||"").trim().replace(/\/$/,"")}
 function saveFlavoProxy(){
  const v=$("flavoProxy").value.trim().replace(/\\/$/,"");
  if(v){localStorage.setItem("foodpairing_flavo_proxy",v);$("esitoImport").textContent="Endpoint Flavonomics salvato solo su questo dispositivo."}
