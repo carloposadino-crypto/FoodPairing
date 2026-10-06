@@ -528,42 +528,53 @@ function compareCombinations(a,b){return b.min-a.min||b.avg-a.avg||b.profile-a.p
 function label(min,avg){if(min>=4&&avg>=4.5)return"Abbinamento molto forte";if(min>=4&&avg>=4)return"Abbinamento forte";if(min>=3&&avg>=3.5)return"Buon abbinamento";return"Da valutare"}
 async function load(){
   const status=$("status");
-  try{
-    status.textContent="Caricamento database...";
-    const r=await fetch("./database.json?v="+Date.now(),{cache:"no-store"});
-    if(!r.ok)throw new Error("HTTP "+r.status);
-    const raw=await r.json();
-    if(!raw||typeof raw!=="object"||Array.isArray(raw))throw new Error("Formato database non valido");
-    pairingTypes=raw._pairing_types||null;
-    const data={...raw};
-    delete data._pairing_types;
-    delete data._metadata;
-    const keys=Object.keys(data);
-    if(!keys.length)throw new Error("Database vuoto");
-    for(const k of keys){
-      if(!data[k]||typeof data[k]!=="object"||typeof data[k].nome!=="string"||typeof data[k].pairing!=="object"){
-        throw new Error("Record non valido: "+k);
+  const sources=[
+    "./database.json?v="+Date.now(),
+    "database.json?v="+Date.now()
+  ];
+  let lastError=null;
+  for(const url of sources){
+    try{
+      status.textContent="Caricamento database...";
+      const r=await fetch(url,{cache:"no-store"});
+      if(!r.ok)throw new Error("HTTP "+r.status);
+      const raw=await r.json();
+      if(!raw||typeof raw!=="object"||Array.isArray(raw))throw new Error("Formato database non valido");
+      pairingTypes=raw._pairing_types||null;
+      const data={...raw};
+      delete data._pairing_types;
+      delete data._metadata;
+      const keys=Object.keys(data);
+      if(!keys.length)throw new Error("Database vuoto");
+      for(const k of keys){
+        if(!data[k]||typeof data[k]!=="object"||typeof data[k].nome!=="string"||!data[k].pairing||typeof data[k].pairing!=="object"){
+          throw new Error("Record non valido: "+k);
+        }
       }
+      db=data;
+      const cat=$("categoria");
+      cat.innerHTML='<option value="">Tutte</option>';
+      [...new Set(Object.values(db).map(x=>x?.categoria).filter(Boolean))]
+        .sort((a,b)=>a.localeCompare(b,"it"))
+        .forEach(x=>{
+          const o=document.createElement("option");
+          o.value=x;o.textContent=x;cat.appendChild(o);
+        });
+      pairScoreCache.clear();
+      approvedReviewMapCache=null;
+      status.textContent="Database caricato: "+keys.length+" ingredienti";
+      return true;
+    }catch(e){
+      lastError=e;
+      console.warn("FoodPairing database source failed",url,e);
     }
-    db=data;
-    const cat=$("categoria");
-    cat.innerHTML='<option value="">Tutte</option>';
-    [...new Set(Object.values(db).map(x=>x?.categoria).filter(Boolean))]
-      .sort((a,b)=>a.localeCompare(b,"it"))
-      .forEach(x=>{
-        const o=document.createElement("option");
-        o.value=x;o.textContent=x;cat.appendChild(o);
-      });
-    pairScoreCache.clear();
-    approvedReviewMapCache=null;
-    status.textContent="Database caricato: "+keys.length+" ingredienti";
-    return true;
-  }catch(e){
-    console.error("FoodPairing database error:",e);
-    db={}; pairingTypes=null;
-    status.textContent="ERRORE database: "+(e.message||"caricamento fallito");
-    return false;
   }
+  db={};
+  pairingTypes=null;
+  const reason=lastError?.message||"caricamento fallito";
+  console.error("FoodPairing database error:",reason);
+  status.textContent="ERRORE database: "+reason;
+  return false;
 }
 function autocomplete(inputId,boxId){const inp=$(inputId),box=$(boxId);inp.addEventListener("input",()=>{const q=norm(inp.value);box.innerHTML="";if(!q){box.style.display="none";return}const arr=Object.keys(db).map(k=>({k,n:nome(k),d:db[k]})).filter(x=>norm(x.n).includes(q)||norm(x.k).includes(q)).sort((a,b)=>a.n.localeCompare(b.n,"it")).slice(0,15);for(const x of arr){const d=document.createElement("div");d.innerHTML='<div class="suggest-visual">'+(x.d?.immagine?'<img src="'+esc(x.d.immagine)+'" alt="" loading="lazy">':'<span class="ingredient-emoji">'+(ingredientEmoji[x.k]||"✦")+'</span>')+'</div><div><b>'+esc(x.n)+'</b><br><small>'+esc(Array.isArray(x.d?.profilo)?x.d.profilo.join(", "):"")+'</small></div>';d.onclick=e=>{
   e.stopPropagation();
