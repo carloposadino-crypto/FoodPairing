@@ -140,6 +140,30 @@ function addReviewCandidate(source,candidate){const q=getReviewQueue();if(q.some
 function setReviewScore(source,candidate,value){const q=getReviewQueue();const x=q.find(x=>x.source===source&&x.candidate===candidate);if(!x)return;x.score=value;x.status="approved";x.approved=true;saveReviewQueue(q)}
 function setReviewStatus(source,candidate,status){const q=getReviewQueue();const x=q.find(x=>x.source===source&&x.candidate===candidate);if(!x)return;x.status=status;x.approved=status==="approved";if(status!=="approved")x.score=null;saveReviewQueue(q)}
 function removeReview(source,candidate){saveReviewQueue(getReviewQueue().filter(x=>!(x.source===source&&x.candidate===candidate)))}
+function reviewStats(){
+  return getReviewQueue().map(x=>({...x,status:x.status||(x.approved?"approved":"pending")}));
+}
+function getApprovedReviewMap(){
+  const out={};
+  for(const x of reviewStats()){
+    if(x.status!=="approved"||!x.score)continue;
+    if(!out[x.source])out[x.source]={};
+    if(!out[x.candidate])out[x.candidate]={};
+    out[x.source][x.candidate]=x.score;
+    out[x.candidate][x.source]=x.score;
+  }
+  return out;
+}
+function getRejectedReviewSet(){
+  const out=new Set();
+  for(const x of reviewStats())if(x.status==="rejected")out.add(x.source+"|"+x.candidate);
+  return out;
+}
+function candidateReviewState(a,b){
+  const q=reviewStats().find(x=>x.source===a&&x.candidate===b);
+  if(!q)return null;
+  return q.status;
+}
 function renderReviewQueue(){
  const box=$("codaVerifica");if(!box)return;
  const q=getReviewQueue();box.innerHTML="";
