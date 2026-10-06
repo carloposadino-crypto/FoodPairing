@@ -520,10 +520,44 @@ function evaluateCombination(keys){
 }
 function compareCombinations(a,b){return b.min-a.min||b.avg-a.avg||b.profile-a.profile||b.total-a.total}
 function label(min,avg){if(min>=4&&avg>=4.5)return"Abbinamento molto forte";if(min>=4&&avg>=4)return"Abbinamento forte";if(min>=3&&avg>=3.5)return"Buon abbinamento";return"Da valutare"}
-async function load(){try{const r=await fetch("./database.json?v="+Date.now());if(!r.ok)throw Error();const raw=await r.json();
-pairingTypes=raw&&raw._pairing_types?raw._pairing_types:null;
-db=raw||{};
-delete db._pairing_types;const cats=[...new Set(Object.values(db).map(x=>x?.categoria).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"it"));for(const c of cats){const o=document.createElement("option");o.value=c;o.textContent=c;$("categoria").appendChild(o)}$("status").textContent="Database caricato: "+Object.keys(db).length+" ingredienti"}catch(e){console.error(e);$("status").textContent="Errore nel caricamento del database."}}
+async function load(){
+  const status=$("status");
+  try{
+    status.textContent="Caricamento database...";
+    const r=await fetch("./database.json?v="+Date.now(),{cache:"no-store"});
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    const raw=await r.json();
+    if(!raw||typeof raw!=="object"||Array.isArray(raw))throw new Error("Formato database non valido");
+    pairingTypes=raw._pairing_types||null;
+    const data={...raw};
+    delete data._pairing_types;
+    const keys=Object.keys(data);
+    if(!keys.length)throw new Error("Database vuoto");
+    for(const k of keys){
+      if(!data[k]||typeof data[k]!=="object"||typeof data[k].nome!=="string"||typeof data[k].pairing!=="object"){
+        throw new Error("Record non valido: "+k);
+      }
+    }
+    db=data;
+    const cat=$("categoria");
+    cat.innerHTML='<option value="">Tutte</option>';
+    [...new Set(Object.values(db).map(x=>x?.categoria).filter(Boolean))]
+      .sort((a,b)=>a.localeCompare(b,"it"))
+      .forEach(x=>{
+        const o=document.createElement("option");
+        o.value=x;o.textContent=x;cat.appendChild(o);
+      });
+    pairScoreCache.clear();
+    approvedReviewMapCache=null;
+    status.textContent="Database caricato: "+keys.length+" ingredienti";
+    return true;
+  }catch(e){
+    console.error("FoodPairing database error:",e);
+    db={}; pairingTypes=null;
+    status.textContent="ERRORE database: "+(e.message||"caricamento fallito");
+    return false;
+  }
+}
 function autocomplete(inputId,boxId){const inp=$(inputId),box=$(boxId);inp.addEventListener("input",()=>{const q=norm(inp.value);box.innerHTML="";if(!q){box.style.display="none";return}const arr=Object.keys(db).map(k=>({k,n:nome(k),d:db[k]})).filter(x=>norm(x.n).includes(q)||norm(x.k).includes(q)).sort((a,b)=>a.n.localeCompare(b.n,"it")).slice(0,15);for(const x of arr){const d=document.createElement("div");d.innerHTML='<div class="suggest-visual">'+(x.d?.immagine?'<img src="'+esc(x.d.immagine)+'" alt="" loading="lazy">':'<span class="ingredient-emoji">'+(ingredientEmoji[x.k]||"✦")+'</span>')+'</div><div><b>'+esc(x.n)+'</b><br><small>'+esc(Array.isArray(x.d?.profilo)?x.d.profilo.join(", "):"")+'</small></div>';d.onclick=e=>{
   e.stopPropagation();
   inp.value=x.n;
@@ -1112,14 +1146,57 @@ function setupBuilder(builder,initial){
 }
 function openBuilderFromCard(p,initial){let b=p.querySelector(".builder");if(b)return b;b=document.createElement("div");b.className="builder";b.innerHTML="<h4>Editor del piatto</h4><p class='muted'>Modifica liberamente i 4 ingredienti.</p><div class='builder-grid'></div><button type='button' class='recalc-builder'>Ricalcola combinazione</button><button type='button' class='find-best'>Trova il migliore</button><button type='button' class='auto-build'>Completa automaticamente</button><button type='button' class='global-build'>Trova la migliore combinazione</button><div class='builder-result'></div>";p.appendChild(b);setupBuilder(b,initial);return b}
 document.querySelectorAll(".build").forEach(btn=>btn.onclick=e=>{e.stopPropagation();const p=btn.closest(".plate-panel");if(p.classList.contains("open")){p.classList.remove("open");return}p.classList.add("open");const title=p.querySelector("h4")?.textContent||"";const initial=title.split(" + ").map(n=>{const f=find(n.trim());return f?f.key:""});if(initial.length===4)openBuilderFromCard(p,initial)});
-$("cerca").onclick=e=>{e.preventDefault();search()};
-$("ingrediente").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();search()}});
-$("scopri").onclick=discover;$("esplora").onclick=explore;$("esportaCoda").onclick=exportApproved;$("generaDatabase").onclick=generateUpdatedDatabase;$("salvaFlavoProxy").onclick=saveFlavoProxy;$("consultaFlavonomics").onclick=consultaFlavonomics;$("databaseImport").addEventListener("change",e=>importUpdatedDatabase(e.target.files[0]));$("esportaVerifiche").onclick=exportReviewHistory;$("importaVerifiche").addEventListener("change",e=>importReviewHistory(e.target.files[0]));$("importaFlavonomics").addEventListener("change",e=>importFlavonomics(e.target.files[0]));$("esportaFlavonomics").onclick=exportFlavonomics;
-$("analizzaFonte").onclick=()=>analyzeSourceText($("testoFonte").value);
-$("esportaFonte").onclick=exportSourceCandidates;
-$("aggiungiIngrediente").onclick=addNewIngredient;
-$("fileFonte").addEventListener("change",e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$("testoFonte").value=String(r.result||"");$("esitoFonte").textContent="File caricato. Premi 'Analizza testo'.";};r.readAsText(f);});
-autocomplete("ingrediente","suggestMain");autocomplete("scopriIngrediente","suggestScopri");autocomplete("i1","s1");autocomplete("i2","s2");autocomplete("i3","s3");
-document.addEventListener("click",e=>{if(!e.target.closest(".field,.triple-field"))document.querySelectorAll(".suggest").forEach(x=>x.style.display="none")});
-if($("flavoProxy"))$("flavoProxy").value=getFlavoProxy();renderReviewQueue();renderDatabaseAudit();renderSourceCandidates();load();
+async function initApp(){
+  try{
+    $("cerca").onclick=e=>{e.preventDefault();search()};
+    $("ingrediente").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();search()}});
+    $("scopri").onclick=e=>{e.preventDefault();discover()};
+    $("esplora").onclick=e=>{e.preventDefault();explore()};
+    $("esportaCoda").onclick=exportApproved;
+    $("generaDatabase").onclick=generateUpdatedDatabase;
+    $("salvaFlavoProxy").onclick=saveFlavoProxy;
+    $("consultaFlavonomics").onclick=consultaFlavonomics;
+    $("databaseImport").addEventListener("change",e=>importUpdatedDatabase(e.target.files[0]));
+    $("esportaVerifiche").onclick=exportReviewHistory;
+    $("importaVerifiche").addEventListener("change",e=>importReviewHistory(e.target.files[0]));
+    $("importaFlavonomics").addEventListener("change",e=>importFlavonomics(e.target.files[0]));
+    $("esportaFlavonomics").onclick=exportFlavonomics;
+    $("analizzaFonte").onclick=()=>analyzeSourceText($("testoFonte").value);
+    $("esportaFonte").onclick=exportSourceCandidates;
+    $("aggiungiIngrediente").onclick=addNewIngredient;
+    $("fileFonte").addEventListener("change",e=>{
+      const f=e.target.files[0]; if(!f)return;
+      const r=new FileReader();
+      r.onload=()=>{$("testoFonte").value=String(r.result||"");$("esitoFonte").textContent="File caricato. Premi 'Analizza testo'."};
+      r.readAsText(f);
+    });
+    autocomplete("ingrediente","suggestMain");
+    autocomplete("scopriIngrediente","suggestScopri");
+    autocomplete("i1","s1"); autocomplete("i2","s2"); autocomplete("i3","s3");
+    document.addEventListener("click",e=>{
+      if(!e.target.closest(".field,.triple-field"))
+        document.querySelectorAll(".suggest").forEach(x=>x.style.display="none");
+    });
+    if($("flavoProxy"))$("flavoProxy").value=getFlavoProxy();
+    renderReviewQueue();
+    renderDatabaseAudit();
+    renderSourceCandidates();
+    const ok=await load();
+    if(!ok) return;
+  }catch(e){
+    console.error("FoodPairing init error:",e);
+    $("status").textContent="ERRORE APP: "+(e.message||"inizializzazione fallita");
+  }
+}
+window.addEventListener("error",e=>{
+  console.error("FoodPairing runtime error:",e.error||e.message);
+  const s=$("status");
+  if(s)s.textContent="ERRORE APP: "+(e.message||"errore JavaScript");
+});
+window.addEventListener("unhandledrejection",e=>{
+  console.error("FoodPairing promise error:",e.reason);
+  const s=$("status");
+  if(s)s.textContent="ERRORE APP: "+(e.reason?.message||"errore JavaScript");
+});
+initApp();
 </script></body></html>
