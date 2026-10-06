@@ -11,9 +11,15 @@ const API_BASE = "https://api.flavonomics.com/v1";
 
 export default {
   async fetch(request, env) {
-    const origin = request.headers.get("Origin") || "*";
+    const origin = request.headers.get("Origin") || "";
+    const allowedOrigins = new Set([
+      "https://carloposadino-crypto.github.io",
+      "http://localhost:3000",
+      "http://127.0.0.1:3000"
+    ]);
+    const corsOrigin = allowedOrigins.has(origin) ? origin : "https://carloposadino-crypto.github.io";
     const headers = {
-      "Access-Control-Allow-Origin": origin,
+      "Access-Control-Allow-Origin": corsOrigin,
       "Access-Control-Allow-Methods": "GET, OPTIONS",
       "Access-Control-Allow-Headers": "Accept, Content-Type",
       "Vary": "Origin"
