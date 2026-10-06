@@ -123,7 +123,15 @@ function renderReviewQueue(){
  const box=$("codaVerifica");if(!box)return;
  const q=getReviewQueue();box.innerHTML="";
  if(!q.length){box.innerHTML="<div class='queue-empty'>Nessun candidato salvato.</div>";return}
- q.forEach(x=>{
+ const normalized=q.map(x=>({...x,status:x.status||(x.approved?"approved":"pending")}));
+ const pending=normalized.filter(x=>x.status==="pending").length;
+ const approved=normalized.filter(x=>x.status==="approved").length;
+ const rejected=normalized.filter(x=>x.status==="rejected").length;
+ const summary=document.createElement("div");
+ summary.className="queue-summary";
+ summary.innerHTML="<b>Coda di verifica</b> · "+pending+" da verificare · "+approved+" approvati · "+rejected+" rifiutati";
+ box.appendChild(summary);
+ normalized.forEach(x=>{
   const d=document.createElement("div");d.className="queue-item";
   d.innerHTML="<h3>"+esc(nome(x.source))+" + "+esc(nome(x.candidate))+"</h3>"+
    "<div class='muted'>"+(x.status==="approved"?"Approvato":x.status==="rejected"?"Rifiutato":"Da verificare")+(x.score?" · punteggio scelto: "+x.score+"/5":"")+"</div>"+
