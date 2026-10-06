@@ -52,8 +52,34 @@ const esc=s=>String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>
 const nome=k=>db[k]?.nome||k;
 function find(s){s=norm(s);if(!s)return null;for(const k of Object.keys(db)){if(s===norm(k)||s===norm(nome(k)))return{key:k,data:db[k]}}return null}
 function scoreData(a,b){if(!a?.pairing)return 0;const v=a.pairing[b];return typeof v==="number"?v:v&&typeof v.score==="number"?v.score:0}
+let approvedReviewMapCache=null;
+const pairScoreCache=new Map();
+function getApprovedReviewMap(){
+  if(approvedReviewMapCache)return approvedReviewMapCache;
+  const out={};
+  for(const x of reviewStats()){
+    if(x.status!=="approved"||!x.score)continue;
+    if(!out[x.source])out[x.source]={};
+    if(!out[x.candidate])out[x.candidate]={};
+    out[x.source][x.candidate]=x.score;
+    out[x.candidate][x.source]=x.score;
+  }
+  approvedReviewMapCache=out;
+  return out;
+}
 function reviewScoreData(a,b){const map=getApprovedReviewMap();return typeof map[a]?.[b]==="number"?map[a][b]:0}
-function score(a,b){return Math.max(scoreData(db[a],b),scoreData(db[b],a),reviewScoreData(a,b),reviewScoreData(b,a))}
+function getPairEvidence(a,b){
+  const database=Math.max(scoreData(db[a],b),scoreData(db[b],a));
+  const verified=Math.max(reviewScoreData(a,b),reviewScoreData(b,a));
+  return {score:Math.max(database,verified),database,verified,source:database&&verified?"database+verified":database?"database":verified?"verified":"none"};
+}
+function score(a,b){
+  const key=a<b?a+"|"+b:b+"|"+a;
+  if(pairScoreCache.has(key))return pairScoreCache.get(key);
+  const v=getPairEvidence(a,b).score;
+  pairScoreCache.set(key,v);
+  return v;
+}
 function evaluateCombination(keys){
   if(!Array.isArray(keys)||keys.length!==4||new Set(keys).size!==4)return null;
   const pairs=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
@@ -141,24 +167,13 @@ function evaluate3Evidence(a,b,c){
   return Math.min(s1,s2,s3);
 }
 function getReviewQueue(){try{return JSON.parse(localStorage.getItem("foodpairing_review_queue")||"[]")}catch(e){return[]}}
-function saveReviewQueue(q){localStorage.setItem("foodpairing_review_queue",JSON.stringify(q));renderReviewQueue()}
+function saveReviewQueue(q){localStorage.setItem("foodpairing_review_queue",JSON.stringify(q));approvedReviewMapCache=null;pairScoreCache.clear();renderReviewQueue()}
 function addReviewCandidate(source,candidate){const q=getReviewQueue();if(q.some(x=>x.source===source&&x.candidate===candidate)){renderReviewQueue();return}q.push({source,candidate,score:null,status:"pending",approved:false,createdAt:new Date().toISOString()});saveReviewQueue(q)}
 function setReviewScore(source,candidate,value){const q=getReviewQueue();const x=q.find(x=>x.source===source&&x.candidate===candidate);if(!x)return;x.score=value;x.status="approved";x.approved=true;x.reviewedAt=new Date().toISOString();saveReviewQueue(q);renderDatabaseAudit()}
 function setReviewStatus(source,candidate,status){const q=getReviewQueue();const x=q.find(x=>x.source===source&&x.candidate===candidate);if(!x)return;x.status=status;x.approved=status==="approved";if(status!=="approved")x.score=null;x.reviewedAt=new Date().toISOString();saveReviewQueue(q);renderDatabaseAudit();if($("ingrediente").value===nome(source)||$("scopriIngrediente").value===nome(source)){try{search()}catch(e){}}}
 function removeReview(source,candidate){saveReviewQueue(getReviewQueue().filter(x=>!(x.source===source&&x.candidate===candidate)))}
 function reviewStats(){
   return getReviewQueue().map(x=>({...x,status:x.status||(x.approved?"approved":"pending")}));
-}
-function getApprovedReviewMap(){
-  const out={};
-  for(const x of reviewStats()){
-    if(x.status!=="approved"||!x.score)continue;
-    if(!out[x.source])out[x.source]={};
-    if(!out[x.candidate])out[x.candidate]={};
-    out[x.source][x.candidate]=x.score;
-    out[x.candidate][x.source]=x.score;
-  }
-  return out;
 }
 function getRejectedReviewSet(){
   const out=new Set();
@@ -359,27 +374,42 @@ function search(){const f=find($("ingrediente").value),box=$("risultati");box.in
   }
   return slots.every(Boolean)?evaluateCombination(slots):null
 };
-      if(!best||ev.min>best.min||(ev.min===best.min&&ev.avg>best.avg)||(ev.min===best.min&&ev.avg===best.avg&&ev.total>best.total))best=ev;
+const globalBuild=(fixed)=>{
+  const slots=[...fixed],pool=Object.keys(db),fixedKeys=slots.filter(Boolean);
+  if(!fixedKeys.length||new Set(fixedKeys).size!==fixedKeys.length)return null;
+  const empty=[];for(let i=0;i<slots.length;i++)if(!slots[i])empty.push(i);
+  if(!empty.length){const ev=evaluateCombination(slots);return ev?{keys:[...slots],ev}:null}
+  let best=null;
+  const consider=keys=>{const ev=evaluateCombination(keys);if(!ev)return;if(!best||compareCombinations(ev,best.ev)<0)best={keys:[...keys],ev}};
+  const available=pool.filter(k=>!fixedKeys.includes(k));
+  const choose=(depth,chosen)=>{
+    if(depth===empty.length){
+      const candidate=[...slots];empty.forEach((pos,i)=>candidate[pos]=chosen[i]);consider(candidate);return;
     }
-    if(!best)break;
-    keys.push(best.ak);
-    seen.add(best.ak);
-  }
-  return keys.length===4?evaluateCombination(keys):null
-};
-const globalBuild=(fixed)=>{const pool=Object.keys(db);const uniq=[...new Set(fixed)];if(uniq.length<1)return null;let best=null;const consider=keys=>{const ev=evaluateCombination(keys);if(!ev)return;if(!best||compareCombinations(ev,best.ev)<0)best={keys:[...keys],ev}};const walk=(prefix,start)=>{if(prefix.length===4){consider(prefix);return}for(let i=start;i<pool.length;i++){const k=pool[i];if(prefix.includes(k))continue;const next=[...prefix,k];if(next.length<4)walk(next,i+1);else consider(next)}};const prefix=uniq.filter(k=>pool.includes(k));if(prefix.length===4){consider(prefix)}else{const remain=pool.filter(k=>!prefix.includes(k));const need=4-prefix.length;const choose=(start,acc)=>{if(acc.length===need){consider([...prefix,...acc]);return}for(let i=start;i<remain.length;i++){acc.push(remain[i]);choose(i+1,acc);acc.pop()}};choose(0,[])}return best};function explainPair(a,b){
+    for(const k of available){
+      if(chosen.includes(k))continue;
+      chosen.push(k);choose(depth+1,chosen);chosen.pop();
+    }
+  };
+  choose(0,[]);
+  return best;
+};function explainPair(a,b){
   const pa=Array.isArray(db[a]?.profilo)?db[a].profilo.map(norm):[];
   const pb=Array.isArray(db[b]?.profilo)?db[b].profilo.map(norm):[];
   const shared=pa.filter(x=>pb.includes(x));
-  const fa=db[a]?.famiglia||"";
-  const fb=db[b]?.famiglia||"";
-  const ca=db[a]?.categoria||"";
-  const cb=db[b]?.categoria||"";
-  return {score:score(a,b),shared,family:fa&&fa===fb?fa:"",category:ca&&ca===cb?ca:""};
+  const fa=db[a]?.famiglia||"",fb=db[b]?.famiglia||"";
+  const ca=db[a]?.categoria||"",cb=db[b]?.categoria||"";
+  const evidence=getPairEvidence(a,b);
+  return {score:evidence.score,database:evidence.database,verified:evidence.verified,source:evidence.source,shared,family:fa&&fa===fb?fa:"",category:ca&&ca===cb?ca:""};
+}
+function evidenceLabel(source){
+  return source==="database+verified"?"DATABASE + VERIFICATO":source==="verified"?"VERIFICATO":source==="database"?"DATABASE":"NESSUNA EVIDENZA";
 }
 function pairReasonHtml(a,b){
   const x=explainPair(a,b);
   let html="<div class='pair-reason'><b>"+esc(nome(a))+" + "+esc(nome(b))+"</b> · <strong>"+x.score+"/5</strong>";
+  if(x.source!=="none")html+="<div><b>Fonte:</b> "+esc(evidenceLabel(x.source))+"</div>";
+  if(x.database&&x.verified)html+="<div>Database: "+x.database+"/5 · Verifica manuale: "+x.verified+"/5</div>";
   if(x.shared.length)html+="<div>Profili in comune: "+x.shared.map(esc).join(", ")+"</div>";
   else html+="<div>Nessun profilo aromatico in comune registrato</div>";
   if(x.family)html+="<div>Stessa famiglia: "+esc(x.family)+"</div>";
@@ -398,6 +428,3 @@ if(!real.length){list.innerHTML="<div class='empty'>Nessun miglioramento reale t
 list.innerHTML="<h4>Migliori sostituzioni globali</h4>"+real.slice(0,5).map((a,i)=>{const old=currentKeys[a.pos],dw=a.mn-currentEval.min,da=a.av-currentEval.avg;return "<div class='plate'><b>"+(i+1)+". "+esc(nome(old))+" → "+esc(nome(a.ak))+"</b><div>Coerenza minima: <b>"+a.mn.toFixed(1)+"/5</b> ("+(dw>=0?"+":"")+dw.toFixed(1)+")</div><div>Media: <b>"+a.av.toFixed(2)+"/5</b> ("+(da>=0?"+":"")+da.toFixed(2)+")</div><div class='label'>"+esc(label(a.mn,a.av))+"</div><button type='button' class='apply-global'>Applica sostituzione</button></div>" }).join("");
 list.querySelectorAll(".apply-global").forEach((b,i)=>b.onclick=ev=>{ev.stopPropagation();const a=real[i];const vals=[...currentKeys];vals[a.pos]=a.ak;for(let j=0;j<4;j++)$("i"+(j+1)).value=nome(vals[j]);$("risultati3").scrollIntoView({behavior:"smooth"});explore()})};};};d.onclick=()=>{$("ingrediente").value=cn;$("risultati").scrollIntoView({behavior:"smooth"});search()};box.appendChild(d)}}
 document.addEventListener("DOMContentLoaded",()=>{autocomplete("ingrediente","suggestMain");autocomplete("scopriIngrediente","suggestScopri");autocomplete("i1","s1");autocomplete("i2","s2");autocomplete("i3","s3");$("cerca").onclick=search;$("scopri").onclick=discover;$("esportaCoda").onclick=exportApproved;$("generaDatabase").onclick=generateUpdatedDatabase;$("databaseImport").onchange=e=>importUpdatedDatabase(e.target.files[0]);renderReviewQueue();renderDatabaseAudit();$("ingrediente").onkeydown=e=>{if(e.key==="Enter")search()};$("esplora").onclick=explore;document.onclick=e=>{if(!e.target.closest(".field"))$("suggestMain").style.display="none";if(!e.target.closest(".triple-field"))document.querySelectorAll(".suggest").forEach(x=>x.style.display="none")};load()});
-</script>
-</body>
-</html>
