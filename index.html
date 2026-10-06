@@ -1116,6 +1116,84 @@ function explore(){
     return;
   }
 
+  const baseNames=keys.map(nome);
+  box.innerHTML='<h3>Ricerca del quarto ingrediente</h3>'+
+    '<div class="empty">Base: <b>'+esc(baseNames.join(" + "))+'</b><br>Il motore API valuta i candidati usando evidenza database, ereditarietà e inferenza del profilo.</div>'+
+    '<div id="completeStatus" class="empty">Calcolo dei migliori candidati…</div>';
+
+  fetchCompleteCandidates(keys,20).then(data=>{
+    const status=$("completeStatus");
+    if(!data){
+      status.textContent="API non disponibile: uso il motore locale.";
+      exploreLocalFallback(keys,box);
+      return;
+    }
+    if(!data.candidates?.length){
+      status.textContent="Nessun candidato trovato.";
+      return;
+    }
+    status.remove();
+
+    for(const item of data.candidates.slice(0,20)){
+      const d=document.createElement("div");
+      d.className="result";
+      const score=item.score||{};
+      const candidate=item.candidate;
+      const coverage=Number(score.coverage||0);
+      const labelText=score.min>=4&&score.average>=4.5?"Abbinamento molto forte":
+        score.min>=4&&score.average>=4?"Abbinamento forte":
+        score.min>=3&&score.average>=3.5?"Buon abbinamento":"Da valutare";
+
+      d.innerHTML=
+        '<div class="result-main">'+
+          '<div class="result-identity">'+ingredientVisual(candidate.key)+
+            '<div class="result-identity-copy"><h3 class="result-name">'+esc(candidate.nome)+'</h3><div class="muted">'+esc(candidate.categoria||"—")+'</div>'+recordMetaHtml(candidate.key)+'</div>'+
+          '</div>'+
+          '<div class="result-score">'+Number(score.min||0).toFixed(1)+'<small>/5</small></div>'+
+        '</div>'+
+        '<div class="result-bar"><span style="width:'+Math.max(0,Math.min(100,(Number(score.min||0)/5)*100))+'%"></span></div>'+
+        '<div class="result-meta"><span class="result-badge">'+esc(labelText)+'</span><span class="result-badge">Copertura '+Math.round(coverage*100)+'%</span></div>'+
+        '<div class="result-detail" style="display:block">'+
+          '<div class="muted">Media: <b>'+Number(score.average||0).toFixed(2)+'/5</b> · Legami completi: <b>'+(item.complete?"Sì":"No")+'</b></div>'+
+          '<div class="pair-reason">'+
+            item.pairs.map(p=>{
+              const a=p.a?.nome||"", b=p.b?.nome||"";
+              return '<div><b>'+esc(a)+' + '+esc(b)+'</b>: '+Number(p.score||0).toFixed(2)+'/5 · '+esc(p.source||"nessuna")+' · '+esc(p.confidence||"")+'</div>';
+            }).join("")+
+          '</div>'+
+          '<button type="button" class="build">Costruisci il piatto</button>'+
+          '<div class="plate-panel"></div>'+
+        '</div>';
+
+      d.querySelector(".build").onclick=e=>{
+        e.stopPropagation();
+        const panel=d.querySelector(".plate-panel");
+        panel.classList.toggle("open");
+        if(panel.classList.contains("open"))openBuilderFromCard(panel,[...keys,candidate.key]);
+      };
+      d.onclick=e=>{
+        if(e.target.closest("button"))return;
+        d.classList.toggle("open");
+      };
+      box.appendChild(d);
+    }
+  });
+}
+
+async function fetchCompleteCandidates(keys,limit=20){
+  try{
+    const url="https://foodpairing-ten.vercel.app/api/foodpairing?action=complete&ingredients="+encodeURIComponent(keys.join(","))+"&limit="+limit;
+    const response=await fetch(url,{cache:"no-store"});
+    if(!response.ok)throw new Error("HTTP "+response.status);
+    const data=await response.json();
+    return data&&Array.isArray(data.candidates)?data:null;
+  }catch(error){
+    console.warn("FoodPairing complete API non disponibile",error);
+    return null;
+  }
+}
+
+function exploreLocalFallback(keys,box){
   const out=[];
   for(const ck of Object.keys(db)){
     if(keys.includes(ck))continue;
@@ -1123,57 +1201,17 @@ function explore(){
     if(ev)out.push({ck,ev});
   }
   out.sort((a,b)=>compareCombinations(a.ev,b.ev));
-
-  const baseNames=keys.map(nome);
-  box.innerHTML='<h3>Combinazioni a 4 ingredienti ('+out.length+')</h3>'+
-    '<div class="empty">Base: <b>'+esc(baseNames.join(" + "))+'</b><br>La valutazione considera tutti i 6 legami.</div>';
-
+  const status=$("completeStatus");
+  if(status)status.remove();
   if(!out.length){
-    box.innerHTML+='<div class="empty">Nessuna combinazione completa trovata nel database.</div>';
+    box.innerHTML+='<div class="empty">Nessuna combinazione completa trovata nel database locale.</div>';
     return;
   }
-
   for(const item of out.slice(0,20)){
-    const allKeys=[...keys,item.ck];
     const ev=item.ev;
-    const labels=[
-      allKeys[0]+" ↔ "+allKeys[1],
-      allKeys[0]+" ↔ "+allKeys[2],
-      allKeys[0]+" ↔ "+allKeys[3],
-      allKeys[1]+" ↔ "+allKeys[2],
-      allKeys[1]+" ↔ "+allKeys[3],
-      allKeys[2]+" ↔ "+allKeys[3]
-    ];
     const d=document.createElement("div");
     d.className="result";
-    d.innerHTML=
-      '<div class="result-main">'+
-        '<div class="result-identity">'+ingredientVisual(item.ck)+
-          '<div class="result-identity-copy"><h3 class="result-name">'+esc(nome(item.ck))+'</h3><div class="muted">'+esc(db[item.ck]?.categoria||"—")+'</div>'+recordMetaHtml(item.ck)+'</div>'+
-        '</div>'+
-        '<div class="result-score">'+ev.min.toFixed(1)+'<small>/5</small></div>'+
-      '</div>'+
-      '<div class="result-bar"><span style="width:'+Math.max(0,Math.min(100,ev.min/5*100))+'%"></span></div>'+
-      '<div class="result-meta"><span class="result-badge">'+esc(label(ev.min,ev.avg))+'</span><span class="result-badge">'+esc(combinationEvidenceLabel(ev))+'</span></div>'+
-      '<div class="result-detail" style="display:block">'+
-        '<div class="muted">Media dei 6 legami: <b>'+ev.avg.toFixed(2)+'/5</b></div>'+
-        '<div class="pair-reason">'+ev.scores.map((s,i)=>'<div>'+esc(labels[i])+': <b>'+s+'/5</b></div>').join("")+'</div>'+
-        '<button type="button" class="build">Costruisci il piatto</button>'+
-        '<div class="plate-panel"></div>'+
-      '</div>';
-
-    d.querySelector(".build").onclick=e=>{
-      e.stopPropagation();
-      const panel=d.querySelector(".plate-panel");
-      panel.classList.toggle("open");
-      if(panel.classList.contains("open")){
-        openBuilderFromCard(panel,allKeys);
-      }
-    };
-    d.onclick=e=>{
-      if(e.target.closest("button"))return;
-      d.classList.toggle("open");
-    };
+    d.innerHTML='<div class="result-main"><div class="result-identity">'+ingredientVisual(item.ck)+'<div class="result-identity-copy"><h3 class="result-name">'+esc(nome(item.ck))+'</h3><div class="muted">'+esc(db[item.ck]?.categoria||"—")+'</div>'+recordMetaHtml(item.ck)+'</div></div><div class="result-score">'+ev.min.toFixed(1)+'<small>/5</small></div></div><div class="result-meta"><span class="result-badge">'+esc(label(ev.min,ev.avg))+'</span></div>';
     box.appendChild(d);
   }
 }
