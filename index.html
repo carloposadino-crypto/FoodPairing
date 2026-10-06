@@ -1057,12 +1057,12 @@
         trovato.chiave;
 
       risultatiBox.innerHTML =
-        \`<h3 class="risultati-titolo">
-          Abbinamenti con \${escapeHTML(nomeIngrediente)}
+        `<h3 class="risultati-titolo">
+          Abbinamenti con ${escapeHTML(nomeIngrediente)}
           <span class="risultato-numero">
-            (\${ingredienti.length})
+            (${ingredienti.length})
           </span>
-        </h3>\`;
+        </h3>`;
 
       if (ingredienti.length === 0) {
 
@@ -1082,21 +1082,21 @@
           elemento.className =
             "result";
 
-          elemento.innerHTML = \`
-            <h3>\${escapeHTML(
+          elemento.innerHTML = `
+            <h3>${escapeHTML(
               item.dati.nome || item.chiave
             )}</h3>
 
             <div class="result-info">
               Categoria:
-              <strong>\${escapeHTML(
+              <strong>${escapeHTML(
                 item.dati.categoria || "—"
               )}</strong>
             </div>
 
             <div class="result-info">
               Profilo:
-              <strong>\${escapeHTML(
+              <strong>${escapeHTML(
                 Array.isArray(item.dati.profilo)
                   ? item.dati.profilo.join(", ")
                   : "—"
@@ -1104,13 +1104,13 @@
             </div>
 
             <div class="score">
-              Punteggio: \${item.score}/5
+              Punteggio: ${item.score}/5
             </div>
 
             <div class="result-click">
               Tocca per cercare gli abbinamenti di questo ingrediente
             </div>
-          \`;
+          `;
 
           elemento.addEventListener(
             "click",
@@ -1298,428 +1298,3 @@
       const chiavi =
         selezioni.map(
           elemento => elemento.chiave
-        );
-
-      if (
-        new Set(chiavi).size !== 3
-      ) {
-
-        risultatiBox.innerHTML =
-          '<div class="empty">Gli ingredienti devono essere diversi tra loro.</div>';
-
-        return;
-      }
-
-      const candidati = [];
-
-      for (
-        const chiave of Object.keys(database)
-      ) {
-
-        if (
-          chiavi.includes(chiave)
-        ) {
-          continue;
-        }
-
-        const dati =
-          database[chiave];
-
-        const punteggi =
-          selezioni.map(
-            ingrediente =>
-              scoreBidirezionale(
-                ingrediente.chiave,
-                chiave
-              )
-          );
-
-        const minimo =
-          Math.min(...punteggi);
-
-        const media =
-          punteggi.reduce(
-            (somma, valore) =>
-              somma + valore,
-            0
-          ) / punteggi.length;
-
-        const totale =
-          punteggi.reduce(
-            (somma, valore) =>
-              somma + valore,
-            0
-          );
-
-        const profilo =
-          compatibilitaProfilo(
-            dati,
-            selezioni
-          );
-
-        if (
-          minimo < 2
-        ) {
-          continue;
-        }
-
-        candidati.push({
-          chiave,
-          dati,
-          punteggi,
-          minimo,
-          media,
-          totale,
-          profilo
-        });
-
-      }
-
-      candidati.sort(
-        (a, b) => {
-
-          if (
-            b.minimo !== a.minimo
-          ) {
-            return b.minimo - a.minimo;
-          }
-
-          if (
-            Math.abs(
-              b.media - a.media
-            ) > 0.001
-          ) {
-            return b.media - a.media;
-          }
-
-          if (
-            b.profilo !== a.profilo
-          ) {
-            return b.profilo - a.profilo;
-          }
-
-          return b.totale - a.totale;
-
-        }
-      );
-
-      const forti =
-        candidati.filter(
-          item =>
-            item.minimo >= 3
-        );
-
-      const risultati =
-        forti.length > 0
-          ? forti.slice(0, 20)
-          : candidati.slice(0, 20);
-
-      risultatiBox.innerHTML =
-        \`<h3 class="risultati-titolo">
-          Possibili ingredienti ponte
-          <span class="risultato-numero">
-            (\${risultati.length})
-          </span>
-        </h3>\`;
-
-      if (
-        risultati.length === 0
-      ) {
-
-        risultatiBox.innerHTML +=
-          '<div class="empty">Non trovo un quarto ingrediente con una relazione sufficiente con tutti e tre.</div>';
-
-        return;
-      }
-
-      risultati.forEach(
-        item => {
-
-          const elemento =
-            document.createElement(
-              "div"
-            );
-
-          elemento.className =
-            "triple-result";
-
-          elemento.innerHTML = \`
-            <h3>\${escapeHTML(
-              item.dati.nome || item.chiave
-            )}</h3>
-
-            <div class="triple-score">
-              Con <strong>\${escapeHTML(
-                selezioni[0].dati.nome || selezioni[0].chiave
-              )}</strong>:
-              <strong>\${item.punteggi[0]}/5</strong>
-            </div>
-
-            <div class="triple-score">
-              Con <strong>\${escapeHTML(
-                selezioni[1].dati.nome || selezioni[1].chiave
-              )}</strong>:
-              <strong>\${item.punteggi[1]}/5</strong>
-            </div>
-
-            <div class="triple-score">
-              Con <strong>\${escapeHTML(
-                selezioni[2].dati.nome || selezioni[2].chiave
-              )}</strong>:
-              <strong>\${item.punteggi[2]}/5</strong>
-            </div>
-
-            <div class="triple-score">
-              Media:
-              <strong>\${item.media.toFixed(1)}/5</strong>
-            </div>
-
-            <div class="triple-label">
-              \${escapeHTML(
-                etichettaTripla(
-                  item.minimo,
-                  item.media
-                )
-              )}
-            </div>
-
-            <div class="result-click">
-              Tocca per cercare gli abbinamenti di questo ingrediente
-            </div>
-          \`;
-
-          elemento.addEventListener(
-            "click",
-            () =>
-              selezionaRisultatoTriplo(
-                item.dati.nome || item.chiave
-              )
-          );
-
-          risultatiBox.appendChild(
-            elemento
-          );
-
-        }
-      );
-
-    }
-
-
-    /* ==========================================
-       AUTOCOMPLETE 3 INGREDIENTI
-    ========================================== */
-
-    function mostraSuggerimentiTripli(
-      numero
-    ) {
-
-      const input =
-        document.getElementById(
-          "ingrediente" + numero
-        );
-
-      const box =
-        document.getElementById(
-          "suggerimenti" + numero
-        );
-
-      const selezionato =
-        document.getElementById(
-          "selezionato" + numero
-        );
-
-      const testo =
-        normalizza(input.value);
-
-      box.innerHTML =
-        "";
-
-      selezionato.textContent =
-        "";
-
-      if (!testo) {
-
-        box.style.display =
-          "none";
-
-        return;
-      }
-
-      const risultati = [];
-
-      for (
-        const chiave of Object.keys(database)
-      ) {
-
-        const dati =
-          database[chiave];
-
-        const nome =
-          dati?.nome || chiave;
-
-        if (
-          normalizza(nome).includes(testo) ||
-          normalizza(chiave).includes(testo)
-        ) {
-
-          risultati.push({
-            chiave,
-            dati,
-            nome
-          });
-
-        }
-
-      }
-
-      risultati
-        .sort(
-          (a, b) =>
-            a.nome.localeCompare(
-              b.nome,
-              "it"
-            )
-        )
-        .slice(0, 12)
-        .forEach(
-          item => {
-
-            const elemento =
-              document.createElement(
-                "div"
-              );
-
-            elemento.className =
-              "suggerimento";
-
-            elemento.innerHTML =
-              \`<div class="suggerimento-nome">
-                \${escapeHTML(item.nome)}
-              </div>
-
-              <div class="suggerimento-profilo">
-                \${escapeHTML(
-                  Array.isArray(item.dati.profilo)
-                    ? item.dati.profilo.join(", ")
-                    : ""
-                )}
-              </div>\`;
-
-            elemento.addEventListener(
-              "click",
-              event => {
-
-                event.stopPropagation();
-
-                input.value =
-                  item.nome;
-
-                selezionato.textContent =
-                  "✓ " + item.nome;
-
-                box.style.display =
-                  "none";
-
-              }
-            );
-
-            box.appendChild(
-              elemento
-            );
-
-          }
-        );
-
-      box.style.display =
-        box.children.length > 0
-          ? "block"
-          : "none";
-
-    }
-
-
-    /* ==========================================
-       EVENTI
-    ========================================== */
-
-    document
-      .getElementById(
-        "ingrediente"
-      )
-      .addEventListener(
-        "input",
-        mostraSuggerimenti
-      );
-
-    document
-      .getElementById(
-        "cercaBtn"
-      )
-      .addEventListener(
-        "click",
-        cercaAbbinamenti
-      );
-
-    ["1", "2", "3"].forEach(
-      numero => {
-
-        document
-          .getElementById(
-            "ingrediente" + numero
-          )
-          .addEventListener(
-            "input",
-            () =>
-              mostraSuggerimentiTripli(
-                numero
-              )
-          );
-
-      }
-    );
-
-    document
-      .getElementById(
-        "esplora3Btn"
-      )
-      .addEventListener(
-        "click",
-        esploraTreIngredienti
-      );
-
-    document
-      .addEventListener(
-        "click",
-        event => {
-
-          if (
-            !event.target.closest(
-              ".field"
-            ) &&
-            !event.target.closest(
-              ".triple-field"
-            )
-          ) {
-
-            document
-              .querySelectorAll(
-                ".suggerimenti, .triple-suggerimenti"
-              )
-              .forEach(
-                box =>
-                  box.style.display =
-                    "none"
-              );
-
-          }
-
-        }
-      );
-
-    caricaDatabase();
-
-  </script>
-
-</body>
-</html>
