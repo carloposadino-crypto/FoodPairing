@@ -104,6 +104,8 @@ function discover(){
     const sameFamily=!!(db[source]?.famiglia&&db[source]?.famiglia===db[k]?.famiglia);
     const sameCategory=!!(db[source]?.categoria&&db[source]?.categoria===db[k]?.categoria);
     if(!shared.length&&strongBridges<2&&!strongTriads&&!strongQuads)continue;
+    const reviewState=candidateReviewState(source,k);
+    if(reviewState==="rejected")continue;
     const evidenceScore=strongQuads*6+strongTriads*4+strongBridges*3+shared.length*2+mediumBridges+Number(sameFamily)+Number(sameCategory);
     candidates.push({k,shared,strongBridges,mediumBridges,strongTriads,strongQuads,sameFamily,sameCategory,bridgeNames,triadNames,quadNames,evidenceScore});
   }
