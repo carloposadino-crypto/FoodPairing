@@ -287,17 +287,55 @@ input[type=file]{
 @media(max-width:650px){.result-detail-grid{grid-template-columns:1fr 1fr}.result-score{font-size:21px}}
 
 
+.brand{display:flex;align-items:center;justify-content:center;gap:10px}
+.brand-mark{width:34px;height:34px;border:1px solid rgba(255,255,255,.22);border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:900;letter-spacing:.08em;background:rgba(255,255,255,.08)}
+.brand-copy{text-align:left}.brand-copy h1{font-size:22px}.brand-copy p{margin:1px 0 0}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#fffdf9 0%,#f7f0e7 100%);border:1px solid #ddd2c4}
+.hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-70px;top:-75px;background:rgba(166,83,63,.08);pointer-events:none}
+.hero-top{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:18px}
+.hero-copy-block{max-width:620px}
+.hero h2{font-family:Georgia,"Times New Roman",serif;font-size:31px;letter-spacing:-.02em;margin:3px 0 7px}
+.hero-copy{font-size:15px;max-width:560px}
+.hero-art{width:92px;height:92px;flex:0 0 92px;border-radius:22px;background:linear-gradient(145deg,#efe4d5,#fffaf2);display:grid;place-items:center;font-size:52px;box-shadow:inset 0 0 0 1px rgba(120,90,60,.08)}
+.ingredient-visual{position:relative;width:58px;height:58px;flex:0 0 58px;border-radius:16px;overflow:hidden;background:linear-gradient(145deg,#efe5d7,#faf7f1);display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(90,70,50,.08)}
+.ingredient-visual.large{width:86px;height:86px;flex-basis:86px;border-radius:20px;font-size:42px}
+.ingredient-visual img{width:100%;height:100%;object-fit:cover;display:block}
+.ingredient-emoji{font-size:30px;line-height:1}
+.ingredient-visual.large .ingredient-emoji{font-size:44px}
+.result-main{align-items:center}
+.result-identity{display:flex;align-items:center;gap:12px;min-width:0}
+.result-identity-copy{min-width:0}.result-identity-copy .muted{margin-top:3px}
+.result-name{font-family:Georgia,"Times New Roman",serif;font-size:19px}
+.result{border-radius:16px}
+.result-bar{margin-left:70px}
+.map-item{display:inline-flex;align-items:center;gap:6px}
+.map-item .mini-emoji{font-size:16px}
+.suggest div{display:flex;align-items:center;gap:10px}
+.suggest .suggest-visual{width:34px;height:34px;border-radius:10px;flex:0 0 34px}
+.suggest-visual img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+.suggest-visual .ingredient-emoji{font-size:19px}
+@media(max-width:650px){
+  .hero-top{align-items:center}.hero-art{width:70px;height:70px;flex-basis:70px;font-size:38px}
+  .hero h2{font-size:26px}.hero-copy{font-size:14px}
+  .ingredient-visual{width:52px;height:52px;flex-basis:52px;border-radius:14px}
+  .ingredient-visual .ingredient-emoji{font-size:27px}.result-bar{margin-left:64px}
+}
 </style>
 </head>
 <body>
-<header><h1>FoodPairing</h1><p>Ingredienti e abbinamenti</p></header>
+<header><div class="brand"><div class="brand-mark">FP</div><div class="brand-copy"><h1>FoodPairing</h1><p>Ingredienti · profili · abbinamenti</p></div></div></header>
 <main>
 <div id="status" class="status">Caricamento database...</div>
 
 <section class="hero box">
+<div class="hero-top">
+<div class="hero-copy-block">
 <div class="hero-kicker">ABBINAMENTI AROMATICI</div>
 <h2>Parti da un ingrediente</h2>
-<p class="hero-copy">Cerca un ingrediente e scopri subito i suoi abbinamenti migliori.</p>
+<p class="hero-copy">Cerca un ingrediente e scopri subito gli abbinamenti migliori, con punteggio, profilo e fonte.</p>
+</div>
+<div class="hero-art">🍎</div>
+</div>
 <div class="field"><label>Ingrediente</label><input id="ingrediente" placeholder="Es. mela" autocomplete="off"><div id="suggestMain" class="suggest"></div></div>
 <div class="grid hero-filters">
 <div><label>Categoria</label><select id="categoria"><option value="">Tutte</option></select></div>
@@ -386,6 +424,18 @@ const $=id=>document.getElementById(id);
 const norm=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
 const esc=s=>String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
 const nome=k=>db[k]?.nome||k;
+const ingredientEmoji={
+  mela:"🍎",pera:"🍐",pesca:"🍑",albicocca:"🍑",ciliegia:"🍒",limone:"🍋",arancia:"🍊",
+  pomodoro:"🍅",melanzana:"🍆",zucchina:"🥒",carota:"🥕",sedano:"🌿",patata:"🥔",
+  cipolla:"🧅",aglio:"🧄",manzo:"🥩",maiale:"🥩",pollo:"🍗",anatra:"🦆",
+  cioccolato:"🍫",nocciola:"🌰",mandorla:"🌰",pistacchio:"💚",basilico:"🌿",
+  rosmarino:"🌿",timo:"🌿",menta:"🌿",zenzero:"🫚",cannella:"🪵",miele:"🍯",
+  senape:"🟡",funghi:"🍄",parmigiano:"🧀",gorgonzola:"🧀",caffe:"☕",olio:"🫒",aceto:"🍶"
+};
+function ingredientVisual(k,large=false){
+  const d=db[k]||{},src=String(d.immagine||"").trim(),emoji=ingredientEmoji[k]||"✦";
+  return '<div class="ingredient-visual'+(large?" large":"")+'">'+(src?'<img src="'+esc(src)+'" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'">':"")+'<span class="ingredient-emoji"'+(src?' style="display:none"':"")+'>'+emoji+'</span></div>';
+}
 function find(s){s=norm(s);if(!s)return null;for(const k of Object.keys(db)){if(s===norm(k)||s===norm(nome(k)))return{key:k,data:db[k]}}return null}
 function scoreData(a,b){if(!a?.pairing)return 0;const v=a.pairing[b];return typeof v==="number"?v:v&&typeof v.score==="number"?v.score:0}
 let approvedReviewMapCache=null;
@@ -451,7 +501,7 @@ async function load(){try{const r=await fetch("./database.json?v="+Date.now());i
 pairingTypes=raw&&raw._pairing_types?raw._pairing_types:null;
 db=raw||{};
 delete db._pairing_types;const cats=[...new Set(Object.values(db).map(x=>x?.categoria).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"it"));for(const c of cats){const o=document.createElement("option");o.value=c;o.textContent=c;$("categoria").appendChild(o)}$("status").textContent="Database caricato: "+Object.keys(db).length+" ingredienti"}catch(e){console.error(e);$("status").textContent="Errore nel caricamento del database."}}
-function autocomplete(inputId,boxId){const inp=$(inputId),box=$(boxId);inp.addEventListener("input",()=>{const q=norm(inp.value);box.innerHTML="";if(!q){box.style.display="none";return}const arr=Object.keys(db).map(k=>({k,n:nome(k),d:db[k]})).filter(x=>norm(x.n).includes(q)||norm(x.k).includes(q)).sort((a,b)=>a.n.localeCompare(b.n,"it")).slice(0,15);for(const x of arr){const d=document.createElement("div");d.innerHTML="<b>"+esc(x.n)+"</b><br><small>"+esc(Array.isArray(x.d?.profilo)?x.d.profilo.join(", "):"")+"</small>";d.onclick=e=>{e.stopPropagation();inp.value=x.n;box.style.display="none"};box.appendChild(d)}box.style.display=box.children.length?"block":"none"})}
+function autocomplete(inputId,boxId){const inp=$(inputId),box=$(boxId);inp.addEventListener("input",()=>{const q=norm(inp.value);box.innerHTML="";if(!q){box.style.display="none";return}const arr=Object.keys(db).map(k=>({k,n:nome(k),d:db[k]})).filter(x=>norm(x.n).includes(q)||norm(x.k).includes(q)).sort((a,b)=>a.n.localeCompare(b.n,"it")).slice(0,15);for(const x of arr){const d=document.createElement("div");d.innerHTML='<div class="suggest-visual">'+(x.d?.immagine?'<img src="'+esc(x.d.immagine)+'" alt="" loading="lazy">':'<span class="ingredient-emoji">'+(ingredientEmoji[x.k]||"✦")+'</span>')+'</div><div><b>'+esc(x.n)+'</b><br><small>'+esc(Array.isArray(x.d?.profilo)?x.d.profilo.join(", "):"")+'</small></div>';d.onclick=e=>{e.stopPropagation();inp.value=x.n;box.style.display="none"};box.appendChild(d)}box.style.display=box.children.length?"block":"none"})}
 function discover(){
   const f=find($("scopriIngrediente").value),box=$("risultatiScopri");
   box.innerHTML="";
@@ -907,7 +957,9 @@ function search(){
     d.style.setProperty("--score-width",scoreWidth+"%");
     d.innerHTML=
       '<div class="result-main">'+
-        '<div><h3 class="result-name">'+esc(nome(x.k))+'</h3><div class="muted">'+esc(db[x.k]?.categoria||"—")+'</div></div>'+
+        '<div class="result-identity">'+ingredientVisual(x.k)+
+          '<div class="result-identity-copy"><h3 class="result-name">'+esc(nome(x.k))+'</h3><div class="muted">'+esc(db[x.k]?.categoria||"—")+'</div></div>'+
+        '</div>'+
         '<div class="result-score">'+x.s+'<small>/5</small></div>'+
       '</div>'+
       '<div class="result-bar"><span></span></div>'+
