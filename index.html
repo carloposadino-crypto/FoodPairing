@@ -429,6 +429,19 @@ const ingredientEmoji={
   rosmarino:"🌿",timo:"🌿",menta:"🌿",zenzero:"🫚",cannella:"🪵",miele:"🍯",
   senape:"🟡",funghi:"🍄",parmigiano:"🧀",gorgonzola:"🧀",caffe:"☕",olio:"🫒",aceto:"🍶"
 };
+function recordMeta(k){
+  const d=db[k]||{};
+  const parts=[];
+  if(d.famiglia)parts.push(d.famiglia);
+  if(d.varieta)parts.push(d.varieta);
+  if(d.tipologia&&d.tipologia!=="generico")parts.push(d.tipologia);
+  if(d.stagionatura)parts.push(d.stagionatura);
+  return parts.join(" · ");
+}
+function recordMetaHtml(k){
+  const m=recordMeta(k);
+  return m?'<div class="muted result-record-meta">'+esc(m)+'</div>':'';
+}
 function ingredientVisual(k,large=false){
   const d=db[k]||{},src=String(d.immagine||"").trim(),emoji=ingredientEmoji[k]||"✦";
   const fallback=src.replace(/\\.jpg$/i,".svg");
@@ -1020,7 +1033,7 @@ function search(){
     d.innerHTML=
       '<div class="result-main">'+
         '<div class="result-identity">'+ingredientVisual(x.k)+
-          '<div class="result-identity-copy"><h3 class="result-name">'+esc(nome(x.k))+'</h3><div class="muted">'+esc(db[x.k]?.categoria||"—")+'</div></div>'+
+          '<div class="result-identity-copy"><h3 class="result-name">'+esc(nome(x.k))+'</h3><div class="muted">'+esc(db[x.k]?.categoria||"—")+'</div>'+recordMetaHtml(x.k)+'</div>'+
         '</div>'+
         '<div class="result-score">'+x.s+'<small>/5</small></div>'+
       '</div>'+
@@ -1100,7 +1113,7 @@ function explore(){
     d.innerHTML=
       '<div class="result-main">'+
         '<div class="result-identity">'+ingredientVisual(item.ck)+
-          '<div class="result-identity-copy"><h3 class="result-name">'+esc(nome(item.ck))+'</h3><div class="muted">'+esc(db[item.ck]?.categoria||"—")+'</div></div>'+
+          '<div class="result-identity-copy"><h3 class="result-name">'+esc(nome(item.ck))+'</h3><div class="muted">'+esc(db[item.ck]?.categoria||"—")+'</div>'+recordMetaHtml(item.ck)+'</div>'+
         '</div>'+
         '<div class="result-score">'+ev.min.toFixed(1)+'<small>/5</small></div>'+
       '</div>'+
