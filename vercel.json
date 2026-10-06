@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/foodpairing",
-      "destination": "/api/foodpairing"
-    }
-  ]
-}
