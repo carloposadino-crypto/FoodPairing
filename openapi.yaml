@@ -6,10 +6,10 @@ info:
 servers:
   - url: https://foodpairing-ten.vercel.app
 paths:
-  /foodpairing:
+  /api/foodpairing:
     get:
       operationId: foodpairing
-      summary: Interroga FoodPairing
+      summary: Interroga il database FoodPairing
       parameters:
         - name: action
           in: query
