@@ -1,15 +1,16 @@
 openapi: 3.1.0
 info:
   title: FoodPairing API
-  version: 1.0.0
-  description: API pubblica del database FoodPairing di Carlo Posadino.
+  version: 1.1.0
+  description: API pubblica del database FoodPairing di Carlo Posadino. Restituisce ingredienti, abbinamenti, punteggi, evidenze e valutazioni di combinazioni.
 servers:
   - url: https://foodpairing-ten.vercel.app
 paths:
   /api/foodpairing:
     get:
       operationId: foodpairing
-      summary: Interroga il database FoodPairing
+      summary: Interroga il motore FoodPairing
+      description: Usa questa operazione per cercare ingredienti, valutare coppie, trovare abbinamenti o valutare combinazioni di quattro ingredienti.
       parameters:
         - name: action
           in: query
@@ -21,28 +22,34 @@ paths:
           in: query
           schema:
             type: string
+          description: Nome dell'ingrediente per action=ingredient.
         - name: a
           in: query
           schema:
             type: string
+          description: Primo ingrediente per action=pair.
         - name: b
           in: query
           schema:
             type: string
+          description: Secondo ingrediente per action=pair.
         - name: ingredient
           in: query
           schema:
             type: string
+          description: Ingrediente di partenza per action=pairings.
         - name: limit
           in: query
           schema:
             type: integer
             minimum: 1
             maximum: 50
+            default: 10
         - name: ingredients
           in: query
           schema:
             type: string
+          description: Quattro ingredienti separati da virgola per action=combination.
       responses:
         '200':
           description: Risposta FoodPairing
@@ -53,6 +60,6 @@ paths:
         '400':
           description: Richiesta non valida
         '404':
-          description: Ingrediente non trovato
+          description: Ingrediente non trovato o ambiguo
         '500':
           description: Errore del server
