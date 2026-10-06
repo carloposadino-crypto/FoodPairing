@@ -194,7 +194,7 @@ function renderReviewQueue(){
  });
 }
 function exportApproved(){
- const q=getReviewQueue().filter(x=>x.approved&&x.score);
+ const q=reviewStats().filter(x=>x.status==="approved"&&x.score);
  if(!q.length){alert("Non ci sono abbinamenti approvati da esportare.");return}
  const out={};
  q.forEach(x=>{
@@ -207,7 +207,7 @@ function exportApproved(){
  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="foodpairing_abbinamenti_approvati.json";a.click();URL.revokeObjectURL(a.href);
 }
 function generateUpdatedDatabase(){
- const q=getReviewQueue().filter(x=>x.approved&&x.score);
+ const q=reviewStats().filter(x=>x.status==="approved"&&x.score);
  const msg=$("esitoImport");
  if(!q.length){msg.textContent="Nessun abbinamento approvato da importare.";return}
  const updated=JSON.parse(JSON.stringify(db));
