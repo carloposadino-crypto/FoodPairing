@@ -142,7 +142,7 @@ function getReviewQueue(){try{return JSON.parse(localStorage.getItem("foodpairin
 function saveReviewQueue(q){localStorage.setItem("foodpairing_review_queue",JSON.stringify(q));renderReviewQueue()}
 function addReviewCandidate(source,candidate){const q=getReviewQueue();if(q.some(x=>x.source===source&&x.candidate===candidate)){renderReviewQueue();return}q.push({source,candidate,score:null,status:"pending",approved:false,createdAt:new Date().toISOString()});saveReviewQueue(q)}
 function setReviewScore(source,candidate,value){const q=getReviewQueue();const x=q.find(x=>x.source===source&&x.candidate===candidate);if(!x)return;x.score=value;x.status="approved";x.approved=true;saveReviewQueue(q)}
-function setReviewStatus(source,candidate,status){const q=getReviewQueue();const x=q.find(x=>x.source===source&&x.candidate===candidate);if(!x)return;x.status=status;x.approved=status==="approved";if(status!=="approved")x.score=null;saveReviewQueue(q)}
+function setReviewStatus(source,candidate,status){const q=getReviewQueue();const x=q.find(x=>x.source===source&&x.candidate===candidate);if(!x)return;x.status=status;x.approved=status==="approved";if(status!=="approved")x.score=null;saveReviewQueue(q);if($("ingrediente").value===nome(source)||$("scopriIngrediente").value===nome(source)){try{search()}catch(e){}}}
 function removeReview(source,candidate){saveReviewQueue(getReviewQueue().filter(x=>!(x.source===source&&x.candidate===candidate)))}
 function reviewStats(){
   return getReviewQueue().map(x=>({...x,status:x.status||(x.approved?"approved":"pending")}));
