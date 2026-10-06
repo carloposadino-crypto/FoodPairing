@@ -116,7 +116,7 @@ function discover(){
 }
 function getReviewQueue(){try{return JSON.parse(localStorage.getItem("foodpairing_review_queue")||"[]")}catch(e){return[]}}
 function saveReviewQueue(q){localStorage.setItem("foodpairing_review_queue",JSON.stringify(q));renderReviewQueue()}
-function addReviewCandidate(source,candidate){const q=getReviewQueue();if(q.some(x=>x.source===source&&x.candidate===candidate)){renderReviewQueue();return}q.push({source,candidate,score:null,approved:false,createdAt:new Date().toISOString()});saveReviewQueue(q)}
+function addReviewCandidate(source,candidate){const q=getReviewQueue();if(q.some(x=>x.source===source&&x.candidate===candidate)){renderReviewQueue();return}q.push({source,candidate,score:null,status:"pending",approved:false,createdAt:new Date().toISOString()});saveReviewQueue(q)}
 function setReviewScore(source,candidate,value){const q=getReviewQueue();const x=q.find(x=>x.source===source&&x.candidate===candidate);if(!x)return;x.score=value;x.approved=true;saveReviewQueue(q)}
 function removeReview(source,candidate){saveReviewQueue(getReviewQueue().filter(x=>!(x.source===source&&x.candidate===candidate)))}
 function renderReviewQueue(){
@@ -126,10 +126,14 @@ function renderReviewQueue(){
  q.forEach(x=>{
   const d=document.createElement("div");d.className="queue-item";
   d.innerHTML="<h3>"+esc(nome(x.source))+" + "+esc(nome(x.candidate))+"</h3>"+
-   "<div class='muted'>"+(x.approved?"Approvato manualmente":"Da verificare")+(x.score?" · punteggio scelto: "+x.score+"/5":"")+"</div>"+
+   "<div class='muted'>"+(x.status==="approved"?"Approvato":x.status==="rejected"?"Rifiutato":"Da verificare")+(x.score?" · punteggio scelto: "+x.score+"/5":"")+"</div>"+
    "<div class='queue-score'>"+[3,4,5].map(v=>"<button type='button' class='"+(x.score===v?"selected":"")+" review-score' data-score='"+v+"'>"+v+"/5</button>").join("")+
+   "<button type='button' class='"+(x.status==="approved"?"selected ":"")+"review-status' data-status='approved'>Approva</button>"+
+   "<button type='button' class='"+(x.status==="rejected"?"selected ":"")+"review-status' data-status='rejected'>Rifiuta</button>"+
+   "<button type='button' class='"+(x.status==="pending"?"selected ":"")+"review-status' data-status='pending'>Da verificare</button>"+
    "<button type='button' class='remove-review'>Rimuovi</button></div>";
   d.querySelectorAll(".review-score").forEach(b=>b.onclick=()=>setReviewScore(x.source,x.candidate,Number(b.dataset.score)));
+  d.querySelectorAll(".review-status").forEach(b=>b.onclick=()=>setReviewStatus(x.source,x.candidate,b.dataset.status));
   d.querySelector(".remove-review").onclick=()=>removeReview(x.source,x.candidate);
   box.appendChild(d);
  });
