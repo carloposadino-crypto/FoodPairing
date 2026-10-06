@@ -75,27 +75,40 @@ function discover(){
   const f=find($("scopriIngrediente").value),box=$("risultatiScopri");
   box.innerHTML="";
   if(!f){box.innerHTML='<div class="empty">Seleziona un ingrediente presente nel database.</div>';return}
-  const source=f.key,candidates=[],keys=Object.keys(db).filter(k=>k!==source);
+  const source=f.key,keys=Object.keys(db).filter(k=>k!==source),candidates=[];
+  const pa=Array.isArray(db[source]?.profilo)?db[source].profilo.map(norm):[];
   for(const k of keys){
     if(score(source,k)>0)continue;
-    const pa=Array.isArray(db[source]?.profilo)?db[source].profilo.map(norm):[];
     const pb=Array.isArray(db[k]?.profilo)?db[k].profilo.map(norm):[];
     const shared=pa.filter(p=>pb.includes(p));
     let strongBridges=0,mediumBridges=0,bridgeNames=[];
     for(const z of keys){
       if(z===k)continue;
-      const a=score(source,z),b=score(k,z);
-      if(a>=4&&b>=4){strongBridges++;if(bridgeNames.length<5)bridgeNames.push(z)}
-      else if(a>=3&&b>=3)mediumBridges++;
+      const a1=score(source,z),b1=score(k,z);
+      if(a1>=4&&b1>=4){strongBridges++;if(bridgeNames.length<5)bridgeNames.push(z)}
+      else if(a1>=3&&b1>=3)mediumBridges++;
+    }
+    let strongTriads=0,strongQuads=0,triadNames=[],quadNames=[];
+    for(let i=0;i<keys.length;i++){
+      const z=keys[i];
+      if(z===k)continue;
+      const tri=evaluate3Evidence(source,k,z);
+      if(tri>=4){strongTriads++;if(triadNames.length<4)triadNames.push(z)}
+      for(let j=i+1;j<keys.length;j++){
+        const w=keys[j];
+        if(w===k)continue;
+        const ev=evaluateCombination([source,k,z,w]);
+        if(ev&&ev.min>=4&&ev.avg>=4){strongQuads++;if(quadNames.length<3)quadNames.push([z,w])}
+      }
     }
     const sameFamily=!!(db[source]?.famiglia&&db[source]?.famiglia===db[k]?.famiglia);
     const sameCategory=!!(db[source]?.categoria&&db[source]?.categoria===db[k]?.categoria);
-    if(!shared.length&&strongBridges<2)continue;
-    const evidenceScore=strongBridges*3+shared.length*2+mediumBridges+Number(sameFamily)+Number(sameCategory);
-    candidates.push({k,shared,strongBridges,mediumBridges,sameFamily,sameCategory,bridgeNames,evidenceScore});
+    if(!shared.length&&strongBridges<2&&!strongTriads&&!strongQuads)continue;
+    const evidenceScore=strongQuads*6+strongTriads*4+strongBridges*3+shared.length*2+mediumBridges+Number(sameFamily)+Number(sameCategory);
+    candidates.push({k,shared,strongBridges,mediumBridges,strongTriads,strongQuads,sameFamily,sameCategory,bridgeNames,triadNames,quadNames,evidenceScore});
   }
-  candidates.sort((a,b)=>b.evidenceScore-a.evidenceScore||b.strongBridges-a.strongBridges||b.shared.length-a.shared.length||b.mediumBridges-a.mediumBridges||Number(b.sameFamily)-Number(a.sameFamily)||Number(b.sameCategory)-Number(a.sameCategory)||nome(a.k).localeCompare(nome(b.k),"it"));
-  box.innerHTML='<h3>Candidati per '+esc(nome(source))+' ('+candidates.length+')</h3><div class="empty">Questi ingredienti non hanno un legame diretto registrato con '+esc(nome(source))+'. Sono proposti solo quando il database contiene almeno un profilo comune oppure almeno due ingredienti ponte con legami ≥ 4/5. Nessun nuovo abbinamento viene scritto automaticamente.</div>';
+  candidates.sort((a,b)=>b.evidenceScore-a.evidenceScore||b.strongQuads-a.strongQuads||b.strongTriads-a.strongTriads||b.strongBridges-a.strongBridges||b.shared.length-a.shared.length||nome(a.k).localeCompare(nome(b.k),"it"));
+  box.innerHTML='<h3>Candidati per '+esc(nome(source))+' ('+candidates.length+')</h3><div class="empty">L'app cerca evidenze già presenti nel database: profili condivisi, ingredienti ponte e combinazioni a 3 e 4 ingredienti già completamente valutabili. I candidati restano da verificare e non vengono inseriti automaticamente.</div>';
   if(!candidates.length){box.innerHTML+='<div class="empty">Nessun candidato abbastanza supportato dai dati attuali.</div>';return}
   const list=document.createElement("div");list.className="candidate-list";
   candidates.slice(0,15).forEach(c=>{
@@ -104,6 +117,8 @@ function discover(){
     if(c.shared.length)evidence+="<div><b>Profili in comune:</b> "+c.shared.map(esc).join(", ")+"</div>";
     if(c.strongBridges)evidence+="<div><b>Ingredienti ponte forti:</b> "+c.strongBridges+(c.bridgeNames.length?" — "+c.bridgeNames.map(nome).map(esc).join(", "):"")+"</div>";
     if(c.mediumBridges)evidence+="<div><b>Ingredienti ponte ≥ 3/5:</b> "+c.mediumBridges+"</div>";
+    if(c.strongTriads)evidence+="<div><b>Triadi forti:</b> "+c.strongTriads+(c.triadNames.length?" — "+c.triadNames.map(nome).map(esc).join(", "):"")+"</div>";
+    if(c.strongQuads)evidence+="<div><b>Combinazioni a 4 forti:</b> "+c.strongQuads+(c.quadNames.length?" — "+c.quadNames.map(q=>q.map(nome).join(" + ")).map(esc).join(", "):"")+"</div>";
     if(c.sameFamily)evidence+="<div><b>Stessa famiglia:</b> "+esc(db[source].famiglia)+"</div>";
     if(c.sameCategory)evidence+="<div><b>Stessa categoria:</b> "+esc(db[source].categoria)+"</div>";
     d.innerHTML="<h3>"+esc(nome(c.k))+"</h3><div class='candidate-rank'>Forza dell'evidenza: "+c.evidenceScore+"</div><div class='candidate-evidence'>"+evidence+"</div><span class='candidate-badge'>CANDIDATO · DA VERIFICARE</span><button type='button' class='use-candidate'>Usa come ingrediente di ricerca</button><button type='button' class='analyze-candidate'>Analizza candidato</button>";
@@ -113,6 +128,11 @@ function discover(){
     list.appendChild(d);
   });
   box.appendChild(list);
+}
+function evaluate3Evidence(a,b,c){
+  const s1=score(a,b),s2=score(a,c),s3=score(b,c);
+  if(s1<=0||s2<=0||s3<=0)return 0;
+  return Math.min(s1,s2,s3);
 }
 function getReviewQueue(){try{return JSON.parse(localStorage.getItem("foodpairing_review_queue")||"[]")}catch(e){return[]}}
 function saveReviewQueue(q){localStorage.setItem("foodpairing_review_queue",JSON.stringify(q));renderReviewQueue()}
