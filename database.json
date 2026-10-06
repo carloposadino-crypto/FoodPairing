@@ -23,7 +23,7 @@
       "senape": 4,
       "aceto": 5
     },
-    "immagine": "images/mela.jpg"
+    "immagine": "images/mela.svg"
   },
   "pera": {
     "nome": "Pera",
@@ -45,7 +45,7 @@
       "vino": 4,
       "zenzero": 3
     },
-    "immagine": "images/pera.jpg"
+    "immagine": "images/pera.svg"
   },
   "pesca": {
     "nome": "Pesca",
@@ -67,7 +67,7 @@
       "zenzero": 4,
       "moscato": 5
     },
-    "immagine": "images/pesca.jpg"
+    "immagine": "images/pesca.svg"
   },
   "albicocca": {
     "nome": "Albicocca",
@@ -87,7 +87,7 @@
       "maiale": 4,
       "cannella": 4
     },
-    "immagine": "images/albicocca.jpg"
+    "immagine": "images/albicocca.svg"
   },
   "ciliegia": {
     "nome": "Ciliegia",
@@ -107,7 +107,7 @@
       "anatra": 5,
       "vino": 5
     },
-    "immagine": "images/ciliegia.jpg"
+    "immagine": "images/ciliegia.svg"
   },
   "limone": {
     "nome": "Limone",
@@ -129,7 +129,7 @@
       "zenzero": 4,
       "burro": 4
     },
-    "immagine": "images/limone.jpg"
+    "immagine": "images/limone.svg"
   },
   "arancia": {
     "nome": "Arancia",
@@ -151,7 +151,7 @@
       "maiale": 4,
       "miele": 5
     },
-    "immagine": "images/arancia.jpg"
+    "immagine": "images/arancia.svg"
   },
   "pomodoro": {
     "nome": "Pomodoro",
@@ -175,7 +175,7 @@
       "olive": 5,
       "cappero": 5
     },
-    "immagine": "images/pomodoro.jpg"
+    "immagine": "images/pomodoro.svg"
   },
   "melanzana": {
     "nome": "Melanzana",
@@ -196,7 +196,7 @@
       "olio": 5,
       "peperoncino": 4
     },
-    "immagine": "images/melanzana.jpg"
+    "immagine": "images/melanzana.svg"
   },
   "zucchina": {
     "nome": "Zucchina",
@@ -216,7 +216,7 @@
       "aglio": 4,
       "timo": 4
     },
-    "immagine": "images/zucchina.jpg"
+    "immagine": "images/zucchina.svg"
   },
   "carota": {
     "nome": "Carota",
@@ -236,7 +236,7 @@
       "burro": 4,
       "coriandolo": 4
     },
-    "immagine": "images/carota.jpg"
+    "immagine": "images/carota.svg"
   },
   "sedano": {
     "nome": "Sedano",
@@ -258,7 +258,7 @@
       "noci": 4,
       "parmigiano": 4
     },
-    "immagine": "images/sedano.jpg"
+    "immagine": "images/sedano.svg"
   },
   "patata": {
     "nome": "Patata",
@@ -279,7 +279,7 @@
       "formaggio": 5,
       "carne": 4
     },
-    "immagine": "images/patata.jpg"
+    "immagine": "images/patata.svg"
   },
   "cipolla": {
     "nome": "Cipolla",
@@ -300,7 +300,7 @@
       "rosmarino": 4,
       "aceto": 5
     },
-    "immagine": "images/cipolla.jpg"
+    "immagine": "images/cipolla.svg"
   },
   "aglio": {
     "nome": "Aglio",
@@ -320,7 +320,7 @@
       "prezzemolo": 5,
       "olio": 5
     },
-    "immagine": "images/aglio.jpg"
+    "immagine": "images/aglio.svg"
   },
   "manzo": {
     "nome": "Manzo",
@@ -343,7 +343,7 @@
       "cipolla": 4,
       "sedano": 4
     },
-    "immagine": "images/manzo.jpg"
+    "immagine": "images/manzo.svg"
   },
   "maiale": {
     "nome": "Maiale",
@@ -366,7 +366,7 @@
       "prugna": 5,
       "pesca": 4
     },
-    "immagine": "images/maiale.jpg"
+    "immagine": "images/maiale.svg"
   },
   "pollo": {
     "nome": "Pollo",
@@ -387,7 +387,7 @@
       "funghi": 4,
       "salvia": 5
     },
-    "immagine": "images/pollo.jpg"
+    "immagine": "images/pollo.svg"
   },
   "anatra": {
     "nome": "Anatra",
@@ -407,7 +407,7 @@
       "vino": 5,
       "prugna": 5
     },
-    "immagine": "images/anatra.jpg"
+    "immagine": "images/anatra.svg"
   },
   "cioccolato": {
     "nome": "Cioccolato",
@@ -429,7 +429,7 @@
       "ciliegia": 5,
       "menta": 4
     },
-    "immagine": "images/cioccolato.jpg"
+    "immagine": "images/cioccolato.svg"
   },
   "nocciola": {
     "nome": "Nocciola",
@@ -449,7 +449,7 @@
       "mela": 4,
       "cannella": 4
     },
-    "immagine": "images/nocciola.jpg"
+    "immagine": "images/nocciola.svg"
   },
   "mandorla": {
     "nome": "Mandorla",
@@ -469,7 +469,7 @@
       "limone": 4,
       "miele": 4
     },
-    "immagine": "images/mandorla.jpg"
+    "immagine": "images/mandorla.svg"
   },
   "pistacchio": {
     "nome": "Pistacchio",
@@ -489,7 +489,7 @@
       "miele": 4,
       "vaniglia": 5
     },
-    "immagine": "images/pistacchio.jpg"
+    "immagine": "images/pistacchio.svg"
   },
   "basilico": {
     "nome": "Basilico",
@@ -509,7 +509,7 @@
       "zucchina": 5,
       "melanzana": 5
     },
-    "immagine": "images/basilico.jpg"
+    "immagine": "images/basilico.svg"
   },
   "rosmarino": {
     "nome": "Rosmarino",
@@ -529,7 +529,7 @@
       "limone": 4,
       "focaccia": 5
     },
-    "immagine": "images/rosmarino.jpg"
+    "immagine": "images/rosmarino.svg"
   },
   "timo": {
     "nome": "Timo",
@@ -549,7 +549,7 @@
       "limone": 4,
       "carota": 4
     },
-    "immagine": "images/timo.jpg"
+    "immagine": "images/timo.svg"
   },
   "menta": {
     "nome": "Menta",
@@ -568,7 +568,7 @@
       "melanzana": 4,
       "fragola": 5
     },
-    "immagine": "images/menta.jpg"
+    "immagine": "images/menta.svg"
   },
   "zenzero": {
     "nome": "Zenzero",
@@ -588,7 +588,7 @@
       "maiale": 4,
       "anatra": 4
     },
-    "immagine": "images/zenzero.jpg"
+    "immagine": "images/zenzero.svg"
   },
   "cannella": {
     "nome": "Cannella",
@@ -609,7 +609,7 @@
       "carota": 4,
       "miele": 5
     },
-    "immagine": "images/cannella.jpg"
+    "immagine": "images/cannella.svg"
   },
   "miele": {
     "nome": "Miele",
@@ -629,7 +629,7 @@
       "noci": 5,
       "formaggio": 5
     },
-    "immagine": "images/miele.jpg"
+    "immagine": "images/miele.svg"
   },
   "senape": {
     "nome": "Senape",
@@ -648,7 +648,7 @@
       "miele": 5,
       "patata": 4
     },
-    "immagine": "images/senape.jpg"
+    "immagine": "images/senape.svg"
   },
   "funghi": {
     "nome": "Funghi",
@@ -668,7 +668,7 @@
       "burro": 5,
       "patata": 5
     },
-    "immagine": "images/funghi.jpg"
+    "immagine": "images/funghi.svg"
   },
   "parmigiano": {
     "nome": "Parmigiano",
@@ -689,7 +689,7 @@
       "balsamico": 5,
       "noci": 5
     },
-    "immagine": "images/parmigiano.jpg"
+    "immagine": "images/parmigiano.svg"
   },
   "gorgonzola": {
     "nome": "Gorgonzola",
@@ -709,7 +709,7 @@
       "sedano": 4,
       "vino": 5
     },
-    "immagine": "images/gorgonzola.jpg"
+    "immagine": "images/gorgonzola.svg"
   },
   "caffe": {
     "nome": "Caffè",
@@ -728,7 +728,7 @@
       "arancia": 4,
       "cannella": 4
     },
-    "immagine": "images/caffe.jpg"
+    "immagine": "images/caffe.svg"
   },
   "olio": {
     "nome": "Olio extravergine di oliva",
@@ -747,7 +747,7 @@
       "pesce": 5,
       "verdure": 5
     },
-    "immagine": "images/olio.jpg"
+    "immagine": "images/olio.svg"
   },
   "aceto": {
     "nome": "Aceto",
@@ -766,7 +766,7 @@
       "verdure": 5,
       "olio": 5
     },
-    "immagine": "images/aceto.jpg"
+    "immagine": "images/aceto.svg"
   },
   "_pairing_types": {
     "affinita": {
