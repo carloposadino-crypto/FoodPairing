@@ -236,9 +236,12 @@ function exportApproved(){
 }
 function getDatabaseAudit(){
   const q=reviewStats();
-  let approved=0,rejected=0,pending=0,already=0,invalid=0;
+  let approved=0,rejected=0,pending=0,already=0,invalid=0,verifiedPairs=0;
   const updated=JSON.parse(JSON.stringify(db));
+  const seen=new Set();
   for(const x of q){
+    const pair=x.source<x.candidate?x.source+"|"+x.candidate:x.candidate+"|"+x.source;
+    if(x.status==="approved"&&x.score&&!seen.has(pair)){verifiedPairs++;seen.add(pair)}
     if(x.status==="pending"){pending++;continue}
     if(x.status==="rejected"){rejected++;continue}
     if(x.status!=="approved"||!x.score){invalid++;continue}
@@ -247,12 +250,22 @@ function getDatabaseAudit(){
     if(existing>0){already++;continue}
     approved++;
   }
-  return {approved,rejected,pending,already,invalid};
+  let databasePairs=0;
+  const dbSeen=new Set();
+  for(const a of Object.keys(updated)){
+    if(!updated[a]?.pairing)continue;
+    for(const b of Object.keys(updated[a].pairing||{})){
+      if(!updated[b])continue;
+      const pair=a<b?a+"|"+b:b+"|"+a;
+      if(!dbSeen.has(pair)&&scoreData(updated[a],b)>0||!dbSeen.has(pair)&&scoreData(updated[b],a)>0){dbSeen.add(pair);databasePairs++}
+    }
+  }
+  return {approved,rejected,pending,already,invalid,verifiedPairs,databasePairs};
 }
 function renderDatabaseAudit(){
   const msg=$("esitoImport");if(!msg)return;
   const a=getDatabaseAudit();
-  msg.textContent="Audit database · "+a.approved+" da aggiungere · "+a.already+" già presenti · "+a.rejected+" rifiutati · "+a.pending+" in attesa · "+a.invalid+" non applicabili.";
+  msg.innerHTML="<b>Audit conoscenza</b> · Database: "+a.databasePairs+" coppie · Verificate manualmente: "+a.verifiedPairs+" · Da aggiungere al database: "+a.approved+" · Già presenti: "+a.already+" · Rifiutate: "+a.rejected+" · In attesa: "+a.pending+" · Non applicabili: "+a.invalid+".";
 }
 function generateUpdatedDatabase(){
  const q=reviewStats().filter(x=>x.status==="approved"&&x.score);
