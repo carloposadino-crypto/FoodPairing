@@ -31,6 +31,8 @@
 <div id="codaVerifica"></div>
 <button id="esportaCoda" type="button">Esporta abbinamenti approvati</button>
 <button id="generaDatabase" type="button">Genera database aggiornato</button>
+<label for="databaseImport">Carica database aggiornato</label>
+<input id="databaseImport" type="file" accept=".json,application/json">
 <div id="esitoImport" class="muted"></div>
 </section>
 <section class="box">
@@ -43,6 +45,7 @@
 </main>
 <script>
 let db={};
+let pairingTypes=null;
 const $=id=>document.getElementById(id);
 const norm=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
 const esc=s=>String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
@@ -63,7 +66,10 @@ function evaluateCombination(keys){
 }
 function compareCombinations(a,b){return b.min-a.min||b.avg-a.avg||b.profile-a.profile||b.total-a.total}
 function label(min,avg){if(min>=4&&avg>=4.5)return"Abbinamento molto forte";if(min>=4&&avg>=4)return"Abbinamento forte";if(min>=3&&avg>=3.5)return"Buon abbinamento";return"Da valutare"}
-async function load(){try{const r=await fetch("./database.json?v="+Date.now());if(!r.ok)throw Error();db=await r.json();delete db._pairing_types;const cats=[...new Set(Object.values(db).map(x=>x?.categoria).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"it"));for(const c of cats){const o=document.createElement("option");o.value=c;o.textContent=c;$("categoria").appendChild(o)}$("status").textContent="Database caricato: "+Object.keys(db).length+" ingredienti"}catch(e){console.error(e);$("status").textContent="Errore nel caricamento del database."}}
+async function load(){try{const r=await fetch("./database.json?v="+Date.now());if(!r.ok)throw Error();const raw=await r.json();
+pairingTypes=raw&&raw._pairing_types?raw._pairing_types:null;
+db=raw||{};
+delete db._pairing_types;const cats=[...new Set(Object.values(db).map(x=>x?.categoria).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"it"));for(const c of cats){const o=document.createElement("option");o.value=c;o.textContent=c;$("categoria").appendChild(o)}$("status").textContent="Database caricato: "+Object.keys(db).length+" ingredienti"}catch(e){console.error(e);$("status").textContent="Errore nel caricamento del database."}}
 function autocomplete(inputId,boxId){const inp=$(inputId),box=$(boxId);inp.addEventListener("input",()=>{const q=norm(inp.value);box.innerHTML="";if(!q){box.style.display="none";return}const arr=Object.keys(db).map(k=>({k,n:nome(k),d:db[k]})).filter(x=>norm(x.n).includes(q)||norm(x.k).includes(q)).sort((a,b)=>a.n.localeCompare(b.n,"it")).slice(0,15);for(const x of arr){const d=document.createElement("div");d.innerHTML="<b>"+esc(x.n)+"</b><br><small>"+esc(Array.isArray(x.d?.profilo)?x.d.profilo.join(", "):"")+"</small>";d.onclick=e=>{e.stopPropagation();inp.value=x.n;box.style.display="none"};box.appendChild(d)}box.style.display=box.children.length?"block":"none"})}
 function discover(){
   const f=find($("scopriIngrediente").value),box=$("risultatiScopri");
@@ -146,6 +152,7 @@ function generateUpdatedDatabase(){
  const msg=$("esitoImport");
  if(!q.length){msg.textContent="Nessun abbinamento approvato da importare.";return}
  const updated=JSON.parse(JSON.stringify(db));
+ if(pairingTypes)updated._pairing_types=pairingTypes;
  let added=0,skipped=0;
  for(const x of q){
    if(!updated[x.source]||!updated[x.candidate]){skipped++;continue}
@@ -160,6 +167,41 @@ function generateUpdatedDatabase(){
  const blob=new Blob([JSON.stringify(updated,null,2)],{type:"application/json"});
  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="database.json";a.click();URL.revokeObjectURL(a.href);
  msg.textContent="Database aggiornato generato: "+added+" nuovi abbinamenti inseriti. "+skipped+" già presenti o non applicabili.";
+}
+function importUpdatedDatabase(file){
+ const msg=$("esitoImport");
+ if(!file)return;
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   const raw=JSON.parse(reader.result);
+   if(!raw||typeof raw!=="object"||Array.isArray(raw))throw Error("Formato non valido");
+   const types=raw._pairing_types||null;
+   const data={...raw};
+   delete data._pairing_types;
+   const keys=Object.keys(data);
+   if(!keys.length)throw Error("Database vuoto");
+   for(const k of keys){
+    const x=data[k];
+    if(!x||typeof x!=="object"||!x.nome||!x.pairing||typeof x.pairing!=="object")throw Error("Struttura non valida per: "+k);
+   }
+   db=data;
+   pairingTypes=types;
+   const cat=$("categoria");
+   cat.innerHTML='<option value="">Tutte</option>';
+   [...new Set(Object.values(db).map(x=>x?.categoria).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"it")).forEach(x=>{
+    const o=document.createElement("option");o.value=x;o.textContent=x;cat.appendChild(o);
+   });
+   $("status").textContent="Database aggiornato caricato: "+keys.length+" ingredienti";
+   msg.textContent="Database caricato correttamente. I nuovi abbinamenti sono già disponibili nell'app.";
+   renderReviewQueue();
+  }catch(e){
+   console.error(e);
+   msg.textContent="Errore: il file non è un database FoodPairing valido. Nessuna modifica effettuata.";
+  }
+ };
+ reader.onerror=()=>{msg.textContent="Impossibile leggere il file."};
+ reader.readAsText(file);
 }
 function analyzeCandidate(source,candidate){
   const box=$("risultatiScopri"), a=source, b=candidate;
@@ -241,7 +283,7 @@ const real=candidates.filter(a=>a.mn>currentEval.min||(a.mn===currentEval.min&&a
 if(!real.length){list.innerHTML="<div class='empty'>Nessun miglioramento reale trovato nei dati disponibili.</div>";return}
 list.innerHTML="<h4>Migliori sostituzioni globali</h4>"+real.slice(0,5).map((a,i)=>{const old=currentKeys[a.pos],dw=a.mn-currentEval.min,da=a.av-currentEval.avg;return "<div class='plate'><b>"+(i+1)+". "+esc(nome(old))+" → "+esc(nome(a.ak))+"</b><div>Coerenza minima: <b>"+a.mn.toFixed(1)+"/5</b> ("+(dw>=0?"+":"")+dw.toFixed(1)+")</div><div>Media: <b>"+a.av.toFixed(2)+"/5</b> ("+(da>=0?"+":"")+da.toFixed(2)+")</div><div class='label'>"+esc(label(a.mn,a.av))+"</div><button type='button' class='apply-global'>Applica sostituzione</button></div>" }).join("");
 list.querySelectorAll(".apply-global").forEach((b,i)=>b.onclick=ev=>{ev.stopPropagation();const a=real[i];const vals=[...currentKeys];vals[a.pos]=a.ak;for(let j=0;j<4;j++)$("i"+(j+1)).value=nome(vals[j]);$("risultati3").scrollIntoView({behavior:"smooth"});explore()})};};};d.onclick=()=>{$("ingrediente").value=cn;$("risultati").scrollIntoView({behavior:"smooth"});search()};box.appendChild(d)}}
-document.addEventListener("DOMContentLoaded",()=>{autocomplete("ingrediente","suggestMain");autocomplete("scopriIngrediente","suggestScopri");autocomplete("i1","s1");autocomplete("i2","s2");autocomplete("i3","s3");$("cerca").onclick=search;$("scopri").onclick=discover;$("esportaCoda").onclick=exportApproved;$("generaDatabase").onclick=generateUpdatedDatabase;renderReviewQueue();$("ingrediente").onkeydown=e=>{if(e.key==="Enter")search()};$("esplora").onclick=explore;document.onclick=e=>{if(!e.target.closest(".field"))$("suggestMain").style.display="none";if(!e.target.closest(".triple-field"))document.querySelectorAll(".suggest").forEach(x=>x.style.display="none")};load()});
+document.addEventListener("DOMContentLoaded",()=>{autocomplete("ingrediente","suggestMain");autocomplete("scopriIngrediente","suggestScopri");autocomplete("i1","s1");autocomplete("i2","s2");autocomplete("i3","s3");$("cerca").onclick=search;$("scopri").onclick=discover;$("esportaCoda").onclick=exportApproved;$("generaDatabase").onclick=generateUpdatedDatabase;$("databaseImport").onchange=e=>importUpdatedDatabase(e.target.files[0]);renderReviewQueue();$("ingrediente").onkeydown=e=>{if(e.key==="Enter")search()};$("esplora").onclick=explore;document.onclick=e=>{if(!e.target.closest(".field"))$("suggestMain").style.display="none";if(!e.target.closest(".triple-field"))document.querySelectorAll(".suggest").forEach(x=>x.style.display="none")};load()});
 </script>
 </body>
 </html>
