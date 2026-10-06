@@ -443,7 +443,23 @@ function ingredientVisual(k,large=false){
     '<img src="'+esc(fallback||src)+'" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline\'">'+
     '<span class="ingredient-emoji" style="display:none">'+emoji+'</span></div>';
 }
-function find(s){s=norm(s);if(!s)return null;for(const k of Object.keys(db)){if(s===norm(k)||s===norm(nome(k)))return{key:k,data:db[k]}}return null}
+function find(s){
+  s=norm(s);
+  if(!s)return null;
+  for(const k of Object.keys(db)){
+    if(s===norm(k)||s===norm(nome(k)))return{key:k,data:db[k]};
+  }
+  return null;
+}
+function findFromInput(inputId){
+  const value=$(inputId)?.value||"";
+  const exact=find(value);
+  if(exact)return exact;
+  const q=norm(value);
+  if(!q)return null;
+  const matches=Object.keys(db).filter(k=>norm(k).includes(q)||norm(nome(k)).includes(q));
+  return matches.length===1?{key:matches[0],data:db[matches[0]]}:null;
+}
 function scoreData(a,b){if(!a?.pairing)return 0;const v=a.pairing[b];return typeof v==="number"?v:v&&typeof v.score==="number"?v.score:0}
 let approvedReviewMapCache=null;
 const pairScoreCache=new Map();
@@ -508,7 +524,11 @@ async function load(){try{const r=await fetch("./database.json?v="+Date.now());i
 pairingTypes=raw&&raw._pairing_types?raw._pairing_types:null;
 db=raw||{};
 delete db._pairing_types;const cats=[...new Set(Object.values(db).map(x=>x?.categoria).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"it"));for(const c of cats){const o=document.createElement("option");o.value=c;o.textContent=c;$("categoria").appendChild(o)}$("status").textContent="Database caricato: "+Object.keys(db).length+" ingredienti"}catch(e){console.error(e);$("status").textContent="Errore nel caricamento del database."}}
-function autocomplete(inputId,boxId){const inp=$(inputId),box=$(boxId);inp.addEventListener("input",()=>{const q=norm(inp.value);box.innerHTML="";if(!q){box.style.display="none";return}const arr=Object.keys(db).map(k=>({k,n:nome(k),d:db[k]})).filter(x=>norm(x.n).includes(q)||norm(x.k).includes(q)).sort((a,b)=>a.n.localeCompare(b.n,"it")).slice(0,15);for(const x of arr){const d=document.createElement("div");d.innerHTML='<div class="suggest-visual">'+(x.d?.immagine?'<img src="'+esc(x.d.immagine)+'" alt="" loading="lazy">':'<span class="ingredient-emoji">'+(ingredientEmoji[x.k]||"✦")+'</span>')+'</div><div><b>'+esc(x.n)+'</b><br><small>'+esc(Array.isArray(x.d?.profilo)?x.d.profilo.join(", "):"")+'</small></div>';d.onclick=e=>{e.stopPropagation();inp.value=x.n;box.style.display="none"};box.appendChild(d)}box.style.display=box.children.length?"block":"none"})}
+function autocomplete(inputId,boxId){const inp=$(inputId),box=$(boxId);inp.addEventListener("input",()=>{const q=norm(inp.value);box.innerHTML="";if(!q){box.style.display="none";return}const arr=Object.keys(db).map(k=>({k,n:nome(k),d:db[k]})).filter(x=>norm(x.n).includes(q)||norm(x.k).includes(q)).sort((a,b)=>a.n.localeCompare(b.n,"it")).slice(0,15);for(const x of arr){const d=document.createElement("div");d.innerHTML='<div class="suggest-visual">'+(x.d?.immagine?'<img src="'+esc(x.d.immagine)+'" alt="" loading="lazy">':'<span class="ingredient-emoji">'+(ingredientEmoji[x.k]||"✦")+'</span>')+'</div><div><b>'+esc(x.n)+'</b><br><small>'+esc(Array.isArray(x.d?.profilo)?x.d.profilo.join(", "):"")+'</small></div>';d.onclick=e=>{
+  e.stopPropagation();
+  inp.value=x.n;
+  box.style.display="none";
+};box.appendChild(d)}box.style.display=box.children.length?"block":"none"})}
 function discover(){
   const f=find($("scopriIngrediente").value),box=$("risultatiScopri");
   box.innerHTML="";
@@ -921,7 +941,12 @@ function analyzeCandidate(source,candidate){
   d.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function search(){
-  const f=find($("ingrediente").value),box=$("risultati");
+  const box=$("risultati");
+  if(!Object.keys(db).length){
+    box.innerHTML='<div class="empty">Il database non è ancora pronto. Attendi il caricamento e riprova.</div>';
+    return;
+  }
+  const f=findFromInput("ingrediente");
   box.innerHTML="";
   if(!f){
     box.innerHTML='<div class="empty">Seleziona un ingrediente presente nel database.</div>';
@@ -1087,7 +1112,9 @@ function setupBuilder(builder,initial){
 }
 function openBuilderFromCard(p,initial){let b=p.querySelector(".builder");if(b)return b;b=document.createElement("div");b.className="builder";b.innerHTML="<h4>Editor del piatto</h4><p class='muted'>Modifica liberamente i 4 ingredienti.</p><div class='builder-grid'></div><button type='button' class='recalc-builder'>Ricalcola combinazione</button><button type='button' class='find-best'>Trova il migliore</button><button type='button' class='auto-build'>Completa automaticamente</button><button type='button' class='global-build'>Trova la migliore combinazione</button><div class='builder-result'></div>";p.appendChild(b);setupBuilder(b,initial);return b}
 document.querySelectorAll(".build").forEach(btn=>btn.onclick=e=>{e.stopPropagation();const p=btn.closest(".plate-panel");if(p.classList.contains("open")){p.classList.remove("open");return}p.classList.add("open");const title=p.querySelector("h4")?.textContent||"";const initial=title.split(" + ").map(n=>{const f=find(n.trim());return f?f.key:""});if(initial.length===4)openBuilderFromCard(p,initial)});
-$("cerca").onclick=search;$("scopri").onclick=discover;$("esplora").onclick=explore;$("esportaCoda").onclick=exportApproved;$("generaDatabase").onclick=generateUpdatedDatabase;$("salvaFlavoProxy").onclick=saveFlavoProxy;$("consultaFlavonomics").onclick=consultaFlavonomics;$("databaseImport").addEventListener("change",e=>importUpdatedDatabase(e.target.files[0]));$("esportaVerifiche").onclick=exportReviewHistory;$("importaVerifiche").addEventListener("change",e=>importReviewHistory(e.target.files[0]));$("importaFlavonomics").addEventListener("change",e=>importFlavonomics(e.target.files[0]));$("esportaFlavonomics").onclick=exportFlavonomics;
+$("cerca").onclick=e=>{e.preventDefault();search()};
+$("ingrediente").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();search()}});
+$("scopri").onclick=discover;$("esplora").onclick=explore;$("esportaCoda").onclick=exportApproved;$("generaDatabase").onclick=generateUpdatedDatabase;$("salvaFlavoProxy").onclick=saveFlavoProxy;$("consultaFlavonomics").onclick=consultaFlavonomics;$("databaseImport").addEventListener("change",e=>importUpdatedDatabase(e.target.files[0]));$("esportaVerifiche").onclick=exportReviewHistory;$("importaVerifiche").addEventListener("change",e=>importReviewHistory(e.target.files[0]));$("importaFlavonomics").addEventListener("change",e=>importFlavonomics(e.target.files[0]));$("esportaFlavonomics").onclick=exportFlavonomics;
 $("analizzaFonte").onclick=()=>analyzeSourceText($("testoFonte").value);
 $("esportaFonte").onclick=exportSourceCandidates;
 $("aggiungiIngrediente").onclick=addNewIngredient;
