@@ -350,38 +350,6 @@
 
       </div>
 
-      <div class="filters">
-
-        <label for="tipoFiltro">
-          Tipo di abbinamento
-        </label>
-
-        <select id="tipoFiltro">
-
-          <option value="tutti">
-            Tutti
-          </option>
-
-          <option value="affinita">
-            Affinità
-          </option>
-
-          <option value="contrasto">
-            Contrasto
-          </option>
-
-          <option value="ponte_aromatico">
-            Ponte aromatico
-          </option>
-
-          <option value="complementarita">
-            Complementarità
-          </option>
-
-        </select>
-
-      </div>
-
       <!-- NUOVO FILTRO CATEGORIA -->
 
       <div class="filters">
@@ -809,65 +777,6 @@
 
 
     /* ==========================================
-       TIPO ABBINAMENTO
-    ========================================== */
-
-    function tipoAbbinamento(
-      ingrediente,
-      chiaveAltro
-    ) {
-
-      if (
-        !ingrediente ||
-        !ingrediente.pairing
-      ) {
-
-        return null;
-
-      }
-
-      const valore =
-        ingrediente.pairing[chiaveAltro];
-
-      if (
-        valore &&
-        typeof valore === "object" &&
-        valore.tipo
-      ) {
-
-        return valore.tipo;
-
-      }
-
-      return null;
-
-    }
-
-
-    function nomeTipo(tipo) {
-
-      const tipi = {
-
-        affinita:
-          "Affinità",
-
-        contrasto:
-          "Contrasto",
-
-        ponte_aromatico:
-          "Ponte aromatico",
-
-        complementarita:
-          "Complementarità"
-
-      };
-
-      return tipi[tipo] || "";
-
-    }
-
-
-    /* ==========================================
        FILTRO CATEGORIE
     ========================================== */
 
@@ -1048,11 +957,6 @@
 
       }
 
-      const tipoFiltro =
-        document.getElementById(
-          "tipoFiltro"
-        ).value;
-
       const categoriaFiltro =
         document.getElementById(
           "categoriaFiltro"
@@ -1102,13 +1006,6 @@
             chiave
           );
 
-        let tipo =
-          tipoAbbinamento(
-            trovato.dati,
-            chiave
-          );
-
-
         if (score === 0) {
 
           const inverso =
@@ -1119,16 +1016,6 @@
               inverso,
               trovato.chiave
             );
-
-          if (!tipo) {
-
-            tipo =
-              tipoAbbinamento(
-                inverso,
-                trovato.chiave
-              );
-
-          }
 
         }
 
@@ -1143,16 +1030,6 @@
         }
 
 
-        if (
-          tipoFiltro !== "tutti" &&
-          tipo !== tipoFiltro
-        ) {
-
-          continue;
-
-        }
-
-
         ingredienti.push({
 
           chiave:
@@ -1163,9 +1040,6 @@
 
           score:
             score,
-
-          tipo:
-            tipo
 
         });
 
