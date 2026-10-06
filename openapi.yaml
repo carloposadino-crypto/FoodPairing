@@ -1,0 +1,56 @@
+openapi: 3.1.0
+info:
+  title: FoodPairing API
+  version: 1.0.0
+  description: API pubblica del database FoodPairing di Carlo Posadino.
+servers:
+  - url: https://TUO-WORKER.workers.dev
+paths:
+  /:
+    get:
+      operationId: foodpairing
+      summary: Interroga FoodPairing
+      parameters:
+        - name: action
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ingredient, pair, pairings, combination]
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: a
+          in: query
+          schema:
+            type: string
+        - name: b
+          in: query
+          schema:
+            type: string
+        - name: ingredient
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 50
+        - name: ingredients
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Risposta FoodPairing
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Richiesta non valida
+        '404':
+          description: Ingrediente non trovato
