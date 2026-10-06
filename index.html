@@ -235,25 +235,44 @@ input[type=file]{
   .queue-score button{flex:1 1 42px}
   .pair-matrix{font-size:10px}
   .pair-matrix>div{padding:5px 2px}
-}\n</style>
+}\n
+.hero{padding:20px 18px 18px}
+.hero-kicker{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--accent);margin-bottom:5px}
+.hero h2{font-size:24px}
+.hero-copy{margin:0;color:var(--muted);font-size:14px}
+.hero-filters{margin-top:2px}
+.advanced{margin-bottom:14px}
+.advanced>summary{list-style:none;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 17px;font-weight:800;box-shadow:var(--shadow)}
+.advanced>summary::-webkit-details-marker{display:none}
+.advanced>summary:after{content:"+";float:right;font-size:20px;line-height:1}
+.advanced[open]>summary:after{content:"−"}
+.advanced-inner{margin-top:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
+.advanced-inner .box{box-shadow:none;margin:0;border:0;padding:5px}
+.builder-section{border:2px solid rgba(166,83,63,.18)}
+.discovery-tools{background:var(--surface-2)}
+
+</style>
 </head>
 <body>
 <header><h1>FoodPairing</h1><p>Ingredienti e abbinamenti</p></header>
 <main>
 <div id="status" class="status">Caricamento database...</div>
-<section class="box">
-<h2>Cerca un ingrediente</h2>
+<section class="hero box">
+<div class="hero-kicker">ABBINAMENTI AROMATICI</div>
+<h2>Parti da un ingrediente</h2>
+<p class="hero-copy">Cerca un ingrediente e scopri subito i suoi abbinamenti migliori.</p>
 <div class="field"><label>Ingrediente</label><input id="ingrediente" placeholder="Es. mela" autocomplete="off"><div id="suggestMain" class="suggest"></div></div>
-<label>Categoria</label><select id="categoria"><option value="">Tutte</option></select>
-<label>Intensità minima</label><select id="intensita"><option value="0">Tutte</option><option value="2">≥ 2</option><option value="3">≥ 3</option><option value="4">≥ 4</option><option value="4.5">≥ 4.5</option></select>
+<div class="grid hero-filters"><div><label>Categoria</label><select id="categoria"><option value="">Tutte</option></select></div><div><label>Intensità minima</label><select id="intensita"><option value="0">Tutte</option><option value="2">≥ 2</option><option value="3">≥ 3</option><option value="4">≥ 4</option><option value="4.5">≥ 4.5</option></select></div></div>
 <button id="cerca">Cerca abbinamenti</button><div id="risultati"></div>
 </section>
-<section class="box">
+<section class="box advanced-discovery">
 <h2>Scopri nuovi abbinamenti</h2>
 <p class="muted">Cerca ingredienti che non hanno ancora un abbinamento registrato. Sono solo candidati: l'app mostra le evidenze presenti nel database e non crea automaticamente nuovi punteggi.</p>
 <div class="field"><label>Ingrediente di partenza</label><input id="scopriIngrediente" placeholder="Es. mela" autocomplete="off"><div id="suggestScopri" class="suggest"></div></div>
 <button id="scopri">Trova candidati</button><div id="risultatiScopri"></div>
 </section>
+<details class="advanced"><summary>Strumenti avanzati</summary>
+<div class="advanced-inner">
 <section class="box">
 <h2>Coda di verifica</h2>
 <p class="muted">Qui puoi salvare i candidati che vuoi verificare. Il punteggio scelto è una decisione manuale: non modifica automaticamente il database.</p>
@@ -264,8 +283,21 @@ input[type=file]{
 <input id="databaseImport" type="file" accept=".json,application/json">
 <div id="esitoImport" class="muted"></div>
 </section>
-<section class="box">
-<h2>Esplora 3 ingredienti</h2>
+</div>
+</details>
+<section class="box builder-section">
+<h2>Costruisci una combinazione</h2>
+<p class="muted">Inserisci tre ingredienti e lascia che FoodPairing cerchi un quarto ingrediente compatibile.</p>
+<div class="grid"><div class="triple-field"><label>Ingrediente 1</label><input id="i1" placeholder="Es. mela" autocomplete="off"><div id="s1" class="suggest"></div></div><div class="triple-field"><label>Ingrediente 2</label><input id="i2" placeholder="Es. maiale" autocomplete="off"><div id="s2" class="suggest"></div></div></div>
+<div class="triple-field"><label>Ingrediente 3</label><input id="i3" placeholder="Es. timo" autocomplete="off"><div id="s3" class="suggest"></div></div>
+<button id="esplora">Esplora combinazioni</button><div id="risultati3"></div>
+</section>
+<section class="box discovery-tools">
+<h2>Ricerca avanzata</h2>
+<p class="muted">Trova candidati non ancora presenti come abbinamenti diretti.</p>
+<div class="field"><label>Ingrediente di partenza</label><input id="scopriIngrediente" placeholder="Es. mela" autocomplete="off"><div id="suggestScopri" class="suggest"></div></div>
+<button id="scopri">Trova candidati</button><div id="risultatiScopri"></div>
+</section>
 <p class="muted">Inserisci tre ingredienti. L'app cerca un quarto ingrediente e valuta tutti i 6 legami della combinazione completa.</p>
 <div class="grid"><div class="triple-field"><label>Ingrediente 1</label><input id="i1" placeholder="Es. mela" autocomplete="off"><div id="s1" class="suggest"></div></div><div class="triple-field"><label>Ingrediente 2</label><input id="i2" placeholder="Es. maiale" autocomplete="off"><div id="s2" class="suggest"></div></div></div>
 <div class="triple-field"><label>Ingrediente 3</label><input id="i3" placeholder="Es. timo" autocomplete="off"><div id="s3" class="suggest"></div></div>
