@@ -277,7 +277,7 @@ input[type=file]{
 .result-badge.source-external{background:#eee7f4;color:#654b79}
 .result-bar{height:7px;margin-top:12px;background:#eee9e1;border-radius:999px;overflow:hidden}
 .result-bar span{display:block;height:100%;width:var(--score-width);background:var(--accent);border-radius:999px}
-.result-detail{display:block;margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}
+.result-detail{display:block !important;visibility:visible !important;opacity:1 !important;height:auto !important;max-height:none !important;overflow:visible !important;margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}
 .result-detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
 .result-detail-grid div{padding:9px;background:var(--surface-2);border-radius:9px;font-size:12px}
 .result-detail-grid strong{display:block;font-size:15px;margin-top:2px}
@@ -1032,7 +1032,7 @@ function search(){
         (e.external?'<span class="result-badge source-external">FLAVONOMICS '+e.external+'/5</span>':"")+
         (e.verified?'<span class="result-badge source-verified">VERIFICATO '+e.verified+'/5</span>':"")+
       '</div>'+
-      '<div class="result-hint">Tocca per vedere perché questo abbinamento è forte.</div>'+
+      '<div class="result-hint">Dettagli dell’abbinamento</div>'+
       '<div class="result-detail">'+
         '<div class="result-detail-grid">'+
           '<div>Database<strong>'+ (e.database?e.database+"/5":"—") +'</strong></div>'+
