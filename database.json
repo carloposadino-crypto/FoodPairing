@@ -129,7 +129,7 @@
       "zenzero": 4,
       "burro": 4
     },
-    "immagine": "images/limone.svg"
+    "immagine": "https://images.pexels.com/photos/1414110/pexels-photo-1414110.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "arancia": {
     "nome": "Arancia",
@@ -151,7 +151,7 @@
       "maiale": 4,
       "miele": 5
     },
-    "immagine": "images/arancia.svg"
+    "immagine": "https://images.pexels.com/photos/161559/background-orange-fruit-orange-161559.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "pomodoro": {
     "nome": "Pomodoro",
@@ -175,7 +175,7 @@
       "olive": 5,
       "cappero": 5
     },
-    "immagine": "images/pomodoro.svg"
+    "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "melanzana": {
     "nome": "Melanzana",
@@ -258,7 +258,7 @@
       "noci": 4,
       "parmigiano": 4
     },
-    "immagine": "images/sedano.svg"
+    "immagine": "https://images.pexels.com/photos/1435895/pexels-photo-1435895.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "patata": {
     "nome": "Patata",
@@ -279,7 +279,7 @@
       "formaggio": 5,
       "carne": 4
     },
-    "immagine": "images/patata.svg"
+    "immagine": "https://images.pexels.com/photos/144248/potatoes-vegetables-mashed-potatoes-potatoes-144248.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "cipolla": {
     "nome": "Cipolla",
@@ -300,7 +300,7 @@
       "rosmarino": 4,
       "aceto": 5
     },
-    "immagine": "images/cipolla.svg"
+    "immagine": "https://images.pexels.com/photos/130049/pexels-photo-130049.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "aglio": {
     "nome": "Aglio",
@@ -320,7 +320,7 @@
       "prezzemolo": 5,
       "olio": 5
     },
-    "immagine": "images/aglio.svg"
+    "immagine": "https://images.pexels.com/photos/4197448/pexels-photo-4197448.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "manzo": {
     "nome": "Manzo",
@@ -343,7 +343,7 @@
       "cipolla": 4,
       "sedano": 4
     },
-    "immagine": "images/manzo.svg"
+    "immagine": "https://images.pexels.com/photos/128402/pexels-photo-128402.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "maiale": {
     "nome": "Maiale",
@@ -366,7 +366,7 @@
       "prugna": 5,
       "pesca": 4
     },
-    "immagine": "images/maiale.svg"
+    "immagine": "https://images.pexels.com/photos/236798/pexels-photo-236798.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "pollo": {
     "nome": "Pollo",
@@ -387,7 +387,7 @@
       "funghi": 4,
       "salvia": 5
     },
-    "immagine": "images/pollo.svg"
+    "immagine": "https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "anatra": {
     "nome": "Anatra",
@@ -407,7 +407,7 @@
       "vino": 5,
       "prugna": 5
     },
-    "immagine": "images/anatra.svg"
+    "immagine": "https://images.pexels.com/photos/162419/duck-bird-animal-waterfowl-162419.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "cioccolato": {
     "nome": "Cioccolato",
@@ -429,7 +429,7 @@
       "ciliegia": 5,
       "menta": 4
     },
-    "immagine": "images/cioccolato.svg"
+    "immagine": "https://images.pexels.com/photos/918327/pexels-photo-918327.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "nocciola": {
     "nome": "Nocciola",
@@ -449,7 +449,7 @@
       "mela": 4,
       "cannella": 4
     },
-    "immagine": "images/nocciola.svg"
+    "immagine": "https://images.pexels.com/photos/372882/pexels-photo-372882.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "mandorla": {
     "nome": "Mandorla",
@@ -469,7 +469,7 @@
       "limone": 4,
       "miele": 4
     },
-    "immagine": "images/mandorla.svg"
+    "immagine": "https://images.pexels.com/photos/1295572/pexels-photo-1295572.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "pistacchio": {
     "nome": "Pistacchio",
@@ -489,7 +489,7 @@
       "miele": 4,
       "vaniglia": 5
     },
-    "immagine": "images/pistacchio.svg"
+    "immagine": "https://images.pexels.com/photos/4087659/pexels-photo-4087659.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "basilico": {
     "nome": "Basilico",
@@ -509,7 +509,7 @@
       "zucchina": 5,
       "melanzana": 5
     },
-    "immagine": "images/basilico.svg"
+    "immagine": "https://images.pexels.com/photos/606540/pexels-photo-606540.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "rosmarino": {
     "nome": "Rosmarino",
@@ -529,7 +529,7 @@
       "limone": 4,
       "focaccia": 5
     },
-    "immagine": "images/rosmarino.svg"
+    "immagine": "https://images.pexels.com/photos/4198770/pexels-photo-4198770.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "timo": {
     "nome": "Timo",
@@ -549,7 +549,7 @@
       "limone": 4,
       "carota": 4
     },
-    "immagine": "images/timo.svg"
+    "immagine": "https://images.pexels.com/photos/4198772/pexels-photo-4198772.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "menta": {
     "nome": "Menta",
