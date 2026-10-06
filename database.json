@@ -7232,7 +7232,7 @@
       "burro": 5
     },
     "immagine": "",
-    "tipo_record": "varieta_tipologia",
+    "tipo_record": "base",
     "parent": "riso",
     "varieta": "Orzo",
     "tipologia": "",
@@ -7254,7 +7254,7 @@
       "olio": 5
     },
     "immagine": "",
-    "tipo_record": "varieta_tipologia",
+    "tipo_record": "base",
     "parent": "cece",
     "varieta": "Lenticchia",
     "tipologia": "",
