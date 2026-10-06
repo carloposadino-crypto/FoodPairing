@@ -441,7 +441,7 @@ function enhanceBuilderRender(){
   if(typeof renderBuilder==="undefined")return;
 }
 
-</script></body></html>
+
 function setupBuilder(builder,initial){
  const bg=builder.querySelector(".builder-grid");
  for(let pos=0;pos<4;pos++){const wrap=document.createElement("div"),lab=document.createElement("label"),sel=document.createElement("select");lab.textContent="Ingrediente "+(pos+1);sel.dataset.pos=pos;const empty=document.createElement("option");empty.value="";empty.textContent="— Nessun ingrediente —";sel.appendChild(empty);for(const k of Object.keys(db)){const op=document.createElement("option");op.value=k;op.textContent=nome(k);if(k===initial[pos])op.selected=true;sel.appendChild(op)}wrap.appendChild(lab);wrap.appendChild(sel);bg.appendChild(wrap)}
