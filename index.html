@@ -29,7 +29,7 @@
 <h2>Coda di verifica</h2>
 <p class="muted">Qui puoi salvare i candidati che vuoi verificare. Il punteggio scelto è una decisione manuale: non modifica automaticamente il database.</p>
 <div id="codaVerifica"></div>
-<button id="esportaCoda" type="button">Esporta abbinamenti approvati</button><button id="esportaVerifiche" type="button">Esporta storico verifiche</button><label for="importaVerifiche">Importa storico verifiche</label><input id="importaVerifiche" type="file" accept=".json,application/json">
+<button id="esportaCoda" type="button">Esporta abbinamenti approvati</button><button id="esportaVerifiche" type="button">Esporta storico verifiche</button><label for="importaFlavonomics">Importa risultati Flavonomics</label><input id="importaFlavonomics" type="file" accept=".json,application/json"><button id="esportaFlavonomics" type="button">Esporta dati esterni</button><label for="importaVerifiche">Importa storico verifiche</label><input id="importaVerifiche" type="file" accept=".json,application/json">
 <button id="generaDatabase" type="button">Genera database aggiornato</button>
 <label for="databaseImport">Carica database aggiornato</label>
 <input id="databaseImport" type="file" accept=".json,application/json">
@@ -68,10 +68,28 @@ function getApprovedReviewMap(){
   return out;
 }
 function reviewScoreData(a,b){const map=getApprovedReviewMap();return typeof map[a]?.[b]==="number"?map[a][b]:0}
+function getExternalMap(){
+  try{return JSON.parse(localStorage.getItem("foodpairing_external_pairings")||"{}")}catch(e){return{}}
+}
+function saveExternalMap(map){
+  localStorage.setItem("foodpairing_external_pairings",JSON.stringify(map));
+  pairScoreCache.clear();
+  renderDatabaseAudit();
+}
+function externalScoreData(a,b){
+  const m=getExternalMap();
+  return Math.max(Number(m[a]?.[b]||0),Number(m[b]?.[a]||0));
+}
 function getPairEvidence(a,b){
   const database=Math.max(scoreData(db[a],b),scoreData(db[b],a));
   const verified=Math.max(reviewScoreData(a,b),reviewScoreData(b,a));
-  return {score:Math.max(database,verified),database,verified,source:database&&verified?"database+verified":database?"database":verified?"verified":"none"};
+  const external=externalScoreData(a,b);
+  const score=Math.max(database,verified,external);
+  const sources=[];
+  if(database)sources.push("database");
+  if(verified)sources.push("verified");
+  if(external)sources.push("external");
+  return {score,database,verified,external,source:sources.length?sources.join("+"):"none"};
 }
 function score(a,b){
   const key=a<b?a+"|"+b:b+"|"+a;
@@ -261,12 +279,18 @@ function getDatabaseAudit(){
       if(!dbSeen.has(pair)&&scoreData(updated[a],b)>0||!dbSeen.has(pair)&&scoreData(updated[b],a)>0){dbSeen.add(pair);databasePairs++}
     }
   }
-  return {approved,rejected,pending,already,invalid,verifiedPairs,databasePairs};
+  let externalPairs=0;const extSeen=new Set();const ext=getExternalMap();
+  for(const a of Object.keys(ext))for(const b of Object.keys(ext[a]||{})){
+    if(!db[a]||!db[b])continue;
+    const pair=a<b?a+"|"+b:b+"|"+a;
+    if(!extSeen.has(pair)&&Number(ext[a][b])>0){extSeen.add(pair);externalPairs++}
+  }
+  return {approved,rejected,pending,already,invalid,verifiedPairs,databasePairs,externalPairs};
 }
 function renderDatabaseAudit(){
   const msg=$("esitoImport");if(!msg)return;
   const a=getDatabaseAudit();
-  msg.innerHTML="<b>Audit conoscenza</b> · Database: "+a.databasePairs+" coppie · Verificate manualmente: "+a.verifiedPairs+" · Da aggiungere al database: "+a.approved+" · Già presenti: "+a.already+" · Rifiutate: "+a.rejected+" · In attesa: "+a.pending+" · Non applicabili: "+a.invalid+".";
+  msg.innerHTML="<b>Audit conoscenza</b> · Database: "+a.databasePairs+" coppie · Verificate manualmente: "+a.verifiedPairs+" · Fonte esterna: "+a.externalPairs+" coppie · Da aggiungere al database: "+a.approved+" · Già presenti: "+a.already+" · Rifiutate: "+a.rejected+" · In attesa: "+a.pending+" · Non applicabili: "+a.invalid+".";
 }
 function generateUpdatedDatabase(){
  const q=reviewStats().filter(x=>x.status==="approved"&&x.score);
@@ -289,6 +313,52 @@ function generateUpdatedDatabase(){
  const blob=new Blob([JSON.stringify(updated,null,2)],{type:"application/json"});
  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="database.json";a.click();URL.revokeObjectURL(a.href);
  msg.textContent="Database aggiornato generato: "+added+" nuovi abbinamenti inseriti. "+skipped+" già presenti o non applicabili.";
+}
+function importFlavonomics(file){
+ const msg=$("esitoImport");if(!file)return;
+ const r=new FileReader();
+ r.onload=()=>{
+  try{
+   const raw=JSON.parse(r.result),map=getExternalMap();
+   const rows=[];
+   const add=(a,b,s)=>{
+    const fa=find(a),fb=find(b);
+    if(!fa||!fb||fa.key===fb.key)return;
+    let score=Number(s);
+    if(score>1)score=score/2;
+    score=Math.max(0,Math.min(1,score));
+    if(score<=0)return;
+    if(!map[fa.key])map[fa.key]={};
+    if(!map[fb.key])map[fb.key]={};
+    const v=Number((score*5).toFixed(2));
+    map[fa.key][fb.key]=Math.max(Number(map[fa.key][fb.key]||0),v);
+    map[fb.key][fa.key]=Math.max(Number(map[fb.key][fa.key]||0),v);
+    rows.push(fa.key+" ↔ "+fb.key+" = "+v+"/5");
+   };
+   const consume=(source,pairings)=>{
+    if(!source||!Array.isArray(pairings))return;
+    pairings.forEach(x=>add(source,x.ingredient,x.score_norm??x.score));
+   };
+   if(raw?.data?.ingredient&&Array.isArray(raw.data.pairings))consume(raw.data.ingredient,raw.data.pairings);
+   if(Array.isArray(raw))raw.forEach(x=>add(x.source||x.ingredient,x.candidate||x.pairing,x.score_norm??x.score));
+   if(raw&&typeof raw==="object"&&!raw.data&&!Array.isArray(raw)){
+    for(const a of Object.keys(raw)){
+     if(a.startsWith("_"))continue;
+     if(raw[a]&&typeof raw[a]==="object")for(const b of Object.keys(raw[a]))add(a,b,raw[a][b]);
+    }
+   }
+   if(!rows.length){msg.textContent="Nessun abbinamento Flavonomics importabile: servono ingredienti presenti nei 37 ingredienti dell'app.";return}
+   saveExternalMap(map);
+   msg.innerHTML="<b>Flavonomics importato.</b> "+rows.length+" legami esterni caricati. Restano separati dal database e dalle verifiche manuali.";
+   search();
+  }catch(e){msg.textContent="File Flavonomics non valido.";console.error(e)}
+ };
+ r.readAsText(file);
+}
+function exportFlavonomics(){
+ const data=getExternalMap();
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="foodpairing_flavonomics.json";a.click();URL.revokeObjectURL(a.href);
 }
 function exportReviewHistory(){const data=JSON.stringify(reviewStats(),null,2);const blob=new Blob([data],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="foodpairing_verifiche.json";a.click();URL.revokeObjectURL(a.href)}
 function importReviewHistory(file){const msg=$("esitoImport");if(!file)return;const r=new FileReader();r.onload=()=>{try{const q=JSON.parse(r.result);if(!Array.isArray(q))throw Error();for(const x of q){if(!x||!x.source||!x.candidate||!["pending","approved","rejected"].includes(x.status))throw Error();if(x.status==="approved"&&(!x.score||x.score<1||x.score>5))throw Error()}saveReviewQueue(q.map(x=>({...x,approved:x.status==="approved"})));renderDatabaseAudit();msg.textContent="Storico verifiche importato: "+q.length+" elementi."}catch(e){msg.textContent="Errore: file verifiche non valido. Nessuna modifica effettuata."}};r.readAsText(file)}
@@ -418,16 +488,21 @@ const globalBuild=(fixed)=>{
   const fa=db[a]?.famiglia||"",fb=db[b]?.famiglia||"";
   const ca=db[a]?.categoria||"",cb=db[b]?.categoria||"";
   const evidence=getPairEvidence(a,b);
-  return {score:evidence.score,database:evidence.database,verified:evidence.verified,source:evidence.source,shared,family:fa&&fa===fb?fa:"",category:ca&&ca===cb?ca:""};
+  return {score:evidence.score,database:evidence.database,verified:evidence.verified,external:evidence.external,source:evidence.source,shared,family:fa&&fa===fb?fa:"",category:ca&&ca===cb?ca:""};
 }
 function evidenceLabel(source){
-  return source==="database+verified"?"DATABASE + VERIFICATO":source==="verified"?"VERIFICATO":source==="database"?"DATABASE":"NESSUNA EVIDENZA";
+  if(source==="database+verified+external")return"DATABASE + VERIFICATO + ESTERNO";
+  if(source==="database+external")return"DATABASE + ESTERNO";
+  if(source==="verified+external")return"VERIFICATO + ESTERNO";
+  return source==="database+verified"?"DATABASE + VERIFICATO":source==="verified"?"VERIFICATO":source==="database"?"DATABASE":source==="external"?"ESTERNO":"NESSUNA EVIDENZA";
 }
 function pairReasonHtml(a,b){
   const x=explainPair(a,b);
   let html="<div class='pair-reason'><b>"+esc(nome(a))+" + "+esc(nome(b))+"</b> · <strong>"+x.score+"/5</strong>";
   if(x.source!=="none")html+="<div><b>Fonte:</b> "+esc(evidenceLabel(x.source))+"</div>";
-  if(x.database&&x.verified)html+="<div>Database: "+x.database+"/5 · Verifica manuale: "+x.verified+"/5</div>";
+  if(x.database)html+="<div>Database: "+x.database+"/5</div>";
+  if(x.verified)html+="<div>Verifica manuale: "+x.verified+"/5</div>";
+  if(x.external)html+="<div>Fonte esterna: Flavonomics "+x.external+"/5 · <b>non verificato manualmente</b></div>";
   if(x.shared.length)html+="<div>Profili in comune: "+x.shared.map(esc).join(", ")+"</div>";
   else html+="<div>Nessun profilo aromatico in comune registrato</div>";
   if(x.family)html+="<div>Stessa famiglia: "+esc(x.family)+"</div>";
@@ -453,7 +528,7 @@ function setupBuilder(builder,initial){
 }
 function openBuilderFromCard(p,initial){let b=p.querySelector(".builder");if(b)return b;b=document.createElement("div");b.className="builder";b.innerHTML="<h4>Editor del piatto</h4><p class='muted'>Modifica liberamente i 4 ingredienti.</p><div class='builder-grid'></div><button type='button' class='recalc-builder'>Ricalcola combinazione</button><button type='button' class='find-best'>Trova il migliore</button><button type='button' class='auto-build'>Completa automaticamente</button><button type='button' class='global-build'>Trova la migliore combinazione</button><div class='builder-result'></div>";p.appendChild(b);setupBuilder(b,initial);return b}
 document.querySelectorAll(".build").forEach(btn=>btn.onclick=e=>{e.stopPropagation();const p=btn.closest(".plate-panel");if(p.classList.contains("open")){p.classList.remove("open");return}p.classList.add("open");const title=p.querySelector("h4")?.textContent||"";const initial=title.split(" + ").map(n=>{const f=find(n.trim());return f?f.key:""});if(initial.length===4)openBuilderFromCard(p,initial)});
-$("cerca").onclick=search;$("scopri").onclick=discover;$("esplora").onclick=explore;$("esportaCoda").onclick=exportApproved;$("generaDatabase").onclick=generateUpdatedDatabase;$("databaseImport").addEventListener("change",e=>importUpdatedDatabase(e.target.files[0]));$("esportaVerifiche").onclick=exportReviewHistory;$("importaVerifiche").addEventListener("change",e=>importReviewHistory(e.target.files[0]));
+$("cerca").onclick=search;$("scopri").onclick=discover;$("esplora").onclick=explore;$("esportaCoda").onclick=exportApproved;$("generaDatabase").onclick=generateUpdatedDatabase;$("databaseImport").addEventListener("change",e=>importUpdatedDatabase(e.target.files[0]));$("esportaVerifiche").onclick=exportReviewHistory;$("importaVerifiche").addEventListener("change",e=>importReviewHistory(e.target.files[0]));$("importaFlavonomics").addEventListener("change",e=>importFlavonomics(e.target.files[0]));$("esportaFlavonomics").onclick=exportFlavonomics;
 autocomplete("ingrediente","suggestMain");autocomplete("scopriIngrediente","suggestScopri");autocomplete("i1","s1");autocomplete("i2","s2");autocomplete("i3","s3");
 document.addEventListener("click",e=>{if(!e.target.closest(".field,.triple-field"))document.querySelectorAll(".suggest").forEach(x=>x.style.display="none")});
 renderReviewQueue();renderDatabaseAudit();load();
