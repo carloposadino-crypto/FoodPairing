@@ -1078,39 +1078,4273 @@
     "stagionatura": null
   },
   "_metadata": {
-    "orphan_pairing_keys": [
-      "vaniglia",
-      "caramello",
-      "vino",
-      "prosciutto",
-      "moscato",
-      "pesce",
-      "prezzemolo",
-      "burro",
-      "mozzarella",
-      "origano",
-      "acciuga",
-      "peperoncino",
-      "olive",
-      "cappero",
-      "ricotta",
-      "cumino",
-      "coriandolo",
-      "noci",
-      "formaggio",
-      "carne",
-      "tartufo",
-      "pepe",
-      "prugna",
-      "salvia",
-      "sale",
-      "lampone",
-      "focaccia",
-      "pisello",
-      "fragola",
+    "schema_version": "2.0",
+    "hierarchy": "categoria → famiglia → ingrediente base → varietà/tipologia → stagionatura",
+    "selectable_records": true,
+    "orphan_pairing_keys": []
+  },
+  "vaniglia": {
+    "nome": "Vaniglia",
+    "categoria": "Spezie",
+    "famiglia": "Spezie dolci",
+    "profilo": [
+      "dolce",
+      "floreale",
+      "caldo"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "pera": 5,
+      "pesca": 5,
+      "albicocca": 5,
+      "caffe": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "vino": {
+    "nome": "Vino",
+    "categoria": "Bevande",
+    "famiglia": "Vino",
+    "profilo": [
+      "fruttato",
+      "acido",
+      "alcolico",
+      "tannico"
+    ],
+    "pairing": {
+      "manzo": 5,
+      "anatra": 5,
+      "ciliegia": 5,
+      "gorgonzola": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "prosciutto": {
+    "nome": "Prosciutto crudo",
+    "categoria": "Carni",
+    "famiglia": "Salumi",
+    "profilo": [
+      "sapido",
+      "grasso",
+      "umami",
+      "fermentato"
+    ],
+    "pairing": {
+      "pesca": 5,
+      "melone": 5,
+      "fico": 5,
+      "parmigiano": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "moscato": {
+    "nome": "Moscato",
+    "categoria": "Bevande",
+    "famiglia": "Vini aromatici",
+    "profilo": [
+      "floreale",
+      "fruttato",
+      "dolce",
+      "aromatico"
+    ],
+    "pairing": {
+      "pesca": 5,
+      "albicocca": 5,
+      "fragola": 5,
+      "pera": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "prezzemolo": {
+    "nome": "Prezzemolo",
+    "categoria": "Erbe",
+    "famiglia": "Erbe aromatiche",
+    "profilo": [
+      "erbaceo",
+      "fresco",
+      "verde"
+    ],
+    "pairing": {
+      "limone": 5,
+      "aglio": 5,
+      "pesce": 5,
+      "patata": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "pesce": {
+    "nome": "Pesce",
+    "categoria": "Pesce",
+    "famiglia": "Pesce",
+    "profilo": [
+      "sapido",
+      "umami",
+      "marino",
+      "delicato"
+    ],
+    "pairing": {
+      "limone": 5,
+      "olio": 5,
+      "prezzemolo": 5,
+      "aglio": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "burro": {
+    "nome": "Burro",
+    "categoria": "Latticini",
+    "famiglia": "Grassi lattieri",
+    "profilo": [
+      "grasso",
+      "lattico",
+      "dolce",
+      "tostato"
+    ],
+    "pairing": {
+      "patata": 5,
+      "parmigiano": 4,
+      "funghi": 5,
+      "miele": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "caramello": {
+    "nome": "Caramello",
+    "categoria": "Dolci",
+    "famiglia": "Zuccheri cotti",
+    "profilo": [
+      "dolce",
+      "tostato",
+      "burroso"
+    ],
+    "pairing": {
+      "pera": 5,
+      "nocciola": 5,
+      "mela": 5,
+      "caffe": 5,
+      "cioccolato": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "lampone": {
+    "nome": "Lampone",
+    "categoria": "Frutta",
+    "famiglia": "Frutti di bosco",
+    "profilo": [
+      "acido",
+      "fruttato",
+      "floreale",
+      "fresco"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "pistacchio": 5,
+      "menta": 4,
+      "vaniglia": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "prugna": {
+    "nome": "Prugna",
+    "categoria": "Frutta",
+    "famiglia": "Drupacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "tannico"
+    ],
+    "pairing": {
+      "maiale": 5,
+      "anatra": 5,
+      "cannella": 4,
+      "cioccolato": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "noci": {
+    "nome": "Noce",
+    "categoria": "Frutta secca",
+    "famiglia": "Frutta secca",
+    "profilo": [
+      "grasso",
+      "tostato",
+      "terroso",
+      "amaro"
+    ],
+    "pairing": {
+      "gorgonzola": 5,
+      "parmigiano": 5,
+      "miele": 5,
+      "pera": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "mozzarella": {
+    "nome": "Mozzarella",
+    "categoria": "Formaggi",
+    "famiglia": "Pasta filata",
+    "profilo": [
+      "lattico",
+      "fresco",
+      "delicato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "basilico": 5,
+      "olio": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "cappero": {
+    "nome": "Cappero",
+    "categoria": "Condimenti",
+    "famiglia": "Conserve",
+    "profilo": [
+      "sapido",
+      "acido",
+      "vegetale"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "limone": 5,
+      "olive": 5,
+      "pesce": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "olive": {
+    "nome": "Olive",
+    "categoria": "Condimenti",
+    "famiglia": "Olive da tavola",
+    "profilo": [
+      "sapido",
+      "amaro",
+      "fruttato",
+      "fermentato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cappero": 5,
+      "aglio": 5,
+      "formaggio": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "formaggio": {
+    "nome": "Formaggio",
+    "categoria": "Formaggi",
+    "famiglia": "Generico",
+    "profilo": [
+      "lattico",
+      "grasso",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "miele": 5,
+      "noci": 5,
+      "pera": 5,
+      "mela": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "carne": {
+    "nome": "Carne",
+    "categoria": "Carne",
+    "famiglia": "Generico",
+    "profilo": [
+      "umami",
+      "sapido",
+      "grasso",
+      "tostato"
+    ],
+    "pairing": {
+      "rosmarino": 5,
+      "timo": 5,
+      "cipolla": 5,
+      "vino": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "tartufo": {
+    "nome": "Tartufo",
+    "categoria": "Funghi",
+    "famiglia": "Tartufi",
+    "profilo": [
+      "terroso",
+      "boscoso",
+      "umami",
+      "solforato"
+    ],
+    "pairing": {
+      "manzo": 5,
+      "parmigiano": 5,
+      "burro": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "pepe": {
+    "nome": "Pepe nero",
+    "categoria": "Spezie",
+    "famiglia": "Pepe",
+    "profilo": [
+      "piccante",
+      "terroso",
+      "speziato",
+      "balsamico"
+    ],
+    "pairing": {
+      "manzo": 5,
+      "cioccolato": 4,
+      "parmigiano": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "focaccia": {
+    "nome": "Focaccia",
+    "categoria": "Panificati",
+    "famiglia": "Focacce",
+    "profilo": [
+      "tostato",
+      "lievitato",
+      "sapido",
+      "grasso"
+    ],
+    "pairing": {
+      "rosmarino": 5,
+      "olio": 5,
+      "cipolla": 4,
+      "formaggio": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "sale": {
+    "nome": "Sale",
+    "categoria": "Condimenti",
+    "famiglia": "Sali",
+    "profilo": [
+      "sapido",
+      "minerale"
+    ],
+    "pairing": {
+      "cioccolato": 4,
+      "caramello": 4,
+      "pomodoro": 5,
+      "miele": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "balsamico": {
+    "nome": "Aceto balsamico",
+    "categoria": "Condimenti",
+    "famiglia": "Aceti",
+    "profilo": [
+      "acido",
+      "dolce",
+      "tostato",
+      "fruttato"
+    ],
+    "pairing": {
+      "parmigiano": 5,
+      "fragola": 5,
+      "mela": 5,
+      "pera": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "origano": {
+    "nome": "Origano",
+    "categoria": "Erbe",
+    "famiglia": "Erbe aromatiche",
+    "profilo": [
+      "erbaceo",
       "balsamico",
-      "verdure",
-      "riso"
-    ]
+      "speziato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "melanzana": 5,
+      "olive": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "acciuga": {
+    "nome": "Acciuga",
+    "categoria": "Pesce",
+    "famiglia": "Pesce azzurro",
+    "profilo": [
+      "sapido",
+      "umami",
+      "marino",
+      "grasso"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cappero": 5,
+      "limone": 5,
+      "burro": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "peperoncino": {
+    "nome": "Peperoncino",
+    "categoria": "Spezie",
+    "famiglia": "Capsicum",
+    "profilo": [
+      "piccante",
+      "fruttato",
+      "vegetale"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cioccolato": 5,
+      "aglio": 5,
+      "olio": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "ricotta": {
+    "nome": "Ricotta",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi freschi",
+    "profilo": [
+      "lattico",
+      "fresco",
+      "dolce",
+      "cremoso"
+    ],
+    "pairing": {
+      "limone": 5,
+      "pomodoro": 4,
+      "miele": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "cumino": {
+    "nome": "Cumino",
+    "categoria": "Spezie",
+    "famiglia": "Semi",
+    "profilo": [
+      "terroso",
+      "caldo",
+      "speziato"
+    ],
+    "pairing": {
+      "carota": 4,
+      "agnello": 5,
+      "cavolo": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "coriandolo": {
+    "nome": "Coriandolo",
+    "categoria": "Erbe",
+    "famiglia": "Erbe aromatiche",
+    "profilo": [
+      "erbaceo",
+      "agrumato",
+      "fresco"
+    ],
+    "pairing": {
+      "carota": 4,
+      "zenzero": 5,
+      "limone": 5,
+      "peperoncino": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "pisello": {
+    "nome": "Pisello",
+    "categoria": "Verdure",
+    "famiglia": "Legumi freschi",
+    "profilo": [
+      "dolce",
+      "vegetale",
+      "verde",
+      "fresco"
+    ],
+    "pairing": {
+      "menta": 5,
+      "burro": 4,
+      "parmigiano": 4,
+      "prosciutto": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "fragola": {
+    "nome": "Fragola",
+    "categoria": "Frutta",
+    "famiglia": "Frutti di bosco",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "floreale"
+    ],
+    "pairing": {
+      "menta": 5,
+      "cioccolato": 5,
+      "balsamico": 5,
+      "pistacchio": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "salvia": {
+    "nome": "Salvia",
+    "categoria": "Erbe",
+    "famiglia": "Erbe aromatiche",
+    "profilo": [
+      "erbaceo",
+      "resinoso",
+      "balsamico"
+    ],
+    "pairing": {
+      "burro": 5,
+      "pollo": 5,
+      "maiale": 5,
+      "zucca": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "verdure": {
+    "nome": "Verdure",
+    "categoria": "Verdure",
+    "famiglia": "Generico",
+    "profilo": [
+      "vegetale",
+      "fresco",
+      "erbaceo"
+    ],
+    "pairing": {
+      "olio": 5,
+      "aceto": 5,
+      "aglio": 5,
+      "timo": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "agnello": {
+    "nome": "Agnello",
+    "categoria": "Carne",
+    "famiglia": "Ovini",
+    "profilo": [
+      "grasso",
+      "tannico",
+      "umami"
+    ],
+    "pairing": {
+      "cumino": 5,
+      "rosmarino": 5,
+      "menta": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "peperone": {
+    "nome": "Peperone",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "dolce",
+      "vegetale",
+      "fruttato"
+    ],
+    "pairing": {
+      "olio": 5,
+      "aglio": 5,
+      "pomodoro": 5,
+      "aceto": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "zucca": {
+    "nome": "Zucca",
+    "categoria": "Verdure",
+    "famiglia": "Cucurbitacee",
+    "profilo": [
+      "dolce",
+      "terroso",
+      "vegetale",
+      "cremoso"
+    ],
+    "pairing": {
+      "timo": 5,
+      "salvia": 5,
+      "parmigiano": 5,
+      "burro": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "radicchio": {
+    "nome": "Radicchio",
+    "categoria": "Verdure",
+    "famiglia": "Asteracee",
+    "profilo": [
+      "amaro",
+      "vegetale",
+      "fresco",
+      "tannico"
+    ],
+    "pairing": {
+      "parmigiano": 4,
+      "noci": 5,
+      "aceto": 5,
+      "mela": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "cavolo": {
+    "nome": "Cavolo",
+    "categoria": "Verdure",
+    "famiglia": "Brassicacee",
+    "profilo": [
+      "vegetale",
+      "solforato",
+      "terroso"
+    ],
+    "pairing": {
+      "senape": 5,
+      "aceto": 5,
+      "mela": 4,
+      "maiale": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "uva": {
+    "nome": "Uva",
+    "categoria": "Frutta",
+    "famiglia": "Vitacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "floreale"
+    ],
+    "pairing": {
+      "formaggio": 5,
+      "prosciutto": 5,
+      "parmigiano": 4,
+      "noci": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "riso": {
+    "nome": "Riso",
+    "categoria": "Cereali",
+    "famiglia": "Poacee",
+    "profilo": [
+      "amidaceo",
+      "neutro",
+      "tostato"
+    ],
+    "pairing": {
+      "funghi": 5,
+      "parmigiano": 5,
+      "zafferano": 5,
+      "burro": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "fagiolo": {
+    "nome": "Fagiolo",
+    "categoria": "Legumi",
+    "famiglia": "Leguminose",
+    "profilo": [
+      "terroso",
+      "amidaceo",
+      "vegetale"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cipolla": 5,
+      "rosmarino": 4,
+      "olio": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "cece": {
+    "nome": "Cece",
+    "categoria": "Legumi",
+    "famiglia": "Leguminose",
+    "profilo": [
+      "terroso",
+      "nocciolato",
+      "amidaceo"
+    ],
+    "pairing": {
+      "rosmarino": 5,
+      "aglio": 5,
+      "limone": 5,
+      "olio": 5
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "mela_golden": {
+    "nome": "Mela Golden Delicious",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "maiale": 5,
+      "timo": 4,
+      "cannella": 5,
+      "zenzero": 4,
+      "nocciola": 4,
+      "miele": 5,
+      "limone": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "rosmarino": 3,
+      "senape": 4,
+      "aceto": 5
+    },
+    "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "mela",
+    "tipologia": "",
+    "varieta": "Golden Delicious",
+    "stagionatura": null
+  },
+  "mela_granny": {
+    "nome": "Mela Granny Smith",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "maiale": 5,
+      "timo": 4,
+      "cannella": 5,
+      "zenzero": 5,
+      "nocciola": 4,
+      "miele": 5,
+      "limone": 5,
+      "sedano": 4,
+      "cipolla": 4,
+      "rosmarino": 3,
+      "senape": 4,
+      "aceto": 5
+    },
+    "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "mela",
+    "tipologia": "",
+    "varieta": "Granny Smith",
+    "stagionatura": null
+  },
+  "mela_fuji": {
+    "nome": "Mela Fuji",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "maiale": 5,
+      "timo": 4,
+      "cannella": 5,
+      "zenzero": 4,
+      "nocciola": 4,
+      "miele": 5,
+      "limone": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "rosmarino": 3,
+      "senape": 4,
+      "aceto": 5
+    },
+    "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "mela",
+    "tipologia": "",
+    "varieta": "Fuji",
+    "stagionatura": null
+  },
+  "mela_gala": {
+    "nome": "Mela Gala",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "maiale": 5,
+      "timo": 4,
+      "cannella": 5,
+      "zenzero": 4,
+      "nocciola": 4,
+      "miele": 5,
+      "limone": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "rosmarino": 3,
+      "senape": 4,
+      "aceto": 5
+    },
+    "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "mela",
+    "tipologia": "",
+    "varieta": "Gala",
+    "stagionatura": null
+  },
+  "mela_pink": {
+    "nome": "Mela Pink Lady",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "maiale": 5,
+      "timo": 4,
+      "cannella": 5,
+      "zenzero": 4,
+      "nocciola": 4,
+      "miele": 5,
+      "limone": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "rosmarino": 3,
+      "senape": 4,
+      "aceto": 5
+    },
+    "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "mela",
+    "tipologia": "",
+    "varieta": "Pink Lady",
+    "stagionatura": null
+  },
+  "mela_renetta": {
+    "nome": "Mela Renetta",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "maiale": 5,
+      "timo": 4,
+      "cannella": 5,
+      "zenzero": 4,
+      "nocciola": 4,
+      "miele": 5,
+      "limone": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "rosmarino": 3,
+      "senape": 4,
+      "aceto": 5,
+      "formaggio": 5
+    },
+    "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "mela",
+    "tipologia": "",
+    "varieta": "Renetta",
+    "stagionatura": null
+  },
+  "mela_annurca": {
+    "nome": "Mela Annurca",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "maiale": 5,
+      "timo": 4,
+      "cannella": 5,
+      "zenzero": 4,
+      "nocciola": 4,
+      "miele": 5,
+      "limone": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "rosmarino": 3,
+      "senape": 4,
+      "aceto": 5
+    },
+    "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "mela",
+    "tipologia": "",
+    "varieta": "Annurca",
+    "stagionatura": null
+  },
+  "mela_braeburn": {
+    "nome": "Mela Braeburn",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "maiale": 5,
+      "timo": 4,
+      "cannella": 5,
+      "zenzero": 4,
+      "nocciola": 4,
+      "miele": 5,
+      "limone": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "rosmarino": 3,
+      "senape": 4,
+      "aceto": 5
+    },
+    "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "mela",
+    "tipologia": "",
+    "varieta": "Braeburn",
+    "stagionatura": null
+  },
+  "mela_ambrosia": {
+    "nome": "Mela Ambrosia",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "maiale": 5,
+      "timo": 4,
+      "cannella": 5,
+      "zenzero": 4,
+      "nocciola": 4,
+      "miele": 5,
+      "limone": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "rosmarino": 3,
+      "senape": 4,
+      "aceto": 5
+    },
+    "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "mela",
+    "tipologia": "",
+    "varieta": "Ambrosia",
+    "stagionatura": null
+  },
+  "mela_red": {
+    "nome": "Mela Red Delicious",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "maiale": 5,
+      "timo": 4,
+      "cannella": 5,
+      "zenzero": 4,
+      "nocciola": 4,
+      "miele": 5,
+      "limone": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "rosmarino": 3,
+      "senape": 4,
+      "aceto": 5
+    },
+    "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "mela",
+    "tipologia": "",
+    "varieta": "Red Delicious",
+    "stagionatura": null
+  },
+  "pera_williams": {
+    "nome": "Pera Williams",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "gorgonzola": 5,
+      "nocciola": 5,
+      "cioccolato": 4,
+      "vaniglia": 5,
+      "cannella": 4,
+      "caramello": 5,
+      "maiale": 4,
+      "vino": 4,
+      "zenzero": 3
+    },
+    "immagine": "https://images.pexels.com/photos/14050491/pexels-photo-14050491.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pera",
+    "tipologia": "",
+    "varieta": "Williams",
+    "stagionatura": null
+  },
+  "pera_abate": {
+    "nome": "Pera Abate Fetel",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "gorgonzola": 5,
+      "nocciola": 5,
+      "cioccolato": 5,
+      "vaniglia": 5,
+      "cannella": 4,
+      "caramello": 5,
+      "maiale": 4,
+      "vino": 4,
+      "zenzero": 3
+    },
+    "immagine": "https://images.pexels.com/photos/14050491/pexels-photo-14050491.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pera",
+    "tipologia": "",
+    "varieta": "Abate Fetel",
+    "stagionatura": null
+  },
+  "pera_conference": {
+    "nome": "Pera Conference",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "gorgonzola": 5,
+      "nocciola": 5,
+      "cioccolato": 4,
+      "vaniglia": 5,
+      "cannella": 4,
+      "caramello": 5,
+      "maiale": 4,
+      "vino": 4,
+      "zenzero": 3
+    },
+    "immagine": "https://images.pexels.com/photos/14050491/pexels-photo-14050491.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pera",
+    "tipologia": "",
+    "varieta": "Conference",
+    "stagionatura": null
+  },
+  "pera_kaiser": {
+    "nome": "Pera Kaiser",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "gorgonzola": 5,
+      "nocciola": 5,
+      "cioccolato": 4,
+      "vaniglia": 5,
+      "cannella": 4,
+      "caramello": 5,
+      "maiale": 4,
+      "vino": 4,
+      "zenzero": 3
+    },
+    "immagine": "https://images.pexels.com/photos/14050491/pexels-photo-14050491.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pera",
+    "tipologia": "",
+    "varieta": "Kaiser",
+    "stagionatura": null
+  },
+  "pera_decana": {
+    "nome": "Pera Decana del Comizio",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "gorgonzola": 5,
+      "nocciola": 5,
+      "cioccolato": 4,
+      "vaniglia": 5,
+      "cannella": 4,
+      "caramello": 5,
+      "maiale": 4,
+      "vino": 4,
+      "zenzero": 3
+    },
+    "immagine": "https://images.pexels.com/photos/14050491/pexels-photo-14050491.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pera",
+    "tipologia": "",
+    "varieta": "Decana del Comizio",
+    "stagionatura": null
+  },
+  "pera_coscia": {
+    "nome": "Pera Coscia",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "gorgonzola": 5,
+      "nocciola": 5,
+      "cioccolato": 4,
+      "vaniglia": 5,
+      "cannella": 4,
+      "caramello": 5,
+      "maiale": 4,
+      "vino": 4,
+      "zenzero": 3
+    },
+    "immagine": "https://images.pexels.com/photos/14050491/pexels-photo-14050491.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pera",
+    "tipologia": "",
+    "varieta": "Coscia",
+    "stagionatura": null
+  },
+  "pera_madernassa": {
+    "nome": "Pera Madernassa",
+    "categoria": "Frutta",
+    "famiglia": "Pomacee",
+    "profilo": [
+      "dolce",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "gorgonzola": 5,
+      "nocciola": 5,
+      "cioccolato": 4,
+      "vaniglia": 5,
+      "cannella": 4,
+      "caramello": 5,
+      "maiale": 4,
+      "vino": 4,
+      "zenzero": 3
+    },
+    "immagine": "https://images.pexels.com/photos/14050491/pexels-photo-14050491.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pera",
+    "tipologia": "",
+    "varieta": "Madernassa",
+    "stagionatura": null
+  },
+  "pesca_gialla": {
+    "nome": "Pesca gialla",
+    "categoria": "Frutta",
+    "famiglia": "Drupacee",
+    "profilo": [
+      "dolce",
+      "fruttato",
+      "floreale",
+      "acido"
+    ],
+    "pairing": {
+      "mandorla": 5,
+      "vaniglia": 5,
+      "basilico": 4,
+      "prosciutto": 5,
+      "miele": 5,
+      "limone": 4,
+      "zenzero": 4,
+      "moscato": 5
+    },
+    "immagine": "https://images.pexels.com/photos/17674101/pexels-photo-17674101.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pesca",
+    "tipologia": "",
+    "varieta": "Gialla",
+    "stagionatura": null
+  },
+  "pesca_bianca": {
+    "nome": "Pesca bianca",
+    "categoria": "Frutta",
+    "famiglia": "Drupacee",
+    "profilo": [
+      "dolce",
+      "fruttato",
+      "floreale",
+      "acido"
+    ],
+    "pairing": {
+      "mandorla": 5,
+      "vaniglia": 5,
+      "basilico": 4,
+      "prosciutto": 5,
+      "miele": 5,
+      "limone": 4,
+      "zenzero": 4,
+      "moscato": 5
+    },
+    "immagine": "https://images.pexels.com/photos/17674101/pexels-photo-17674101.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pesca",
+    "tipologia": "",
+    "varieta": "Bianca",
+    "stagionatura": null
+  },
+  "pesca_tabacchiera": {
+    "nome": "Pesca tabacchiera",
+    "categoria": "Frutta",
+    "famiglia": "Drupacee",
+    "profilo": [
+      "dolce",
+      "fruttato",
+      "floreale",
+      "acido"
+    ],
+    "pairing": {
+      "mandorla": 5,
+      "vaniglia": 5,
+      "basilico": 4,
+      "prosciutto": 5,
+      "miele": 5,
+      "limone": 4,
+      "zenzero": 4,
+      "moscato": 5
+    },
+    "immagine": "https://images.pexels.com/photos/17674101/pexels-photo-17674101.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pesca",
+    "tipologia": "",
+    "varieta": "Tabacchiera",
+    "stagionatura": null
+  },
+  "nettarina": {
+    "nome": "Nettarina",
+    "categoria": "Frutta",
+    "famiglia": "Drupacee",
+    "profilo": [
+      "dolce",
+      "fruttato",
+      "floreale",
+      "acido"
+    ],
+    "pairing": {
+      "mandorla": 5,
+      "vaniglia": 5,
+      "basilico": 4,
+      "prosciutto": 5,
+      "miele": 5,
+      "limone": 4,
+      "zenzero": 4,
+      "moscato": 5
+    },
+    "immagine": "https://images.pexels.com/photos/17674101/pexels-photo-17674101.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pesca",
+    "tipologia": "Nettarina",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "ciliegia_ferrovia": {
+    "nome": "Ciliegia Ferrovia",
+    "categoria": "Frutta",
+    "famiglia": "Drupacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "mandorla": 5,
+      "vaniglia": 4,
+      "cannella": 4,
+      "maiale": 4,
+      "anatra": 5,
+      "vino": 5
+    },
+    "immagine": "https://images.pexels.com/photos/966416/pexels-photo-966416.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "ciliegia",
+    "tipologia": "",
+    "varieta": "Ferrovia",
+    "stagionatura": null
+  },
+  "ciliegia_durone": {
+    "nome": "Ciliegia Durone",
+    "categoria": "Frutta",
+    "famiglia": "Drupacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "mandorla": 5,
+      "vaniglia": 4,
+      "cannella": 4,
+      "maiale": 4,
+      "anatra": 5,
+      "vino": 5
+    },
+    "immagine": "https://images.pexels.com/photos/966416/pexels-photo-966416.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "ciliegia",
+    "tipologia": "",
+    "varieta": "Durone",
+    "stagionatura": null
+  },
+  "ciliegia_mora": {
+    "nome": "Ciliegia Mora di Cazzano",
+    "categoria": "Frutta",
+    "famiglia": "Drupacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "mandorla": 5,
+      "vaniglia": 4,
+      "cannella": 4,
+      "maiale": 4,
+      "anatra": 5,
+      "vino": 5
+    },
+    "immagine": "https://images.pexels.com/photos/966416/pexels-photo-966416.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "ciliegia",
+    "tipologia": "",
+    "varieta": "Mora di Cazzano",
+    "stagionatura": null
+  },
+  "ciliegia_marasca": {
+    "nome": "Marasca",
+    "categoria": "Frutta",
+    "famiglia": "Drupacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "mandorla": 5,
+      "vaniglia": 4,
+      "cannella": 4,
+      "maiale": 4,
+      "anatra": 5,
+      "vino": 5
+    },
+    "immagine": "https://images.pexels.com/photos/966416/pexels-photo-966416.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "ciliegia",
+    "tipologia": "",
+    "varieta": "Marasca",
+    "stagionatura": null
+  },
+  "arancia_tarocco": {
+    "nome": "Arancia Tarocco",
+    "categoria": "Agrumi",
+    "famiglia": "Agrumi",
+    "profilo": [
+      "dolce",
+      "acido",
+      "agrumato",
+      "fresco"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "anatra": 5,
+      "cannella": 5,
+      "zenzero": 5,
+      "vaniglia": 4,
+      "finocchio": 4,
+      "maiale": 4,
+      "miele": 5
+    },
+    "immagine": "https://images.pexels.com/photos/161559/background-orange-fruit-orange-161559.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "arancia",
+    "tipologia": "",
+    "varieta": "Tarocco",
+    "stagionatura": null
+  },
+  "arancia_sanguinello": {
+    "nome": "Arancia Sanguinello",
+    "categoria": "Agrumi",
+    "famiglia": "Agrumi",
+    "profilo": [
+      "dolce",
+      "acido",
+      "agrumato",
+      "fresco"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "anatra": 5,
+      "cannella": 5,
+      "zenzero": 5,
+      "vaniglia": 4,
+      "finocchio": 4,
+      "maiale": 4,
+      "miele": 5
+    },
+    "immagine": "https://images.pexels.com/photos/161559/background-orange-fruit-orange-161559.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "arancia",
+    "tipologia": "",
+    "varieta": "Sanguinello",
+    "stagionatura": null
+  },
+  "arancia_moro": {
+    "nome": "Arancia Moro",
+    "categoria": "Agrumi",
+    "famiglia": "Agrumi",
+    "profilo": [
+      "dolce",
+      "acido",
+      "agrumato",
+      "fresco"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "anatra": 5,
+      "cannella": 5,
+      "zenzero": 5,
+      "vaniglia": 4,
+      "finocchio": 4,
+      "maiale": 4,
+      "miele": 5
+    },
+    "immagine": "https://images.pexels.com/photos/161559/background-orange-fruit-orange-161559.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "arancia",
+    "tipologia": "",
+    "varieta": "Moro",
+    "stagionatura": null
+  },
+  "limone_sorrento": {
+    "nome": "Limone di Sorrento",
+    "categoria": "Agrumi",
+    "famiglia": "Agrumi",
+    "profilo": [
+      "acido",
+      "fresco",
+      "agrumato"
+    ],
+    "pairing": {
+      "pesce": 5,
+      "pollo": 5,
+      "basilico": 5,
+      "timo": 4,
+      "aglio": 4,
+      "olio": 5,
+      "prezzemolo": 5,
+      "zenzero": 4,
+      "burro": 4
+    },
+    "immagine": "https://images.pexels.com/photos/1414110/pexels-photo-1414110.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "limone",
+    "tipologia": "",
+    "varieta": "Sorrento",
+    "stagionatura": null
+  },
+  "limone_sfusato": {
+    "nome": "Limone della Costiera Amalfitana",
+    "categoria": "Agrumi",
+    "famiglia": "Agrumi",
+    "profilo": [
+      "acido",
+      "fresco",
+      "agrumato"
+    ],
+    "pairing": {
+      "pesce": 5,
+      "pollo": 5,
+      "basilico": 5,
+      "timo": 4,
+      "aglio": 4,
+      "olio": 5,
+      "prezzemolo": 5,
+      "zenzero": 4,
+      "burro": 4
+    },
+    "immagine": "https://images.pexels.com/photos/1414110/pexels-photo-1414110.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "limone",
+    "tipologia": "",
+    "varieta": "Sfusato Amalfitano",
+    "stagionatura": null
+  },
+  "limone_verna": {
+    "nome": "Limone Verna",
+    "categoria": "Agrumi",
+    "famiglia": "Agrumi",
+    "profilo": [
+      "acido",
+      "fresco",
+      "agrumato"
+    ],
+    "pairing": {
+      "pesce": 5,
+      "pollo": 5,
+      "basilico": 5,
+      "timo": 4,
+      "aglio": 4,
+      "olio": 5,
+      "prezzemolo": 5,
+      "zenzero": 4,
+      "burro": 4
+    },
+    "immagine": "https://images.pexels.com/photos/1414110/pexels-photo-1414110.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "limone",
+    "tipologia": "",
+    "varieta": "Verna",
+    "stagionatura": null
+  },
+  "pomodoro_sanmarzano": {
+    "nome": "Pomodoro San Marzano",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "acido",
+      "umami",
+      "fruttato",
+      "vegetale"
+    ],
+    "pairing": {
+      "basilico": 5,
+      "mozzarella": 5,
+      "aglio": 5,
+      "origano": 5,
+      "acciuga": 5,
+      "olio": 5,
+      "parmigiano": 4,
+      "peperoncino": 4,
+      "olive": 5,
+      "cappero": 5
+    },
+    "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pomodoro",
+    "tipologia": "",
+    "varieta": "San Marzano",
+    "stagionatura": null
+  },
+  "pomodoro_cuore": {
+    "nome": "Pomodoro Cuore di Bue",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "acido",
+      "umami",
+      "fruttato",
+      "vegetale"
+    ],
+    "pairing": {
+      "basilico": 5,
+      "mozzarella": 5,
+      "aglio": 5,
+      "origano": 5,
+      "acciuga": 5,
+      "olio": 5,
+      "parmigiano": 4,
+      "peperoncino": 4,
+      "olive": 5,
+      "cappero": 5
+    },
+    "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pomodoro",
+    "tipologia": "",
+    "varieta": "Cuore di Bue",
+    "stagionatura": null
+  },
+  "pomodoro_costoluto": {
+    "nome": "Pomodoro Costoluto",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "acido",
+      "umami",
+      "fruttato",
+      "vegetale"
+    ],
+    "pairing": {
+      "basilico": 5,
+      "mozzarella": 5,
+      "aglio": 5,
+      "origano": 5,
+      "acciuga": 5,
+      "olio": 5,
+      "parmigiano": 4,
+      "peperoncino": 4,
+      "olive": 5,
+      "cappero": 5
+    },
+    "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pomodoro",
+    "tipologia": "",
+    "varieta": "Costoluto",
+    "stagionatura": null
+  },
+  "pomodoro_datterino": {
+    "nome": "Pomodoro Datterino",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "acido",
+      "umami",
+      "fruttato",
+      "vegetale"
+    ],
+    "pairing": {
+      "basilico": 5,
+      "mozzarella": 5,
+      "aglio": 5,
+      "origano": 5,
+      "acciuga": 5,
+      "olio": 5,
+      "parmigiano": 4,
+      "peperoncino": 4,
+      "olive": 5,
+      "cappero": 5
+    },
+    "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pomodoro",
+    "tipologia": "",
+    "varieta": "Datterino",
+    "stagionatura": null
+  },
+  "pomodoro_ciliegino": {
+    "nome": "Pomodoro Ciliegino",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "acido",
+      "umami",
+      "fruttato",
+      "vegetale"
+    ],
+    "pairing": {
+      "basilico": 5,
+      "mozzarella": 5,
+      "aglio": 5,
+      "origano": 5,
+      "acciuga": 5,
+      "olio": 5,
+      "parmigiano": 4,
+      "peperoncino": 4,
+      "olive": 5,
+      "cappero": 5
+    },
+    "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pomodoro",
+    "tipologia": "",
+    "varieta": "Ciliegino",
+    "stagionatura": null
+  },
+  "pomodoro_pachino": {
+    "nome": "Pomodoro di Pachino IGP",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "acido",
+      "umami",
+      "fruttato",
+      "vegetale"
+    ],
+    "pairing": {
+      "basilico": 5,
+      "mozzarella": 5,
+      "aglio": 5,
+      "origano": 5,
+      "acciuga": 5,
+      "olio": 5,
+      "parmigiano": 4,
+      "peperoncino": 4,
+      "olive": 5,
+      "cappero": 5,
+      "pesce": 5
+    },
+    "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pomodoro",
+    "tipologia": "",
+    "varieta": "Pachino IGP",
+    "stagionatura": null
+  },
+  "pomodoro_piccadilly": {
+    "nome": "Pomodoro Piccadilly",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "acido",
+      "umami",
+      "fruttato",
+      "vegetale"
+    ],
+    "pairing": {
+      "basilico": 5,
+      "mozzarella": 5,
+      "aglio": 5,
+      "origano": 5,
+      "acciuga": 5,
+      "olio": 5,
+      "parmigiano": 4,
+      "peperoncino": 4,
+      "olive": 5,
+      "cappero": 5
+    },
+    "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pomodoro",
+    "tipologia": "",
+    "varieta": "Piccadilly",
+    "stagionatura": null
+  },
+  "pomodoro_camone": {
+    "nome": "Pomodoro Camone",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "acido",
+      "umami",
+      "fruttato",
+      "vegetale"
+    ],
+    "pairing": {
+      "basilico": 5,
+      "mozzarella": 5,
+      "aglio": 5,
+      "origano": 5,
+      "acciuga": 5,
+      "olio": 5,
+      "parmigiano": 4,
+      "peperoncino": 4,
+      "olive": 5,
+      "cappero": 5
+    },
+    "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pomodoro",
+    "tipologia": "",
+    "varieta": "Camone",
+    "stagionatura": null
+  },
+  "pomodoro_ramato": {
+    "nome": "Pomodoro Ramato",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "acido",
+      "umami",
+      "fruttato",
+      "vegetale"
+    ],
+    "pairing": {
+      "basilico": 5,
+      "mozzarella": 5,
+      "aglio": 5,
+      "origano": 5,
+      "acciuga": 5,
+      "olio": 5,
+      "parmigiano": 4,
+      "peperoncino": 4,
+      "olive": 5,
+      "cappero": 5
+    },
+    "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pomodoro",
+    "tipologia": "",
+    "varieta": "Ramato",
+    "stagionatura": null
+  },
+  "pomodoro_perino": {
+    "nome": "Pomodoro Perino",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "acido",
+      "umami",
+      "fruttato",
+      "vegetale"
+    ],
+    "pairing": {
+      "basilico": 5,
+      "mozzarella": 5,
+      "aglio": 5,
+      "origano": 5,
+      "acciuga": 5,
+      "olio": 5,
+      "parmigiano": 4,
+      "peperoncino": 4,
+      "olive": 5,
+      "cappero": 5
+    },
+    "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pomodoro",
+    "tipologia": "",
+    "varieta": "Perino",
+    "stagionatura": null
+  },
+  "peperone_carmagnola": {
+    "nome": "Peperone di Carmagnola",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "dolce",
+      "vegetale",
+      "fruttato"
+    ],
+    "pairing": {
+      "olio": 5,
+      "aglio": 5,
+      "pomodoro": 5,
+      "aceto": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "peperone",
+    "tipologia": "",
+    "varieta": "Carmagnola",
+    "stagionatura": null
+  },
+  "peperone_senise": {
+    "nome": "Peperone di Senise IGP",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "dolce",
+      "vegetale",
+      "fruttato"
+    ],
+    "pairing": {
+      "olio": 5,
+      "aglio": 5,
+      "pomodoro": 5,
+      "aceto": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "peperone",
+    "tipologia": "",
+    "varieta": "Senise IGP",
+    "stagionatura": null
+  },
+  "peperone_pontecorvo": {
+    "nome": "Peperone di Pontecorvo DOP",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "dolce",
+      "vegetale",
+      "fruttato"
+    ],
+    "pairing": {
+      "olio": 5,
+      "aglio": 5,
+      "pomodoro": 5,
+      "aceto": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "peperone",
+    "tipologia": "",
+    "varieta": "Pontecorvo DOP",
+    "stagionatura": null
+  },
+  "peperone_corno": {
+    "nome": "Peperone Corno di Bue",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "dolce",
+      "vegetale",
+      "fruttato"
+    ],
+    "pairing": {
+      "olio": 5,
+      "aglio": 5,
+      "pomodoro": 5,
+      "aceto": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "peperone",
+    "tipologia": "",
+    "varieta": "Corno di Bue",
+    "stagionatura": null
+  },
+  "peperone_friggitello": {
+    "nome": "Friggitello",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "dolce",
+      "vegetale",
+      "fruttato"
+    ],
+    "pairing": {
+      "olio": 5,
+      "aglio": 5,
+      "pomodoro": 5,
+      "aceto": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "peperone",
+    "tipologia": "",
+    "varieta": "Friggitello",
+    "stagionatura": null
+  },
+  "peperone_piquillo": {
+    "nome": "Peperone Piquillo",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "dolce",
+      "vegetale",
+      "fruttato"
+    ],
+    "pairing": {
+      "olio": 5,
+      "aglio": 5,
+      "pomodoro": 5,
+      "aceto": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "peperone",
+    "tipologia": "",
+    "varieta": "Piquillo",
+    "stagionatura": null
+  },
+  "melanzana_violetta": {
+    "nome": "Melanzana Violetta",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "terroso",
+      "vegetale",
+      "affumicato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "basilico": 5,
+      "aglio": 5,
+      "menta": 4,
+      "parmigiano": 4,
+      "ricotta": 5,
+      "olio": 5,
+      "peperoncino": 4
+    },
+    "immagine": "https://images.pexels.com/photos/5701950/pexels-photo-5701950.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "melanzana",
+    "tipologia": "",
+    "varieta": "Violetta",
+    "stagionatura": null
+  },
+  "melanzana_tonda": {
+    "nome": "Melanzana Tonda",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "terroso",
+      "vegetale",
+      "affumicato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "basilico": 5,
+      "aglio": 5,
+      "menta": 4,
+      "parmigiano": 4,
+      "ricotta": 5,
+      "olio": 5,
+      "peperoncino": 4
+    },
+    "immagine": "https://images.pexels.com/photos/5701950/pexels-photo-5701950.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "melanzana",
+    "tipologia": "Tonda",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "melanzana_lunga": {
+    "nome": "Melanzana Lunga",
+    "categoria": "Verdure",
+    "famiglia": "Solanacee",
+    "profilo": [
+      "terroso",
+      "vegetale",
+      "affumicato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "basilico": 5,
+      "aglio": 5,
+      "menta": 4,
+      "parmigiano": 4,
+      "ricotta": 5,
+      "olio": 5,
+      "peperoncino": 4
+    },
+    "immagine": "https://images.pexels.com/photos/5701950/pexels-photo-5701950.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "melanzana",
+    "tipologia": "Lunga",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "zucchina_romanesca": {
+    "nome": "Zucchina Romanesca",
+    "categoria": "Verdure",
+    "famiglia": "Cucurbitacee",
+    "profilo": [
+      "vegetale",
+      "fresco",
+      "delicato"
+    ],
+    "pairing": {
+      "menta": 5,
+      "basilico": 5,
+      "limone": 5,
+      "parmigiano": 4,
+      "ricotta": 4,
+      "aglio": 4,
+      "timo": 4
+    },
+    "immagine": "https://images.pexels.com/photos/3375263/pexels-photo-3375263.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "zucchina",
+    "tipologia": "",
+    "varieta": "Romanesca",
+    "stagionatura": null
+  },
+  "zucchina_napoletana": {
+    "nome": "Zucchina Napoletana",
+    "categoria": "Verdure",
+    "famiglia": "Cucurbitacee",
+    "profilo": [
+      "vegetale",
+      "fresco",
+      "delicato"
+    ],
+    "pairing": {
+      "menta": 5,
+      "basilico": 5,
+      "limone": 5,
+      "parmigiano": 4,
+      "ricotta": 4,
+      "aglio": 4,
+      "timo": 4
+    },
+    "immagine": "https://images.pexels.com/photos/3375263/pexels-photo-3375263.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "zucchina",
+    "tipologia": "",
+    "varieta": "Napoletana",
+    "stagionatura": null
+  },
+  "zucchina_trombetta": {
+    "nome": "Zucchina Trombetta",
+    "categoria": "Verdure",
+    "famiglia": "Cucurbitacee",
+    "profilo": [
+      "vegetale",
+      "fresco",
+      "delicato"
+    ],
+    "pairing": {
+      "menta": 5,
+      "basilico": 5,
+      "limone": 5,
+      "parmigiano": 4,
+      "ricotta": 4,
+      "aglio": 4,
+      "timo": 4
+    },
+    "immagine": "https://images.pexels.com/photos/3375263/pexels-photo-3375263.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "zucchina",
+    "tipologia": "",
+    "varieta": "Trombetta",
+    "stagionatura": null
+  },
+  "patata_kennebec": {
+    "nome": "Patata Kennebec",
+    "categoria": "Tuberi",
+    "famiglia": "Tuberi",
+    "profilo": [
+      "terroso",
+      "amidaceo",
+      "neutro"
+    ],
+    "pairing": {
+      "rosmarino": 5,
+      "timo": 5,
+      "burro": 5,
+      "parmigiano": 5,
+      "aglio": 4,
+      "cipolla": 4,
+      "formaggio": 5,
+      "carne": 4
+    },
+    "immagine": "https://images.pexels.com/photos/144248/potatoes-vegetables-mashed-potatoes-potatoes-144248.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "patata",
+    "tipologia": "",
+    "varieta": "Kennebec",
+    "stagionatura": null
+  },
+  "patata_agata": {
+    "nome": "Patata Agata",
+    "categoria": "Tuberi",
+    "famiglia": "Tuberi",
+    "profilo": [
+      "terroso",
+      "amidaceo",
+      "neutro"
+    ],
+    "pairing": {
+      "rosmarino": 5,
+      "timo": 5,
+      "burro": 5,
+      "parmigiano": 5,
+      "aglio": 4,
+      "cipolla": 4,
+      "formaggio": 5,
+      "carne": 4
+    },
+    "immagine": "https://images.pexels.com/photos/144248/potatoes-vegetables-mashed-potatoes-potatoes-144248.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "patata",
+    "tipologia": "",
+    "varieta": "Agata",
+    "stagionatura": null
+  },
+  "patata_vitelotte": {
+    "nome": "Patata Vitelotte",
+    "categoria": "Tuberi",
+    "famiglia": "Tuberi",
+    "profilo": [
+      "terroso",
+      "amidaceo",
+      "neutro"
+    ],
+    "pairing": {
+      "rosmarino": 5,
+      "timo": 5,
+      "burro": 5,
+      "parmigiano": 5,
+      "aglio": 4,
+      "cipolla": 4,
+      "formaggio": 5,
+      "carne": 4
+    },
+    "immagine": "https://images.pexels.com/photos/144248/potatoes-vegetables-mashed-potatoes-potatoes-144248.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "patata",
+    "tipologia": "",
+    "varieta": "Vitelotte",
+    "stagionatura": null
+  },
+  "patata_rossa": {
+    "nome": "Patata Rossa",
+    "categoria": "Tuberi",
+    "famiglia": "Tuberi",
+    "profilo": [
+      "terroso",
+      "amidaceo",
+      "neutro"
+    ],
+    "pairing": {
+      "rosmarino": 5,
+      "timo": 5,
+      "burro": 5,
+      "parmigiano": 5,
+      "aglio": 4,
+      "cipolla": 4,
+      "formaggio": 5,
+      "carne": 4
+    },
+    "immagine": "https://images.pexels.com/photos/144248/potatoes-vegetables-mashed-potatoes-potatoes-144248.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "patata",
+    "tipologia": "Rossa",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "patata_bintje": {
+    "nome": "Patata Bintje",
+    "categoria": "Tuberi",
+    "famiglia": "Tuberi",
+    "profilo": [
+      "terroso",
+      "amidaceo",
+      "neutro"
+    ],
+    "pairing": {
+      "rosmarino": 5,
+      "timo": 5,
+      "burro": 5,
+      "parmigiano": 5,
+      "aglio": 4,
+      "cipolla": 4,
+      "formaggio": 5,
+      "carne": 4
+    },
+    "immagine": "https://images.pexels.com/photos/144248/potatoes-vegetables-mashed-potatoes-potatoes-144248.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "patata",
+    "tipologia": "",
+    "varieta": "Bintje",
+    "stagionatura": null
+  },
+  "cipolla_tropea": {
+    "nome": "Cipolla Rossa di Tropea IGP",
+    "categoria": "Verdure",
+    "famiglia": "Allium",
+    "profilo": [
+      "piccante",
+      "dolce",
+      "solforato"
+    ],
+    "pairing": {
+      "carne": 5,
+      "pomodoro": 5,
+      "formaggio": 4,
+      "mela": 4,
+      "vino": 4,
+      "timo": 4,
+      "rosmarino": 4,
+      "aceto": 5
+    },
+    "immagine": "https://images.pexels.com/photos/130049/pexels-photo-130049.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "cipolla",
+    "tipologia": "",
+    "varieta": "Tropea IGP",
+    "stagionatura": null
+  },
+  "cipolla_cannara": {
+    "nome": "Cipolla di Cannara",
+    "categoria": "Verdure",
+    "famiglia": "Allium",
+    "profilo": [
+      "piccante",
+      "dolce",
+      "solforato"
+    ],
+    "pairing": {
+      "carne": 5,
+      "pomodoro": 5,
+      "formaggio": 4,
+      "mela": 4,
+      "vino": 4,
+      "timo": 4,
+      "rosmarino": 4,
+      "aceto": 5
+    },
+    "immagine": "https://images.pexels.com/photos/130049/pexels-photo-130049.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "cipolla",
+    "tipologia": "",
+    "varieta": "Cannara",
+    "stagionatura": null
+  },
+  "cipolla_bionda": {
+    "nome": "Cipolla bionda",
+    "categoria": "Verdure",
+    "famiglia": "Allium",
+    "profilo": [
+      "piccante",
+      "dolce",
+      "solforato"
+    ],
+    "pairing": {
+      "carne": 5,
+      "pomodoro": 5,
+      "formaggio": 4,
+      "mela": 4,
+      "vino": 4,
+      "timo": 4,
+      "rosmarino": 4,
+      "aceto": 5
+    },
+    "immagine": "https://images.pexels.com/photos/130049/pexels-photo-130049.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "cipolla",
+    "tipologia": "Bionda",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "cipolla_bianca": {
+    "nome": "Cipolla bianca",
+    "categoria": "Verdure",
+    "famiglia": "Allium",
+    "profilo": [
+      "piccante",
+      "dolce",
+      "solforato"
+    ],
+    "pairing": {
+      "carne": 5,
+      "pomodoro": 5,
+      "formaggio": 4,
+      "mela": 4,
+      "vino": 4,
+      "timo": 4,
+      "rosmarino": 4,
+      "aceto": 5
+    },
+    "immagine": "https://images.pexels.com/photos/130049/pexels-photo-130049.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "cipolla",
+    "tipologia": "Bianca",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "zucca_mantovana": {
+    "nome": "Zucca Mantovana",
+    "categoria": "Verdure",
+    "famiglia": "Cucurbitacee",
+    "profilo": [
+      "dolce",
+      "terroso",
+      "vegetale",
+      "cremoso"
+    ],
+    "pairing": {
+      "timo": 5,
+      "salvia": 5,
+      "parmigiano": 5,
+      "burro": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "zucca",
+    "tipologia": "",
+    "varieta": "Mantovana",
+    "stagionatura": null
+  },
+  "zucca_delica": {
+    "nome": "Zucca Delica",
+    "categoria": "Verdure",
+    "famiglia": "Cucurbitacee",
+    "profilo": [
+      "dolce",
+      "terroso",
+      "vegetale",
+      "cremoso"
+    ],
+    "pairing": {
+      "timo": 5,
+      "salvia": 5,
+      "parmigiano": 5,
+      "burro": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "zucca",
+    "tipologia": "",
+    "varieta": "Delica",
+    "stagionatura": null
+  },
+  "zucca_butternut": {
+    "nome": "Zucca Butternut",
+    "categoria": "Verdure",
+    "famiglia": "Cucurbitacee",
+    "profilo": [
+      "dolce",
+      "terroso",
+      "vegetale",
+      "cremoso"
+    ],
+    "pairing": {
+      "timo": 5,
+      "salvia": 5,
+      "parmigiano": 5,
+      "burro": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "zucca",
+    "tipologia": "",
+    "varieta": "Butternut",
+    "stagionatura": null
+  },
+  "zucca_hokkaido": {
+    "nome": "Zucca Hokkaido",
+    "categoria": "Verdure",
+    "famiglia": "Cucurbitacee",
+    "profilo": [
+      "dolce",
+      "terroso",
+      "vegetale",
+      "cremoso"
+    ],
+    "pairing": {
+      "timo": 5,
+      "salvia": 5,
+      "parmigiano": 5,
+      "burro": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "zucca",
+    "tipologia": "",
+    "varieta": "Hokkaido",
+    "stagionatura": null
+  },
+  "radicchio_tardivo": {
+    "nome": "Radicchio Rosso di Treviso Tardivo IGP",
+    "categoria": "Verdure",
+    "famiglia": "Asteracee",
+    "profilo": [
+      "amaro",
+      "vegetale",
+      "fresco",
+      "tannico"
+    ],
+    "pairing": {
+      "parmigiano": 5,
+      "noci": 5,
+      "aceto": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "radicchio",
+    "tipologia": "",
+    "varieta": "Treviso Tardivo IGP",
+    "stagionatura": null
+  },
+  "radicchio_precoce": {
+    "nome": "Radicchio Rosso di Treviso Precoce IGP",
+    "categoria": "Verdure",
+    "famiglia": "Asteracee",
+    "profilo": [
+      "amaro",
+      "vegetale",
+      "fresco",
+      "tannico"
+    ],
+    "pairing": {
+      "parmigiano": 4,
+      "noci": 5,
+      "aceto": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "radicchio",
+    "tipologia": "",
+    "varieta": "Treviso Precoce IGP",
+    "stagionatura": null
+  },
+  "radicchio_castelfranco": {
+    "nome": "Radicchio di Castelfranco IGP",
+    "categoria": "Verdure",
+    "famiglia": "Asteracee",
+    "profilo": [
+      "amaro",
+      "vegetale",
+      "fresco",
+      "tannico"
+    ],
+    "pairing": {
+      "parmigiano": 4,
+      "noci": 5,
+      "aceto": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "radicchio",
+    "tipologia": "",
+    "varieta": "Castelfranco IGP",
+    "stagionatura": null
+  },
+  "radicchio_chioggia": {
+    "nome": "Radicchio di Chioggia IGP",
+    "categoria": "Verdure",
+    "famiglia": "Asteracee",
+    "profilo": [
+      "amaro",
+      "vegetale",
+      "fresco",
+      "tannico"
+    ],
+    "pairing": {
+      "parmigiano": 4,
+      "noci": 5,
+      "aceto": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "radicchio",
+    "tipologia": "",
+    "varieta": "Chioggia IGP",
+    "stagionatura": null
+  },
+  "radicchio_verona": {
+    "nome": "Radicchio di Verona IGP",
+    "categoria": "Verdure",
+    "famiglia": "Asteracee",
+    "profilo": [
+      "amaro",
+      "vegetale",
+      "fresco",
+      "tannico"
+    ],
+    "pairing": {
+      "parmigiano": 4,
+      "noci": 5,
+      "aceto": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "radicchio",
+    "tipologia": "",
+    "varieta": "Verona IGP",
+    "stagionatura": null
+  },
+  "cavolo_verza": {
+    "nome": "Cavolo verza",
+    "categoria": "Verdure",
+    "famiglia": "Brassicacee",
+    "profilo": [
+      "vegetale",
+      "solforato",
+      "terroso"
+    ],
+    "pairing": {
+      "senape": 5,
+      "aceto": 5,
+      "mela": 4,
+      "maiale": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "cavolo",
+    "tipologia": "",
+    "varieta": "Verza",
+    "stagionatura": null
+  },
+  "cavolo_nero": {
+    "nome": "Cavolo nero",
+    "categoria": "Verdure",
+    "famiglia": "Brassicacee",
+    "profilo": [
+      "vegetale",
+      "solforato",
+      "terroso"
+    ],
+    "pairing": {
+      "senape": 5,
+      "aceto": 5,
+      "mela": 4,
+      "maiale": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "cavolo",
+    "tipologia": "",
+    "varieta": "Cavolo nero",
+    "stagionatura": null
+  },
+  "cavolfiore": {
+    "nome": "Cavolfiore",
+    "categoria": "Verdure",
+    "famiglia": "Brassicacee",
+    "profilo": [
+      "vegetale",
+      "solforato",
+      "terroso"
+    ],
+    "pairing": {
+      "senape": 5,
+      "aceto": 5,
+      "mela": 4,
+      "maiale": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "cavolo",
+    "tipologia": "Cavolfiore",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "broccolo": {
+    "nome": "Broccolo",
+    "categoria": "Verdure",
+    "famiglia": "Brassicacee",
+    "profilo": [
+      "vegetale",
+      "solforato",
+      "terroso"
+    ],
+    "pairing": {
+      "senape": 5,
+      "aceto": 5,
+      "mela": 4,
+      "maiale": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "cavolo",
+    "tipologia": "Broccolo",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "cavolo_rosso": {
+    "nome": "Cavolo rosso",
+    "categoria": "Verdure",
+    "famiglia": "Brassicacee",
+    "profilo": [
+      "vegetale",
+      "solforato",
+      "terroso"
+    ],
+    "pairing": {
+      "senape": 5,
+      "aceto": 5,
+      "mela": 5,
+      "maiale": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "cavolo",
+    "tipologia": "",
+    "varieta": "Rosso",
+    "stagionatura": null
+  },
+  "uva_moscato": {
+    "nome": "Uva Moscato",
+    "categoria": "Frutta",
+    "famiglia": "Vitacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "floreale"
+    ],
+    "pairing": {
+      "formaggio": 5,
+      "prosciutto": 5,
+      "parmigiano": 4,
+      "noci": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "uva",
+    "tipologia": "",
+    "varieta": "Moscato",
+    "stagionatura": null
+  },
+  "uva_nebiolo": {
+    "nome": "Uva Nebbiolo",
+    "categoria": "Frutta",
+    "famiglia": "Vitacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "floreale"
+    ],
+    "pairing": {
+      "formaggio": 5,
+      "prosciutto": 5,
+      "parmigiano": 4,
+      "noci": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "uva",
+    "tipologia": "",
+    "varieta": "Nebbiolo",
+    "stagionatura": null
+  },
+  "uva_barbera": {
+    "nome": "Uva Barbera",
+    "categoria": "Frutta",
+    "famiglia": "Vitacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "floreale"
+    ],
+    "pairing": {
+      "formaggio": 5,
+      "prosciutto": 5,
+      "parmigiano": 4,
+      "noci": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "uva",
+    "tipologia": "",
+    "varieta": "Barbera",
+    "stagionatura": null
+  },
+  "uva_dolcetto": {
+    "nome": "Uva Dolcetto",
+    "categoria": "Frutta",
+    "famiglia": "Vitacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "floreale"
+    ],
+    "pairing": {
+      "formaggio": 5,
+      "prosciutto": 5,
+      "parmigiano": 4,
+      "noci": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "uva",
+    "tipologia": "",
+    "varieta": "Dolcetto",
+    "stagionatura": null
+  },
+  "uva_nerodavola": {
+    "nome": "Uva Nero d'Avola",
+    "categoria": "Frutta",
+    "famiglia": "Vitacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "floreale"
+    ],
+    "pairing": {
+      "formaggio": 5,
+      "prosciutto": 5,
+      "parmigiano": 4,
+      "noci": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "uva",
+    "tipologia": "",
+    "varieta": "Nero d'Avola",
+    "stagionatura": null
+  },
+  "uva_sangiovese": {
+    "nome": "Uva Sangiovese",
+    "categoria": "Frutta",
+    "famiglia": "Vitacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "floreale"
+    ],
+    "pairing": {
+      "formaggio": 5,
+      "prosciutto": 5,
+      "parmigiano": 4,
+      "noci": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "uva",
+    "tipologia": "",
+    "varieta": "Sangiovese",
+    "stagionatura": null
+  },
+  "uva_italia": {
+    "nome": "Uva da tavola Italia",
+    "categoria": "Frutta",
+    "famiglia": "Vitacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "floreale"
+    ],
+    "pairing": {
+      "formaggio": 5,
+      "prosciutto": 5,
+      "parmigiano": 4,
+      "noci": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "uva",
+    "tipologia": "",
+    "varieta": "Italia",
+    "stagionatura": null
+  },
+  "uva_fragola": {
+    "nome": "Uva Fragola",
+    "categoria": "Frutta",
+    "famiglia": "Vitacee",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "floreale"
+    ],
+    "pairing": {
+      "formaggio": 5,
+      "prosciutto": 5,
+      "parmigiano": 4,
+      "noci": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "uva",
+    "tipologia": "",
+    "varieta": "Fragola",
+    "stagionatura": null
+  },
+  "oliva_taggiaca": {
+    "nome": "Oliva Taggiasca",
+    "categoria": "Condimenti",
+    "famiglia": "Olive da tavola",
+    "profilo": [
+      "sapido",
+      "amaro",
+      "fruttato",
+      "fermentato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cappero": 5,
+      "aglio": 5,
+      "formaggio": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "olive",
+    "tipologia": "",
+    "varieta": "Taggiasca",
+    "stagionatura": null
+  },
+  "oliva_leccino": {
+    "nome": "Oliva Leccino",
+    "categoria": "Condimenti",
+    "famiglia": "Olive da tavola",
+    "profilo": [
+      "sapido",
+      "amaro",
+      "fruttato",
+      "fermentato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cappero": 5,
+      "aglio": 5,
+      "formaggio": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "olive",
+    "tipologia": "",
+    "varieta": "Leccino",
+    "stagionatura": null
+  },
+  "oliva_frantoio": {
+    "nome": "Oliva Frantoio",
+    "categoria": "Condimenti",
+    "famiglia": "Olive da tavola",
+    "profilo": [
+      "sapido",
+      "amaro",
+      "fruttato",
+      "fermentato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cappero": 5,
+      "aglio": 5,
+      "formaggio": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "olive",
+    "tipologia": "",
+    "varieta": "Frantoio",
+    "stagionatura": null
+  },
+  "oliva_coratina": {
+    "nome": "Oliva Coratina",
+    "categoria": "Condimenti",
+    "famiglia": "Olive da tavola",
+    "profilo": [
+      "sapido",
+      "amaro",
+      "fruttato",
+      "fermentato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cappero": 5,
+      "aglio": 5,
+      "formaggio": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "olive",
+    "tipologia": "",
+    "varieta": "Coratina",
+    "stagionatura": null
+  },
+  "oliva_nocellara": {
+    "nome": "Oliva Nocellara del Belice",
+    "categoria": "Condimenti",
+    "famiglia": "Olive da tavola",
+    "profilo": [
+      "sapido",
+      "amaro",
+      "fruttato",
+      "fermentato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cappero": 5,
+      "aglio": 5,
+      "formaggio": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "olive",
+    "tipologia": "",
+    "varieta": "Nocellara del Belice",
+    "stagionatura": null
+  },
+  "oliva_gaeta": {
+    "nome": "Oliva Gaeta",
+    "categoria": "Condimenti",
+    "famiglia": "Olive da tavola",
+    "profilo": [
+      "sapido",
+      "amaro",
+      "fruttato",
+      "fermentato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cappero": 5,
+      "aglio": 5,
+      "formaggio": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "olive",
+    "tipologia": "",
+    "varieta": "Gaeta",
+    "stagionatura": null
+  },
+  "oliva_cerignola": {
+    "nome": "Oliva Bella di Cerignola",
+    "categoria": "Condimenti",
+    "famiglia": "Olive da tavola",
+    "profilo": [
+      "sapido",
+      "amaro",
+      "fruttato",
+      "fermentato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cappero": 5,
+      "aglio": 5,
+      "formaggio": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "olive",
+    "tipologia": "",
+    "varieta": "Bella di Cerignola",
+    "stagionatura": null
+  },
+  "riso_carnaroli": {
+    "nome": "Riso Carnaroli",
+    "categoria": "Cereali",
+    "famiglia": "Poacee",
+    "profilo": [
+      "amidaceo",
+      "neutro",
+      "tostato"
+    ],
+    "pairing": {
+      "funghi": 5,
+      "parmigiano": 5,
+      "zafferano": 5,
+      "burro": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "riso",
+    "tipologia": "",
+    "varieta": "Carnaroli",
+    "stagionatura": null
+  },
+  "riso_arborio": {
+    "nome": "Riso Arborio",
+    "categoria": "Cereali",
+    "famiglia": "Poacee",
+    "profilo": [
+      "amidaceo",
+      "neutro",
+      "tostato"
+    ],
+    "pairing": {
+      "funghi": 5,
+      "parmigiano": 5,
+      "zafferano": 5,
+      "burro": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "riso",
+    "tipologia": "",
+    "varieta": "Arborio",
+    "stagionatura": null
+  },
+  "riso_vialone": {
+    "nome": "Riso Vialone Nano",
+    "categoria": "Cereali",
+    "famiglia": "Poacee",
+    "profilo": [
+      "amidaceo",
+      "neutro",
+      "tostato"
+    ],
+    "pairing": {
+      "funghi": 5,
+      "parmigiano": 5,
+      "zafferano": 5,
+      "burro": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "riso",
+    "tipologia": "",
+    "varieta": "Vialone Nano",
+    "stagionatura": null
+  },
+  "riso_baldo": {
+    "nome": "Riso Baldo",
+    "categoria": "Cereali",
+    "famiglia": "Poacee",
+    "profilo": [
+      "amidaceo",
+      "neutro",
+      "tostato"
+    ],
+    "pairing": {
+      "funghi": 5,
+      "parmigiano": 5,
+      "zafferano": 5,
+      "burro": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "riso",
+    "tipologia": "",
+    "varieta": "Baldo",
+    "stagionatura": null
+  },
+  "fagiolo_borlotti": {
+    "nome": "Fagiolo Borlotto",
+    "categoria": "Legumi",
+    "famiglia": "Leguminose",
+    "profilo": [
+      "terroso",
+      "amidaceo",
+      "vegetale"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cipolla": 5,
+      "rosmarino": 4,
+      "olio": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "fagiolo",
+    "tipologia": "",
+    "varieta": "Borlotti",
+    "stagionatura": null
+  },
+  "fagiolo_cannellino": {
+    "nome": "Fagiolo Cannellino",
+    "categoria": "Legumi",
+    "famiglia": "Leguminose",
+    "profilo": [
+      "terroso",
+      "amidaceo",
+      "vegetale"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cipolla": 5,
+      "rosmarino": 4,
+      "olio": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "fagiolo",
+    "tipologia": "",
+    "varieta": "Cannellino",
+    "stagionatura": null
+  },
+  "fagiolo_occhio": {
+    "nome": "Fagiolo dall'occhio",
+    "categoria": "Legumi",
+    "famiglia": "Leguminose",
+    "profilo": [
+      "terroso",
+      "amidaceo",
+      "vegetale"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "cipolla": 5,
+      "rosmarino": 4,
+      "olio": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "fagiolo",
+    "tipologia": "",
+    "varieta": "dall'occhio",
+    "stagionatura": null
+  },
+  "cece_cicerale": {
+    "nome": "Cece di Cicerale",
+    "categoria": "Legumi",
+    "famiglia": "Leguminose",
+    "profilo": [
+      "terroso",
+      "nocciolato",
+      "amidaceo"
+    ],
+    "pairing": {
+      "rosmarino": 5,
+      "aglio": 5,
+      "limone": 5,
+      "olio": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "cece",
+    "tipologia": "",
+    "varieta": "Cicerale",
+    "stagionatura": null
+  },
+  "cece_comune": {
+    "nome": "Cece comune",
+    "categoria": "Legumi",
+    "famiglia": "Leguminose",
+    "profilo": [
+      "terroso",
+      "nocciolato",
+      "amidaceo"
+    ],
+    "pairing": {
+      "rosmarino": 5,
+      "aglio": 5,
+      "limone": 5,
+      "olio": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "cece",
+    "tipologia": "Comune",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "caffe_espresso": {
+    "nome": "Caffè espresso",
+    "categoria": "Bevande",
+    "famiglia": "Tostati",
+    "profilo": [
+      "amaro",
+      "tostato",
+      "terroso"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "nocciola": 5,
+      "vaniglia": 4,
+      "caramello": 5,
+      "arancia": 4,
+      "cannella": 4
+    },
+    "immagine": "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "caffe",
+    "tipologia": "Espresso",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "caffe_filtro": {
+    "nome": "Caffè filtro",
+    "categoria": "Bevande",
+    "famiglia": "Tostati",
+    "profilo": [
+      "amaro",
+      "tostato",
+      "terroso"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "nocciola": 5,
+      "vaniglia": 4,
+      "caramello": 5,
+      "arancia": 4,
+      "cannella": 4
+    },
+    "immagine": "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "caffe",
+    "tipologia": "Filtro",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "caffe_chiaro": {
+    "nome": "Caffè tostatura chiara",
+    "categoria": "Bevande",
+    "famiglia": "Tostati",
+    "profilo": [
+      "amaro",
+      "tostato",
+      "terroso"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "nocciola": 5,
+      "vaniglia": 4,
+      "caramello": 5,
+      "arancia": 4,
+      "cannella": 4
+    },
+    "immagine": "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "caffe",
+    "tipologia": "Tostatura chiara",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "cioccolato_70": {
+    "nome": "Cioccolato fondente 70%",
+    "categoria": "Dolci",
+    "famiglia": "Cacao",
+    "profilo": [
+      "amaro",
+      "dolce",
+      "tostato"
+    ],
+    "pairing": {
+      "nocciola": 5,
+      "caffe": 5,
+      "arancia": 5,
+      "vaniglia": 4,
+      "sale": 4,
+      "lampone": 5,
+      "pera": 4,
+      "ciliegia": 5,
+      "menta": 4
+    },
+    "immagine": "https://images.pexels.com/photos/918327/pexels-photo-918327.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "cioccolato",
+    "tipologia": "Fondente",
+    "varieta": "70%",
+    "stagionatura": null
+  },
+  "cioccolato_85": {
+    "nome": "Cioccolato fondente 85%",
+    "categoria": "Dolci",
+    "famiglia": "Cacao",
+    "profilo": [
+      "amaro",
+      "dolce",
+      "tostato"
+    ],
+    "pairing": {
+      "nocciola": 5,
+      "caffe": 5,
+      "arancia": 5,
+      "vaniglia": 4,
+      "sale": 4,
+      "lampone": 5,
+      "pera": 4,
+      "ciliegia": 5,
+      "menta": 4
+    },
+    "immagine": "https://images.pexels.com/photos/918327/pexels-photo-918327.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "cioccolato",
+    "tipologia": "Fondente",
+    "varieta": "85%",
+    "stagionatura": null
+  },
+  "cioccolato_latte": {
+    "nome": "Cioccolato al latte",
+    "categoria": "Dolci",
+    "famiglia": "Cacao",
+    "profilo": [
+      "amaro",
+      "dolce",
+      "tostato"
+    ],
+    "pairing": {
+      "nocciola": 5,
+      "caffe": 5,
+      "arancia": 5,
+      "vaniglia": 4,
+      "sale": 4,
+      "lampone": 5,
+      "pera": 4,
+      "ciliegia": 5,
+      "menta": 4
+    },
+    "immagine": "https://images.pexels.com/photos/918327/pexels-photo-918327.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "cioccolato",
+    "tipologia": "Al latte",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "nocciola_piemonte": {
+    "nome": "Nocciola Piemonte IGP",
+    "categoria": "Frutta secca",
+    "famiglia": "Frutta secca",
+    "profilo": [
+      "tostato",
+      "grasso",
+      "dolce"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "caffe": 5,
+      "pera": 5,
+      "caramello": 5,
+      "vaniglia": 4,
+      "mela": 4,
+      "cannella": 4
+    },
+    "immagine": "https://images.pexels.com/photos/372882/pexels-photo-372882.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "nocciola",
+    "tipologia": "",
+    "varieta": "Tonda Gentile Trilobata",
+    "stagionatura": null
+  },
+  "nocciola_tonda": {
+    "nome": "Nocciola Tonda Gentile",
+    "categoria": "Frutta secca",
+    "famiglia": "Frutta secca",
+    "profilo": [
+      "tostato",
+      "grasso",
+      "dolce"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "caffe": 5,
+      "pera": 5,
+      "caramello": 5,
+      "vaniglia": 4,
+      "mela": 4,
+      "cannella": 4
+    },
+    "immagine": "https://images.pexels.com/photos/372882/pexels-photo-372882.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "nocciola",
+    "tipologia": "",
+    "varieta": "Tonda Gentile",
+    "stagionatura": null
+  },
+  "mandorla_pizzuta": {
+    "nome": "Mandorla Pizzuta di Avola",
+    "categoria": "Frutta secca",
+    "famiglia": "Frutta secca",
+    "profilo": [
+      "tostato",
+      "grasso",
+      "dolce"
+    ],
+    "pairing": {
+      "albicocca": 5,
+      "pesca": 5,
+      "ciliegia": 4,
+      "cioccolato": 5,
+      "vaniglia": 5,
+      "limone": 4,
+      "miele": 4
+    },
+    "immagine": "https://images.pexels.com/photos/1295572/pexels-photo-1295572.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "mandorla",
+    "tipologia": "",
+    "varieta": "Pizzuta di Avola",
+    "stagionatura": null
+  },
+  "mandorla_romana": {
+    "nome": "Mandorla Romana",
+    "categoria": "Frutta secca",
+    "famiglia": "Frutta secca",
+    "profilo": [
+      "tostato",
+      "grasso",
+      "dolce"
+    ],
+    "pairing": {
+      "albicocca": 5,
+      "pesca": 5,
+      "ciliegia": 4,
+      "cioccolato": 5,
+      "vaniglia": 5,
+      "limone": 4,
+      "miele": 4
+    },
+    "immagine": "https://images.pexels.com/photos/1295572/pexels-photo-1295572.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "mandorla",
+    "tipologia": "",
+    "varieta": "Romana",
+    "stagionatura": null
+  },
+  "pistacchio_bronte": {
+    "nome": "Pistacchio Verde di Bronte DOP",
+    "categoria": "Frutta secca",
+    "famiglia": "Frutta secca",
+    "profilo": [
+      "grasso",
+      "tostato",
+      "dolce",
+      "vegetale"
+    ],
+    "pairing": {
+      "cioccolato": 5,
+      "lampone": 5,
+      "albicocca": 5,
+      "limone": 5,
+      "miele": 4,
+      "vaniglia": 5
+    },
+    "immagine": "https://images.pexels.com/photos/4087659/pexels-photo-4087659.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pistacchio",
+    "tipologia": "",
+    "varieta": "Verde di Bronte DOP",
+    "stagionatura": null
+  },
+  "parmigiano_12_19": {
+    "nome": "Parmigiano Reggiano 12–19 mesi",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi stagionati",
+    "profilo": [
+      "sapido",
+      "umami",
+      "tostato",
+      "grasso"
+    ],
+    "pairing": {
+      "mela": 4,
+      "pera": 5,
+      "funghi": 5,
+      "patata": 5,
+      "pomodoro": 4,
+      "balsamico": 5,
+      "noci": 5
+    },
+    "immagine": "https://images.pexels.com/photos/236010/pexels-photo-236010.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "parmigiano",
+    "tipologia": "Parmigiano Reggiano",
+    "varieta": "",
+    "stagionatura": "12–19 mesi"
+  },
+  "parmigiano_20_26": {
+    "nome": "Parmigiano Reggiano 20–26 mesi",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi stagionati",
+    "profilo": [
+      "sapido",
+      "umami",
+      "tostato",
+      "grasso"
+    ],
+    "pairing": {
+      "mela": 4,
+      "pera": 5,
+      "funghi": 5,
+      "patata": 5,
+      "pomodoro": 4,
+      "balsamico": 5,
+      "noci": 5
+    },
+    "immagine": "https://images.pexels.com/photos/236010/pexels-photo-236010.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "parmigiano",
+    "tipologia": "Parmigiano Reggiano",
+    "varieta": "",
+    "stagionatura": "20–26 mesi"
+  },
+  "parmigiano_27_34": {
+    "nome": "Parmigiano Reggiano 27–34 mesi",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi stagionati",
+    "profilo": [
+      "sapido",
+      "umami",
+      "tostato",
+      "grasso"
+    ],
+    "pairing": {
+      "mela": 4,
+      "pera": 5,
+      "funghi": 5,
+      "patata": 5,
+      "pomodoro": 4,
+      "balsamico": 5,
+      "noci": 5
+    },
+    "immagine": "https://images.pexels.com/photos/236010/pexels-photo-236010.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "parmigiano",
+    "tipologia": "Parmigiano Reggiano",
+    "varieta": "",
+    "stagionatura": "27–34 mesi"
+  },
+  "parmigiano_35_45": {
+    "nome": "Parmigiano Reggiano 35–45 mesi",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi stagionati",
+    "profilo": [
+      "sapido",
+      "umami",
+      "tostato",
+      "grasso"
+    ],
+    "pairing": {
+      "mela": 4,
+      "pera": 5,
+      "funghi": 5,
+      "patata": 5,
+      "pomodoro": 4,
+      "balsamico": 5,
+      "noci": 5
+    },
+    "immagine": "https://images.pexels.com/photos/236010/pexels-photo-236010.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "parmigiano",
+    "tipologia": "Parmigiano Reggiano",
+    "varieta": "",
+    "stagionatura": "35–45 mesi"
+  },
+  "parmigiano_46_79": {
+    "nome": "Parmigiano Reggiano 46–79 mesi",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi stagionati",
+    "profilo": [
+      "sapido",
+      "umami",
+      "tostato",
+      "grasso"
+    ],
+    "pairing": {
+      "mela": 4,
+      "pera": 5,
+      "funghi": 5,
+      "patata": 5,
+      "pomodoro": 4,
+      "balsamico": 5,
+      "noci": 5
+    },
+    "immagine": "https://images.pexels.com/photos/236010/pexels-photo-236010.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "parmigiano",
+    "tipologia": "Parmigiano Reggiano",
+    "varieta": "",
+    "stagionatura": "46–79 mesi"
+  },
+  "parmigiano_80_plus": {
+    "nome": "Parmigiano Reggiano oltre 80 mesi",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi stagionati",
+    "profilo": [
+      "sapido",
+      "umami",
+      "tostato",
+      "grasso"
+    ],
+    "pairing": {
+      "mela": 4,
+      "pera": 5,
+      "funghi": 5,
+      "patata": 5,
+      "pomodoro": 4,
+      "balsamico": 5,
+      "noci": 5
+    },
+    "immagine": "https://images.pexels.com/photos/236010/pexels-photo-236010.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "parmigiano",
+    "tipologia": "Parmigiano Reggiano",
+    "varieta": "",
+    "stagionatura": "oltre 80 mesi"
+  },
+  "gorgonzola_dolce": {
+    "nome": "Gorgonzola Dolce",
+    "categoria": "Formaggi",
+    "famiglia": "Erborinati",
+    "profilo": [
+      "sapido",
+      "grasso",
+      "intenso",
+      "piccante",
+      "cremoso"
+    ],
+    "pairing": {
+      "pera": 5,
+      "mela": 4,
+      "noci": 5,
+      "miele": 5,
+      "sedano": 4,
+      "vino": 5
+    },
+    "immagine": "https://images.pexels.com/photos/773253/pexels-photo-773253.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "gorgonzola",
+    "tipologia": "Gorgonzola",
+    "varieta": "Dolce",
+    "stagionatura": ""
+  },
+  "gorgonzola_piccante": {
+    "nome": "Gorgonzola Piccante",
+    "categoria": "Formaggi",
+    "famiglia": "Erborinati",
+    "profilo": [
+      "sapido",
+      "grasso",
+      "intenso",
+      "piccante"
+    ],
+    "pairing": {
+      "pera": 5,
+      "mela": 4,
+      "noci": 5,
+      "miele": 5,
+      "sedano": 4,
+      "vino": 5
+    },
+    "immagine": "https://images.pexels.com/photos/773253/pexels-photo-773253.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "gorgonzola",
+    "tipologia": "Gorgonzola",
+    "varieta": "Piccante",
+    "stagionatura": ""
+  },
+  "robiola_roccaverano": {
+    "nome": "Robiola di Roccaverano DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Generico",
+    "profilo": [
+      "lattico",
+      "grasso",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "miele": 5,
+      "noci": 5,
+      "pera": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "Robiola",
+    "varieta": "Roccaverano",
+    "stagionatura": null
+  },
+  "toma_piemontese": {
+    "nome": "Toma Piemontese DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Generico",
+    "profilo": [
+      "lattico",
+      "grasso",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "miele": 5,
+      "noci": 5,
+      "pera": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "Toma",
+    "varieta": "Piemontese",
+    "stagionatura": null
+  },
+  "castelmagno": {
+    "nome": "Castelmagno DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Generico",
+    "profilo": [
+      "lattico",
+      "grasso",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "miele": 5,
+      "noci": 5,
+      "pera": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "Pasta pressata",
+    "varieta": "Castelmagno",
+    "stagionatura": null
+  },
+  "fontina": {
+    "nome": "Fontina DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Generico",
+    "profilo": [
+      "lattico",
+      "grasso",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "miele": 5,
+      "noci": 5,
+      "pera": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "Pasta semicotta",
+    "varieta": "Fontina",
+    "stagionatura": null
+  },
+  "taleggio": {
+    "nome": "Taleggio DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Generico",
+    "profilo": [
+      "lattico",
+      "grasso",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "miele": 5,
+      "noci": 5,
+      "pera": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "Crosta lavata",
+    "varieta": "Taleggio",
+    "stagionatura": null
+  },
+  "pecorino_romano": {
+    "nome": "Pecorino Romano DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Generico",
+    "profilo": [
+      "lattico",
+      "grasso",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "miele": 5,
+      "noci": 5,
+      "pera": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "Pecorino",
+    "varieta": "Romano",
+    "stagionatura": null
+  },
+  "pecorino_toscano": {
+    "nome": "Pecorino Toscano DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Generico",
+    "profilo": [
+      "lattico",
+      "grasso",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "miele": 5,
+      "noci": 5,
+      "pera": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "Pecorino",
+    "varieta": "Toscano",
+    "stagionatura": null
+  },
+  "fiore_sardo": {
+    "nome": "Fiore Sardo DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Generico",
+    "profilo": [
+      "lattico",
+      "grasso",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "miele": 5,
+      "noci": 5,
+      "pera": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "Pecorino",
+    "varieta": "Fiore Sardo",
+    "stagionatura": null
+  },
+  "provolone": {
+    "nome": "Provolone Valpadana DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Generico",
+    "profilo": [
+      "lattico",
+      "grasso",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "miele": 5,
+      "noci": 5,
+      "pera": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "Pasta filata",
+    "varieta": "Provolone",
+    "stagionatura": null
+  },
+  "caciocavallo": {
+    "nome": "Caciocavallo",
+    "categoria": "Formaggi",
+    "famiglia": "Generico",
+    "profilo": [
+      "lattico",
+      "grasso",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "miele": 5,
+      "noci": 5,
+      "pera": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "Pasta filata",
+    "varieta": "Caciocavallo",
+    "stagionatura": null
+  },
+  "burrata": {
+    "nome": "Burrata",
+    "categoria": "Formaggi",
+    "famiglia": "Generico",
+    "profilo": [
+      "lattico",
+      "grasso",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "miele": 5,
+      "noci": 5,
+      "pera": 5,
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "Pasta filata",
+    "varieta": "Burrata",
+    "stagionatura": null
+  },
+  "mozzarella_bufala": {
+    "nome": "Mozzarella di Bufala Campana DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Pasta filata",
+    "profilo": [
+      "lattico",
+      "fresco",
+      "delicato"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "basilico": 5,
+      "olio": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "mozzarella",
+    "tipologia": "Pasta filata",
+    "varieta": "Bufala",
+    "stagionatura": null
+  },
+  "fassona_piemonte": {
+    "nome": "Manzo di Razza Piemontese",
+    "categoria": "Carne",
+    "famiglia": "Generico",
+    "profilo": [
+      "umami",
+      "sapido",
+      "grasso",
+      "tostato"
+    ],
+    "pairing": {
+      "rosmarino": 5,
+      "timo": 5,
+      "cipolla": 5,
+      "vino": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "carne",
+    "tipologia": "Carne bovina",
+    "varieta": "Piemontese",
+    "stagionatura": null
+  },
+  "chianina": {
+    "nome": "Manzo di Chianina",
+    "categoria": "Carne",
+    "famiglia": "Generico",
+    "profilo": [
+      "umami",
+      "sapido",
+      "grasso",
+      "tostato"
+    ],
+    "pairing": {
+      "rosmarino": 5,
+      "timo": 5,
+      "cipolla": 5,
+      "vino": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "carne",
+    "tipologia": "Carne bovina",
+    "varieta": "Chianina",
+    "stagionatura": null
+  },
+  "scottona": {
+    "nome": "Scottona",
+    "categoria": "Carne",
+    "famiglia": "Generico",
+    "profilo": [
+      "umami",
+      "sapido",
+      "grasso",
+      "tostato"
+    ],
+    "pairing": {
+      "rosmarino": 5,
+      "timo": 5,
+      "cipolla": 5,
+      "vino": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "carne",
+    "tipologia": "Carne bovina",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "agnello_sardo": {
+    "nome": "Agnello di Sardegna",
+    "categoria": "Carne",
+    "famiglia": "Ovini",
+    "profilo": [
+      "grasso",
+      "tannico",
+      "umami"
+    ],
+    "pairing": {
+      "cumino": 5,
+      "rosmarino": 5,
+      "menta": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "agnello",
+    "tipologia": "Carne ovina",
+    "varieta": "Sardo",
+    "stagionatura": null
+  },
+  "maiale_cinta": {
+    "nome": "Cinta Senese",
+    "categoria": "Carne",
+    "famiglia": "Carni suine",
+    "profilo": [
+      "grasso",
+      "sapido",
+      "dolce",
+      "umami"
+    ],
+    "pairing": {
+      "mela": 5,
+      "senape": 5,
+      "timo": 4,
+      "rosmarino": 4,
+      "cipolla": 4,
+      "vino": 4,
+      "miele": 5,
+      "prugna": 5,
+      "pesca": 4
+    },
+    "immagine": "https://images.pexels.com/photos/236798/pexels-photo-236798.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "maiale",
+    "tipologia": "Carne suina",
+    "varieta": "Cinta Senese",
+    "stagionatura": null
+  },
+  "pollo_ruspante": {
+    "nome": "Pollo ruspante",
+    "categoria": "Carne",
+    "famiglia": "Carni bianche",
+    "profilo": [
+      "delicato",
+      "umami",
+      "grasso"
+    ],
+    "pairing": {
+      "limone": 5,
+      "rosmarino": 5,
+      "timo": 5,
+      "aglio": 4,
+      "cipolla": 4,
+      "burro": 4,
+      "funghi": 4,
+      "salvia": 5
+    },
+    "immagine": "https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "pollo",
+    "tipologia": "Pollame",
+    "varieta": "Ruspante",
+    "stagionatura": null
+  },
+  "anatra_muta": {
+    "nome": "Anatra muta",
+    "categoria": "Carne",
+    "famiglia": "Volatili",
+    "profilo": [
+      "grasso",
+      "intenso",
+      "umami"
+    ],
+    "pairing": {
+      "arancia": 5,
+      "ciliegia": 5,
+      "mela": 4,
+      "zenzero": 4,
+      "miele": 4,
+      "vino": 5,
+      "prugna": 5
+    },
+    "immagine": "https://images.pexels.com/photos/162419/duck-bird-animal-waterfowl-162419.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "tipo_record": "varieta_tipologia",
+    "parent": "anatra",
+    "tipologia": "Volatili",
+    "varieta": "Muta",
+    "stagionatura": null
   }
 }
