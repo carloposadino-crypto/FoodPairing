@@ -247,9 +247,35 @@ input[type=file]{
 .advanced>summary:after{content:"+";float:right;font-size:20px;line-height:1}
 .advanced[open]>summary:after{content:"−"}
 .advanced-inner{margin-top:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
-.advanced-inner .box{box-shadow:none;margin:0;border:0;padding:5px}
-.builder-section{border:2px solid rgba(166,83,63,.18)}
+.advanced-inner .box{box-shadow:none;margin:0;border:0;padding:5px}.builder-section{border:2px solid rgba(166,83,63,.18)}
 .discovery-tools{background:var(--surface-2)}
+.result{
+  position:relative;
+  padding:16px;
+  background:linear-gradient(180deg,#fffdf9 0%,#fff 100%);
+  border:1px solid var(--line);
+  box-shadow:0 3px 12px rgba(45,38,30,.04);
+}
+.result-main{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.result-name{margin:0;font-size:18px;line-height:1.2}
+.result-score{font-size:23px;font-weight:850;white-space:nowrap;line-height:1}
+.result-score small{font-size:11px;color:var(--muted);font-weight:700}
+.result-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.result-badge{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;background:#eee9e1;color:#4d473f;font-size:10px;font-weight:850;letter-spacing:.04em}
+.result-badge.source-database{background:#eee9e1}
+.result-badge.source-verified{background:#e5f2e8;color:#356b4a}
+.result-badge.source-external{background:#eee7f4;color:#654b79}
+.result-bar{height:7px;margin-top:12px;background:#eee9e1;border-radius:999px;overflow:hidden}
+.result-bar span{display:block;height:100%;width:var(--score-width);background:var(--accent);border-radius:999px}
+.result-detail{display:none;margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}
+.result.open .result-detail{display:block}
+.result-detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.result-detail-grid div{padding:9px;background:var(--surface-2);border-radius:9px;font-size:12px}
+.result-detail-grid strong{display:block;font-size:15px;margin-top:2px}
+.result-use{margin-top:10px}
+.result-hint{margin-top:8px;font-size:12px;color:var(--muted)}
+@media(max-width:650px){.result-detail-grid{grid-template-columns:1fr 1fr}.result-score{font-size:21px}}
+
 
 </style>
 </head>
@@ -497,8 +523,7 @@ function renderReviewQueue(){
  const summary=document.createElement("div");
  summary.className="queue-summary";
  summary.innerHTML="<b>Coda di verifica</b> · "+pending+" da verificare · "+approved+" approvati · "+rejected+" rifiutati";
- box.appendChild(summary);
- normalized.forEach(x=>{
+ box.appendChild(summary); normalized.forEach(x=>{
   const d=document.createElement("div");d.className="queue-item";
   d.innerHTML="<h3>"+esc(nome(x.source))+" + "+esc(nome(x.candidate))+"</h3>"+
    "<div class='muted'>"+(x.status==="approved"?"Approvato":x.status==="rejected"?"Rifiutato":"Da verificare")+(x.score?" · punteggio scelto: "+x.score+"/5":"")+"</div>"+
@@ -746,9 +771,84 @@ function analyzeCandidate(source,candidate){
   box.prepend(d);
   d.scrollIntoView({behavior:"smooth",block:"start"});
 }
-function search(){const f=find($("ingrediente").value),box=$("risultati");box.innerHTML="";if(!f){box.innerHTML='<div class="empty">Seleziona un ingrediente presente nel database.</div>';return}const cat=$("categoria").value,min=+$("intensita").value,arr=[];for(const k of Object.keys(db)){if(k===f.key)continue;if(cat&&db[k]?.categoria!==cat)continue;const s=score(f.key,k);if(s>0&&s>=min)arr.push({k,s})}arr.sort((a,b)=>b.s-a.s||nome(a.k).localeCompare(nome(b.k),"it"));const all=Object.keys(db).filter(k=>k!==f.key).map(k=>({k,s:score(f.key,k)})).filter(x=>x.s>0).sort((a,b)=>b.s-a.s||nome(a.k).localeCompare(nome(b.k),"it"));box.innerHTML='<h3>Abbinamenti con '+esc(nome(f.key))+' ('+arr.length+')</h3>';if(all.length){const groups=[5,4,3,2,1].map(s=>({s,items:all.filter(x=>x.s===s)})).filter(g=>g.items.length);box.innerHTML+='<div class="map"><h4>Mappa degli abbinamenti</h4><div class="map-summary">'+all.length+' abbinamenti presenti nel database · '+(all.filter(x=>x.s===5).length)+' a 5/5 · '+(all.filter(x=>x.s===4).length)+' a 4/5 · '+(all.filter(x=>x.s===3).length)+' a 3/5</div>'+groups.map(g=>'<div class="map-group"><div class="map-group-title">'+g.s+'/5</div><div class="map-items">'+g.items.slice(0,12).map(x=>'<button type="button" class="map-item" data-key="'+esc(x.k)+'">'+esc(nome(x.k))+' <strong>'+x.s+'/5</strong></button>').join("")+(g.items.length>12?'<span class="muted">+ '+(g.items.length-12)+' altri</span>':"")+'</div></div>').join("")+'</div>';box.querySelectorAll(".map-item").forEach(b=>b.onclick=e=>{e.stopPropagation();$("ingrediente").value=nome(b.dataset.key);search()})}if(!arr.length){box.innerHTML+='<div class="empty">Nessun abbinamento trovato con i filtri selezionati.</div>';return}for(const x of arr.slice(0,30)){const d=document.createElement("div");d.className="result";d.innerHTML="<h3>"+esc(nome(x.k))+"</h3><div>Categoria: <b>"+esc(db[x.k]?.categoria||"—")+"</b></div><div>Profilo: <b>"+esc(Array.isArray(db[x.k]?.profilo)?db[x.k].profilo.join(", "):"—")+"</b></div><div class='score'>Punteggio: "+x.s+"/5</div><div class='muted'>Tocca per usare questo ingrediente nella ricerca</div>";d.onclick=()=>{$("ingrediente").value=nome(x.k);search()};box.appendChild(d)}}function explore(){const box=$("risultati3"),fs=[1,2,3].map(n=>find($("i"+n).value));box.innerHTML="";if(fs.some(x=>!x)){box.innerHTML='<div class="empty">Seleziona tre ingredienti presenti nel database.</div>';return}const keys=fs.map(x=>x.key);if(new Set(keys).size<3){box.innerHTML='<div class="empty">I tre ingredienti devono essere diversi.</div>';return}const base=fs.map(x=>({key:x.key,data:x.data})),out=[];for(const ck of Object.keys(db)){if(keys.includes(ck))continue;const ev=evaluateCombination([...keys,ck]);if(!ev)continue;out.push({ck,scores:ev.scores,min:ev.min,avg:ev.avg,total:ev.total,profile:ev.profile})}out.sort(compareCombinations);const bn=base.map(x=>nome(x.key));box.innerHTML='<h3>Combinazioni a 4 ingredienti ('+out.length+')</h3><div class="empty">Base: <b>'+esc(bn.join(" + "))+'</b><br>Valutazione su tutti i 6 legami.</div>';if(!out.length){box.innerHTML+='<div class="empty">Nessuna combinazione completa trovata nel database.</div>';return}for(const x of out.slice(0,20)){const cn=nome(x.ck),labs=[bn[0]+" ↔ "+bn[1],bn[0]+" ↔ "+bn[2],bn[1]+" ↔ "+bn[2],bn[0]+" ↔ "+cn,bn[1]+" ↔ "+cn,bn[2]+" ↔ "+cn],d=document.createElement("div");d.className="result";d.innerHTML="<h3>"+esc(cn)+"</h3>"+x.scores.map((s,i)=>"<div>"+esc(labs[i])+": <b>"+s+"/5</b></div>").join("")+"<div class='score'>Coerenza minima: "+x.min.toFixed(1)+"/5</div><div>Media dei 6 legami: <b>"+x.avg.toFixed(2)+"/5</b></div><div class='label'>"+esc(label(x.min,x.avg))+"</div><div class='plate'><button type='button' class='build'>Costruisci il piatto</button><div class='plate-panel'><h4>"+esc(bn.join(" + ")+" + "+cn)+"</h4><div>Legame più forte: <b>"+esc(labs[x.scores.indexOf(Math.max(...x.scores))])+" = "+Math.max(...x.scores)+"/5</b></div><div>Legame più debole: <b>"+esc(labs[x.scores.indexOf(Math.min(...x.scores))])+" = "+Math.min(...x.scores)+"/5</b></div><div>Coerenza complessiva: <b>"+x.avg.toFixed(2)+"/5</b></div><div>Profilo condiviso con la base: <b>"+x.profile+"</b></div></div></div><div class='muted'>Tocca il nome per usare questo ingrediente nella ricerca principale</div>";d.querySelector(".build").onclick=e=>{e.stopPropagation();const p=d.querySelector(".plate-panel");if(p.classList.contains("open")){p.classList.remove("open");return}p.classList.add("open");let builder=p.querySelector(".builder");if(!builder){builder=document.createElement("div");builder.className="builder";builder.innerHTML="<h4>Editor del piatto</h4><p class='muted'>Modifica liberamente tutti e 4 gli ingredienti e ricalcola la combinazione.</p><div class='builder-grid'></div><button type='button' class='recalc-builder'>Ricalcola combinazione</button><button type='button' class='find-best'>Trova il migliore</button><button type='button' class='auto-build'>Completa automaticamente</button><button type='button' class='global-build'>Trova la migliore combinazione</button><div class='builder-result'></div>";p.appendChild(builder);const bg=builder.querySelector(".builder-grid");const initial=[base[0].key,base[1].key,base[2].key,x.ck];for(let pos=0;pos<4;pos++){const wrap=document.createElement("div");const lab=document.createElement("label");lab.textContent="Ingrediente "+(pos+1);const sel=document.createElement("select");sel.dataset.pos=pos;const empty=document.createElement("option");empty.value="";empty.textContent="— Nessun ingrediente —";sel.appendChild(empty);for(const k of Object.keys(db)){const op=document.createElement("option");op.value=k;op.textContent=nome(k);if(k===initial[pos])op.selected=true;sel.appendChild(op)}wrap.appendChild(lab);wrap.appendChild(sel);bg.appendChild(wrap)}const findBest=()=>{const outb=builder.querySelector(".builder-result");const sels=[...builder.querySelectorAll("select")];const current=sels.map(s=>s.value);if(current.some(k=>!k)||new Set(current).size<4){outb.innerHTML="<div class='empty'>Per cercare la migliore sostituzione servono 4 ingredienti diversi.</div>";return}const base=evaluateCombination(current);if(!base){outb.innerHTML="<div class='empty'>La combinazione attuale non è completamente valutabile.</div>";return}const candidates=[];for(let pos=0;pos<4;pos++){for(const ak of Object.keys(db)){if(current.includes(ak))continue;const keys=[...current];keys[pos]=ak;const ev=evaluateCombination(keys);if(!ev)continue;if(ev.min>base.min||(ev.min===base.min&&ev.avg>base.avg))candidates.push({pos,ak,ev})}}candidates.sort((a,b)=>b.ev.min-a.ev.min||b.ev.avg-a.ev.avg||b.ev.profile-a.ev.profile||b.ev.total-a.ev.total);if(!candidates.length){outb.innerHTML="<div class='empty'>Nessuna sostituzione migliora la combinazione attuale.</div>";return}outb.innerHTML="<h4>Migliori sostituzioni</h4>"+candidates.slice(0,5).map((a,i)=>"<div class='plate'><b>"+(i+1)+". "+esc(nome(current[a.pos]))+" → "+esc(nome(a.ak))+"</b><div>Coerenza minima: <b>"+a.ev.min.toFixed(1)+"/5</b> ("+(a.ev.min-base.min>=0?"+":"")+ (a.ev.min-base.min).toFixed(1)+")</div><div>Media: <b>"+a.ev.avg.toFixed(2)+"/5</b> ("+(a.ev.avg-base.avg>=0?"+":"")+(a.ev.avg-base.avg).toFixed(2)+")</div><div class='label'>"+esc(label(a.ev.min,a.ev.avg))+"</div><button type='button' class='use-best' data-pos='"+a.pos+"' data-key='"+esc(a.ak)+"'>Applica sostituzione</button></div>").join("");outb.querySelectorAll(".use-best").forEach(b=>b.onclick=e=>{e.stopPropagation();sels[Number(b.dataset.pos)].value=b.dataset.key;renderBuilder()})};const autoBuild=(fixed)=>{
-  const slots=[...fixed],used=new Set(slots.filter(Boolean));
-  if(!used.size)return null;
+function search(){
+  const f=find($("ingrediente").value),box=$("risultati");
+  box.innerHTML="";
+  if(!f){
+    box.innerHTML='<div class="empty">Seleziona un ingrediente presente nel database.</div>';
+    return;
+  }
+  const cat=$("categoria").value,min=+$("intensita").value,arr=[];
+  for(const k of Object.keys(db)){
+    if(k===f.key)continue;
+    if(cat&&db[k]?.categoria!==cat)continue;
+    const s=score(f.key,k);
+    if(s>0&&s>=min)arr.push({k,s});
+  }
+  arr.sort((a,b)=>b.s-a.s||nome(a.k).localeCompare(nome(b.k),"it"));
+  const all=Object.keys(db).filter(k=>k!==f.key).map(k=>({k,s:score(f.key,k)})).filter(x=>x.s>0).sort((a,b)=>b.s-a.s||nome(a.k).localeCompare(nome(b.k),"it"));
+  box.innerHTML='<h3>Abbinamenti con '+esc(nome(f.key))+' ('+arr.length+')</h3>';
+
+  if(all.length){
+    const groups=[5,4,3,2,1].map(s=>({s,items:all.filter(x=>x.s===s)})).filter(g=>g.items.length);
+    box.innerHTML+='<div class="map"><h4>Mappa degli abbinamenti</h4><div class="map-summary">'+all.length+' abbinamenti presenti nel database · '+all.filter(x=>x.s===5).length+' a 5/5 · '+all.filter(x=>x.s===4).length+' a 4/5 · '+all.filter(x=>x.s===3).length+' a 3/5</div>'+
+      groups.map(g=>'<div class="map-group"><div class="map-group-title">'+g.s+'/5</div><div class="map-items">'+g.items.slice(0,12).map(x=>'<button type="button" class="map-item" data-key="'+esc(x.k)+'">'+esc(nome(x.k))+' <strong>'+x.s+'/5</strong></button>').join("")+(g.items.length>12?'<span class="muted">+ '+(g.items.length-12)+' altri</span>':"")+'</div></div>').join("")+
+      '</div>';
+    box.querySelectorAll(".map-item").forEach(b=>b.onclick=e=>{
+      e.stopPropagation();
+      $("ingrediente").value=nome(b.dataset.key);
+      search();
+    });
+  }
+
+  if(!arr.length){
+    box.innerHTML+='<div class="empty">Nessun abbinamento trovato con i filtri selezionati.</div>';
+    return;
+  }
+
+  for(const x of arr.slice(0,30)){
+    const e=getPairEvidence(f.key,x.k);
+    const d=document.createElement("div");
+    d.className="result";
+    const sourceClass=e.source.includes("external")?"source-external":e.source.includes("verified")?"source-verified":"source-database";
+    const scoreWidth=Math.max(0,Math.min(100,(x.s/5)*100));
+    d.style.setProperty("--score-width",scoreWidth+"%");
+    d.innerHTML=
+      '<div class="result-main">'+
+        '<div><h3 class="result-name">'+esc(nome(x.k))+'</h3><div class="muted">'+esc(db[x.k]?.categoria||"—")+'</div></div>'+
+        '<div class="result-score">'+x.s+'<small>/5</small></div>'+
+      '</div>'+
+      '<div class="result-bar"><span></span></div>'+
+      '<div class="result-meta"><span class="result-badge '+sourceClass+'">'+esc(evidenceLabel(e.source))+'</span>'+
+        (e.external?'<span class="result-badge source-external">FLAVONOMICS '+e.external+'/5</span>':"")+
+        (e.verified?'<span class="result-badge source-verified">VERIFICATO '+e.verified+'/5</span>':"")+
+      '</div>'+
+      '<div class="result-hint">Tocca per vedere perché questo abbinamento è forte.</div>'+
+      '<div class="result-detail">'+
+        '<div class="result-detail-grid">'+
+          '<div>Database<strong>'+ (e.database?e.database+"/5":"—") +'</strong></div>'+
+          '<div>Verifica manuale<strong>'+ (e.verified?e.verified+"/5":"—") +'</strong></div>'+
+          '<div>Fonte esterna<strong>'+ (e.external?e.external+"/5":"—") +'</strong></div>'+
+        '</div>'+
+        pairReasonHtml(f.key,x.k)+
+        '<button type="button" class="result-use">Usa '+esc(nome(x.k))+' come ingrediente</button>'+
+      '</div>';
+    d.onclick=()=>{
+      d.classList.toggle("open");
+      const hint=d.querySelector(".result-hint");
+      if(hint)hint.textContent=d.classList.contains("open")?"Tocca di nuovo per chiudere.":"Tocca per vedere perché questo abbinamento è forte.";
+    };
+    d.querySelector(".result-use").onclick=e2=>{
+      e2.stopPropagation();
+      $("ingrediente").value=nome(x.k);
+      search();
+      window.scrollTo({top:0,behavior:"smooth"});
+    };
+    box.appendChild(d);
+  }
+}
+function explore(){const box=$("risultati3"),fs=[1,2,3].map(n=>find($("i"+n).value));box.innerHTML="";if(fs.some(x=>!x)){box.innerHTML='<div class="empty">Seleziona tre ingredienti presenti nel database.</div>';return}const keys=fs.map(x=>x.key);if(new Set(keys).size<3){box.innerHTML='<div class="empty">I tre ingredienti devono essere diversi.</div>';return}const base=fs.map(x=>({key:x.key,data:x.data})),out=[];for(const ck of Object.keys(db)){if(keys.includes(ck))continue;const ev=evaluateCombination([...keys,ck]);if(!ev)continue;out.push({ck,scores:ev.scores,min:ev.min,avg:ev.avg,total:ev.total,profile:ev.profile})}out.sort(compareCombinations);const bn=base.map(x=>nome(x.key));box.innerHTML='<h3>Combinazioni a 4 ingredienti ('+out.length+')</h3><div class="empty">Base: <b>'+esc(bn.join(" + "))+'</b><br>Valutazione su tutti i 6 legami.</div>';if(!out.length){box.innerHTML+='<div class="empty">Nessuna combinazione completa trovata nel database.</div>';return}for(const x of out.slice(0,20)){const cn=nome(x.ck),labs=[bn[0]+" ↔ "+bn[1],bn[0]+" ↔ "+bn[2],bn[1]+" ↔ "+bn[2],bn[0]+" ↔ "+cn,bn[1]+" ↔ "+cn,bn[2]+" ↔ "+cn],d=document.createElement("div");d.className="result";d.innerHTML="<h3>"+esc(cn)+"</h3>"+x.scores.map((s,i)=>"<div>"+esc(labs[i])+": <b>"+s+"/5</b></div>").join("")+"<div class='score'>Coerenza minima: "+x.min.toFixed(1)+"/5</div><div>Media dei 6 legami: <b>"+x.avg.toFixed(2)+"/5</b></div><div class='label'>"+esc(label(x.min,x.avg))+"</div><div class='plate'><button type='button' class='build'>Costruisci il piatto</button><div class='plate-panel'><h4>"+esc(bn.join(" + ")+" + "+cn)+"</h4><div>Legame più forte: <b>"+esc(labs[x.scores.indexOf(Math.max(...x.scores))])+" = "+Math.max(...x.scores)+"/5</b></div><div>Legame più debole: <b>"+esc(labs[x.scores.indexOf(Math.min(...x.scores))])+" = "+Math.min(...x.scores)+"/5</b></div><div>Coerenza complessiva: <b>"+x.avg.toFixed(2)+"/5</b></div><div>Profilo condiviso con la base: <b>"+x.profile+"</b></div></div></div><div class='muted'>Tocca il nome per usare questo ingrediente nella ricerca principale</div>";d.querySelector(".build").onclick=e=>{e.stopPropagation();const p=d.querySelector(".plate-panel");if(p.classList.contains("open")){p.classList.remove("open");return}p.classList.add("open");let builder=p.querySelector(".builder");if(!builder){builder=document.createElement("div");builder.className="builder";builder.innerHTML="<h4>Editor del piatto</h4><p class='muted'>Modifica liberamente tutti e 4 gli ingredienti e ricalcola la combinazione.</p><div class='builder-grid'></div><button type='button' class='recalc-builder'>Ricalcola combinazione</button><button type='button' class='find-best'>Trova il migliore</button><button type='button' class='auto-build'>Completa automaticamente</button><button type='button' class='global-build'>Trova la migliore combinazione</button><div class='builder-result'></div>";p.appendChild(builder);const bg=builder.querySelector(".builder-grid");const initial=[base[0].key,base[1].key,base[2].key,x.ck];for(let pos=0;pos<4;pos++){const wrap=document.createElement("div");const lab=document.createElement("label");lab.textContent="Ingrediente "+(pos+1);const sel=document.createElement("select");sel.dataset.pos=pos;const empty=document.createElement("option");empty.value="";empty.textContent="— Nessun ingrediente —";sel.appendChild(empty);for(const k of Object.keys(db)){const op=document.createElement("option");op.value=k;op.textContent=nome(k);if(k===initial[pos])op.selected=true;sel.appendChild(op)}wrap.appendChild(lab);wrap.appendChild(sel);bg.appendChild(wrap)}const findBest=()=>{const outb=builder.querySelector(".builder-result");const sels=[...builder.querySelectorAll("select")];const current=sels.map(s=>s.value);if(current.some(k=>!k)||new Set(current).size<4){outb.innerHTML="<div class='empty'>Per cercare la migliore sostituzione servono 4 ingredienti diversi.</div>";return}const base=evaluateCombination(current);if(!base){outb.innerHTML="<div class='empty'>La combinazione attuale non è completamente valutabile.</div>";return}const candidates=[];for(let pos=0;pos<4;pos++){for(const ak of Object.keys(db)){if(current.includes(ak))continue;const keys=[...current];keys[pos]=ak;const ev=evaluateCombination(keys);if(!ev)continue;if(ev.min>base.min||(ev.min===base.min&&ev.avg>base.avg))candidates.push({pos,ak,ev})}}candidates.sort((a,b)=>b.ev.min-a.ev.min||b.ev.avg-a.ev.avg||b.ev.profile-a.ev.profile||b.ev.total-a.ev.total);if(!candidates.length){outb.innerHTML="<div class='empty'>Nessuna sostituzione migliora la combinazione attuale.</div>";return}outb.innerHTML="<h4>Migliori sostituzioni</h4>"+candidates.slice(0,5).map((a,i)=>"<div class='plate'><b>"+(i+1)+". "+esc(nome(current[a.pos]))+" → "+esc(nome(a.ak))+"</b><div>Coerenza minima: <b>"+a.ev.min.toFixed(1)+"/5</b> ("+(a.ev.min-base.min>=0?"+":"")+ (a.ev.min-base.min).toFixed(1)+")</div><div>Media: <b>"+a.ev.avg.toFixed(2)+"/5</b> ("+(a.ev.avg-base.avg>=0?"+":"")+(a.ev.avg-base.avg).toFixed(2)+")</div><div class='label'>"+esc(label(a.ev.min,a.ev.avg))+"</div><button type='button' class='use-best' data-pos='"+a.pos+"' data-key='"+esc(a.ak)+"'>Applica sostituzione</button></div>").join("");outb.querySelectorAll(".use-best").forEach(b=>b.onclick=e=>{e.stopPropagation();sels[Number(b.dataset.pos)].value=b.dataset.key;renderBuilder()})};const autoBuild=(fixed)=>{
+  const slots=[...fixed],used=new Set(slots.filter(Boolean));  if(!used.size)return null;
   for(let pos=0;pos<slots.length;pos++){
     if(slots[pos])continue;
     let best=null;
