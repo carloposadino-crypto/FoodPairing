@@ -603,7 +603,7 @@ function discover(){
     const support=countCandidateSupport(source,k,keys); candidates.push({k,shared,strongBridges,mediumBridges,strongTriads,strongQuads,sameFamily,sameCategory,bridgeNames,triadNames,quadNames,evidenceScore,verifiedScore,...support});
   }
   candidates.sort((a,b)=>b.verifiedScore-a.verifiedScore||b.evidenceScore-a.evidenceScore||b.strongQuads-a.strongQuads||b.strongTriads-a.strongTriads||b.strongBridges-a.strongBridges||b.shared.length-a.shared.length||nome(a.k).localeCompare(nome(b.k),"it"));
-  box.innerHTML='<h3>Candidati per '+esc(nome(source))+' ('+candidates.length+')</h3><div class="empty">L'app cerca evidenze già presenti nel database: profili condivisi, ingredienti ponte e combinazioni a 3 e 4 ingredienti già completamente valutabili. I candidati restano da verificare e non vengono inseriti automaticamente.</div>';
+  box.innerHTML='<h3>Candidati per '+esc(nome(source))+' ('+candidates.length+')</h3><div class="empty">L&#39;app cerca evidenze già presenti nel database: profili condivisi, ingredienti ponte e combinazioni a 3 e 4 ingredienti già completamente valutabili. I candidati restano da verificare e non vengono inseriti automaticamente.</div>';
   if(!candidates.length){box.innerHTML+='<div class="empty">Nessun candidato abbastanza supportato dai dati attuali.</div>';return}
   const list=document.createElement("div");list.className="candidate-list";
   candidates.slice(0,15).forEach(c=>{
