@@ -218,6 +218,16 @@ button:active{transform:translateY(1px)}
   padding:8px 0 0;
   min-height:20px;
 }
+.source-import{margin-top:14px;padding:13px;background:var(--surface-2);border:1px solid var(--line);border-radius:11px}
+.source-import h3{margin:0 0 5px;font-size:16px}
+.source-import textarea{width:100%;min-height:170px;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font:inherit;font-size:15px;line-height:1.45;resize:vertical;background:#fff}
+.source-pair{padding:10px;margin-top:8px;background:#fff;border:1px solid var(--line);border-radius:9px}
+.source-pair strong{font-size:15px}
+.source-badge{display:inline-block;margin:6px 5px 0 0;padding:4px 7px;border-radius:999px;background:#eee7f4;color:#654b79;font-size:10px;font-weight:800}
+.source-new{background:#fff7df;color:#7b5b00}
+.source-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.source-actions button{margin-top:0}
+.source-empty{padding:10px;background:#fff;border:1px dashed var(--line);border-radius:9px;color:var(--muted);font-size:13px}
 input[type=file]{
   padding:9px;
   font-size:14px;
@@ -334,6 +344,33 @@ input[type=file]{
 <button id="esportaFlavonomics" type="button">Esporta dati esterni</button>
 <label for="importaVerifiche">Importa storico verifiche</label>
 <input id="importaVerifiche" type="file" accept=".json,application/json">
+
+<div class="source-import">
+<h3>Analizza un testo / documento</h3>
+<p class="muted">Incolla un testo oppure carica TXT, MD o CSV. FoodPairing cerca gli ingredienti già presenti e le possibili coppie citate. Nulla entra automaticamente nel database.</p>
+<textarea id="testoFonte" rows="8" placeholder="Incolla qui il testo da analizzare..."></textarea>
+<label for="fileFonte">Oppure carica un testo</label>
+<input id="fileFonte" type="file" accept=".txt,.md,.csv,text/plain,text/markdown,text/csv">
+<button id="analizzaFonte" type="button">Analizza testo</button>
+<button id="esportaFonte" type="button">Esporta candidati del testo</button>
+<div id="risultatiFonte"></div>
+</div>
+
+<div class="source-import">
+<h3>Aggiungi un nuovo ingrediente</h3>
+<p class="muted">Per ingredienti presenti nei testi ma non ancora nell'archivio.</p>
+<div class="grid">
+<div><label for="nuovoIngrediente">Nome</label><input id="nuovoIngrediente" placeholder="Es. dragoncello"></div>
+<div><label for="nuovaCategoria">Categoria</label><input id="nuovaCategoria" placeholder="Es. Erbe"></div>
+</div>
+<div class="grid">
+<div><label for="nuovaFamiglia">Famiglia</label><input id="nuovaFamiglia" placeholder="Es. Erbe aromatiche"></div>
+<div><label for="nuovoProfilo">Profilo aromatico</label><input id="nuovoProfilo" placeholder="erbaceo, fresco, balsamico"></div>
+</div>
+<button id="aggiungiIngrediente" type="button">Aggiungi all'archivio locale</button>
+<div id="esitoFonte" class="muted"></div>
+</div>
+
 <button id="generaDatabase" type="button">Genera database aggiornato</button>
 <label for="databaseImport">Carica database aggiornato</label>
 <input id="databaseImport" type="file" accept=".json,application/json">
@@ -589,6 +626,61 @@ function renderDatabaseAudit(){
   const msg=$("esitoImport");if(!msg)return;
   const a=getDatabaseAudit();
   msg.innerHTML="<b>Audit conoscenza</b> · Database: "+a.databasePairs+" coppie · Verificate manualmente: "+a.verifiedPairs+" · Fonte esterna: "+a.externalPairs+" coppie · Da aggiungere al database: "+a.approved+" · Già presenti: "+a.already+" · Rifiutate: "+a.rejected+" · In attesa: "+a.pending+" · Non applicabili: "+a.invalid+".";
+}
+function getSourceCandidates(){try{return JSON.parse(localStorage.getItem("foodpairing_source_candidates")||"[]")}catch(e){return[]}}
+function saveSourceCandidates(rows){localStorage.setItem("foodpairing_source_candidates",JSON.stringify(rows))}
+function findIngredientMentions(text){
+ const n=norm(text),found=[];
+ for(const k of Object.keys(db)){
+  const variants=[k,nome(k)];
+  if(variants.some(v=>{const nv=norm(v);return nv.length>2&&n.includes(nv)}))found.push(k);
+ }
+ return found;
+}
+function sourcePairScoreFromContext(a,b,text){
+ const n=norm(text),aa=norm(nome(a)),bb=norm(nome(b)),ia=n.indexOf(aa),ib=n.indexOf(bb);
+ if(ia<0||ib<0)return 0;
+ const d=Math.abs(ia-ib);
+ return d<90?3:d<220?2:1;
+}
+function analyzeSourceText(text){
+ const box=$("risultatiFonte"),clean=String(text||"").trim();
+ if(!clean){box.innerHTML="<div class='source-empty'>Inserisci o carica un testo.</div>";return}
+ const mentioned=findIngredientMentions(clean),rows=getSourceCandidates(),now=new Date().toISOString(),seen=new Set(rows.map(x=>x.source+"|"+x.candidate)),added=0;
+ for(let i=0;i<mentioned.length;i++)for(let j=i+1;j<mentioned.length;j++){
+  const a=mentioned[i],b=mentioned[j];
+  if(score(a,b)>0)continue;
+  const evidenceScore=sourcePairScoreFromContext(a,b,clean);
+  if(!evidenceScore)continue;
+  if(seen.has(a+"|"+b)||seen.has(b+"|"+a))continue;
+  rows.push({source:a,candidate:b,sourceType:"testo",evidenceScore,status:"pending",createdAt:now});
+  seen.add(a+"|"+b);added++;
+ }
+ saveSourceCandidates(rows);renderSourceCandidates();$("esitoFonte").textContent="Testo analizzato: "+mentioned.length+" ingredienti riconosciuti, "+added+" nuovi candidati.";
+}
+function renderSourceCandidates(){
+ const box=$("risultatiFonte"),rows=getSourceCandidates();
+ if(!rows.length){box.innerHTML="<div class='source-empty'>Nessun candidato da testo. Gli abbinamenti già presenti nel database vengono esclusi.</div>";return}
+ box.innerHTML="<h4>Candidati estratti dai testi</h4>"+rows.slice().reverse().map((x,i)=>"<div class='source-pair'><strong>"+esc(nome(x.source))+" + "+esc(nome(x.candidate))+"</strong><div><span class='source-badge'>FONTE TESTUALE</span><span class='source-badge'>NON VERIFICATO</span><span class='source-badge source-new'>INDIZIO "+x.evidenceScore+"/3</span></div><div class='muted'>Trovato nel testo: deve essere verificato prima di entrare nel database.</div><div class='source-actions'><button type='button' data-source-index='"+i+"' class='source-approve'>Metti in coda verifica</button><button type='button' data-source-index='"+i+"' class='source-remove'>Rimuovi</button></div></div>").join("");
+ box.querySelectorAll(".source-approve").forEach(btn=>btn.onclick=e=>{e.stopPropagation();const all=getSourceCandidates(),idx=all.length-1-Number(btn.dataset.sourceIndex),x=all[idx];if(!x)return;addReviewCandidate(x.source,x.candidate);all.splice(idx,1);saveSourceCandidates(all);renderSourceCandidates();renderReviewQueue();$("esitoFonte").textContent="Candidato trasferito nella coda di verifica.";});
+ box.querySelectorAll(".source-remove").forEach(btn=>btn.onclick=e=>{e.stopPropagation();const all=getSourceCandidates(),idx=all.length-1-Number(btn.dataset.sourceIndex);all.splice(idx,1);saveSourceCandidates(all);renderSourceCandidates();});
+}
+function exportSourceCandidates(){
+ const rows=getSourceCandidates();if(!rows.length){$("esitoFonte").textContent="Nessun candidato da esportare.";return}
+ const blob=new Blob([JSON.stringify({source:"FoodPairing - analisi testi",candidates:rows},null,2)],{type:"application/json"}),a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);a.download="candidati-fonti-testuali.json";a.click();URL.revokeObjectURL(a.href);
+}
+function addNewIngredient(){
+ const name=$("nuovoIngrediente").value.trim(),cat=$("nuovaCategoria").value.trim()||"Altro",fam=$("nuovaFamiglia").value.trim()||"Altro",profile=$("nuovoProfilo").value.split(",").map(norm).filter(Boolean),key=norm(name).replace(/\s+/g,"_");
+ if(!name){$("esitoFonte").textContent="Inserisci il nome dell'ingrediente.";return}
+ if(find(name)){$("esitoFonte").textContent="Questo ingrediente è già nell'archivio.";return}
+ if(!/^[a-z0-9_àèéìòù-]+$/i.test(key)){$("esitoFonte").textContent="Nome ingrediente non valido.";return}
+ db[key]={nome:name,categoria:cat,famiglia:fam,profilo:profile,pairing:{}};
+ const cats=[...new Set(Object.values(db).map(x=>x?.categoria).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"it"));
+ $("categoria").innerHTML="<option value=''>Tutte</option>";cats.forEach(c=>{const o=document.createElement("option");o.value=c;o.textContent=c;$("categoria").appendChild(o)});
+ $("status").textContent="Archivio locale: "+Object.keys(db).length+" ingredienti";
+ $("esitoFonte").textContent="Ingrediente aggiunto all'archivio locale. Usa 'Genera database aggiornato' per creare il JSON.";
+ $("nuovoIngrediente").value="";$("nuovaCategoria").value="";$("nuovaFamiglia").value="";$("nuovoProfilo").value="";
 }
 function generateUpdatedDatabase(){
  const q=reviewStats().filter(x=>x.status==="approved"&&x.score);
@@ -937,7 +1029,11 @@ function setupBuilder(builder,initial){
 function openBuilderFromCard(p,initial){let b=p.querySelector(".builder");if(b)return b;b=document.createElement("div");b.className="builder";b.innerHTML="<h4>Editor del piatto</h4><p class='muted'>Modifica liberamente i 4 ingredienti.</p><div class='builder-grid'></div><button type='button' class='recalc-builder'>Ricalcola combinazione</button><button type='button' class='find-best'>Trova il migliore</button><button type='button' class='auto-build'>Completa automaticamente</button><button type='button' class='global-build'>Trova la migliore combinazione</button><div class='builder-result'></div>";p.appendChild(b);setupBuilder(b,initial);return b}
 document.querySelectorAll(".build").forEach(btn=>btn.onclick=e=>{e.stopPropagation();const p=btn.closest(".plate-panel");if(p.classList.contains("open")){p.classList.remove("open");return}p.classList.add("open");const title=p.querySelector("h4")?.textContent||"";const initial=title.split(" + ").map(n=>{const f=find(n.trim());return f?f.key:""});if(initial.length===4)openBuilderFromCard(p,initial)});
 $("cerca").onclick=search;$("scopri").onclick=discover;$("esplora").onclick=explore;$("esportaCoda").onclick=exportApproved;$("generaDatabase").onclick=generateUpdatedDatabase;$("salvaFlavoProxy").onclick=saveFlavoProxy;$("consultaFlavonomics").onclick=consultaFlavonomics;$("databaseImport").addEventListener("change",e=>importUpdatedDatabase(e.target.files[0]));$("esportaVerifiche").onclick=exportReviewHistory;$("importaVerifiche").addEventListener("change",e=>importReviewHistory(e.target.files[0]));$("importaFlavonomics").addEventListener("change",e=>importFlavonomics(e.target.files[0]));$("esportaFlavonomics").onclick=exportFlavonomics;
+$("analizzaFonte").onclick=()=>analyzeSourceText($("testoFonte").value);
+$("esportaFonte").onclick=exportSourceCandidates;
+$("aggiungiIngrediente").onclick=addNewIngredient;
+$("fileFonte").addEventListener("change",e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$("testoFonte").value=String(r.result||"");$("esitoFonte").textContent="File caricato. Premi 'Analizza testo'.";};r.readAsText(f);});
 autocomplete("ingrediente","suggestMain");autocomplete("scopriIngrediente","suggestScopri");autocomplete("i1","s1");autocomplete("i2","s2");autocomplete("i3","s3");
 document.addEventListener("click",e=>{if(!e.target.closest(".field,.triple-field"))document.querySelectorAll(".suggest").forEach(x=>x.style.display="none")});
-if($("flavoProxy"))$("flavoProxy").value=getFlavoProxy();renderReviewQueue();renderDatabaseAudit();load();
+if($("flavoProxy"))$("flavoProxy").value=getFlavoProxy();renderReviewQueue();renderDatabaseAudit();renderSourceCandidates();load();
 </script></body></html>
