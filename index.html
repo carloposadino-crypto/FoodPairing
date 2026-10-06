@@ -30,6 +30,8 @@
 <p class="muted">Qui puoi salvare i candidati che vuoi verificare. Il punteggio scelto è una decisione manuale: non modifica automaticamente il database.</p>
 <div id="codaVerifica"></div>
 <button id="esportaCoda" type="button">Esporta abbinamenti approvati</button>
+<button id="generaDatabase" type="button">Genera database aggiornato</button>
+<div id="esitoImport" class="muted"></div>
 </section>
 <section class="box">
 <h2>Esplora 3 ingredienti</h2>
@@ -139,6 +141,26 @@ function exportApproved(){
  const blob=new Blob([JSON.stringify(out,null,2)],{type:"application/json"});
  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="foodpairing_abbinamenti_approvati.json";a.click();URL.revokeObjectURL(a.href);
 }
+function generateUpdatedDatabase(){
+ const q=getReviewQueue().filter(x=>x.approved&&x.score);
+ const msg=$("esitoImport");
+ if(!q.length){msg.textContent="Nessun abbinamento approvato da importare.";return}
+ const updated=JSON.parse(JSON.stringify(db));
+ let added=0,skipped=0;
+ for(const x of q){
+   if(!updated[x.source]||!updated[x.candidate]){skipped++;continue}
+   if(!updated[x.source].pairing)updated[x.source].pairing={};
+   if(!updated[x.candidate].pairing)updated[x.candidate].pairing={};
+   if(typeof updated[x.source].pairing[x.candidate]==="number"||updated[x.source].pairing[x.candidate]?.score!=null){skipped++;continue}
+   if(typeof updated[x.candidate].pairing[x.source]==="number"||updated[x.candidate].pairing[x.source]?.score!=null){skipped++;continue}
+   updated[x.source].pairing[x.candidate]=x.score;
+   updated[x.candidate].pairing[x.source]=x.score;
+   added++;
+ }
+ const blob=new Blob([JSON.stringify(updated,null,2)],{type:"application/json"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="database.json";a.click();URL.revokeObjectURL(a.href);
+ msg.textContent="Database aggiornato generato: "+added+" nuovi abbinamenti inseriti. "+skipped+" già presenti o non applicabili.";
+}
 function analyzeCandidate(source,candidate){
   const box=$("risultatiScopri"), a=source, b=candidate;
   const pa=Array.isArray(db[a]?.profilo)?db[a].profilo.map(norm):[];
@@ -219,7 +241,7 @@ const real=candidates.filter(a=>a.mn>currentEval.min||(a.mn===currentEval.min&&a
 if(!real.length){list.innerHTML="<div class='empty'>Nessun miglioramento reale trovato nei dati disponibili.</div>";return}
 list.innerHTML="<h4>Migliori sostituzioni globali</h4>"+real.slice(0,5).map((a,i)=>{const old=currentKeys[a.pos],dw=a.mn-currentEval.min,da=a.av-currentEval.avg;return "<div class='plate'><b>"+(i+1)+". "+esc(nome(old))+" → "+esc(nome(a.ak))+"</b><div>Coerenza minima: <b>"+a.mn.toFixed(1)+"/5</b> ("+(dw>=0?"+":"")+dw.toFixed(1)+")</div><div>Media: <b>"+a.av.toFixed(2)+"/5</b> ("+(da>=0?"+":"")+da.toFixed(2)+")</div><div class='label'>"+esc(label(a.mn,a.av))+"</div><button type='button' class='apply-global'>Applica sostituzione</button></div>" }).join("");
 list.querySelectorAll(".apply-global").forEach((b,i)=>b.onclick=ev=>{ev.stopPropagation();const a=real[i];const vals=[...currentKeys];vals[a.pos]=a.ak;for(let j=0;j<4;j++)$("i"+(j+1)).value=nome(vals[j]);$("risultati3").scrollIntoView({behavior:"smooth"});explore()})};};};d.onclick=()=>{$("ingrediente").value=cn;$("risultati").scrollIntoView({behavior:"smooth"});search()};box.appendChild(d)}}
-document.addEventListener("DOMContentLoaded",()=>{autocomplete("ingrediente","suggestMain");autocomplete("scopriIngrediente","suggestScopri");autocomplete("i1","s1");autocomplete("i2","s2");autocomplete("i3","s3");$("cerca").onclick=search;$("scopri").onclick=discover;$("esportaCoda").onclick=exportApproved;renderReviewQueue();$("ingrediente").onkeydown=e=>{if(e.key==="Enter")search()};$("esplora").onclick=explore;document.onclick=e=>{if(!e.target.closest(".field"))$("suggestMain").style.display="none";if(!e.target.closest(".triple-field"))document.querySelectorAll(".suggest").forEach(x=>x.style.display="none")};load()});
+document.addEventListener("DOMContentLoaded",()=>{autocomplete("ingrediente","suggestMain");autocomplete("scopriIngrediente","suggestScopri");autocomplete("i1","s1");autocomplete("i2","s2");autocomplete("i3","s3");$("cerca").onclick=search;$("scopri").onclick=discover;$("esportaCoda").onclick=exportApproved;$("generaDatabase").onclick=generateUpdatedDatabase;renderReviewQueue();$("ingrediente").onkeydown=e=>{if(e.key==="Enter")search()};$("esplora").onclick=explore;document.onclick=e=>{if(!e.target.closest(".field"))$("suggestMain").style.display="none";if(!e.target.closest(".triple-field"))document.querySelectorAll(".suggest").forEach(x=>x.style.display="none")};load()});
 </script>
 </body>
 </html>
