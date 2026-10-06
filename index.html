@@ -125,7 +125,8 @@ function discover(){
     if(c.sameFamily)evidence+="<div><b>Stessa famiglia:</b> "+esc(db[source].famiglia)+"</div>";
     if(c.sameCategory)evidence+="<div><b>Stessa categoria:</b> "+esc(db[source].categoria)+"</div>";
     const rl=reviewLabel(source,c.k);
-    d.innerHTML="<h3>"+esc(nome(c.k))+"</h3><div class='candidate-rank'>Forza dell'evidenza: "+c.evidenceScore+"</div>"+(rl?"<span class='candidate-badge'>"+esc(rl)+"</span>":"");<div class='candidate-evidence'>"+evidence+"</div><span class='candidate-badge'>CANDIDATO · DA VERIFICARE</span><button type='button' class='use-candidate'>Usa come ingrediente di ricerca</button><button type='button' class='analyze-candidate'>Analizza candidato</button>";
+    const eq=evidenceQuality(c);
+    d.innerHTML="<h3>"+esc(nome(c.k))+"</h3><div class='candidate-rank'>Forza dell'evidenza: "+c.evidenceScore+" · Qualità evidenza: <b>"+esc(eq[0])+"</b></div>"+(rl?"<span class='candidate-badge'>"+esc(rl)+"</span>":"")+"<span class='candidate-badge "+eq[1]+"'>EVIDENZA "+esc(eq[0])+"</span>";<div class='candidate-evidence'>"+evidence+"</div><span class='candidate-badge'>CANDIDATO · DA VERIFICARE</span><button type='button' class='use-candidate'>Usa come ingrediente di ricerca</button><button type='button' class='analyze-candidate'>Analizza candidato</button>";
     d.querySelector(".use-candidate").onclick=e=>{e.stopPropagation();$("ingrediente").value=nome(c.k);$("risultatiScopri").scrollIntoView({behavior:"smooth"});search()};
     d.querySelector(".analyze-candidate").onclick=e=>{e.stopPropagation();analyzeCandidate(source,c.k)};
     const reviewBtn=document.createElement("button");reviewBtn.type="button";reviewBtn.textContent="Metti in coda di verifica";reviewBtn.onclick=e=>{e.stopPropagation();addReviewCandidate(source,c.k)};d.appendChild(reviewBtn);
@@ -171,6 +172,11 @@ function candidateReviewState(a,b){
 function reviewLabel(a,b){
   const s=candidateReviewState(a,b);
   return s==="approved"?"VERIFICATO · APPROVATO":s==="rejected"?"VERIFICATO · RIFIUTATO":s==="pending"?"IN CODA · DA VERIFICARE":"";
+}
+function evidenceQuality(c){
+  if(c.strongQuads>=1||c.strongTriads>=2||c.strongBridges>=3)return["FORTE","evidence-strong"];
+  if(c.strongTriads>=1||c.strongBridges>=1||c.shared.length>=2)return["MEDIA","evidence-medium"];
+  return["DEBOLE","evidence-weak"];
 }
 function renderReviewQueue(){
  const box=$("codaVerifica");if(!box)return;
