@@ -1,0 +1,5 @@
+{
+  "name": "foodpairing-api",
+  "main": "api/foodpairing-api.js",
+  "compatibility_date": "2026-10-07"
+}
