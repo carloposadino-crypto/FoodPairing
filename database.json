@@ -7210,10 +7210,10 @@
       "burro": 5
     },
     "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "riso",
-    "varieta": "Farro",
-    "tipologia": "",
+    "tipo_record": "base",
+    "parent": null,
+    "varieta": "",
+    "tipologia": "generico",
     "stagionatura": null
   },
   "orzo": {
