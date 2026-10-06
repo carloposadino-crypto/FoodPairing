@@ -380,6 +380,24 @@
 
       </div>
 
+      <!-- NUOVO FILTRO CATEGORIA -->
+
+      <div class="filters">
+
+        <label for="categoriaFiltro">
+          Categoria
+        </label>
+
+        <select id="categoriaFiltro">
+
+          <option value="tutte">
+            Tutte
+          </option>
+
+        </select>
+
+      </div>
+
       <div class="filters">
 
         <label for="intensitaFiltro">
@@ -848,6 +866,66 @@
 
 
     /* ==========================================
+       FILTRO CATEGORIE
+    ========================================== */
+
+    function popolaFiltroCategorie() {
+
+      const select =
+        document.getElementById(
+          "categoriaFiltro"
+        );
+
+      if (!select) {
+        return;
+      }
+
+      const categorie =
+        [
+          ...new Set(
+            Object.keys(database)
+              .map(
+                chiave =>
+                  database[chiave]?.categoria
+              )
+              .filter(Boolean)
+          )
+        ].sort(
+          (a, b) =>
+            a.localeCompare(
+              b,
+              "it"
+            )
+        );
+
+      select.innerHTML =
+        '<option value="tutte">Tutte</option>';
+
+      categorie.forEach(
+        categoria => {
+
+          const option =
+            document.createElement(
+              "option"
+            );
+
+          option.value =
+            categoria;
+
+          option.textContent =
+            categoria;
+
+          select.appendChild(
+            option
+          );
+
+        }
+      );
+
+    }
+
+
+    /* ==========================================
        CARICAMENTO DATABASE
     ========================================== */
 
@@ -885,6 +963,8 @@
 
         database =
           dati;
+
+        popolaFiltroCategorie();
 
         status.textContent =
           "Database caricato: " +
@@ -971,6 +1051,11 @@
           "tipoFiltro"
         ).value;
 
+      const categoriaFiltro =
+        document.getElementById(
+          "categoriaFiltro"
+        ).value;
+
       const intensita =
         parseFloat(
           document.getElementById(
@@ -992,6 +1077,22 @@
           continue;
 
         }
+
+
+        /* FILTRO CATEGORIA */
+
+        const categoria =
+          database[chiave]?.categoria || "";
+
+        if (
+          categoriaFiltro !== "tutte" &&
+          categoria !== categoriaFiltro
+        ) {
+
+          continue;
+
+        }
+
 
         let score =
           punteggioAbbinamento(
@@ -1077,845 +1178,4 @@
 
       const nomeIngrediente =
         trovato.dati.nome ||
-        trovato.chiave;
-
-
-      const titolo =
-        document.createElement(
-          "h3"
-        );
-
-      titolo.className =
-        "results-title";
-
-      titolo.textContent =
-        "Abbinamenti con " +
-        nomeIngrediente;
-
-      risultatiBox.appendChild(
-        titolo
-      );
-
-
-      if (
-        ingredienti.length === 0
-      ) {
-
-        risultatiBox.innerHTML +=
-          '<div class="empty">Nessun abbinamento trovato con i filtri selezionati.</div>';
-
-        return;
-
-      }
-
-
-      ingredienti
-        .slice(0, 30)
-        .forEach(item => {
-
-          const div =
-            document.createElement(
-              "div"
-            );
-
-          div.className =
-            "result";
-
-
-          const nome =
-            item.dati.nome ||
-            item.chiave;
-
-
-          const tipoTesto =
-            nomeTipo(
-              item.tipo
-            );
-
-
-          div.innerHTML = `
-
-            <h3>
-              ${escapeHTML(nome)}
-            </h3>
-
-            <div class="result-info">
-
-              ${
-                Array.isArray(
-                  item.dati.profilo
-                )
-                  ? escapeHTML(
-                      item.dati.profilo.join(", ")
-                    )
-                  : ""
-              }
-
-            </div>
-
-            <div class="score">
-              ${item.score}/5
-            </div>
-
-            ${
-              tipoTesto
-                ? `
-                  <div class="result-info">
-                    ${escapeHTML(tipoTesto)}
-                  </div>
-                `
-                : ""
-            }
-
-            <div class="result-click">
-              Tocca per esplorare questo ingrediente →
-            </div>
-
-          `;
-
-
-          div.addEventListener(
-            "click",
-            () => {
-
-              selezionaRisultato(
-                nome
-              );
-
-            }
-          );
-
-
-          risultatiBox.appendChild(
-            div
-          );
-
-        });
-
-    }
-
-
-    /* ==========================================
-       ESPLORA 3 INGREDIENTI
-    ========================================== */
-
-    function scoreTraIngredienti(
-      chiaveA,
-      chiaveB
-    ) {
-
-      const a =
-        database[chiaveA];
-
-      const b =
-        database[chiaveB];
-
-
-      if (!a || !b) {
-        return 0;
-      }
-
-
-      let score =
-        punteggioAbbinamento(
-          a,
-          chiaveB
-        );
-
-
-      if (score === 0) {
-
-        score =
-          punteggioAbbinamento(
-            b,
-            chiaveA
-          );
-
-      }
-
-
-      return score;
-
-    }
-
-
-    function aggiornaSelezionato3(
-      numero
-    ) {
-
-      const input =
-        document.getElementById(
-          "ingrediente" +
-          numero
-        );
-
-      const label =
-        document.getElementById(
-          "selezionato" +
-          numero
-        );
-
-      const trovato =
-        trovaIngrediente(
-          input.value
-        );
-
-
-      if (trovato) {
-
-        label.textContent =
-          "✓ " +
-          (
-            trovato.dati.nome ||
-            trovato.chiave
-          );
-
-      } else {
-
-        label.textContent =
-          "";
-
-      }
-
-    }
-
-
-    function mostraSuggerimenti3(
-      numero
-    ) {
-
-      const input =
-        document.getElementById(
-          "ingrediente" +
-          numero
-        );
-
-      const box =
-        document.getElementById(
-          "suggerimenti" +
-          numero
-        );
-
-      const testo =
-        normalizza(
-          input.value
-        );
-
-      box.innerHTML =
-        "";
-
-      aggiornaSelezionato3(
-        numero
-      );
-
-
-      if (!testo) {
-
-        box.style.display =
-          "none";
-
-        return;
-
-      }
-
-
-      const risultati = [];
-
-
-      for (
-        const chiave of Object.keys(database)
-      ) {
-
-        const dati =
-          database[chiave];
-
-        const nome =
-          dati && dati.nome
-            ? dati.nome
-            : chiave;
-
-
-        if (
-          normalizza(nome).includes(testo) ||
-          normalizza(chiave).includes(testo)
-        ) {
-
-          risultati.push({
-
-            chiave:
-              chiave,
-
-            dati:
-              dati,
-
-            nome:
-              nome
-
-          });
-
-        }
-
-      }
-
-
-      risultati.sort(
-        (a, b) =>
-          a.nome.localeCompare(
-            b.nome,
-            "it"
-          )
-      );
-
-
-      risultati
-        .slice(0, 12)
-        .forEach(item => {
-
-          const elemento =
-            document.createElement(
-              "div"
-            );
-
-          elemento.className =
-            "suggerimento";
-
-
-          const profilo =
-            Array.isArray(
-              item.dati?.profilo
-            )
-              ? item.dati.profilo.join(", ")
-              : "";
-
-
-          elemento.innerHTML = `
-
-            <div class="suggerimento-nome">
-              ${escapeHTML(item.nome)}
-            </div>
-
-            ${
-              profilo
-                ? `
-                  <div class="suggerimento-profilo">
-                    ${escapeHTML(profilo)}
-                  </div>
-                `
-                : ""
-            }
-
-          `;
-
-
-          elemento.addEventListener(
-            "click",
-            event => {
-
-              event.stopPropagation();
-
-              input.value =
-                item.nome;
-
-              box.style.display =
-                "none";
-
-              aggiornaSelezionato3(
-                numero
-              );
-
-            }
-          );
-
-
-          box.appendChild(
-            elemento
-          );
-
-        });
-
-
-      box.style.display =
-        box.children.length > 0
-          ? "block"
-          : "none";
-
-    }
-
-
-    function esploraTreIngredienti() {
-
-      const risultatiBox =
-        document.getElementById(
-          "risultati3"
-        );
-
-      risultatiBox.innerHTML =
-        "";
-
-
-      const trovati =
-        [1, 2, 3].map(
-          numero => {
-
-            const input =
-              document.getElementById(
-                "ingrediente" +
-                numero
-              );
-
-            return trovaIngrediente(
-              input.value
-            );
-
-          }
-        );
-
-
-      if (
-        trovati.some(
-          item => !item
-        )
-      ) {
-
-        risultatiBox.innerHTML =
-          '<div class="empty">Seleziona tre ingredienti presenti nel database.</div>';
-
-        return;
-
-      }
-
-
-      const chiavi =
-        trovati.map(
-          item =>
-            item.chiave
-        );
-
-
-      if (
-        new Set(chiavi).size !== 3
-      ) {
-
-        risultatiBox.innerHTML =
-          '<div class="empty">I tre ingredienti devono essere diversi.</div>';
-
-        return;
-
-      }
-
-
-      const candidati = [];
-
-
-      for (
-        const chiaveCandidato of
-        Object.keys(database)
-      ) {
-
-        if (
-          chiavi.includes(
-            chiaveCandidato
-          )
-        ) {
-
-          continue;
-
-        }
-
-
-        const scores =
-          chiavi.map(
-            chiave =>
-              scoreTraIngredienti(
-                chiaveCandidato,
-                chiave
-              )
-          );
-
-
-        if (
-          scores.some(
-            score => score <= 0
-          )
-        ) {
-
-          continue;
-
-        }
-
-
-        const media =
-          scores.reduce(
-            (
-              somma,
-              score
-            ) =>
-              somma + score,
-            0
-          ) / 3;
-
-
-        const minimo =
-          Math.min(
-            ...scores
-          );
-
-
-        candidati.push({
-
-          chiave:
-            chiaveCandidato,
-
-          dati:
-            database[
-              chiaveCandidato
-            ],
-
-          scores:
-            scores,
-
-          media:
-            media,
-
-          minimo:
-            minimo
-
-        });
-
-      }
-
-
-      candidati.sort(
-        (a, b) =>
-          b.minimo - a.minimo ||
-          b.media - a.media
-      );
-
-
-      const nomi =
-        trovati.map(
-          item =>
-            item.dati.nome ||
-            item.chiave
-        );
-
-
-      const titolo =
-        document.createElement(
-          "h3"
-        );
-
-
-      titolo.className =
-        "risultati-titolo";
-
-
-      titolo.innerHTML =
-        "Ingredienti ponte tra " +
-        nomi
-          .map(
-            nome =>
-              escapeHTML(nome)
-          )
-          .join(", ") +
-        ' <span class="risultato-numero">(' +
-        candidati.length +
-        " trovati)</span>";
-
-
-      risultatiBox.appendChild(
-        titolo
-      );
-
-
-      if (
-        candidati.length === 0
-      ) {
-
-        risultatiBox.innerHTML +=
-          '<div class="empty">Non ho trovato ingredienti compatibili con tutti e tre.</div>';
-
-        return;
-
-      }
-
-
-      candidati
-        .slice(0, 15)
-        .forEach(
-          candidato => {
-
-            const div =
-              document.createElement(
-                "div"
-              );
-
-
-            div.className =
-              "triple-result";
-
-
-            const nome =
-              candidato.dati.nome ||
-              candidato.chiave;
-
-
-            div.innerHTML = `
-
-              <h3>
-                ${escapeHTML(nome)}
-              </h3>
-
-              <div class="triple-score">
-                Compatibilità media:
-                <strong>
-                  ${candidato.media.toFixed(1)}/5
-                </strong>
-              </div>
-
-              <div class="triple-score">
-
-                ${escapeHTML(nomi[0])}:
-                ${candidato.scores[0]}/5
-
-                <br>
-
-                ${escapeHTML(nomi[1])}:
-                ${candidato.scores[1]}/5
-
-                <br>
-
-                ${escapeHTML(nomi[2])}:
-                ${candidato.scores[2]}/5
-
-              </div>
-
-              <div class="triple-label">
-                Compatibile con tutti e 3
-              </div>
-
-              <div class="result-click">
-                Tocca per esplorare questo ingrediente →
-              </div>
-
-            `;
-
-
-            div.addEventListener(
-              "click",
-              () => {
-
-                selezionaRisultato(
-                  nome
-                );
-
-              }
-            );
-
-
-            risultatiBox.appendChild(
-              div
-            );
-
-          }
-        );
-
-    }
-
-
-    /* ==========================================
-       EVENTI
-    ========================================== */
-
-    document
-      .getElementById(
-        "ingrediente"
-      )
-      .addEventListener(
-        "input",
-        mostraSuggerimenti
-      );
-
-
-    document
-      .getElementById(
-        "ingrediente"
-      )
-      .addEventListener(
-        "keydown",
-        event => {
-
-          if (
-            event.key === "Enter"
-          ) {
-
-            event.preventDefault();
-
-            cercaAbbinamenti();
-
-          }
-
-        }
-      );
-
-
-    document
-      .getElementById(
-        "cercaBtn"
-      )
-      .addEventListener(
-        "click",
-        cercaAbbinamenti
-      );
-
-
-    [1, 2, 3].forEach(
-      numero => {
-
-        const input =
-          document.getElementById(
-            "ingrediente" +
-            numero
-          );
-
-
-        input.addEventListener(
-          "input",
-          () =>
-            mostraSuggerimenti3(
-              numero
-            )
-        );
-
-
-        input.addEventListener(
-          "keydown",
-          event => {
-
-            if (
-              event.key === "Enter"
-            ) {
-
-              event.preventDefault();
-
-
-              const trovato =
-                trovaIngrediente(
-                  event.currentTarget.value
-                );
-
-
-              if (trovato) {
-
-                event.currentTarget.value =
-                  trovato.dati.nome ||
-                  trovato.chiave;
-
-
-                aggiornaSelezionato3(
-                  numero
-                );
-
-
-                document
-                  .getElementById(
-                    "suggerimenti" +
-                    numero
-                  )
-                  .style.display =
-                  "none";
-
-              }
-
-            }
-
-          }
-        );
-
-      }
-    );
-
-
-    document
-      .getElementById(
-        "esplora3Btn"
-      )
-      .addEventListener(
-        "click",
-        esploraTreIngredienti
-      );
-
-
-    document.addEventListener(
-      "click",
-      event => {
-
-        const input =
-          document.getElementById(
-            "ingrediente"
-          );
-
-        const box =
-          document.getElementById(
-            "suggerimenti"
-          );
-
-
-        if (
-          input &&
-          box &&
-          !input.contains(event.target) &&
-          !box.contains(event.target)
-        ) {
-
-          box.style.display =
-            "none";
-
-        }
-
-
-        [1, 2, 3].forEach(
-          numero => {
-
-            const input3 =
-              document.getElementById(
-                "ingrediente" +
-                numero
-              );
-
-            const box3 =
-              document.getElementById(
-                "suggerimenti" +
-                numero
-              );
-
-
-            if (
-              input3 &&
-              box3 &&
-              !input3.contains(event.target) &&
-              !box3.contains(event.target)
-            ) {
-
-              box3.style.display =
-                "none";
-
-            }
-
-          }
-        );
-
-      }
-    );
-
-
-    /* ==========================================
-       AVVIO
-    ========================================== */
-
-    caricaDatabase();
-
-  </script>
-
-</body>
-</html>
+        trova
