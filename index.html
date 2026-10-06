@@ -29,7 +29,7 @@
 <h2>Coda di verifica</h2>
 <p class="muted">Qui puoi salvare i candidati che vuoi verificare. Il punteggio scelto è una decisione manuale: non modifica automaticamente il database.</p>
 <div id="codaVerifica"></div>
-<button id="esportaCoda" type="button">Esporta abbinamenti approvati</button>
+<button id="esportaCoda" type="button">Esporta abbinamenti approvati</button><button id="esportaVerifiche" type="button">Esporta storico verifiche</button><label for="importaVerifiche">Importa storico verifiche</label><input id="importaVerifiche" type="file" accept=".json,application/json">
 <button id="generaDatabase" type="button">Genera database aggiornato</button>
 <label for="databaseImport">Carica database aggiornato</label>
 <input id="databaseImport" type="file" accept=".json,application/json">
@@ -135,7 +135,7 @@ function discover(){
     if(reviewState==="rejected")continue;
     const verifiedScore=reviewScoreData(source,k);
     const evidenceScore=strongQuads*6+strongTriads*4+strongBridges*3+shared.length*2+mediumBridges+Number(sameFamily)+Number(sameCategory);
-    candidates.push({k,shared,strongBridges,mediumBridges,strongTriads,strongQuads,sameFamily,sameCategory,bridgeNames,triadNames,quadNames,evidenceScore,verifiedScore});
+    const support=countCandidateSupport(source,k,keys); candidates.push({k,shared,strongBridges,mediumBridges,strongTriads,strongQuads,sameFamily,sameCategory,bridgeNames,triadNames,quadNames,evidenceScore,verifiedScore,...support});
   }
   candidates.sort((a,b)=>b.verifiedScore-a.verifiedScore||b.evidenceScore-a.evidenceScore||b.strongQuads-a.strongQuads||b.strongTriads-a.strongTriads||b.strongBridges-a.strongBridges||b.shared.length-a.shared.length||nome(a.k).localeCompare(nome(b.k),"it"));
   box.innerHTML='<h3>Candidati per '+esc(nome(source))+' ('+candidates.length+')</h3><div class="empty">L'app cerca evidenze già presenti nel database: profili condivisi, ingredienti ponte e combinazioni a 3 e 4 ingredienti già completamente valutabili. I candidati restano da verificare e non vengono inseriti automaticamente.</div>';
@@ -153,213 +153,7 @@ function discover(){
     if(c.sameCategory)evidence+="<div><b>Stessa categoria:</b> "+esc(db[source].categoria)+"</div>";
     const rl=reviewLabel(source,c.k);
     const eq=evidenceQuality(c);
-    d.innerHTML="<h3>"+esc(nome(c.k))+"</h3><div class='candidate-rank'>Forza dell'evidenza: "+c.evidenceScore+" · Qualità evidenza: <b>"+esc(eq[0])+"</b></div>"+(rl?"<span class='candidate-badge'>"+esc(rl)+"</span>":"")+"<span class='candidate-badge "+eq[1]+"'>EVIDENZA "+esc(eq[0])+"</span>";<div class='candidate-evidence'>"+evidence+"</div><span class='candidate-badge'>CANDIDATO · DA VERIFICARE</span><button type='button' class='use-candidate'>Usa come ingrediente di ricerca</button><button type='button' class='analyze-candidate'>Analizza candidato</button>";
-    d.querySelector(".use-candidate").onclick=e=>{e.stopPropagation();$("ingrediente").value=nome(c.k);$("risultatiScopri").scrollIntoView({behavior:"smooth"});search()};
-    d.querySelector(".analyze-candidate").onclick=e=>{e.stopPropagation();analyzeCandidate(source,c.k)};
-    const reviewBtn=document.createElement("button");reviewBtn.type="button";reviewBtn.textContent="Metti in coda di verifica";reviewBtn.onclick=e=>{e.stopPropagation();addReviewCandidate(source,c.k)};d.appendChild(reviewBtn);
-    list.appendChild(d);
-  });
-  box.appendChild(list);
-}
-function evaluate3Evidence(a,b,c){
-  const s1=score(a,b),s2=score(a,c),s3=score(b,c);
-  if(s1<=0||s2<=0||s3<=0)return 0;
-  return Math.min(s1,s2,s3);
-}
-function getReviewQueue(){try{return JSON.parse(localStorage.getItem("foodpairing_review_queue")||"[]")}catch(e){return[]}}
-function saveReviewQueue(q){localStorage.setItem("foodpairing_review_queue",JSON.stringify(q));approvedReviewMapCache=null;pairScoreCache.clear();renderReviewQueue()}
-function addReviewCandidate(source,candidate){const q=getReviewQueue();if(q.some(x=>x.source===source&&x.candidate===candidate)){renderReviewQueue();return}q.push({source,candidate,score:null,status:"pending",approved:false,createdAt:new Date().toISOString()});saveReviewQueue(q)}
-function setReviewScore(source,candidate,value){const q=getReviewQueue();const x=q.find(x=>x.source===source&&x.candidate===candidate);if(!x)return;x.score=value;x.status="approved";x.approved=true;x.reviewedAt=new Date().toISOString();saveReviewQueue(q);renderDatabaseAudit()}
-function setReviewStatus(source,candidate,status){const q=getReviewQueue();const x=q.find(x=>x.source===source&&x.candidate===candidate);if(!x)return;x.status=status;x.approved=status==="approved";if(status!=="approved")x.score=null;x.reviewedAt=new Date().toISOString();saveReviewQueue(q);renderDatabaseAudit();if($("ingrediente").value===nome(source)||$("scopriIngrediente").value===nome(source)){try{search()}catch(e){}}}
-function removeReview(source,candidate){saveReviewQueue(getReviewQueue().filter(x=>!(x.source===source&&x.candidate===candidate)))}
-function reviewStats(){
-  return getReviewQueue().map(x=>({...x,status:x.status||(x.approved?"approved":"pending")}));
-}
-function getRejectedReviewSet(){
-  const out=new Set();
-  for(const x of reviewStats())if(x.status==="rejected")out.add(x.source+"|"+x.candidate);
-  return out;
-}
-function candidateReviewState(a,b){
-  const q=reviewStats().find(x=>x.source===a&&x.candidate===b);
-  if(!q)return null;
-  return q.status;
-}
-function reviewLabel(a,b){
-  const s=candidateReviewState(a,b);
-  return s==="approved"?"VERIFICATO · APPROVATO":s==="rejected"?"VERIFICATO · RIFIUTATO":s==="pending"?"IN CODA · DA VERIFICARE":"";
-}
-function evidenceQuality(c){
-  if(c.strongQuads>=1||c.strongTriads>=2||c.strongBridges>=3)return["FORTE","evidence-strong"];
-  if(c.strongTriads>=1||c.strongBridges>=1||c.shared.length>=2)return["MEDIA","evidence-medium"];
-  return["DEBOLE","evidence-weak"];
-}
-function renderReviewQueue(){
- const box=$("codaVerifica");if(!box)return;
- const q=getReviewQueue();box.innerHTML="";
- if(!q.length){box.innerHTML="<div class='queue-empty'>Nessun candidato salvato.</div>";return}
- const normalized=q.map(x=>({...x,status:x.status||(x.approved?"approved":"pending")}));
- const pending=normalized.filter(x=>x.status==="pending").length;
- const approved=normalized.filter(x=>x.status==="approved").length;
- const rejected=normalized.filter(x=>x.status==="rejected").length;
- const summary=document.createElement("div");
- summary.className="queue-summary";
- summary.innerHTML="<b>Coda di verifica</b> · "+pending+" da verificare · "+approved+" approvati · "+rejected+" rifiutati";
- box.appendChild(summary);
- normalized.forEach(x=>{
-  const d=document.createElement("div");d.className="queue-item";
-  d.innerHTML="<h3>"+esc(nome(x.source))+" + "+esc(nome(x.candidate))+"</h3>"+
-   "<div class='muted'>"+(x.status==="approved"?"Approvato":x.status==="rejected"?"Rifiutato":"Da verificare")+(x.score?" · punteggio scelto: "+x.score+"/5":"")+"</div>"+
-   "<div class='queue-score'>"+[3,4,5].map(v=>"<button type='button' class='"+(x.score===v?"selected":"")+" review-score' data-score='"+v+"'>"+v+"/5</button>").join("")+
-   "<button type='button' class='"+(x.status==="approved"?"selected ":"")+"review-status' data-status='approved'>Approva</button>"+
-   "<button type='button' class='"+(x.status==="rejected"?"selected ":"")+"review-status' data-status='rejected'>Rifiuta</button>"+
-   "<button type='button' class='"+(x.status==="pending"?"selected ":"")+"review-status' data-status='pending'>Da verificare</button>"+
-   "<button type='button' class='remove-review'>Rimuovi</button></div>";
-  d.querySelectorAll(".review-score").forEach(b=>b.onclick=()=>setReviewScore(x.source,x.candidate,Number(b.dataset.score)));
-  d.querySelectorAll(".review-status").forEach(b=>b.onclick=()=>setReviewStatus(x.source,x.candidate,b.dataset.status));
-  d.querySelector(".remove-review").onclick=()=>removeReview(x.source,x.candidate);
-  box.appendChild(d);
- });
-}
-function exportApproved(){
- const q=reviewStats().filter(x=>x.status==="approved"&&x.score);
- if(!q.length){alert("Non ci sono abbinamenti approvati da esportare.");return}
- const out={};
- q.forEach(x=>{
-   if(!out[x.source])out[x.source]={};
-   out[x.source][x.candidate]=x.score;
-   if(!out[x.candidate])out[x.candidate]={};
-   out[x.candidate][x.source]=x.score;
- });
- const blob=new Blob([JSON.stringify(out,null,2)],{type:"application/json"});
- const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="foodpairing_abbinamenti_approvati.json";a.click();URL.revokeObjectURL(a.href);
-}
-function getDatabaseAudit(){
-  const q=reviewStats();
-  let approved=0,rejected=0,pending=0,already=0,invalid=0,verifiedPairs=0;
-  const updated=JSON.parse(JSON.stringify(db));
-  const seen=new Set();
-  for(const x of q){
-    const pair=x.source<x.candidate?x.source+"|"+x.candidate:x.candidate+"|"+x.source;
-    if(x.status==="approved"&&x.score&&!seen.has(pair)){verifiedPairs++;seen.add(pair)}
-    if(x.status==="pending"){pending++;continue}
-    if(x.status==="rejected"){rejected++;continue}
-    if(x.status!=="approved"||!x.score){invalid++;continue}
-    if(!updated[x.source]||!updated[x.candidate]){invalid++;continue}
-    const existing=scoreData(updated[x.source],x.candidate)||scoreData(updated[x.candidate],x.source);
-    if(existing>0){already++;continue}
-    approved++;
-  }
-  let databasePairs=0;
-  const dbSeen=new Set();
-  for(const a of Object.keys(updated)){
-    if(!updated[a]?.pairing)continue;
-    for(const b of Object.keys(updated[a].pairing||{})){
-      if(!updated[b])continue;
-      const pair=a<b?a+"|"+b:b+"|"+a;
-      if(!dbSeen.has(pair)&&Math.max(scoreData(updated[a],b),scoreData(updated[b],a))>0){dbSeen.add(pair);databasePairs++}
-    }
-  }
-  return {approved,rejected,pending,already,invalid,verifiedPairs,databasePairs};
-}
-function renderDatabaseAudit(){
-  const msg=$("esitoImport");if(!msg)return;
-  const a=getDatabaseAudit();
-  msg.innerHTML="<b>Audit conoscenza</b> · Database: "+a.databasePairs+" coppie · Verificate manualmente: "+a.verifiedPairs+" · Da aggiungere al database: "+a.approved+" · Già presenti: "+a.already+" · Rifiutate: "+a.rejected+" · In attesa: "+a.pending+" · Non applicabili: "+a.invalid+".";
-}
-function generateUpdatedDatabase(){
- const q=reviewStats().filter(x=>x.status==="approved"&&x.score);
- const msg=$("esitoImport");
- if(!q.length){msg.textContent="Nessun abbinamento approvato da importare.";return}
- renderDatabaseAudit();
- const updated=JSON.parse(JSON.stringify(db));
- if(pairingTypes)updated._pairing_types=pairingTypes;
- let added=0,skipped=0;
- for(const x of q){
-   if(!updated[x.source]||!updated[x.candidate]){skipped++;continue}
-   if(!updated[x.source].pairing)updated[x.source].pairing={};
-   if(!updated[x.candidate].pairing)updated[x.candidate].pairing={};
-   if(typeof updated[x.source].pairing[x.candidate]==="number"||updated[x.source].pairing[x.candidate]?.score!=null){skipped++;continue}
-   if(typeof updated[x.candidate].pairing[x.source]==="number"||updated[x.candidate].pairing[x.source]?.score!=null){skipped++;continue}
-   updated[x.source].pairing[x.candidate]=x.score;
-   updated[x.candidate].pairing[x.source]=x.score;
-   added++;
- }
- const blob=new Blob([JSON.stringify(updated,null,2)],{type:"application/json"});
- const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="database.json";a.click();URL.revokeObjectURL(a.href);
- msg.textContent="Database aggiornato generato: "+added+" nuovi abbinamenti inseriti. "+skipped+" già presenti o non applicabili.";
-}
-function importUpdatedDatabase(file){
- const msg=$("esitoImport");
- if(!file)return;
- const reader=new FileReader();
- reader.onload=()=>{
-  try{
-   const raw=JSON.parse(reader.result);
-   if(!raw||typeof raw!=="object"||Array.isArray(raw))throw Error("Formato non valido");
-   const types=raw._pairing_types||null;
-   const data={...raw};
-   delete data._pairing_types;
-   const keys=Object.keys(data);
-   if(!keys.length)throw Error("Database vuoto");
-   for(const k of keys){
-    const x=data[k];
-    if(!x||typeof x!=="object"||!x.nome||!x.pairing||typeof x.pairing!=="object")throw Error("Struttura non valida per: "+k);
-   }
-   db=data;
-   pairingTypes=types;
-   const cat=$("categoria");
-   cat.innerHTML='<option value="">Tutte</option>';
-   [...new Set(Object.values(db).map(x=>x?.categoria).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"it")).forEach(x=>{
-    const o=document.createElement("option");o.value=x;o.textContent=x;cat.appendChild(o);
-   });
-   $("status").textContent="Database aggiornato caricato: "+keys.length+" ingredienti";
-   msg.textContent="Database caricato correttamente. I nuovi abbinamenti sono già disponibili nell'app.";
-   renderReviewQueue();
-  }catch(e){
-   console.error(e);
-   msg.textContent="Errore: il file non è un database FoodPairing valido. Nessuna modifica effettuata.";
-  }
- };
- reader.onerror=()=>{msg.textContent="Impossibile leggere il file."};
- reader.readAsText(file);
-}
-function analyzeCandidate(source,candidate){
-  const box=$("risultatiScopri"),a=source,b=candidate;
-  const pa=Array.isArray(db[a]?.profilo)?db[a].profilo.map(norm):[];
-  const pb=Array.isArray(db[b]?.profilo)?db[b].profilo.map(norm):[];
-  const shared=pa.filter(x=>pb.includes(x));
-  const keys=Object.keys(db).filter(k=>k!==a&&k!==b);
-  const bridges=[];
-  let strongTriads=0,strongQuads=0,triadNames=[],quadNames=[];
-  for(let i=0;i<keys.length;i++){
-    const z=keys[i],sa=score(a,z),sb=score(b,z);
-    if(sa>=3&&sb>=3)bridges.push({z,sa,sb,avg:(sa+sb)/2});
-    if(sa>0&&sb>0&&score(a,b)===0){
-      const tri=evaluate3Evidence(a,b,z);
-      if(tri>=4){strongTriads++;if(triadNames.length<5)triadNames.push(z)}
-    }
-    for(let j=i+1;j<keys.length;j++){
-      const w=keys[j];
-      const ev=evaluateCombination([a,b,z,w]);
-      if(ev&&ev.min>=4&&ev.avg>=4){strongQuads++;if(quadNames.length<5)quadNames.push([z,w])}
-    }
-  }
-  bridges.sort((x,y)=>y.avg-x.avg||y.sa-x.sa||y.sb-x.sb);
-  const direct=score(a,b);
-  const strongBridges=bridges.filter(x=>x.sa>=4&&x.sb>=4).length;
-  const evidenceScore=shared.length*2+strongBridges*3+strongTriads*4+strongQuads*6;
-  const d=document.createElement("div");
-  d.className="candidate";
-  d.innerHTML="<h3>Analisi: "+esc(nome(a))+" + "+esc(nome(b))+"</h3>"+
-    "<div class='candidate-evidence'><div><b>Legame diretto nel database:</b> "+(direct?direct+"/5":"non registrato")+"</div>"+
-    "<div><b>Profili in comune:</b> "+(shared.length?shared.map(esc).join(", "):"nessuno")+"</div>"+
-    "<div><b>Ingredienti ponte:</b> "+bridges.length+" ("+strongBridges+" forti)</div>"+
-    "<div><b>Triadi forti con il candidato:</b> "+strongTriads+(triadNames.length?" — "+triadNames.map(nome).map(esc).join(", "):"")+"</div>"+
-    "<div><b>Combinazioni a 4 forti:</b> "+strongQuads+(quadNames.length?" — "+quadNames.map(q=>q.map(nome).join(" + ")).map(esc).join(", "):"")+"</div>"+
-    "<div><b>Punteggio evidenza:</b> "+evidenceScore+"</div>"+
-    (bridges.length?"<div><b>Ponti più forti:</b> "+bridges.slice(0,5).map(x=>esc(nome(x.z))+" ("+x.sa+"/5 · "+x.sb+"/5)").join(", ")+"</div>":"")+
-    "</div><span class='candidate-badge'>ANALISI DATI · NON È UN ABBINAMENTO CONFERMATO</span>";
+    d.innerHTML="<h3>"+esc(nome(c.k))+"</h3><div class='candidate-rank'>Forza dell'evidenza: "+c.evidenceScore+" · Qualità evidenza: <b>"+esc(eq[0])+"</b></div>"+(rl?"<span class='candidate-badge'>"+esc(rl)+"</span>":"")+"<span class='candidate-badge "+eq[1]+"'>EVIDENZA "+esc(eq[0])+"</span><span class='candidate-badge'>INFERENZA DEL MOTORE · NON CONFERMATO</span><div class='candidate-evidence'>"+evidence+"<div><b>Supporto database:</b> "+c.databaseSupport+" · <b>Supporto verificato:</b> "+c.verifiedSupport+(c.mixedSupport?" · <b>Misti:</b> "+c.mixedSupport:"")+"</div></div><button type='button' class='use-candidate'>Usa come ingrediente di ricerca</button><button type='button' class='analyze-candidate'>Analizza candidato</button>";";
   box.prepend(d);
   d.scrollIntoView({behavior:"smooth",block:"start"});
 }
@@ -418,3 +212,14 @@ const globalBuild=(fixed)=>{
 function evidenceLabel(source){
   return source==="database+verified"?"DATABASE + VERIFICATO":source==="verified"?"VERIFICATO":source==="database"?"DATABASE":"NESSUNA EVIDENZA";
 }
+function pairReasonHtml(a,b){const x=explainPair(a,b);let h="<div class='pair-reason'><b>"+esc(nome(a))+" + "+esc(nome(b))+"</b> · <strong>"+x.score+"/5</strong>";if(x.source!=="none")h+="<div><b>Fonte:</b> "+esc(evidenceLabel(x.source))+"</div>";if(x.database&&x.verified)h+="<div>Database: "+x.database+"/5 · Verifica manuale: "+x.verified+"/5</div>";if(x.shared.length)h+="<div>Profili in comune: "+x.shared.map(esc).join(", ")+"</div>";if(x.family)h+="<div>Stessa famiglia: "+esc(x.family)+"</div>";if(x.category)h+="<div>Stessa categoria: "+esc(x.category)+"</div>";return h+"</div>"}
+function explainCombination(ev){const p=[];for(let i=0;i<ev.keys.length;i++)for(let j=i+1;j<ev.keys.length;j++)p.push({a:ev.keys[i],b:ev.keys[j],s:score(ev.keys[i],ev.keys[j])});p.sort((a,b)=>b.s-a.s);return p}
+function explainHtml(ev){const p=explainCombination(ev),s=p[0],w=p[p.length-1];return "<div class='explain'><b>Perché questa combinazione</b><div class='explain-grid'>"+p.map(x=>pairReasonHtml(x.a,x.b)).join("")+"</div><div class='strongest'>Più forte: <b>"+esc(nome(s.a))+" + "+esc(nome(s.b))+"</b> ("+s.s+"/5)</div><div class='weakest'>Anello più debole: <b>"+esc(nome(w.a))+" + "+esc(nome(w.b))+"</b> ("+w.s+"/5)</div></div>"}
+function combinationEvidence(ev){let database=0,verified=0,mixed=0;for(const [i,j] of [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]]){const x=getPairEvidence(ev.keys[i],ev.keys[j]);if(x.source==="database")database++;else if(x.source==="verified")verified++;else if(x.source==="database+verified")mixed++}return{database,verified,mixed}}
+function combinationEvidenceLabel(ev){const x=combinationEvidence(ev);if(x.database===6&&!x.verified&&!x.mixed)return"DATI DATABASE";if(x.verified===6&&!x.database&&!x.mixed)return"TUTTI I LEGAMI VERIFICATI";if(x.verified||x.mixed)return"DATABASE + VERIFICHE";return"INFERENZA"}
+function renderBuilder(){const sels=[...builder.querySelectorAll("select")],keys=sels.map(s=>s.value),out=builder.querySelector(".builder-result");if(keys.some(k=>!k)||new Set(keys).size<4){out.innerHTML="<div class='empty'>I quattro ingredienti devono essere diversi.</div>";return}const ev=evaluateCombination(keys);if(!ev){out.innerHTML="<div class='empty'>Combinazione non valutabile: manca almeno uno dei 6 legami.</div>";return}const prov=combinationEvidence(ev),pairs=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]],labs=pairs.map(p=>nome(keys[p[0]])+" ↔ "+nome(keys[p[1]]));const matrix="<div class='pair-matrix'><div></div>"+keys.map(k=>"<div>"+esc(nome(k))+"</div>").join("")+keys.map((k,i)=>"<div class='matrix-name'>"+esc(nome(k))+"</div>"+keys.map((k2,j)=>i===j?"<div class='matrix-cell same'>—</div>":"<div class='matrix-cell s"+score(k,k2)+"'>"+score(k,k2)+"/5</div>").join("")).join("");out.innerHTML="<div class='score'>Coerenza minima: "+ev.min.toFixed(1)+"/5</div><div>Media dei 6 legami: <b>"+ev.avg.toFixed(2)+"/5</b></div><div class='label'>"+esc(label(ev.min,ev.avg))+"</div><div class='label'>"+esc(combinationEvidenceLabel(ev))+"</div><div class='muted'>Provenienza: "+prov.database+" database · "+prov.verified+" verificati · "+prov.mixed+" misti.</div>"+matrix+"<div class='plate'><b>6 legami</b>"+ev.scores.map((s,i)=>{const q=pairs[i],e=getPairEvidence(keys[q[0]],keys[q[1]]);return"<div>"+esc(labs[i])+": <b>"+s+"/5</b> · "+esc(evidenceLabel(e.source))+"</div>"}).join("")+"</div>"+explainHtml(ev)}
+function setupBuilder(b,initial){const bg=b.querySelector(".builder-grid");for(let i=0;i<4;i++){const w=document.createElement("div"),l=document.createElement("label"),s=document.createElement("select");l.textContent="Ingrediente "+(i+1);s.dataset.pos=i;const o=document.createElement("option");o.value="";o.textContent="— Nessun ingrediente —";s.appendChild(o);for(const k of Object.keys(db)){const p=document.createElement("option");p.value=k;p.textContent=nome(k);if(k===initial[i])p.selected=true;s.appendChild(p)}w.appendChild(l);w.appendChild(s);bg.appendChild(w)}const findBest=()=>{const out=b.querySelector(".builder-result"),sels=[...b.querySelectorAll("select")],cur=sels.map(s=>s.value);if(cur.some(k=>!k)||new Set(cur).size<4){out.innerHTML="<div class='empty'>Servono 4 ingredienti diversi.</div>";return}const base=evaluateCombination(cur);if(!base){out.innerHTML="<div class='empty'>La combinazione attuale non è valutabile.</div>";return}const c=[];for(let pos=0;pos<4;pos++)for(const ak of Object.keys(db)){if(cur.includes(ak))continue;const k=[...cur];k[pos]=ak;const ev=evaluateCombination(k);if(ev&&(ev.min>base.min||(ev.min===base.min&&ev.avg>base.avg)))c.push({pos,ak,ev})}c.sort((a,b)=>b.ev.min-a.ev.min||b.ev.avg-a.ev.avg||b.ev.profile-a.ev.profile||b.ev.total-a.ev.total);out.innerHTML=c.length?"<h4>Migliori sostituzioni</h4>"+c.slice(0,5).map((x,i)=>"<div class='plate'><b>"+(i+1)+". "+esc(nome(cur[x.pos]))+" → "+esc(nome(x.ak))+"</b><div>Min: "+x.ev.min.toFixed(1)+"/5 · Media: "+x.ev.avg.toFixed(2)+"/5</div><div class='label'>"+esc(combinationEvidenceLabel(x.ev))+"</div><button type='button' class='use-best' data-pos='"+x.pos+"' data-key='"+esc(x.ak)+"'>Applica</button></div>").join(""):"<div class='empty'>Nessuna sostituzione migliora la combinazione.</div>";out.querySelectorAll(".use-best").forEach(x=>x.onclick=e=>{e.stopPropagation();sels[+x.dataset.pos].value=x.dataset.key;renderBuilder()})};b.querySelector(".recalc-builder").onclick=e=>{e.stopPropagation();renderBuilder()};b.querySelector(".find-best").onclick=e=>{e.stopPropagation();findBest()};b.querySelector(".auto-build").onclick=e=>{e.stopPropagation();const sels=[...b.querySelectorAll("select")],fixed=sels.map(s=>s.value),used=fixed.filter(Boolean);if(!used.length){b.querySelector(".builder-result").innerHTML="<div class='empty'>Seleziona almeno un ingrediente.</div>";return}if(new Set(used).size!==used.length){b.querySelector(".builder-result").innerHTML="<div class='empty'>Gli ingredienti devono essere diversi.</div>";return}const ev=autoBuild(fixed);if(!ev){b.querySelector(".builder-result").innerHTML="<div class='empty'>Impossibile completare con i dati disponibili.</div>";return}ev.keys.forEach((k,i)=>sels[i].value=k);renderBuilder()};b.querySelector(".global-build").onclick=e=>{e.stopPropagation();const sels=[...b.querySelectorAll("select")],fixed=sels.map(s=>s.value),used=fixed.filter(Boolean);if(new Set(used).size!==used.length){b.querySelector(".builder-result").innerHTML="<div class='empty'>Gli ingredienti devono essere diversi.</div>";return}const best=globalBuild(fixed);if(!best){b.querySelector(".builder-result").innerHTML="<div class='empty'>Nessuna combinazione completa trovata.</div>";return}const original=[...fixed];best.keys.forEach((k,i)=>sels[i].value=k);const changed=[];for(let i=0;i<4;i++)if(original[i]&&original[i]!==best.keys[i])changed.push(nome(original[i])+" → "+nome(best.keys[i]));b.querySelector(".builder-result").innerHTML="<div class='plate'><b>Migliore combinazione globale</b><div>"+best.keys.map(nome).join(" · ")+"</div><div>Min: <b>"+best.ev.min.toFixed(1)+"/5</b> · Media: <b>"+best.ev.avg.toFixed(2)+"/5</b></div><div class='label'>"+esc(combinationEvidenceLabel(best.ev))+"</div>"+(changed.length?"<div>Sostituzioni: "+changed.map(esc).join(", ")+"</div>":"")+"</div>"+explainHtml(best.ev);renderBuilder()};renderBuilder()}
+function openBuilderFromCard(p,initial){let b=p.querySelector(".builder");if(b)return b;b=document.createElement("div");b.className="builder";b.innerHTML="<h4>Editor del piatto</h4><p class='muted'>Modifica liberamente i 4 ingredienti.</p><div class='builder-grid'></div><button type='button' class='recalc-builder'>Ricalcola combinazione</button><button type='button' class='find-best'>Trova il migliore</button><button type='button' class='auto-build'>Completa automaticamente</button><button type='button' class='global-build'>Trova la migliore combinazione</button><div class='builder-result'></div>";p.appendChild(b);setupBuilder(b,initial);return b}
+document.querySelectorAll(".build").forEach(btn=>btn.onclick=e=>{e.stopPropagation();const p=btn.closest(".plate-panel");if(p.classList.contains("open")){p.classList.remove("open");return}p.classList.add("open");const title=p.querySelector("h4")?.textContent||"";const initial=title.split(" + ").map(n=>{const f=find(n.trim());return f?f.key:""});if(initial.length===4)openBuilderFromCard(p,initial)});
+$("cerca").onclick=search;$("scopri").onclick=discover;$("esplora").onclick=explore;$("esportaCoda").onclick=exportApproved;$("generaDatabase").onclick=generateUpdatedDatabase;$("databaseImport").addEventListener("change",e=>importUpdatedDatabase(e.target.files[0]));$("esportaVerifiche").onclick=exportReviewHistory;$("importaVerifiche").addEventListener("change",e=>importReviewHistory(e.target.files[0]));autocomplete("ingrediente","suggestMain");autocomplete("scopriIngrediente","suggestScopri");autocomplete("i1","s1");autocomplete("i2","s2");autocomplete("i3","s3");document.addEventListener("click",e=>{if(!e.target.closest(".field,.triple-field"))document.querySelectorAll(".suggest").forEach(x=>x.style.display="none")});renderReviewQueue();renderDatabaseAudit();load();
+</script></body></html>
