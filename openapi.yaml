@@ -17,7 +17,7 @@ paths:
           required: true
           schema:
             type: string
-            enum: [ingredient, pair, pairings, combination]
+            enum: [ingredient, pair, pairings, combination, complete]
         - name: name
           in: query
           schema:
@@ -49,7 +49,7 @@ paths:
           in: query
           schema:
             type: string
-          description: Quattro ingredienti separati da virgola per action=combination.
+          description: Quattro ingredienti separati da virgola per action=combination.\n        - name: ingredients\n          in: query\n          schema:\n            type: string\n          description: Tre ingredienti separati da virgola per action=complete.
       responses:
         '200':
           description: Risposta FoodPairing
