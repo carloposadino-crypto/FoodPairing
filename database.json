@@ -568,7 +568,7 @@
       "melanzana": 4,
       "fragola": 5
     },
-    "immagine": "images/menta.svg"
+    "immagine": "https://images.pexels.com/photos/4198771/pexels-photo-4198771.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "zenzero": {
     "nome": "Zenzero",
@@ -588,7 +588,7 @@
       "maiale": 4,
       "anatra": 4
     },
-    "immagine": "images/zenzero.svg"
+    "immagine": "https://images.pexels.com/photos/161556/background-ginger-ginger-root-161556.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "cannella": {
     "nome": "Cannella",
@@ -609,7 +609,7 @@
       "carota": 4,
       "miele": 5
     },
-    "immagine": "images/cannella.svg"
+    "immagine": "https://images.pexels.com/photos/1306248/pexels-photo-1306248.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "miele": {
     "nome": "Miele",
@@ -629,7 +629,7 @@
       "noci": 5,
       "formaggio": 5
     },
-    "immagine": "images/miele.svg"
+    "immagine": "https://images.pexels.com/photos/33260/honey-syrup-organic-honey-jar-33260.jpg?auto=compress&cs=tinysrgb&w=800"
   },
   "senape": {
     "nome": "Senape",
@@ -648,7 +648,7 @@
       "miele": 5,
       "patata": 4
     },
-    "immagine": "images/senape.svg"
+    "immagine": "https://images.pexels.com/photos/5419221/pexels-photo-5419221.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "funghi": {
     "nome": "Funghi",
@@ -668,7 +668,7 @@
       "burro": 5,
       "patata": 5
     },
-    "immagine": "images/funghi.svg"
+    "immagine": "https://images.pexels.com/photos/1210505/pexels-photo-1210505.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "parmigiano": {
     "nome": "Parmigiano",
@@ -689,7 +689,7 @@
       "balsamico": 5,
       "noci": 5
     },
-    "immagine": "images/parmigiano.svg"
+    "immagine": "https://images.pexels.com/photos/236010/pexels-photo-236010.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "gorgonzola": {
     "nome": "Gorgonzola",
@@ -709,7 +709,7 @@
       "sedano": 4,
       "vino": 5
     },
-    "immagine": "images/gorgonzola.svg"
+    "immagine": "https://images.pexels.com/photos/773253/pexels-photo-773253.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "caffe": {
     "nome": "Caffè",
@@ -728,7 +728,7 @@
       "arancia": 4,
       "cannella": 4
     },
-    "immagine": "images/caffe.svg"
+    "immagine": "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "olio": {
     "nome": "Olio extravergine di oliva",
@@ -747,7 +747,7 @@
       "pesce": 5,
       "verdure": 5
     },
-    "immagine": "images/olio.svg"
+    "immagine": "https://images.pexels.com/photos/33783/olive-oil-salad-dressing-cooking-33783.jpg?auto=compress&cs=tinysrgb&w=800"
   },
   "aceto": {
     "nome": "Aceto",
@@ -766,7 +766,7 @@
       "verdure": 5,
       "olio": 5
     },
-    "immagine": "images/aceto.svg"
+    "immagine": "https://images.pexels.com/photos/4110251/pexels-photo-4110251.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "_pairing_types": {
     "affinita": {
