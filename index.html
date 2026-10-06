@@ -201,14 +201,8 @@ button:active{transform:translateY(1px)}
 .queue-empty{padding:12px;background:var(--surface-2);border-radius:8px;color:var(--muted)}
 .queue-summary{padding:10px 12px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;font-size:13px;margin-bottom:10px}
 .candidate-list{margin-top:10px}
-.pairing-map{display:block !important;visibility:visible !important;opacity:1 !important;margin:14px 0;padding:14px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;position:relative;z-index:2}
-.pairing-map h4{margin:0 0 8px;font-size:16px}
-.pairing-map .map-summary{font-size:13px;color:var(--muted);margin-bottom:10px}
-.pairing-map .map-group{margin-top:9px}
-.pairing-map .map-group-title{font-size:13px;font-weight:bold;margin-bottom:5px}
-.pairing-map .map-items{display:flex;flex-wrap:wrap;gap:6px}
-.pairing-map .map-item{background:#fff;border:1px solid var(--line);border-radius:7px;padding:7px 9px;font-size:13px;cursor:pointer;touch-action:manipulation}
-.pairing-map .map-item strong{margin-left:5px}
+.pairing-map{display:block !important;visibility:visible !important;opacity:1 !important;margin:18px 0;padding:16px;background:var(--surface-2);border:2px solid var(--line);border-radius:16px;position:relative;z-index:20;min-height:120px}
+.map-title{display:flex;align-items:center;gap:10px;font-size:17px;margin-bottom:12px}.map-title span{font-size:25px}.map-title small{display:block;font-size:12px;color:var(--muted);font-weight:400;margin-top:2px}.map-center{display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:12px;background:#fff;border:1px solid var(--line);border-radius:12px}.map-center .ingredient-visual{width:48px;height:48px;flex-basis:48px}.map-connections{display:grid;gap:10px}.pairing-map .map-group{margin-top:0}.pairing-map .map-group-title{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:800;margin-bottom:6px}.pairing-map .map-group-title small{font-weight:400;color:var(--muted)}.pairing-map .map-items{display:flex;flex-wrap:wrap;gap:7px}.pairing-map .map-item{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:7px 9px;font-size:12px;cursor:pointer;touch-action:manipulation}.pairing-map .map-item .ingredient-visual{width:28px;height:28px;flex-basis:28px;border-radius:8px}.pairing-map .map-item .ingredient-emoji{font-size:16px}.pairing-map .map-item strong{margin-left:3px}
 #risultati,#risultatiScopri,#risultati3{scroll-margin-top:80px}
 #salvaFlavoProxy,#consultaFlavonomics,#esportaFlavonomics,#generaDatabase,#esportaVerifiche,#esportaCoda{background:#5d5850}
 #salvaFlavoProxy:hover,#consultaFlavonomics:hover,#esportaFlavonomics:hover,#generaDatabase:hover,#esportaVerifiche:hover,#esportaCoda:hover{background:#403c36}
@@ -998,10 +992,13 @@ function search(){
 
   if(all.length){
     const groups=[5,4,3,2,1].map(s=>({s,items:all.filter(x=>x.s===s)})).filter(g=>g.items.length);
-    box.innerHTML+='<div class="pairing-map"><h4>🗺️ Mappa degli abbinamenti</h4><div class="map-summary">'+all.length+' abbinamenti presenti nel database · '+all.filter(x=>x.s===5).length+' a 5/5 · '+all.filter(x=>x.s===4).length+' a 4/5 · '+all.filter(x=>x.s===3).length+' a 3/5</div>'+
-      groups.map(g=>'<div class="map-group"><div class="map-group-title">'+g.s+'/5</div><div class="map-items">'+g.items.slice(0,12).map(x=>'<button type="button" class="map-item" data-key="'+esc(x.k)+'">'+esc(nome(x.k))+' <strong>'+x.s+'/5</strong></button>').join("")+(g.items.length>12?'<span class="muted">+ '+(g.items.length-12)+' altri</span>':"")+'</div></div>').join("")+
-      '</div>';
-    box.querySelectorAll(".map-item").forEach(b=>b.onclick=e=>{
+    const map=document.createElement("div");
+    map.className="pairing-map";
+    map.innerHTML='<div class="map-title"><span>🗺️</span><div><strong>Mappa degli abbinamenti</strong><small>'+esc(nome(f.key))+' · '+all.length+' collegamenti</small></div></div>'+
+      '<div class="map-center">'+ingredientVisual(f.key,true)+'<strong>'+esc(nome(f.key))+'</strong></div>'+
+      '<div class="map-connections">'+groups.map(g=>'<div class="map-group"><div class="map-group-title"><span>'+g.s+'/5</span><small>'+g.items.length+' abbinamenti</small></div><div class="map-items">'+g.items.slice(0,15).map(x=>'<button type="button" class="map-item" data-key="'+esc(x.k)+'">'+ingredientVisual(x.k)+'<span>'+esc(nome(x.k))+' <strong>'+x.s+'/5</strong></span></button>').join("")+(g.items.length>15?'<span class="muted">+ '+(g.items.length-15)+' altri</span>':"")+'</div></div>').join("")+'</div>';
+    box.appendChild(map);
+    map.querySelectorAll(".map-item").forEach(b=>b.onclick=e=>{
       e.stopPropagation();
       $("ingrediente").value=nome(b.dataset.key);
       search();
