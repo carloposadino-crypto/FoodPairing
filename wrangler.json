@@ -1,0 +1,5 @@
+{
+  "name": "foodpairing-flavonomics-proxy",
+  "main": "api/flavonomics-proxy.js",
+  "compatibility_date": "2026-10-06"
+}
