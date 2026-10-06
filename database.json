@@ -23,7 +23,7 @@
       "senape": 4,
       "aceto": 5
     },
-    "immagine": "images/mela.svg"
+    "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "pera": {
     "nome": "Pera",
@@ -45,7 +45,7 @@
       "vino": 4,
       "zenzero": 3
     },
-    "immagine": "images/pera.svg"
+    "immagine": "https://images.pexels.com/photos/14050491/pexels-photo-14050491.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "pesca": {
     "nome": "Pesca",
@@ -67,7 +67,7 @@
       "zenzero": 4,
       "moscato": 5
     },
-    "immagine": "images/pesca.svg"
+    "immagine": "https://images.pexels.com/photos/17674101/pexels-photo-17674101.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "albicocca": {
     "nome": "Albicocca",
@@ -87,7 +87,7 @@
       "maiale": 4,
       "cannella": 4
     },
-    "immagine": "images/albicocca.svg"
+    "immagine": "https://images.pexels.com/photos/1028599/pexels-photo-1028599.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "ciliegia": {
     "nome": "Ciliegia",
@@ -107,7 +107,7 @@
       "anatra": 5,
       "vino": 5
     },
-    "immagine": "images/ciliegia.svg"
+    "immagine": "https://images.pexels.com/photos/966416/pexels-photo-966416.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "limone": {
     "nome": "Limone",
@@ -196,7 +196,7 @@
       "olio": 5,
       "peperoncino": 4
     },
-    "immagine": "images/melanzana.svg"
+    "immagine": "https://images.pexels.com/photos/5701950/pexels-photo-5701950.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "zucchina": {
     "nome": "Zucchina",
@@ -216,7 +216,7 @@
       "aglio": 4,
       "timo": 4
     },
-    "immagine": "images/zucchina.svg"
+    "immagine": "https://images.pexels.com/photos/3375263/pexels-photo-3375263.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "carota": {
     "nome": "Carota",
@@ -236,7 +236,7 @@
       "burro": 4,
       "coriandolo": 4
     },
-    "immagine": "images/carota.svg"
+    "immagine": "https://images.pexels.com/photos/8477073/pexels-photo-8477073.jpeg?auto=compress&cs=tinysrgb&w=800"
   },
   "sedano": {
     "nome": "Sedano",
