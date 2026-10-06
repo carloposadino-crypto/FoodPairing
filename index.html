@@ -237,25 +237,39 @@ function importUpdatedDatabase(file){
  reader.readAsText(file);
 }
 function analyzeCandidate(source,candidate){
-  const box=$("risultatiScopri"), a=source, b=candidate;
+  const box=$("risultatiScopri"),a=source,b=candidate;
   const pa=Array.isArray(db[a]?.profilo)?db[a].profilo.map(norm):[];
   const pb=Array.isArray(db[b]?.profilo)?db[b].profilo.map(norm):[];
   const shared=pa.filter(x=>pb.includes(x));
+  const keys=Object.keys(db).filter(k=>k!==a&&k!==b);
   const bridges=[];
-  for(const z of Object.keys(db)){
-    if(z===a||z===b)continue;
-    const sa=score(a,z),sb=score(b,z);
+  let strongTriads=0,strongQuads=0,triadNames=[],quadNames=[];
+  for(let i=0;i<keys.length;i++){
+    const z=keys[i],sa=score(a,z),sb=score(b,z);
     if(sa>=3&&sb>=3)bridges.push({z,sa,sb,avg:(sa+sb)/2});
+    if(sa>0&&sb>0&&score(a,b)===0){
+      const tri=evaluate3Evidence(a,b,z);
+      if(tri>=4){strongTriads++;if(triadNames.length<5)triadNames.push(z)}
+    }
+    for(let j=i+1;j<keys.length;j++){
+      const w=keys[j];
+      const ev=evaluateCombination([a,b,z,w]);
+      if(ev&&ev.min>=4&&ev.avg>=4){strongQuads++;if(quadNames.length<5)quadNames.push([z,w])}
+    }
   }
   bridges.sort((x,y)=>y.avg-x.avg||y.sa-x.sa||y.sb-x.sb);
   const direct=score(a,b);
+  const strongBridges=bridges.filter(x=>x.sa>=4&&x.sb>=4).length;
+  const evidenceScore=shared.length*2+strongBridges*3+strongTriads*4+strongQuads*6;
   const d=document.createElement("div");
   d.className="candidate";
   d.innerHTML="<h3>Analisi: "+esc(nome(a))+" + "+esc(nome(b))+"</h3>"+
     "<div class='candidate-evidence'><div><b>Legame diretto nel database:</b> "+(direct?direct+"/5":"non registrato")+"</div>"+
     "<div><b>Profili in comune:</b> "+(shared.length?shared.map(esc).join(", "):"nessuno")+"</div>"+
-    "<div><b>Ingredienti ponte:</b> "+bridges.length+"</div>"+
-    "<div><b>Punteggio evidenza:</b> "+(shared.length*2+bridges.filter(x=>x.sa>=4&&x.sb>=4).length*3+bridges.filter(x=>x.sa>=3&&x.sb>=3).length)+"</div>"+
+    "<div><b>Ingredienti ponte:</b> "+bridges.length+" ("+strongBridges+" forti)</div>"+
+    "<div><b>Triadi forti con il candidato:</b> "+strongTriads+(triadNames.length?" — "+triadNames.map(nome).map(esc).join(", "):"")+"</div>"+
+    "<div><b>Combinazioni a 4 forti:</b> "+strongQuads+(quadNames.length?" — "+quadNames.map(q=>q.map(nome).join(" + ")).map(esc).join(", "):"")+"</div>"+
+    "<div><b>Punteggio evidenza:</b> "+evidenceScore+"</div>"+
     (bridges.length?"<div><b>Ponti più forti:</b> "+bridges.slice(0,5).map(x=>esc(nome(x.z))+" ("+x.sa+"/5 · "+x.sb+"/5)").join(", ")+"</div>":"")+
     "</div><span class='candidate-badge'>ANALISI DATI · NON È UN ABBINAMENTO CONFERMATO</span>";
   box.prepend(d);
