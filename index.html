@@ -219,10 +219,31 @@ function exportApproved(){
  const blob=new Blob([JSON.stringify(out,null,2)],{type:"application/json"});
  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="foodpairing_abbinamenti_approvati.json";a.click();URL.revokeObjectURL(a.href);
 }
+function getDatabaseAudit(){
+  const q=reviewStats();
+  let approved=0,rejected=0,pending=0,already=0,invalid=0;
+  const updated=JSON.parse(JSON.stringify(db));
+  for(const x of q){
+    if(x.status==="pending"){pending++;continue}
+    if(x.status==="rejected"){rejected++;continue}
+    if(x.status!=="approved"||!x.score){invalid++;continue}
+    if(!updated[x.source]||!updated[x.candidate]){invalid++;continue}
+    const existing=scoreData(updated[x.source],x.candidate)||scoreData(updated[x.candidate],x.source);
+    if(existing>0){already++;continue}
+    approved++;
+  }
+  return {approved,rejected,pending,already,invalid};
+}
+function renderDatabaseAudit(){
+  const msg=$("esitoImport");if(!msg)return;
+  const a=getDatabaseAudit();
+  msg.textContent="Audit database · "+a.approved+" da aggiungere · "+a.already+" già presenti · "+a.rejected+" rifiutati · "+a.pending+" in attesa · "+a.invalid+" non applicabili.";
+}
 function generateUpdatedDatabase(){
  const q=reviewStats().filter(x=>x.status==="approved"&&x.score);
  const msg=$("esitoImport");
  if(!q.length){msg.textContent="Nessun abbinamento approvato da importare.";return}
+ renderDatabaseAudit();
  const updated=JSON.parse(JSON.stringify(db));
  if(pairingTypes)updated._pairing_types=pairingTypes;
  let added=0,skipped=0;
@@ -369,7 +390,7 @@ const real=candidates.filter(a=>a.mn>currentEval.min||(a.mn===currentEval.min&&a
 if(!real.length){list.innerHTML="<div class='empty'>Nessun miglioramento reale trovato nei dati disponibili.</div>";return}
 list.innerHTML="<h4>Migliori sostituzioni globali</h4>"+real.slice(0,5).map((a,i)=>{const old=currentKeys[a.pos],dw=a.mn-currentEval.min,da=a.av-currentEval.avg;return "<div class='plate'><b>"+(i+1)+". "+esc(nome(old))+" → "+esc(nome(a.ak))+"</b><div>Coerenza minima: <b>"+a.mn.toFixed(1)+"/5</b> ("+(dw>=0?"+":"")+dw.toFixed(1)+")</div><div>Media: <b>"+a.av.toFixed(2)+"/5</b> ("+(da>=0?"+":"")+da.toFixed(2)+")</div><div class='label'>"+esc(label(a.mn,a.av))+"</div><button type='button' class='apply-global'>Applica sostituzione</button></div>" }).join("");
 list.querySelectorAll(".apply-global").forEach((b,i)=>b.onclick=ev=>{ev.stopPropagation();const a=real[i];const vals=[...currentKeys];vals[a.pos]=a.ak;for(let j=0;j<4;j++)$("i"+(j+1)).value=nome(vals[j]);$("risultati3").scrollIntoView({behavior:"smooth"});explore()})};};};d.onclick=()=>{$("ingrediente").value=cn;$("risultati").scrollIntoView({behavior:"smooth"});search()};box.appendChild(d)}}
-document.addEventListener("DOMContentLoaded",()=>{autocomplete("ingrediente","suggestMain");autocomplete("scopriIngrediente","suggestScopri");autocomplete("i1","s1");autocomplete("i2","s2");autocomplete("i3","s3");$("cerca").onclick=search;$("scopri").onclick=discover;$("esportaCoda").onclick=exportApproved;$("generaDatabase").onclick=generateUpdatedDatabase;$("databaseImport").onchange=e=>importUpdatedDatabase(e.target.files[0]);renderReviewQueue();$("ingrediente").onkeydown=e=>{if(e.key==="Enter")search()};$("esplora").onclick=explore;document.onclick=e=>{if(!e.target.closest(".field"))$("suggestMain").style.display="none";if(!e.target.closest(".triple-field"))document.querySelectorAll(".suggest").forEach(x=>x.style.display="none")};load()});
+document.addEventListener("DOMContentLoaded",()=>{autocomplete("ingrediente","suggestMain");autocomplete("scopriIngrediente","suggestScopri");autocomplete("i1","s1");autocomplete("i2","s2");autocomplete("i3","s3");$("cerca").onclick=search;$("scopri").onclick=discover;$("esportaCoda").onclick=exportApproved;$("generaDatabase").onclick=generateUpdatedDatabase;$("databaseImport").onchange=e=>importUpdatedDatabase(e.target.files[0]);renderReviewQueue();renderDatabaseAudit();$("ingrediente").onkeydown=e=>{if(e.key==="Enter")search()};$("esplora").onclick=explore;document.onclick=e=>{if(!e.target.closest(".field"))$("suggestMain").style.display="none";if(!e.target.closest(".triple-field"))document.querySelectorAll(".suggest").forEach(x=>x.style.display="none")};load()});
 </script>
 </body>
 </html>
