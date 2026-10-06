@@ -537,6 +537,7 @@ async function load(){
     pairingTypes=raw._pairing_types||null;
     const data={...raw};
     delete data._pairing_types;
+    delete data._metadata;
     const keys=Object.keys(data);
     if(!keys.length)throw new Error("Database vuoto");
     for(const k of keys){
@@ -915,6 +916,7 @@ function importUpdatedDatabase(file){
    const types=raw._pairing_types||null;
    const data={...raw};
    delete data._pairing_types;
+   delete data._metadata;
    const keys=Object.keys(data);
    if(!keys.length)throw Error("Database vuoto");
    for(const k of keys){
