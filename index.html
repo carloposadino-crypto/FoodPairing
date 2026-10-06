@@ -320,6 +320,10 @@ input[type=file]{
   .ingredient-visual{width:52px;height:52px;flex-basis:52px;border-radius:14px}
   .ingredient-visual .ingredient-emoji{font-size:27px}.result-bar{margin-left:64px}
 }
+
+.ingredient-visual{background:#f4eee6;}
+.ingredient-visual img{transition:transform .25s ease;}
+.result:hover .ingredient-visual img{transform:scale(1.04);}
 </style>
 </head>
 <body>
@@ -434,7 +438,10 @@ const ingredientEmoji={
 };
 function ingredientVisual(k,large=false){
   const d=db[k]||{},src=String(d.immagine||"").trim(),emoji=ingredientEmoji[k]||"✦";
-  return '<div class="ingredient-visual'+(large?" large":"")+'">'+(src?'<img src="'+esc(src)+'" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'">':"")+'<span class="ingredient-emoji"'+(src?' style="display:none"':"")+'>'+emoji+'</span></div>';
+  const fallback=src.replace(/\\.jpg$/i,".svg");
+  return '<div class="ingredient-visual'+(large?" large":"")+'">'+
+    '<img src="'+esc(fallback||src)+'" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline\'">'+
+    '<span class="ingredient-emoji" style="display:none">'+emoji+'</span></div>';
 }
 function find(s){s=norm(s);if(!s)return null;for(const k of Object.keys(db)){if(s===norm(k)||s===norm(nome(k)))return{key:k,data:db[k]}}return null}
 function scoreData(a,b){if(!a?.pairing)return 0;const v=a.pairing[b];return typeof v==="number"?v:v&&typeof v.score==="number"?v.score:0}
