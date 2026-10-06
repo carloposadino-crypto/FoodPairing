@@ -124,7 +124,8 @@ function discover(){
     if(c.strongQuads)evidence+="<div><b>Combinazioni a 4 forti:</b> "+c.strongQuads+(c.quadNames.length?" — "+c.quadNames.map(q=>q.map(nome).join(" + ")).map(esc).join(", "):"")+"</div>";
     if(c.sameFamily)evidence+="<div><b>Stessa famiglia:</b> "+esc(db[source].famiglia)+"</div>";
     if(c.sameCategory)evidence+="<div><b>Stessa categoria:</b> "+esc(db[source].categoria)+"</div>";
-    d.innerHTML="<h3>"+esc(nome(c.k))+"</h3><div class='candidate-rank'>Forza dell'evidenza: "+c.evidenceScore+"</div><div class='candidate-evidence'>"+evidence+"</div><span class='candidate-badge'>CANDIDATO · DA VERIFICARE</span><button type='button' class='use-candidate'>Usa come ingrediente di ricerca</button><button type='button' class='analyze-candidate'>Analizza candidato</button>";
+    const rl=reviewLabel(source,c.k);
+    d.innerHTML="<h3>"+esc(nome(c.k))+"</h3><div class='candidate-rank'>Forza dell'evidenza: "+c.evidenceScore+"</div>"+(rl?"<span class='candidate-badge'>"+esc(rl)+"</span>":"");<div class='candidate-evidence'>"+evidence+"</div><span class='candidate-badge'>CANDIDATO · DA VERIFICARE</span><button type='button' class='use-candidate'>Usa come ingrediente di ricerca</button><button type='button' class='analyze-candidate'>Analizza candidato</button>";
     d.querySelector(".use-candidate").onclick=e=>{e.stopPropagation();$("ingrediente").value=nome(c.k);$("risultatiScopri").scrollIntoView({behavior:"smooth"});search()};
     d.querySelector(".analyze-candidate").onclick=e=>{e.stopPropagation();analyzeCandidate(source,c.k)};
     const reviewBtn=document.createElement("button");reviewBtn.type="button";reviewBtn.textContent="Metti in coda di verifica";reviewBtn.onclick=e=>{e.stopPropagation();addReviewCandidate(source,c.k)};d.appendChild(reviewBtn);
@@ -166,6 +167,10 @@ function candidateReviewState(a,b){
   const q=reviewStats().find(x=>x.source===a&&x.candidate===b);
   if(!q)return null;
   return q.status;
+}
+function reviewLabel(a,b){
+  const s=candidateReviewState(a,b);
+  return s==="approved"?"VERIFICATO · APPROVATO":s==="rejected"?"VERIFICATO · RIFIUTATO":s==="pending"?"IN CODA · DA VERIFICARE":"";
 }
 function renderReviewQueue(){
  const box=$("codaVerifica");if(!box)return;
