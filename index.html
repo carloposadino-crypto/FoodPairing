@@ -52,7 +52,8 @@ const esc=s=>String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>
 const nome=k=>db[k]?.nome||k;
 function find(s){s=norm(s);if(!s)return null;for(const k of Object.keys(db)){if(s===norm(k)||s===norm(nome(k)))return{key:k,data:db[k]}}return null}
 function scoreData(a,b){if(!a?.pairing)return 0;const v=a.pairing[b];return typeof v==="number"?v:v&&typeof v.score==="number"?v.score:0}
-function score(a,b){return Math.max(scoreData(db[a],b),scoreData(db[b],a))}
+function reviewScoreData(a,b){const map=getApprovedReviewMap();return typeof map[a]?.[b]==="number"?map[a][b]:0}
+function score(a,b){return Math.max(scoreData(db[a],b),scoreData(db[b],a),reviewScoreData(a,b),reviewScoreData(b,a))}
 function evaluateCombination(keys){
   if(!Array.isArray(keys)||keys.length!==4||new Set(keys).size!==4)return null;
   const pairs=[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
