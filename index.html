@@ -257,27 +257,57 @@ input[type=file]{
 <header><h1>FoodPairing</h1><p>Ingredienti e abbinamenti</p></header>
 <main>
 <div id="status" class="status">Caricamento database...</div>
+
 <section class="hero box">
 <div class="hero-kicker">ABBINAMENTI AROMATICI</div>
 <h2>Parti da un ingrediente</h2>
 <p class="hero-copy">Cerca un ingrediente e scopri subito i suoi abbinamenti migliori.</p>
 <div class="field"><label>Ingrediente</label><input id="ingrediente" placeholder="Es. mela" autocomplete="off"><div id="suggestMain" class="suggest"></div></div>
-<div class="grid hero-filters"><div><label>Categoria</label><select id="categoria"><option value="">Tutte</option></select></div><div><label>Intensità minima</label><select id="intensita"><option value="0">Tutte</option><option value="2">≥ 2</option><option value="3">≥ 3</option><option value="4">≥ 4</option><option value="4.5">≥ 4.5</option></select></div></div>
-<button id="cerca">Cerca abbinamenti</button><div id="risultati"></div>
+<div class="grid hero-filters">
+<div><label>Categoria</label><select id="categoria"><option value="">Tutte</option></select></div>
+<div><label>Intensità minima</label><select id="intensita"><option value="0">Tutte</option><option value="2">≥ 2</option><option value="3">≥ 3</option><option value="4">≥ 4</option><option value="4.5">≥ 4.5</option></select></div>
+</div>
+<button id="cerca">Cerca abbinamenti</button>
+<div id="risultati"></div>
 </section>
-<section class="box advanced-discovery">
+
+<section class="box builder-section">
+<h2>Costruisci una combinazione</h2>
+<p class="muted">Inserisci tre ingredienti e lascia che FoodPairing cerchi un quarto ingrediente compatibile.</p>
+<div class="grid">
+<div class="triple-field"><label>Ingrediente 1</label><input id="i1" placeholder="Es. mela" autocomplete="off"><div id="s1" class="suggest"></div></div>
+<div class="triple-field"><label>Ingrediente 2</label><input id="i2" placeholder="Es. maiale" autocomplete="off"><div id="s2" class="suggest"></div></div>
+</div>
+<div class="triple-field"><label>Ingrediente 3</label><input id="i3" placeholder="Es. timo" autocomplete="off"><div id="s3" class="suggest"></div></div>
+<button id="esplora">Esplora combinazioni</button>
+<div id="risultati3"></div>
+</section>
+
+<section class="box discovery-tools">
 <h2>Scopri nuovi abbinamenti</h2>
-<p class="muted">Cerca ingredienti che non hanno ancora un abbinamento registrato. Sono solo candidati: l'app mostra le evidenze presenti nel database e non crea automaticamente nuovi punteggi.</p>
+<p class="muted">Trova candidati non ancora presenti come abbinamenti diretti. Restano da verificare.</p>
 <div class="field"><label>Ingrediente di partenza</label><input id="scopriIngrediente" placeholder="Es. mela" autocomplete="off"><div id="suggestScopri" class="suggest"></div></div>
-<button id="scopri">Trova candidati</button><div id="risultatiScopri"></div>
+<button id="scopri">Trova candidati</button>
+<div id="risultatiScopri"></div>
 </section>
-<details class="advanced"><summary>Strumenti avanzati</summary>
+
+<details class="advanced">
+<summary>Strumenti avanzati</summary>
 <div class="advanced-inner">
 <section class="box">
 <h2>Coda di verifica</h2>
-<p class="muted">Qui puoi salvare i candidati che vuoi verificare. Il punteggio scelto è una decisione manuale: non modifica automaticamente il database.</p>
+<p class="muted">Gestisci le verifiche manuali, Flavonomics e gli strumenti del database.</p>
 <div id="codaVerifica"></div>
-<button id="esportaCoda" type="button">Esporta abbinamenti approvati</button><button id="esportaVerifiche" type="button">Esporta storico verifiche</button><div class="field"><label for="flavoProxy">Endpoint Flavonomics sicuro</label><input id="flavoProxy" placeholder="https://tuo-worker.example.workers.dev"></div><button id="salvaFlavoProxy" type="button">Salva endpoint</button><button id="consultaFlavonomics" type="button">Consulta Flavonomics</button><label for="importaFlavonomics">Importa risultati Flavonomics</label><input id="importaFlavonomics" type="file" accept=".json,application/json"><button id="esportaFlavonomics" type="button">Esporta dati esterni</button><label for="importaVerifiche">Importa storico verifiche</label><input id="importaVerifiche" type="file" accept=".json,application/json">
+<button id="esportaCoda" type="button">Esporta abbinamenti approvati</button>
+<button id="esportaVerifiche" type="button">Esporta storico verifiche</button>
+<div class="field"><label for="flavoProxy">Endpoint Flavonomics sicuro</label><input id="flavoProxy" placeholder="https://tuo-worker.example.workers.dev"></div>
+<button id="salvaFlavoProxy" type="button">Salva endpoint</button>
+<button id="consultaFlavonomics" type="button">Consulta Flavonomics</button>
+<label for="importaFlavonomics">Importa risultati Flavonomics</label>
+<input id="importaFlavonomics" type="file" accept=".json,application/json">
+<button id="esportaFlavonomics" type="button">Esporta dati esterni</button>
+<label for="importaVerifiche">Importa storico verifiche</label>
+<input id="importaVerifiche" type="file" accept=".json,application/json">
 <button id="generaDatabase" type="button">Genera database aggiornato</button>
 <label for="databaseImport">Carica database aggiornato</label>
 <input id="databaseImport" type="file" accept=".json,application/json">
@@ -285,24 +315,6 @@ input[type=file]{
 </section>
 </div>
 </details>
-<section class="box builder-section">
-<h2>Costruisci una combinazione</h2>
-<p class="muted">Inserisci tre ingredienti e lascia che FoodPairing cerchi un quarto ingrediente compatibile.</p>
-<div class="grid"><div class="triple-field"><label>Ingrediente 1</label><input id="i1" placeholder="Es. mela" autocomplete="off"><div id="s1" class="suggest"></div></div><div class="triple-field"><label>Ingrediente 2</label><input id="i2" placeholder="Es. maiale" autocomplete="off"><div id="s2" class="suggest"></div></div></div>
-<div class="triple-field"><label>Ingrediente 3</label><input id="i3" placeholder="Es. timo" autocomplete="off"><div id="s3" class="suggest"></div></div>
-<button id="esplora">Esplora combinazioni</button><div id="risultati3"></div>
-</section>
-<section class="box discovery-tools">
-<h2>Ricerca avanzata</h2>
-<p class="muted">Trova candidati non ancora presenti come abbinamenti diretti.</p>
-<div class="field"><label>Ingrediente di partenza</label><input id="scopriIngrediente" placeholder="Es. mela" autocomplete="off"><div id="suggestScopri" class="suggest"></div></div>
-<button id="scopri">Trova candidati</button><div id="risultatiScopri"></div>
-</section>
-<p class="muted">Inserisci tre ingredienti. L'app cerca un quarto ingrediente e valuta tutti i 6 legami della combinazione completa.</p>
-<div class="grid"><div class="triple-field"><label>Ingrediente 1</label><input id="i1" placeholder="Es. mela" autocomplete="off"><div id="s1" class="suggest"></div></div><div class="triple-field"><label>Ingrediente 2</label><input id="i2" placeholder="Es. maiale" autocomplete="off"><div id="s2" class="suggest"></div></div></div>
-<div class="triple-field"><label>Ingrediente 3</label><input id="i3" placeholder="Es. timo" autocomplete="off"><div id="s3" class="suggest"></div></div>
-<button id="esplora">Esplora combinazioni</button><div id="risultati3"></div>
-</section>
 </main>
 <script>
 let db={};
