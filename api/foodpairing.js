@@ -166,12 +166,13 @@ module.exports = async function handler(req, res) {
 
     if (action === "help") return send(res, 200, {
       name: "FoodPairing API", version: "1.1", database: "FoodPairing", status: "online",
-      capabilities: ["ingredient", "pair", "pairings", "combination", "evidence", "profile inference"],
+      capabilities: ["ingredient", "pair", "pairings", "combination", "complete", "evidence", "profile inference"],
       endpoints: [
         "/api/foodpairing?action=ingredient&name=mela",
         "/api/foodpairing?action=pair&a=mela&b=maiale",
         "/api/foodpairing?action=pairings&ingredient=mela&limit=10",
-        "/api/foodpairing?action=combination&ingredients=mela,maiale,timo,senape"
+        "/api/foodpairing?action=combination&ingredients=mela,maiale,timo,senape",
+        "/api/foodpairing?action=complete&ingredients=mela,maiale,timo&limit=10"
       ]
     });
 
@@ -201,6 +202,62 @@ module.exports = async function handler(req, res) {
         .map(x => ({ ...publicIngredient(db, x.key), score:Number(x.score.toFixed(2)), max_score:5, source:x.source, confidence:x.confidence, explanation:x.explanation, shared_profile:x.shared_profile||[] }));
 
       return send(res, 200, { ingredient: publicIngredient(db, key), count: rows.length, pairings: rows });
+    }
+
+    if (action === "complete") {
+      const names = String(req.query?.ingredients || "")
+        .split(",")
+        .map(x => x.trim())
+        .filter(Boolean);
+
+      if (names.length !== 3) {
+        return send(res, 400, { error: "Servono esattamente 3 ingredienti" });
+      }
+
+      const keys = names.map(name => findKey(db, name));
+      if (keys.some(k => !k)) {
+        return send(res, 404, {
+          error: "Uno o più ingredienti non sono stati trovati",
+          ingredients: names
+        });
+      }
+
+      if (new Set(keys).size !== 3) {
+        return send(res, 400, { error: "I tre ingredienti devono essere diversi" });
+      }
+
+      const requested = Number(req.query?.limit);
+      const limit = Math.min(
+        Math.max(Number.isFinite(requested) && requested > 0 ? requested : 10, 1),
+        20
+      );
+
+      const rows = Object.keys(db)
+        .filter(k => !keys.includes(k))
+        .map(k => {
+          const result = combination(db, [...keys, k]);
+          if (!result) return null;
+          return {
+            candidate: publicIngredient(db, k),
+            score: result.score,
+            complete: result.complete,
+            pairs: result.pairs
+          };
+        })
+        .filter(Boolean)
+        .sort((a, b) =>
+          b.score.min - a.score.min ||
+          b.score.average - a.score.average ||
+          b.score.coverage - a.score.coverage ||
+          a.candidate.nome.localeCompare(b.candidate.nome, "it")
+        )
+        .slice(0, limit);
+
+      return send(res, 200, {
+        base: keys.map(k => publicIngredient(db, k)),
+        count: rows.length,
+        candidates: rows
+      });
     }
 
     if (action === "combination") {
