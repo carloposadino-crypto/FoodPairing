@@ -1085,7 +1085,7 @@
     "versione_schema": "2.1",
     "struttura": "categoria > famiglia > ingrediente > varieta_tipologia > stagionatura",
     "ultimo_aggiornamento": "2026-10-06",
-    "note": "Le varietà, tipologie e stagionature sono record selezionabili autonomamente e mantengono il collegamento al record parent."
+    "note": "Le varietà, tipologie e stagionature sono record selezionabili autonomamente e mantengono il collegamento al record parent. Aggiunto ingrediente base Panna con pairing iniziali curati."
   },
   "vaniglia": {
     "nome": "Vaniglia",
@@ -7545,6 +7545,49 @@
     "parent": "manzo",
     "varieta": "Cervo",
     "tipologia": "",
+    "stagionatura": null
+  },
+  "panna": {
+    "nome": "Panna",
+    "categoria": "latticini",
+    "famiglia": "panna e creme",
+    "profilo": [
+      "grasso",
+      "lattico",
+      "cremoso",
+      "dolce",
+      "rotondo"
+    ],
+    "pairing": {
+      "nocciola": 5,
+      "sale": 4,
+      "cioccolato": 5,
+      "vaniglia": 5,
+      "fragola": 5,
+      "lampone": 5,
+      "mela": 5,
+      "pera": 5,
+      "pesca": 5,
+      "albicocca": 5,
+      "caramello": 5,
+      "miele": 5,
+      "cannella": 5,
+      "mandorla": 5,
+      "pistacchio": 5,
+      "castagna": 5,
+      "limone": 4,
+      "arancia": 4,
+      "basilico": 4,
+      "menta": 4,
+      "zenzero": 4,
+      "ricotta": 5,
+      "burro": 5
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "varieta": null,
+    "tipologia": "generico",
     "stagionatura": null
   }
 }
