@@ -317,6 +317,17 @@ input[type=file]{
 .ingredient-visual{background:#f4eee6;}
 .ingredient-visual img{transition:transform .25s ease;}
 .result:hover .ingredient-visual img{transform:scale(1.04);}
+
+.advanced-flavor{border:2px solid rgba(166,83,63,.18)}
+.advanced-flavor-note{padding:10px 12px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;font-size:13px;color:var(--muted);margin-top:10px}
+.external-result{margin-top:10px;padding:14px;background:#fff;border:1px solid var(--line);border-radius:12px}
+.external-result-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.external-result h3{margin:0;font-size:17px}
+.external-scores{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:10px}
+.external-scores div{padding:9px;background:var(--surface-2);border-radius:9px;font-size:11px;color:var(--muted)}
+.external-scores strong{display:block;font-size:15px;color:var(--text);margin-top:2px}
+.external-warning{margin-top:9px;font-size:11px;color:var(--muted)}
+@media(max-width:650px){.external-scores{grid-template-columns:1fr 1fr}.external-scores div:last-child{grid-column:1/-1}}
 </style>
 </head>
 <body>
@@ -360,6 +371,20 @@ input[type=file]{
 <div class="field"><label>Ingrediente di partenza</label><input id="scopriIngrediente" placeholder="Es. mela" autocomplete="off"><div id="suggestScopri" class="suggest"></div></div>
 <button id="scopri">Trova candidati</button>
 <div id="risultatiScopri"></div>
+</section>
+
+
+<section class="box advanced-flavor">
+<h2>Analisi avanzata degli abbinamenti</h2>
+<p class="muted">Confronta il tuo database con una fonte esterna che combina frequenza nelle ricette e affinità molecolare. I dati esterni restano separati dal punteggio FoodPairing.</p>
+<div class="field"><label for="analisiAvanzataIngrediente">Ingrediente</label><input id="analisiAvanzataIngrediente" placeholder="Es. mela" autocomplete="off"><div id="suggestAnalisiAvanzata" class="suggest"></div></div>
+<div class="grid">
+<div><label for="analisiAvanzataOrdine">Ordina per</label><select id="analisiAvanzataOrdine"><option value="balanced">Equilibrato</option><option value="tradition">Tradizione</option><option value="chemistry">Affinità chimica</option></select></div>
+<div><label for="analisiAvanzataLimite">Numero risultati</label><select id="analisiAvanzataLimite"><option value="10">10</option><option value="20">20</option><option value="30">30</option></select></div>
+</div>
+<button id="analizzaAvanzata" type="button">Analizza abbinamenti</button>
+<div id="risultatiAvanzati"></div>
+<div class="advanced-flavor-note">Tradizione e chimica sono segnali statistici: non sono voti di qualità culinaria e non modificano automaticamente gli abbinamenti del tuo database.</div>
 </section>
 
 <details class="advanced">
@@ -1432,6 +1457,68 @@ function openBuilderFromCard(panel,initial){
   return builder;
 }
 
+
+let externalFlavorData=null;
+let externalFlavorMapping=null;
+async function loadAdvancedFlavorData(){
+  if(externalFlavorData&&externalFlavorMapping)return true;
+  try{
+    const [a,b]=await Promise.all([
+      fetch("./data/external-flavor-pairings.json?v="+Date.now(),{cache:"no-store"}),
+      fetch("./data/external-flavor-mapping.json?v="+Date.now(),{cache:"no-store"})
+    ]);
+    if(!a.ok||!b.ok)throw new Error("Dati avanzati non disponibili");
+    externalFlavorData=await a.json();
+    externalFlavorMapping=await b.json();
+    return true;
+  }catch(e){console.warn("Analisi avanzata non disponibile",e);return false}
+}
+function advancedMappingForKey(key){
+  const row=(externalFlavorMapping?.mappings||[]).find(x=>x.local===key);
+  return row||null;
+}
+function advancedPairsForExternal(externalName){
+  return (externalFlavorData?.pairs||[]).filter(x=>x.a===externalName||x.b===externalName).map(x=>{
+    const other=x.a===externalName?x.b:x.a;
+    const map=(externalFlavorMapping?.mappings||[]).find(m=>m.external===other);
+    return {...x,other,map};
+  });
+}
+async function analyzeAdvancedFlavor(){
+  const box=$("risultatiAvanzati");
+  box.innerHTML='<div class="empty">Caricamento dati avanzati…</div>';
+  const f=findFromInput("analisiAvanzataIngrediente");
+  if(!f){box.innerHTML='<div class="empty">Seleziona un ingrediente presente nel database.</div>';return}
+  const ok=await loadAdvancedFlavorData();
+  if(!ok){box.innerHTML='<div class="empty">Impossibile caricare i dati avanzati.</div>';return}
+  const map=advancedMappingForKey(f.key);
+  if(!map){box.innerHTML='<div class="empty">Per questo ingrediente non abbiamo ancora una corrispondenza affidabile nella fonte esterna.</div>';return}
+  const order=$("analisiAvanzataOrdine").value,limit=Number($("analisiAvanzataLimite").value)||10;
+  let rows=advancedPairsForExternal(map.external).filter(x=>x.map&&x.map.local!==f.key);
+  rows.sort((a,b)=>{
+    if(order==="tradition")return b.tradition-a.tradition||b.chemistry-a.chemistry;
+    if(order==="chemistry")return b.chemistry-a.chemistry||b.tradition-a.tradition;
+    return ((b.tradition+b.chemistry)/2)-((a.tradition+a.chemistry)/2)||b.tradition-a.tradition;
+  });
+  box.innerHTML='<h3>'+esc(nome(f.key))+' · analisi esterna ('+rows.length+' coppie compatibili)</h3>';
+  if(!rows.length){box.innerHTML+='<div class="empty">Nessuna coppia compatibile disponibile.</div>';return}
+  rows.slice(0,limit).forEach(x=>{
+    const localKey=x.map.local;
+    const localScore=score(f.key,localKey);
+    const d=document.createElement("div");d.className="external-result";
+    d.innerHTML='<div class="external-result-head"><h3>'+esc(nome(localKey))+'</h3><span class="result-badge source-external">FONTE ESTERNA</span></div>'+
+      '<div class="external-scores">'+
+      '<div>Tradizione<strong>'+Number(x.tradition/10).toFixed(1)+'/100</strong></div>'+
+      '<div>Affinità chimica<strong>'+Number(x.chemistry/10).toFixed(1)+'/100</strong></div>'+
+      '<div>Ricorrenze<strong>'+Number(x.cooccurrences||0).toLocaleString("it-IT")+'</strong></div>'+
+      '</div>'+ (localScore?'<div class="muted">FoodPairing attuale: <b>'+localScore+'/5</b></div>':'<div class="muted">FoodPairing attuale: <b>non registrato</b></div>')+
+      '<div class="external-warning">La presenza di molecole comuni o di ricorrenze nelle ricette non dimostra da sola che la combinazione sia buona. Verifica sempre con tecnica e assaggio.</div>'+
+      '<button type="button" class="use-advanced">Cerca questo ingrediente</button>';
+    d.querySelector(".use-advanced").onclick=e=>{e.stopPropagation();$("ingrediente").value=nome(localKey);search();window.scrollTo({top:0,behavior:"smooth"})};
+    box.appendChild(d);
+  });
+}
+
 function combinationEvidence(ev){let database=0,verified=0,external=0,mixed=0,mixedExternal=0;for(const [i,j] of [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]]){const x=getPairEvidence(ev.keys[i],ev.keys[j]);if(x.source==="database")database++;else if(x.source==="verified")verified++;else if(x.source==="external")external++;else if(x.source==="database+verified")mixed++;else if(x.source.includes("external"))mixedExternal++;}return{database,verified,external,mixed,mixedExternal}}
 function combinationEvidenceLabel(ev){const x=combinationEvidence(ev);if(x.database===6&&!x.verified&&!x.external&&!x.mixed&&!x.mixedExternal)return"DATI DATABASE";if(x.verified===6&&!x.database&&!x.external&&!x.mixed&&!x.mixedExternal)return"TUTTI I LEGAMI VERIFICATI";if(x.external===6&&!x.database&&!x.verified&&!x.mixed&&!x.mixedExternal)return"TUTTI I LEGAMI ESTERNI";if(x.verified||x.mixed)return(x.external||x.mixedExternal)?"DATABASE + VERIFICHE + ESTERNO":"DATABASE + VERIFICHE";if(x.external||x.mixedExternal)return"DATI DATABASE + ESTERNO";return"INFERENZA"}
 function enhanceBuilderRender(){
@@ -1463,6 +1550,8 @@ async function initApp(){
       r.onload=()=>{$("testoFonte").value=String(r.result||"");$("esitoFonte").textContent="File caricato. Premi 'Analizza testo'."};
       r.readAsText(f);
     });
+    $("analizzaAvanzata").onclick=e=>{e.preventDefault();analyzeAdvancedFlavor()};
+    autocomplete("analisiAvanzataIngrediente","suggestAnalisiAvanzata");
     autocomplete("ingrediente","suggestMain");
     autocomplete("scopriIngrediente","suggestScopri");
     autocomplete("i1","s1"); autocomplete("i2","s2"); autocomplete("i3","s3");
