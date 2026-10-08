@@ -327,6 +327,16 @@ input[type=file]{
 .external-scores div{padding:9px;background:var(--surface-2);border-radius:9px;font-size:11px;color:var(--muted)}
 .external-scores strong{display:block;font-size:15px;color:var(--text);margin-top:2px}
 .external-warning{margin-top:9px;font-size:11px;color:var(--muted)}
+.lab-evaluation{margin-top:12px;padding:12px;background:var(--surface-2);border:1px solid var(--line);border-radius:11px}
+.lab-evaluation-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lab-evaluation textarea{width:100%;min-height:72px;margin-top:8px;padding:10px;border:1px solid var(--line);border-radius:9px;font:inherit;resize:vertical}
+.lab-history-item{margin-top:9px;padding:11px;background:#fff;border:1px solid var(--line);border-radius:10px}
+.lab-history-item h4{margin:0 0 5px}
+.lab-history-meta{font-size:12px;color:var(--muted)}
+.lab-history-note{margin-top:6px;font-size:13px}
+.lab-status{display:inline-block;padding:4px 7px;border-radius:999px;background:#eee9e1;font-size:10px;font-weight:800}
+@media(max-width:650px){.lab-evaluation-grid{grid-template-columns:1fr}}
+
 @media(max-width:650px){.external-scores{grid-template-columns:1fr 1fr}.external-scores div:last-child{grid-column:1/-1}}
 </style>
 </head>
@@ -396,6 +406,11 @@ input[type=file]{
 <div id="codaVerifica"></div>
 <button id="esportaCoda" type="button">Esporta abbinamenti approvati</button>
 <button id="esportaVerifiche" type="button">Esporta storico verifiche</button>
+<div class="source-import">
+<h3>Diario prove in cucina</h3>
+<p class="muted">Registra il risultato reale dei test. Questi dati restano separati dal punteggio automatico finché non decidi di approvare l'abbinamento.</p>
+<div id="diarioProve"></div>
+</div>
 <div class="field"><label for="flavoProxy">Endpoint Flavonomics sicuro</label><input id="flavoProxy" placeholder="https://tuo-worker.example.workers.dev"></div>
 <button id="salvaFlavoProxy" type="button">Salva endpoint</button>
 <button id="consultaFlavonomics" type="button">Consulta Flavonomics</button>
@@ -776,6 +791,44 @@ function evaluate3Evidence(a,b,c){
   return Math.min(s1,s2,s3);
 }
 function getReviewQueue(){try{return JSON.parse(localStorage.getItem("foodpairing_review_queue")||"[]")}catch(e){return[]}}
+function getLabEvaluations(){try{return JSON.parse(localStorage.getItem("foodpairing_lab_evaluations")||"[]")}catch(e){return[]}}
+function saveLabEvaluations(items){
+  localStorage.setItem("foodpairing_lab_evaluations",JSON.stringify(items));
+  renderLabHistory();
+}
+function labPairKey(a,b){return a<b?a+"|"+b:b+"|"+a}
+function saveLabEvaluation(source,candidate,form){
+  const items=getLabEvaluations();
+  const key=labPairKey(source,candidate);
+  const item={
+    id:Date.now(),
+    source,
+    candidate,
+    key,
+    result:form.querySelector(".lab-result").value,
+    score:Number(form.querySelector(".lab-score").value)||0,
+    note:form.querySelector(".lab-note").value.trim(),
+    createdAt:new Date().toISOString()
+  };
+  items.unshift(item);
+  saveLabEvaluations(items);
+  form.querySelector(".lab-saved").textContent="Prova salvata nel diario.";
+  form.querySelector(".lab-note").value="";
+}
+function renderLabHistory(){
+  const box=$("diarioProve");if(!box)return;
+  const items=getLabEvaluations();
+  if(!items.length){box.innerHTML="<div class='queue-empty'>Nessuna prova registrata.</div>";return}
+  box.innerHTML="<div class='queue-summary'><b>Diario</b> · "+items.length+" prove registrate</div>"+
+    items.slice(0,30).map(x=>{
+      const date=new Date(x.createdAt).toLocaleDateString("it-IT");
+      return "<div class='lab-history-item'><h4>"+esc(nome(x.source))+" + "+esc(nome(x.candidate))+"</h4>"+
+        "<div class='lab-history-meta'>"+date+" · <span class='lab-status'>"+esc(x.result)+"</span>"+(x.score?" · "+x.score+"/5":"")+"</div>"+
+        (x.note?"<div class='lab-history-note'>"+esc(x.note)+"</div>":"")+
+        "</div>";
+    }).join("");
+}
+
 function saveReviewQueue(q){localStorage.setItem("foodpairing_review_queue",JSON.stringify(q));approvedReviewMapCache=null;pairScoreCache.clear();renderReviewQueue()}
 function addReviewCandidate(source,candidate){
   const q=getReviewQueue();
@@ -1203,6 +1256,22 @@ async function analyzeCandidate(source,candidate){
       :"Il candidato non ha ancora una struttura interna forte: il test avrebbe soprattutto valore esplorativo.")+
     "</div><div class='weakest'><b>Punti deboli:</b> "+(weakPoints.length?weakPoints.map(esc).join(" · "):"nessuno evidente")+"</div></div>"+
     "<span class='candidate-badge'>LABORATORIO · NON È UN ABBINAMENTO CONFERMATO</span>";
+
+  const evaluation=document.createElement("div");
+  evaluation.className="lab-evaluation";
+  evaluation.innerHTML="<b>Registra una prova in cucina</b>"+
+    "<div class='lab-evaluation-grid'>"+
+    "<div><label>Risultato</label><select class='lab-result'><option>funziona</option><option>da modificare</option><option>bocciato</option><option>da riprovare</option></select></div>"+
+    "<div><label>Valutazione</label><select class='lab-score'><option value='0'>— senza voto —</option><option value='1'>1/5</option><option value='2'>2/5</option><option value='3'>3/5</option><option value='4'>4/5</option><option value='5'>5/5</option></select></div>"+
+    "</div>"+
+    "<textarea class='lab-note' placeholder='Cosa è successo? Cosa cambieresti?'></textarea>"+
+    "<button type='button' class='save-lab-test'>Salva prova</button>"+
+    "<div class='lab-saved muted'></div>";
+  evaluation.querySelector(".save-lab-test").onclick=e=>{
+    e.stopPropagation();
+    saveLabEvaluation(a,b,evaluation);
+  };
+  d.appendChild(evaluation);
 
   const actions=document.createElement("div");
   actions.className="review-actions";
@@ -1762,6 +1831,7 @@ async function initApp(){
     });
     if($("flavoProxy"))$("flavoProxy").value=getFlavoProxy();
     renderReviewQueue();
+    renderLabHistory();
     renderDatabaseAudit();
     renderSourceCandidates();
     const ok=await load();
