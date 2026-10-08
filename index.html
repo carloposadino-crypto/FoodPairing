@@ -629,12 +629,36 @@ function autocomplete(inputId,boxId){const inp=$(inputId),box=$(boxId);inp.addEv
   inp.value=x.n;
   box.style.display="none";
 };box.appendChild(d)}box.style.display=box.children.length?"block":"none"})}
-function discover(){
+async function discover(){
   const f=find($("scopriIngrediente").value),box=$("risultatiScopri");
   box.innerHTML="";
   if(!f){box.innerHTML='<div class="empty">Seleziona un ingrediente presente nel database.</div>';return}
   const source=f.key,keys=Object.keys(db).filter(k=>k!==source),candidates=[];
+  const candidateMap=new Map();
   const pa=Array.isArray(db[source]?.profilo)?db[source].profilo.map(norm):[];
+
+  // Prima prepariamo il segnale esterno: non modifica il punteggio FoodPairing
+  // e serve solo a trovare candidati nuovi da sottoporre a verifica.
+  const advancedReady=await loadAdvancedFlavorData();
+  const sourceExternal=advancedReady?advancedMappingForKey(source):null;
+  const externalRows=sourceExternal?advancedPairsForExternal(sourceExternal.external)
+    .filter(x=>x.map&&x.map.local!==source)
+    .map(x=>{
+      const tradition=Number(x.tradition||0);
+      const chemistry=Number(x.chemistry||0);
+      const externalPriority=Math.round((tradition+chemistry)/20);
+      return {
+        map:x.map,
+        tradition,
+        chemistry,
+        cooccurrences:Number(x.cooccurrences||0),
+        externalPriority
+      };
+    })
+    .filter(x=>score(source,x.map.local)===0)
+    .sort((a,b)=>b.externalPriority-a.externalPriority||b.tradition-a.tradition||b.chemistry-a.chemistry)
+    :[];
+
   for(const k of keys){
     if(score(source,k)>0)continue;
     const pb=Array.isArray(db[k]?.profilo)?db[k].profilo.map(norm):[];
@@ -665,12 +689,64 @@ function discover(){
     const reviewState=candidateReviewState(source,k);
     if(reviewState==="rejected")continue;
     const verifiedScore=reviewScoreData(source,k);
-    const evidenceScore=strongQuads*6+strongTriads*4+strongBridges*3+shared.length*2+mediumBridges+Number(sameFamily)+Number(sameCategory)+countCandidateSupport(source,k,keys).externalSupport*2+countCandidateSupport(source,k,keys).mixedExternalSupport*2;
-    const support=countCandidateSupport(source,k,keys); candidates.push({k,shared,strongBridges,mediumBridges,strongTriads,strongQuads,sameFamily,sameCategory,bridgeNames,triadNames,quadNames,evidenceScore,verifiedScore,...support});
+    const support=countCandidateSupport(source,k,keys);
+    const evidenceScore=strongQuads*6+strongTriads*4+strongBridges*3+shared.length*2+mediumBridges+Number(sameFamily)+Number(sameCategory)+support.externalSupport*2+support.mixedExternalSupport*2;
+    const ext=externalRows.find(x=>x.map.local===k);
+    const externalPriority=ext?ext.externalPriority:0;
+    const item={k,shared,strongBridges,mediumBridges,strongTriads,strongQuads,sameFamily,sameCategory,bridgeNames,triadNames,quadNames,evidenceScore,verifiedScore,externalFlavor:!!ext,externalTradition:ext?.tradition||0,externalChemistry:ext?.chemistry||0,externalCooccurrences:ext?.cooccurrences||0,externalPriority,...support};
+    candidates.push(item);
+    candidateMap.set(k,item);
   }
-  candidates.sort((a,b)=>b.verifiedScore-a.verifiedScore||b.evidenceScore-a.evidenceScore||b.strongQuads-a.strongQuads||b.strongTriads-a.strongTriads||b.strongBridges-a.strongBridges||b.shared.length-a.shared.length||nome(a.k).localeCompare(nome(b.k),"it"));
-  box.innerHTML='<h3>Candidati per '+esc(nome(source))+' ('+candidates.length+')</h3><div class="empty">L&#39;app cerca evidenze già presenti nel database: profili condivisi, ingredienti ponte e combinazioni a 3 e 4 ingredienti già completamente valutabili. I candidati restano da verificare e non vengono inseriti automaticamente.</div>';
+
+  // Aggiungiamo anche i candidati suggeriti dalla fonte esterna quando il motore locale
+  // non ha ancora alcun legame diretto: sono veri "nuovi abbinamenti da provare".
+  for(const ext of externalRows){
+    const k=ext.map.local;
+    if(candidateReviewState(source,k)==="rejected")continue;
+    if(candidateMap.has(k)){
+      const item=candidateMap.get(k);
+      item.externalFlavor=true;
+      item.externalTradition=ext.tradition;
+      item.externalChemistry=ext.chemistry;
+      item.externalCooccurrences=ext.cooccurrences;
+      item.externalPriority=ext.externalPriority;
+      continue;
+    }
+    const item={
+      k,
+      shared:[],
+      strongBridges:0,
+      mediumBridges:0,
+      strongTriads:0,
+      strongQuads:0,
+      sameFamily:false,
+      sameCategory:false,
+      bridgeNames:[],
+      triadNames:[],
+      quadNames:[],
+      evidenceScore:0,
+      verifiedScore:reviewScoreData(source,k),
+      externalFlavor:true,
+      externalTradition:ext.tradition,
+      externalChemistry:ext.chemistry,
+      externalCooccurrences:ext.cooccurrences,
+      externalPriority:ext.externalPriority,
+      ...countCandidateSupport(source,k,keys)
+    };
+    candidates.push(item);
+    candidateMap.set(k,item);
+  }
+
+  candidates.forEach(c=>c.priorityScore=Number((c.evidenceScore+(c.externalPriority||0)/10).toFixed(2)));
+  candidates.sort((a,b)=>b.verifiedScore-a.verifiedScore||b.priorityScore-a.priorityScore||b.evidenceScore-a.evidenceScore||b.strongQuads-a.strongQuads||b.strongTriads-a.strongTriads||b.strongBridges-a.strongBridges||b.shared.length-a.shared.length||nome(a.k).localeCompare(nome(b.k),"it"));
+
+  const externalCount=candidates.filter(c=>c.externalFlavor).length;
+  box.innerHTML='<h3>Candidati per '+esc(nome(source))+' ('+candidates.length+')</h3>'+
+    '<div class="empty">Il motore unisce le evidenze interne di FoodPairing con un segnale esterno separato. La fonte esterna usa frequenza nelle ricette e affinità molecolare: serve per <b>scoprire cosa provare</b>, non per certificare la bontà dell\'abbinamento. Nessun candidato viene inserito automaticamente nel database.'+
+    (externalCount?' <b>'+externalCount+'</b> candidati hanno anche supporto esterno.':'')+
+    '</div>';
   if(!candidates.length){box.innerHTML+='<div class="empty">Nessun candidato abbastanza supportato dai dati attuali.</div>';return}
+
   const list=document.createElement("div");list.className="candidate-list";
   candidates.slice(0,15).forEach(c=>{
     const d=document.createElement("div");d.className="candidate";
@@ -682,9 +758,11 @@ function discover(){
     if(c.strongQuads)evidence+="<div><b>Combinazioni a 4 forti:</b> "+c.strongQuads+(c.quadNames.length?" — "+c.quadNames.map(q=>q.map(nome).join(" + ")).map(esc).join(", "):"")+"</div>";
     if(c.sameFamily)evidence+="<div><b>Stessa famiglia:</b> "+esc(db[source].famiglia)+"</div>";
     if(c.sameCategory)evidence+="<div><b>Stessa categoria:</b> "+esc(db[source].categoria)+"</div>";
+    if(c.externalFlavor)evidence+="<div><b>Supporto esterno:</b> tradizione "+(c.externalTradition/10).toFixed(1)+"/100 · affinità chimica "+(c.externalChemistry/10).toFixed(1)+"/100 · ricorrenze "+c.externalCooccurrences.toLocaleString("it-IT")+"</div>";
     const rl=reviewLabel(source,c.k);
     const eq=evidenceQuality(c);
-    d.innerHTML="<h3>"+esc(nome(c.k))+"</h3><div class='candidate-rank'>Forza dell'evidenza: "+c.evidenceScore+" · Qualità evidenza: <b>"+esc(eq[0])+"</b></div>"+(rl?"<span class='candidate-badge'>"+esc(rl)+"</span>":"")+"<span class='candidate-badge "+eq[1]+"'>EVIDENZA "+esc(eq[0])+"</span><span class='candidate-badge'>INFERENZA DEL MOTORE · NON CONFERMATO</span><div class='candidate-evidence'>"+evidence+"<div><b>Supporto database:</b> "+c.databaseSupport+" · <b>Supporto verificato:</b> "+c.verifiedSupport+" · <b>Supporto esterno:</b> "+c.externalSupport+(c.mixedSupport?" · <b>Database + verificato:</b> "+c.mixedSupport:"")+(c.mixedExternalSupport?" · <b>Misti con esterno:</b> "+c.mixedExternalSupport:"")+"</div></div><button type='button' class='use-candidate'>Usa come ingrediente di ricerca</button><button type='button' class='analyze-candidate'>Analizza candidato</button>";
+    const externalBadge=c.externalFlavor?"<span class='candidate-badge' style='background:#eee7f4;color:#654b79'>SUPPORTO ESTERNO · PRIORITÀ "+c.externalPriority+"/100</span>":"";
+    d.innerHTML="<h3>"+esc(nome(c.k))+"</h3><div class='candidate-rank'>Priorità di prova: "+c.priorityScore+" · Forza dell'evidenza interna: "+c.evidenceScore+" · Qualità: <b>"+esc(eq[0])+"</b></div>"+externalBadge+(rl?"<span class='candidate-badge'>"+esc(rl)+"</span>":"")+"<span class='candidate-badge "+eq[1]+"'>EVIDENZA "+esc(eq[0])+"</span><span class='candidate-badge'>INFERENZA DEL MOTORE · NON CONFERMATO</span><div class='candidate-evidence'>"+evidence+"<div><b>Supporto database:</b> "+c.databaseSupport+" · <b>Supporto verificato:</b> "+c.verifiedSupport+" · <b>Supporto esterno importato:</b> "+c.externalSupport+(c.mixedSupport?" · <b>Database + verificato:</b> "+c.mixedSupport:"")+(c.mixedExternalSupport?" · <b>Misti con esterno:</b> "+c.mixedExternalSupport:"")+"</div></div><button type='button' class='use-candidate'>Usa come ingrediente di ricerca</button><button type='button' class='analyze-candidate'>Analizza candidato</button>";
     d.querySelector(".use-candidate").onclick=e=>{e.stopPropagation();$("ingrediente").value=nome(c.k);$("risultatiScopri").scrollIntoView({behavior:"smooth"});search()};
     d.querySelector(".analyze-candidate").onclick=e=>{e.stopPropagation();analyzeCandidate(source,c.k)};
     const reviewBtn=document.createElement("button");reviewBtn.type="button";reviewBtn.textContent="Metti in coda di verifica";reviewBtn.onclick=e=>{e.stopPropagation();addReviewCandidate(source,c.k)};d.appendChild(reviewBtn);
@@ -723,6 +801,8 @@ function reviewLabel(a,b){
 function evidenceQuality(c){
   if(c.strongQuads>=1||c.strongTriads>=2||c.strongBridges>=3||c.externalSupport>=3)return["FORTE","evidence-strong"];
   if(c.strongTriads>=1||c.strongBridges>=1||c.shared.length>=2||c.externalSupport>=1)return["MEDIA","evidence-medium"];
+  if(c.externalFlavor&&c.externalPriority>=70)return["SUPPORTO ESTERNO","evidence-medium"];
+  if(c.externalFlavor)return["SUPPORTO ESTERNO","evidence-weak"];
   return["DEBOLE","evidence-weak"];
 }
 function countCandidateSupport(a,b,keys){let databaseSupport=0,verifiedSupport=0,externalSupport=0,mixedSupport=0,mixedExternalSupport=0;const seen=new Set();for(const z of keys){if(z===a||z===b)continue;for(const pair of [[a,z],[b,z]]){const x=getPairEvidence(pair[0],pair[1]);const key=pair[0]<pair[1]?pair[0]+"|"+pair[1]:pair[1]+"|"+pair[0];if(seen.has(key)||!x.score)continue;seen.add(key);if(x.database&&x.verified&&x.external)mixedExternalSupport++;else if(x.database&&x.verified)mixedSupport++;else if(x.database&&x.external)mixedExternalSupport++;else if(x.verified&&x.external)mixedExternalSupport++;else if(x.database)databaseSupport++;else if(x.verified)verifiedSupport++;else if(x.external)externalSupport++;}}return{databaseSupport,verifiedSupport,externalSupport,mixedSupport,mixedExternalSupport}}
