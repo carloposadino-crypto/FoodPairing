@@ -1102,7 +1102,7 @@ function importUpdatedDatabase(file){
  reader.onerror=()=>{msg.textContent="Impossibile leggere il file."};
  reader.readAsText(file);
 }
-function analyzeCandidate(source,candidate){
+async function analyzeCandidate(source,candidate){
   const box=$("risultatiScopri"),a=source,b=candidate;
   const pa=Array.isArray(db[a]?.profilo)?db[a].profilo.map(norm):[];
   const pb=Array.isArray(db[b]?.profilo)?db[b].profilo.map(norm):[];
@@ -1124,22 +1124,97 @@ function analyzeCandidate(source,candidate){
     }
   }
   bridges.sort((x,y)=>y.avg-x.avg||y.sa-x.sa||y.sb-x.sb);
+
   const directEvidence=getPairEvidence(a,b);
   const direct=directEvidence.score;
+
+  // Laboratorio: recupera anche l'eventuale evidenza della fonte esterna,
+  // mantenendola separata dal punteggio FoodPairing.
+  let external=null;
+  try{
+    const ready=await loadAdvancedFlavorData();
+    if(ready){
+      const map=advancedMappingForKey(a);
+      if(map){
+        const row=advancedPairsForExternal(map.external).find(x=>x.map?.local===b);
+        if(row) external={
+          tradition:Number(row.tradition||0),
+          chemistry:Number(row.chemistry||0),
+          cooccurrences:Number(row.cooccurrences||0),
+          sharedMolecules:Number(row.shared_molecules||0),
+          priority:Math.round((Number(row.tradition||0)+Number(row.chemistry||0))/20)
+        };
+      }
+    }
+  }catch(e){console.warn("Laboratorio external evidence unavailable",e)}
+
   const strongBridges=bridges.filter(x=>x.sa>=4&&x.sb>=4).length;
-  let databaseEdges=0,verifiedEdges=0,externalEdges=0,mixedEdges=0,mixedExternalEdges=0;for(const x of bridges)for(const e of [getPairEvidence(a,x.z),getPairEvidence(b,x.z)]){if(e.external&&(e.database||e.verified))mixedExternalEdges++;else if(e.database&&e.verified)mixedEdges++;else if(e.database)databaseEdges++;else if(e.verified)verifiedEdges++;else if(e.external)externalEdges++;}
+  let databaseEdges=0,verifiedEdges=0,externalEdges=0,mixedEdges=0,mixedExternalEdges=0;
+  for(const x of bridges)for(const e of [getPairEvidence(a,x.z),getPairEvidence(b,x.z)]){
+    if(e.external&&(e.database||e.verified))mixedExternalEdges++;
+    else if(e.database&&e.verified)mixedEdges++;
+    else if(e.database)databaseEdges++;
+    else if(e.verified)verifiedEdges++;
+    else if(e.external)externalEdges++;
+  }
+
   const evidenceScore=shared.length*2+strongBridges*3+strongTriads*4+strongQuads*6;
+
+  let priorityLabel="BASSA PRIORITÀ";
+  if(external?.priority>=75 || strongQuads>=1 || strongTriads>=2 || strongBridges>=3)priorityLabel="DA PROVARE SUBITO";
+  else if(external?.priority>=55 || strongTriads>=1 || strongBridges>=1 || shared.length>=2)priorityLabel="DA PROVARE";
+  else if(external)priorityLabel="CURIOSO";
+
+  const weakPoints=[];
+  if(!shared.length)weakPoints.push("nessun profilo aromatico in comune");
+  if(!strongBridges)weakPoints.push("nessun ingrediente ponte forte");
+  if(!strongTriads)weakPoints.push("nessuna triade forte rilevata");
+  if(!strongQuads)weakPoints.push("nessuna combinazione a 4 forte rilevata");
+  if(external&&external.tradition<500)weakPoints.push("tradizione esterna sotto 50/100");
+  if(external&&external.chemistry<500)weakPoints.push("affinità chimica esterna sotto 50/100");
+  if(!external)weakPoints.push("nessun supporto dalla fonte esterna");
+
   const d=document.createElement("div");
   d.className="candidate";
-  d.innerHTML="<h3>Analisi: "+esc(nome(a))+" + "+esc(nome(b))+"</h3>"+
-    "<div class='candidate-evidence'><div><b>Legame diretto:</b> "+(direct?direct+"/5":"non registrato")+" · <b>Fonte:</b> "+esc(evidenceLabel(directEvidence.source))+"</div>"+
+  d.innerHTML="<h3>🧪 Laboratorio: "+esc(nome(a))+" + "+esc(nome(b))+"</h3>"+
+    "<div class='candidate-rank'>"+priorityLabel+"</div>"+
+    "<div class='candidate-evidence'>"+
+    "<div><b>Legame diretto:</b> "+(direct?direct+"/5":"non registrato")+" · <b>Fonte:</b> "+esc(evidenceLabel(directEvidence.source))+"</div>"+
     "<div><b>Profili in comune:</b> "+(shared.length?shared.map(esc).join(", "):"nessuno")+"</div>"+
-    "<div><b>Ingredienti ponte:</b> "+bridges.length+" ("+strongBridges+" forti)</div><div><b>Supporto dei legami:</b> "+databaseEdges+" database · "+verifiedEdges+" verificati"+(mixedEdges?" · "+mixedEdges+" misti":"")+"</div>"+
-    "<div><b>Triadi forti con il candidato:</b> "+strongTriads+(triadNames.length?" — "+triadNames.map(nome).map(esc).join(", "):"")+"</div>"+
+    "<div><b>Ingredienti ponte:</b> "+bridges.length+" ("+strongBridges+" forti)</div>"+
+    "<div><b>Triadi forti:</b> "+strongTriads+(triadNames.length?" — "+triadNames.map(nome).map(esc).join(", "):"")+"</div>"+
     "<div><b>Combinazioni a 4 forti:</b> "+strongQuads+(quadNames.length?" — "+quadNames.map(q=>q.map(nome).join(" + ")).map(esc).join(", "):"")+"</div>"+
-    "<div><b>Punteggio evidenza:</b> "+evidenceScore+"</div>"+
-    (bridges.length?"<div><b>Ponti più forti:</b> "+bridges.slice(0,5).map(x=>esc(nome(x.z))+" ("+x.sa+"/5 · "+x.sb+"/5)").join(", ")+"</div>":"")+
-    "</div><span class='candidate-badge'>ANALISI DATI · NON È UN ABBINAMENTO CONFERMATO</span>";
+    "<div><b>Supporto legami ponte:</b> "+databaseEdges+" database · "+verifiedEdges+" verificati"+(mixedEdges?" · "+mixedEdges+" misti":"")+"</div>"+
+    "<div><b>Punteggio evidenza interna:</b> "+evidenceScore+"</div>"+
+    (bridges.length?"<div><b>Ponti migliori:</b> "+bridges.slice(0,5).map(x=>esc(nome(x.z))+" ("+x.sa+"/5 · "+x.sb+"/5)").join(", ")+"</div>":"")+
+    "</div>";
+
+  if(external){
+    d.innerHTML+="<div class='advanced-flavor-note'><b>Fonte esterna</b><div class='external-scores'>"+
+      "<div>Tradizione<strong>"+(external.tradition/10).toFixed(1)+"/100</strong></div>"+
+      "<div>Affinità chimica<strong>"+(external.chemistry/10).toFixed(1)+"/100</strong></div>"+
+      "<div>Ricorrenze<strong>"+external.cooccurrences.toLocaleString("it-IT")+"</strong></div>"+
+      "</div><div class='muted'>Priorità statistica: <b>"+external.priority+"/100</b>"+(external.sharedMolecules?" · Molecole condivise: <b>"+external.sharedMolecules+"</b>":"")+"</div></div>";
+  }
+
+  d.innerHTML+="<div class='explain'><b>Perché provarlo</b><div class='muted'>"+
+    (strongBridges||strongTriads||strongQuads||shared.length
+      ?"Esiste almeno una struttura interna che collega i due ingredienti: il candidato merita un test pratico."
+      :"Il candidato non ha ancora una struttura interna forte: il test avrebbe soprattutto valore esplorativo.")+
+    "</div><div class='weakest'><b>Punti deboli:</b> "+(weakPoints.length?weakPoints.map(esc).join(" · "):"nessuno evidente")+"</div></div>"+
+    "<span class='candidate-badge'>LABORATORIO · NON È UN ABBINAMENTO CONFERMATO</span>";
+
+  const actions=document.createElement("div");
+  actions.className="review-actions";
+  const q=document.createElement("button");
+  q.type="button";q.textContent=candidateReviewState(a,b)==="pending"?"IN CODA":"METTI IN CODA";
+  q.disabled=candidateReviewState(a,b)==="pending";
+  q.onclick=e=>{e.stopPropagation();addReviewCandidate(a,b);q.textContent="IN CODA";q.disabled=true};
+  const searchBtn=document.createElement("button");
+  searchBtn.type="button";searchBtn.textContent="CERCA INGREDIENTE";
+  searchBtn.onclick=e=>{e.stopPropagation();$("ingrediente").value=nome(b);search();window.scrollTo({top:0,behavior:"smooth"})};
+  actions.appendChild(q);actions.appendChild(searchBtn);d.appendChild(actions);
+
   box.prepend(d);
   d.scrollIntoView({behavior:"smooth",block:"start"});
 }
