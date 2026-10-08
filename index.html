@@ -1495,28 +1495,52 @@ async function analyzeAdvancedFlavor(){
   if(!map){box.innerHTML='<div class="empty">Per questo ingrediente non abbiamo ancora una corrispondenza affidabile nella fonte esterna.</div>';return}
   const order=$("analisiAvanzataOrdine").value,limit=Number($("analisiAvanzataLimite").value)||10;
   let rows=advancedPairsForExternal(map.external).filter(x=>x.map&&x.map.local!==f.key);
+  rows=rows.map(x=>({...x,localScore:score(f.key,x.map.local)}));
   rows.sort((a,b)=>{
     if(order==="tradition")return b.tradition-a.tradition||b.chemistry-a.chemistry;
     if(order==="chemistry")return b.chemistry-a.chemistry||b.tradition-a.tradition;
     return ((b.tradition+b.chemistry)/2)-((a.tradition+a.chemistry)/2)||b.tradition-a.tradition;
   });
-  box.innerHTML='<h3>'+esc(nome(f.key))+' · analisi esterna ('+rows.length+' coppie compatibili)</h3>';
-  if(!rows.length){box.innerHTML+='<div class="empty">Nessuna coppia compatibile disponibile.</div>';return}
-  rows.slice(0,limit).forEach(x=>{
-    const localKey=x.map.local;
-    const localScore=score(f.key,localKey);
-    const d=document.createElement("div");d.className="external-result";
-    d.innerHTML='<div class="external-result-head"><h3>'+esc(nome(localKey))+'</h3><span class="result-badge source-external">FONTE ESTERNA</span></div>'+
-      '<div class="external-scores">'+
-      '<div>Tradizione<strong>'+Number(x.tradition/10).toFixed(1)+'/100</strong></div>'+
-      '<div>Affinità chimica<strong>'+Number(x.chemistry/10).toFixed(1)+'/100</strong></div>'+
-      '<div>Ricorrenze<strong>'+Number(x.cooccurrences||0).toLocaleString("it-IT")+'</strong></div>'+
-      '</div>'+ (localScore?'<div class="muted">FoodPairing attuale: <b>'+localScore+'/5</b></div>':'<div class="muted">FoodPairing attuale: <b>non registrato</b></div>')+
-      '<div class="external-warning">La presenza di molecole comuni o di ricorrenze nelle ricette non dimostra da sola che la combinazione sia buona. Verifica sempre con tecnica e assaggio.</div>'+
-      '<button type="button" class="use-advanced">Cerca questo ingrediente</button>';
-    d.querySelector(".use-advanced").onclick=e=>{e.stopPropagation();$("ingrediente").value=nome(localKey);search();window.scrollTo({top:0,behavior:"smooth"})};
-    box.appendChild(d);
-  });
+  const newRows=rows.filter(x=>x.localScore===0).sort((a,b)=>((b.tradition+b.chemistry)/2)-((a.tradition+a.chemistry)/2));
+  box.innerHTML='<h3>'+esc(nome(f.key))+' · analisi esterna</h3>'+
+    '<div class="empty">La fonte esterna propone '+rows.length+' coppie compatibili. <b>'+newRows.length+'</b> non risultano ancora presenti nel tuo FoodPairing: sono i candidati più interessanti da provare.</div>';
+  if(newRows.length){
+    const h=document.createElement("div");
+    h.innerHTML='<h3>🔎 Nuovi abbinamenti da valutare</h3><div class="muted">Questi non vengono inseriti automaticamente nel database.</div>';
+    box.appendChild(h);
+    newRows.slice(0,limit).forEach(x=>renderAdvancedRow(box,f,x,true));
+  }
+  const existing=rows.filter(x=>x.localScore>0);
+  if(existing.length){
+    const h=document.createElement("div");
+    h.innerHTML='<h3 style="margin-top:18px">Abbinamenti già presenti</h3>';
+    box.appendChild(h);
+    existing.slice(0,limit).forEach(x=>renderAdvancedRow(box,f,x,false));
+  }
+}
+function renderAdvancedRow(box,f,x,isNew){
+  const localKey=x.map.local;
+  const d=document.createElement("div");d.className="external-result";
+  const direct=getPairEvidence(f.key,localKey);
+  d.innerHTML='<div class="external-result-head"><h3>'+esc(nome(localKey))+'</h3><span class="result-badge source-external">'+(isNew?"NUOVO CANDIDATO":"FONTE ESTERNA")+'</span></div>'+
+    '<div class="external-scores">'+
+    '<div>Tradizione<strong>'+Number(x.tradition/10).toFixed(1)+'/100</strong></div>'+
+    '<div>Affinità chimica<strong>'+Number(x.chemistry/10).toFixed(1)+'/100</strong></div>'+
+    '<div>Ricorrenze<strong>'+Number(x.cooccurrences||0).toLocaleString("it-IT")+'</strong></div>'+
+    '</div>'+
+    '<div class="muted">FoodPairing attuale: <b>'+ (x.localScore?x.localScore+"/5":"non registrato") +'</b>' +
+    (direct.verified?' · Verificato: <b>'+direct.verified+'/5</b>':'')+
+    '</div>'+
+    '<div class="external-warning">I dati esterni sono segnali statistici. Non dimostrano da soli la bontà gastronomica dell'abbinamento.</div>';
+  if(isNew){
+    const b=document.createElement("button");b.type="button";b.textContent="Metti in coda di verifica";
+    b.onclick=e=>{e.stopPropagation();addReviewCandidate(f.key,localKey);b.textContent="In coda di verifica";b.disabled=true};
+    d.appendChild(b);
+  }
+  const use=document.createElement("button");use.type="button";use.textContent="Cerca questo ingrediente";
+  use.onclick=e=>{e.stopPropagation();$("ingrediente").value=nome(localKey);search();window.scrollTo({top:0,behavior:"smooth"})};
+  d.appendChild(use);
+  box.appendChild(d);
 }
 
 function combinationEvidence(ev){let database=0,verified=0,external=0,mixed=0,mixedExternal=0;for(const [i,j] of [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]]){const x=getPairEvidence(ev.keys[i],ev.keys[j]);if(x.source==="database")database++;else if(x.source==="verified")verified++;else if(x.source==="external")external++;else if(x.source==="database+verified")mixed++;else if(x.source.includes("external"))mixedExternal++;}return{database,verified,external,mixed,mixedExternal}}
