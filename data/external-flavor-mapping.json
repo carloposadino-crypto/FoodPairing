@@ -1,0 +1,347 @@
+{
+  "version": 1,
+  "generated": "2026-10-08",
+  "source": {
+    "repository": "tfrere/flavor-pairings",
+    "file": "public/data.json",
+    "license": "Apache-2.0 (repository code/data presentation; underlying sources retain their own terms)"
+  },
+  "mappings": [
+    {
+      "local": "mela",
+      "external": "apple",
+      "external_index": 5,
+      "method": "alias"
+    },
+    {
+      "local": "pera",
+      "external": "pear",
+      "external_index": 157,
+      "method": "alias"
+    },
+    {
+      "local": "pesca",
+      "external": "peach",
+      "external_index": 153,
+      "method": "alias"
+    },
+    {
+      "local": "albicocca",
+      "external": "apricot",
+      "external_index": 7,
+      "method": "alias"
+    },
+    {
+      "local": "ciliegia",
+      "external": "cherry",
+      "external_index": 50,
+      "method": "alias"
+    },
+    {
+      "local": "limone",
+      "external": "lemon",
+      "external_index": 117,
+      "method": "alias"
+    },
+    {
+      "local": "arancia",
+      "external": "orange",
+      "external_index": 142,
+      "method": "alias"
+    },
+    {
+      "local": "pomodoro",
+      "external": "tomato",
+      "external_index": 217,
+      "method": "alias"
+    },
+    {
+      "local": "melanzana",
+      "external": "eggplant",
+      "external_index": 85,
+      "method": "alias"
+    },
+    {
+      "local": "zucchina",
+      "external": "zucchini",
+      "external_index": 237,
+      "method": "alias"
+    },
+    {
+      "local": "carota",
+      "external": "carrot",
+      "external_index": 42,
+      "method": "alias"
+    },
+    {
+      "local": "sedano",
+      "external": "celery",
+      "external_index": 47,
+      "method": "alias"
+    },
+    {
+      "local": "patata",
+      "external": "potato",
+      "external_index": 168,
+      "method": "alias"
+    },
+    {
+      "local": "cipolla",
+      "external": "onion",
+      "external_index": 141,
+      "method": "alias"
+    },
+    {
+      "local": "aglio",
+      "external": "garlic",
+      "external_index": 91,
+      "method": "alias"
+    },
+    {
+      "local": "manzo",
+      "external": "beef",
+      "external_index": 20,
+      "method": "alias"
+    },
+    {
+      "local": "maiale",
+      "external": "pork",
+      "external_index": 167,
+      "method": "alias"
+    },
+    {
+      "local": "pollo",
+      "external": "chicken",
+      "external_index": 53,
+      "method": "alias"
+    },
+    {
+      "local": "cioccolato",
+      "external": "chocolate",
+      "external_index": 58,
+      "method": "alias"
+    },
+    {
+      "local": "nocciola",
+      "external": "hazelnut",
+      "external_index": 104,
+      "method": "alias"
+    },
+    {
+      "local": "mandorla",
+      "external": "almond",
+      "external_index": 2,
+      "method": "alias"
+    },
+    {
+      "local": "pistacchio",
+      "external": "pistachio",
+      "external_index": 165,
+      "method": "alias"
+    },
+    {
+      "local": "basilico",
+      "external": "basil",
+      "external_index": 18,
+      "method": "alias"
+    },
+    {
+      "local": "rosmarino",
+      "external": "rosemary",
+      "external_index": 188,
+      "method": "alias"
+    },
+    {
+      "local": "timo",
+      "external": "thyme",
+      "external_index": 215,
+      "method": "alias"
+    },
+    {
+      "local": "menta",
+      "external": "mint",
+      "external_index": 126,
+      "method": "alias"
+    },
+    {
+      "local": "zenzero",
+      "external": "ginger",
+      "external_index": 92,
+      "method": "alias"
+    },
+    {
+      "local": "cannella",
+      "external": "cinnamon",
+      "external_index": 60,
+      "method": "alias"
+    },
+    {
+      "local": "miele",
+      "external": "honey",
+      "external_index": 106,
+      "method": "alias"
+    },
+    {
+      "local": "funghi",
+      "external": "mushroom",
+      "external_index": 130,
+      "method": "alias"
+    },
+    {
+      "local": "parmigiano",
+      "external": "parmesan cheese",
+      "external_index": 149,
+      "method": "alias"
+    },
+    {
+      "local": "caffe",
+      "external": "coffee",
+      "external_index": 66,
+      "method": "alias"
+    },
+    {
+      "local": "olio",
+      "external": "olive oil",
+      "external_index": 140,
+      "method": "alias"
+    },
+    {
+      "local": "aceto",
+      "external": "vinegar",
+      "external_index": 225,
+      "method": "alias"
+    },
+    {
+      "local": "fico",
+      "external": "fig",
+      "external_index": 90,
+      "method": "alias"
+    },
+    {
+      "local": "vaniglia",
+      "external": "vanilla",
+      "external_index": 222,
+      "method": "alias"
+    },
+    {
+      "local": "prezzemolo",
+      "external": "parsley",
+      "external_index": 150,
+      "method": "alias"
+    },
+    {
+      "local": "lampone",
+      "external": "raspberry",
+      "external_index": 177,
+      "method": "alias"
+    },
+    {
+      "local": "noci",
+      "external": "walnut",
+      "external_index": 227,
+      "method": "alias"
+    },
+    {
+      "local": "olive",
+      "external": "olive",
+      "external_index": 139,
+      "method": "alias"
+    },
+    {
+      "local": "pepe",
+      "external": "black pepper",
+      "external_index": 26,
+      "method": "alias"
+    },
+    {
+      "local": "origano",
+      "external": "oregano",
+      "external_index": 145,
+      "method": "alias"
+    },
+    {
+      "local": "acciuga",
+      "external": "anchovy",
+      "external_index": 3,
+      "method": "alias"
+    },
+    {
+      "local": "peperoncino",
+      "external": "chili pepper",
+      "external_index": 55,
+      "method": "alias"
+    },
+    {
+      "local": "cumino",
+      "external": "cumin",
+      "external_index": 78,
+      "method": "alias"
+    },
+    {
+      "local": "pisello",
+      "external": "green pea",
+      "external_index": 100,
+      "method": "alias"
+    },
+    {
+      "local": "fragola",
+      "external": "strawberry",
+      "external_index": 208,
+      "method": "alias"
+    },
+    {
+      "local": "salvia",
+      "external": "sage",
+      "external_index": 192,
+      "method": "alias"
+    },
+    {
+      "local": "peperone",
+      "external": "bell pepper",
+      "external_index": 23,
+      "method": "alias"
+    },
+    {
+      "local": "zucca",
+      "external": "pumpkin",
+      "external_index": 171,
+      "method": "alias"
+    },
+    {
+      "local": "uva",
+      "external": "grape",
+      "external_index": 95,
+      "method": "alias"
+    },
+    {
+      "local": "riso",
+      "external": "rice",
+      "external_index": 185,
+      "method": "alias"
+    },
+    {
+      "local": "peperone_carmagnola",
+      "external": "bell pepper",
+      "external_index": 23,
+      "method": "alias"
+    },
+    {
+      "local": "pesce_baccala",
+      "external": "cod",
+      "external_index": 65,
+      "method": "alias"
+    },
+    {
+      "local": "pesce_merluzzo",
+      "external": "cod",
+      "external_index": 65,
+      "method": "alias"
+    },
+    {
+      "local": "lenticchia",
+      "external": "lentil",
+      "external_index": 119,
+      "method": "alias"
+    }
+  ]
+}
