@@ -777,7 +777,28 @@ function evaluate3Evidence(a,b,c){
 }
 function getReviewQueue(){try{return JSON.parse(localStorage.getItem("foodpairing_review_queue")||"[]")}catch(e){return[]}}
 function saveReviewQueue(q){localStorage.setItem("foodpairing_review_queue",JSON.stringify(q));approvedReviewMapCache=null;pairScoreCache.clear();renderReviewQueue()}
-function addReviewCandidate(source,candidate){const q=getReviewQueue();if(q.some(x=>x.source===source&&x.candidate===candidate)){renderReviewQueue();return}q.push({source,candidate,score:null,status:"pending",approved:false,createdAt:new Date().toISOString()});saveReviewQueue(q)}
+function addReviewCandidate(source,candidate){
+  const q=getReviewQueue();
+  if(q.some(x=>x.source===source&&x.candidate===candidate)){renderReviewQueue();return}
+  let external=null;
+  try{
+    const map=advancedMappingForKey(source);
+    if(map){
+      const row=advancedPairsForExternal(map.external).find(x=>x.map?.local===candidate);
+      if(row){
+        external={
+          tradition:Number(row.tradition||0),
+          chemistry:Number(row.chemistry||0),
+          cooccurrences:Number(row.cooccurrences||0),
+          sharedMolecules:Number(row.shared_molecules||0),
+          priority:Math.round((Number(row.tradition||0)+Number(row.chemistry||0))/20)
+        };
+      }
+    }
+  }catch(e){console.warn("External review evidence unavailable",e)}
+  q.push({source,candidate,score:null,status:"pending",approved:false,external,createdAt:new Date().toISOString()});
+  saveReviewQueue(q)
+}
 function setReviewScore(source,candidate,value){const q=getReviewQueue();const x=q.find(x=>x.source===source&&x.candidate===candidate);if(!x)return;x.score=value;x.status="approved";x.approved=true;x.reviewedAt=new Date().toISOString();saveReviewQueue(q);renderDatabaseAudit()}
 function setReviewStatus(source,candidate,status){const q=getReviewQueue();const x=q.find(x=>x.source===source&&x.candidate===candidate);if(!x)return;x.status=status;x.approved=status==="approved";if(status!=="approved")x.score=null;x.reviewedAt=new Date().toISOString();saveReviewQueue(q);renderDatabaseAudit();if($("ingrediente").value===nome(source)||$("scopriIngrediente").value===nome(source)){try{search()}catch(e){}}}
 function removeReview(source,candidate){saveReviewQueue(getReviewQueue().filter(x=>!(x.source===source&&x.candidate===candidate)))}
@@ -821,6 +842,7 @@ function renderReviewQueue(){
   const d=document.createElement("div");d.className="queue-item";
   d.innerHTML="<h3>"+esc(nome(x.source))+" + "+esc(nome(x.candidate))+"</h3>"+
    "<div class='muted'>"+(x.status==="approved"?"Approvato":x.status==="rejected"?"Rifiutato":"Da verificare")+(x.score?" · punteggio scelto: "+x.score+"/5":"")+"</div>"+
+   (x.external?"<div class='queue-external'><b>Segnale esterno:</b> priorità "+x.external.priority+"/100 · tradizione "+(x.external.tradition/10).toFixed(1)+"/100 · chimica "+(x.external.chemistry/10).toFixed(1)+"/100 · ricorrenze "+x.external.cooccurrences.toLocaleString("it-IT")+" · molecole condivise "+x.external.sharedMolecules+"</div>":"")+
    "<div class='queue-score'>"+[3,4,5].map(v=>"<button type='button' class='"+(x.score===v?"selected":"")+" review-score' data-score='"+v+"'>"+v+"/5</button>").join("")+
    "<button type='button' class='"+(x.status==="approved"?"selected ":"")+"review-status' data-status='approved'>Approva</button>"+
    "<button type='button' class='"+(x.status==="rejected"?"selected ":"")+"review-status' data-status='rejected'>Rifiuta</button>"+
