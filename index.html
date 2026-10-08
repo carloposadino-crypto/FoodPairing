@@ -825,6 +825,13 @@ function saveLabEvaluation(source,candidate,form){
   form.querySelector(".lab-note").value="";
   renderDatabaseAudit();
 }
+function sendLabToReview(source,candidate){
+  const state=candidateReviewState(source,candidate);
+  if(state==="approved"){alert("Questo abbinamento è già approvato.");return}
+  addReviewCandidate(source,candidate);
+  renderLabHistory();
+  renderDatabaseAudit();
+}
 function labStatsForPair(a,b){
   const rows=getLabEvaluations().filter(x=>x.key===labPairKey(a,b));
   const scored=rows.filter(x=>x.score>0);
@@ -864,8 +871,12 @@ function renderLabHistory(){
       return "<div class='lab-history-item'><h4>"+esc(nome(x.source))+" + "+esc(nome(x.candidate))+"</h4>"+
         "<div class='lab-history-meta'>"+date+" · <span class='lab-status'>"+esc(x.result)+"</span>"+(x.score?" · "+x.score+"/5":"")+"</div>"+
         (x.note?"<div class='lab-history-note'>"+esc(x.note)+"</div>":"")+
+        "<div class='source-actions'><button type='button' class='lab-review-btn' data-lab-source='"+esc(x.source)+"' data-lab-candidate='"+esc(x.candidate)+"'>Metti in coda di verifica</button></div>"+
         "</div>";
     }).join("");
+  box.querySelectorAll(".lab-review-btn").forEach(btn=>{
+    btn.onclick=()=>sendLabToReview(btn.dataset.labSource,btn.dataset.labCandidate);
+  });
 }
 
 function saveReviewQueue(q){localStorage.setItem("foodpairing_review_queue",JSON.stringify(q));approvedReviewMapCache=null;pairScoreCache.clear();renderReviewQueue()}
