@@ -335,6 +335,12 @@ input[type=file]{
 .lab-history-meta{font-size:12px;color:var(--muted)}
 .lab-history-note{margin-top:6px;font-size:13px}
 .lab-status{display:inline-block;padding:4px 7px;border-radius:999px;background:#eee9e1;font-size:10px;font-weight:800}
+.lab-dashboard-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.lab-dashboard-grid>div{padding:12px;background:#fff;border:1px solid var(--line);border-radius:10px;text-align:center}
+.lab-dashboard-grid b{display:block;font-size:20px}
+.lab-dashboard-grid span{display:block;font-size:11px;color:var(--muted);margin-top:3px}
+@media(max-width:650px){.lab-dashboard-grid{grid-template-columns:repeat(2,1fr)}}
+
 @media(max-width:650px){.lab-evaluation-grid{grid-template-columns:1fr}}
 
 @media(max-width:650px){.external-scores{grid-template-columns:1fr 1fr}.external-scores div:last-child{grid-column:1/-1}}
@@ -410,6 +416,11 @@ input[type=file]{
 <h3>Diario prove in cucina</h3>
 <p class="muted">Registra il risultato reale dei test. Questi dati restano separati dal punteggio automatico finché non decidi di approvare l'abbinamento.</p>
 <div id="diarioProve"></div>
+<div class="source-import">
+<h3>Cruscotto del laboratorio</h3>
+<p class="muted">Una fotografia del lavoro reale: prove, risultati e abbinamenti pronti a diventare conoscenza verificata.</p>
+<div id="cruscottoLaboratorio"></div>
+</div>
 </div>
 <div class="field"><label for="flavoProxy">Endpoint Flavonomics sicuro</label><input id="flavoProxy" placeholder="https://tuo-worker.example.workers.dev"></div>
 <button id="salvaFlavoProxy" type="button">Salva endpoint</button>
@@ -795,18 +806,16 @@ function getLabEvaluations(){try{return JSON.parse(localStorage.getItem("foodpai
 function saveLabEvaluations(items){
   localStorage.setItem("foodpairing_lab_evaluations",JSON.stringify(items));
   renderLabHistory();
+  renderLabDashboard();
 }
 function labPairKey(a,b){return a<b?a+"|"+b:b+"|"+a}
 function saveLabEvaluation(source,candidate,form){
   const items=getLabEvaluations();
   const key=labPairKey(source,candidate);
+  const result=form.querySelector(".lab-result").value;
+  const score=Number(form.querySelector(".lab-score").value)||0;
   const item={
-    id:Date.now(),
-    source,
-    candidate,
-    key,
-    result:form.querySelector(".lab-result").value,
-    score:Number(form.querySelector(".lab-score").value)||0,
+    id:Date.now(),source,candidate,key,result,score,
     note:form.querySelector(".lab-note").value.trim(),
     createdAt:new Date().toISOString()
   };
@@ -814,6 +823,36 @@ function saveLabEvaluation(source,candidate,form){
   saveLabEvaluations(items);
   form.querySelector(".lab-saved").textContent="Prova salvata nel diario.";
   form.querySelector(".lab-note").value="";
+  renderDatabaseAudit();
+}
+function labStatsForPair(a,b){
+  const rows=getLabEvaluations().filter(x=>x.key===labPairKey(a,b));
+  const scored=rows.filter(x=>x.score>0);
+  const successful=rows.filter(x=>x.result==="funziona"||x.result==="da modificare");
+  const avg=scored.length?scored.reduce((s,x)=>s+x.score,0)/scored.length:0;
+  return {tests:rows.length,scored:scored.length,successful:successful.length,avg};
+}
+function renderLabDashboard(){
+  const box=$("cruscottoLaboratorio");if(!box)return;
+  const labs=getLabEvaluations(),reviews=reviewStats();
+  const tested=new Set(labs.map(x=>x.key));
+  const successful=labs.filter(x=>x.result==="funziona").length;
+  const refine=labs.filter(x=>x.result==="da modificare"||x.result==="da riprovare").length;
+  const rejected=labs.filter(x=>x.result==="bocciato").length;
+  const scored=labs.filter(x=>x.score>0);
+  const avg=scored.length?scored.reduce((s,x)=>s+x.score,0)/scored.length:0;
+  const approved=reviews.filter(x=>x.status==="approved").length;
+  const pending=reviews.filter(x=>x.status==="pending").length;
+  box.innerHTML="<div class='lab-dashboard-grid'>"+
+    "<div><b>"+labs.length+"</b><span>prove registrate</span></div>"+
+    "<div><b>"+tested.size+"</b><span>coppie testate</span></div>"+
+    "<div><b>"+successful+"</b><span>funziona</span></div>"+
+    "<div><b>"+(avg?avg.toFixed(1):"—")+"</b><span>media prove /5</span></div>"+
+    "<div><b>"+refine+"</b><span>da rifinire/riprovare</span></div>"+
+    "<div><b>"+rejected+"</b><span>bocciate</span></div>"+
+    "<div><b>"+approved+"</b><span>verificate</span></div>"+
+    "<div><b>"+pending+"</b><span>in coda</span></div>"+
+    "</div>";
 }
 function renderLabHistory(){
   const box=$("diarioProve");if(!box)return;
@@ -1212,11 +1251,20 @@ async function analyzeCandidate(source,candidate){
   }
 
   const evidenceScore=shared.length*2+strongBridges*3+strongTriads*4+strongQuads*6;
+  const kitchen=labStatsForPair(a,b);
+  if(kitchen.tests>=1){
+    if(kitchen.avg>=4 || kitchen.successful>=2) priorityLabel="TESTATO IN CUCINA";
+    else if(kitchen.avg>=3) priorityLabel="DA RIFINIRE";
+  }
 
   let priorityLabel="BASSA PRIORITÀ";
   if(external?.priority>=75 || strongQuads>=1 || strongTriads>=2 || strongBridges>=3)priorityLabel="DA PROVARE SUBITO";
   else if(external?.priority>=55 || strongTriads>=1 || strongBridges>=1 || shared.length>=2)priorityLabel="DA PROVARE";
   else if(external)priorityLabel="CURIOSO";
+  if(kitchen.tests){
+    if(kitchen.avg>=4 || kitchen.successful>=2)priorityLabel="TESTATO IN CUCINA";
+    else if(kitchen.avg>=3)priorityLabel="DA RIFINIRE";
+  }
 
   const weakPoints=[];
   if(!shared.length)weakPoints.push("nessun profilo aromatico in comune");
@@ -1248,6 +1296,11 @@ async function analyzeCandidate(source,candidate){
       "<div>Affinità chimica<strong>"+(external.chemistry/10).toFixed(1)+"/100</strong></div>"+
       "<div>Ricorrenze<strong>"+external.cooccurrences.toLocaleString("it-IT")+"</strong></div>"+
       "</div><div class='muted'>Priorità statistica: <b>"+external.priority+"/100</b>"+(external.sharedMolecules?" · Molecole condivise: <b>"+external.sharedMolecules+"</b>":"")+"</div></div>";
+  }
+  if(kitchen.tests){
+    d.innerHTML+="<div class='advanced-flavor-note'><b>🔥 Prove reali in cucina</b>"+
+      "<div>Test registrati: <b>"+kitchen.tests+"</b> · con voto: <b>"+kitchen.scored+"</b> · media: <b>"+(kitchen.avg?kitchen.avg.toFixed(1):"—")+"/5</b> · esiti positivi/da rifinire: <b>"+kitchen.successful+"</b></div>"+
+      "</div>";
   }
 
   d.innerHTML+="<div class='explain'><b>Perché provarlo</b><div class='muted'>"+
@@ -1832,6 +1885,7 @@ async function initApp(){
     if($("flavoProxy"))$("flavoProxy").value=getFlavoProxy();
     renderReviewQueue();
     renderLabHistory();
+    renderLabDashboard();
     renderDatabaseAudit();
     renderSourceCandidates();
     const ok=await load();
