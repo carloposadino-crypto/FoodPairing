@@ -21,7 +21,48 @@
       "cipolla": 4,
       "rosmarino": 3,
       "senape": 4,
-      "aceto": 5
+      "aceto": 5,
+      "anatra": 4,
+      "parmigiano": 4,
+      "gorgonzola": 4,
+      "caramello": 5,
+      "formaggio": 4,
+      "balsamico": 5,
+      "radicchio": 4,
+      "cavolo": 4,
+      "cipolla_tropea": 4,
+      "radicchio_tardivo": 4,
+      "radicchio_castelfranco": 4,
+      "cavolo_verza": 4,
+      "cavolo_nero": 4,
+      "cavolfiore": 4,
+      "broccolo": 4,
+      "cavolo_rosso": 5,
+      "nocciola_piemonte": 4,
+      "parmigiano_12_19": 4,
+      "parmigiano_20_26": 4,
+      "parmigiano_27_34": 4,
+      "gorgonzola_dolce": 4,
+      "gorgonzola_piccante": 4,
+      "robiola_roccaverano": 4,
+      "toma_piemontese": 4,
+      "castelmagno": 4,
+      "fontina": 4,
+      "taleggio": 4,
+      "pecorino_romano": 4,
+      "fiore_sardo": 4,
+      "formaggio_raschera": 4,
+      "broccolo_romanesco": 4,
+      "castagna": 4,
+      "pinolo": 4,
+      "anacardo": 4,
+      "panna": 5,
+      "kiwi": 3,
+      "sedano_rapa": 4,
+      "cavolo_cappuccio": 4,
+      "cardamomo": 4,
+      "speck": 3,
+      "gouda_stagionato": 4
     },
     "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -48,7 +89,41 @@
       "caramello": 5,
       "maiale": 4,
       "vino": 4,
-      "zenzero": 3
+      "zenzero": 3,
+      "parmigiano": 5,
+      "pecorino": 5,
+      "moscato": 4,
+      "noci": 5,
+      "formaggio": 5,
+      "balsamico": 5,
+      "cioccolato_70": 4,
+      "cioccolato_85": 4,
+      "nocciola_piemonte": 5,
+      "parmigiano_12_19": 5,
+      "parmigiano_20_26": 5,
+      "parmigiano_27_34": 5,
+      "gorgonzola_dolce": 5,
+      "gorgonzola_piccante": 5,
+      "robiola_roccaverano": 5,
+      "toma_piemontese": 5,
+      "castelmagno": 5,
+      "fontina": 5,
+      "taleggio": 5,
+      "pecorino_romano": 5,
+      "fiore_sardo": 5,
+      "formaggio_raschera": 5,
+      "castagna": 5,
+      "pinolo": 5,
+      "anacardo": 5,
+      "panna": 5,
+      "cardamomo": 4,
+      "mascarpone": 4,
+      "caprino": 4,
+      "stracchino": 4,
+      "crescenza": 4,
+      "robiola_tre_latti": 4,
+      "gouda_stagionato": 4,
+      "blue_cheese": 5
     },
     "immagine": "https://images.pexels.com/photos/14050491/pexels-photo-14050491.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -75,7 +150,11 @@
       "miele": 5,
       "limone": 4,
       "zenzero": 4,
-      "moscato": 5
+      "moscato": 5,
+      "maiale": 4,
+      "mandorla_pizzuta": 5,
+      "panna": 5,
+      "burrata": 4
     },
     "immagine": "https://images.pexels.com/photos/17674101/pexels-photo-17674101.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -100,7 +179,11 @@
       "zenzero": 4,
       "miele": 5,
       "maiale": 4,
-      "cannella": 4
+      "cannella": 4,
+      "moscato": 5,
+      "mandorla_pizzuta": 5,
+      "pistacchio_bronte": 5,
+      "panna": 5
     },
     "immagine": "https://images.pexels.com/photos/1028599/pexels-photo-1028599.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -125,7 +208,10 @@
       "cannella": 4,
       "maiale": 4,
       "anatra": 5,
-      "vino": 5
+      "vino": 5,
+      "cioccolato_70": 5,
+      "cioccolato_85": 5,
+      "mandorla_pizzuta": 4
     },
     "immagine": "https://images.pexels.com/photos/966416/pexels-photo-966416.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -152,7 +238,69 @@
       "olio": 5,
       "prezzemolo": 5,
       "zenzero": 4,
-      "burro": 4
+      "burro": 4,
+      "mela": 4,
+      "pesca": 4,
+      "zucchina": 5,
+      "sedano": 4,
+      "mandorla": 4,
+      "pistacchio": 4,
+      "rosmarino": 4,
+      "menta": 5,
+      "miele": 4,
+      "finocchio": 5,
+      "melone": 4,
+      "cappero": 5,
+      "acciuga": 5,
+      "ricotta": 5,
+      "coriandolo": 5,
+      "cece": 5,
+      "mela_granny": 5,
+      "mela_renetta": 4,
+      "pesca_gialla": 4,
+      "zucchina_romanesca": 5,
+      "mandorla_pizzuta": 4,
+      "pistacchio_bronte": 5,
+      "pesce_orata": 5,
+      "pesce_spigola": 5,
+      "pesce_sgombro": 5,
+      "pesce_sardina": 5,
+      "pesce_tonno": 5,
+      "pesce_salmone": 5,
+      "pesce_baccala": 5,
+      "pesce_aringa": 5,
+      "pesce_anguilla": 5,
+      "pesce_triglia": 5,
+      "pesce_rombo": 5,
+      "pesce_sanpietro": 5,
+      "pesce_merluzzo": 5,
+      "pesce_pescespada": 5,
+      "pesce_palamita": 5,
+      "crostacei_gambero": 5,
+      "crostacei_scampo": 5,
+      "molluschi_cozza": 5,
+      "molluschi_vongola": 5,
+      "molluschi_calamarо": 5,
+      "pesca_perco": 4,
+      "melone_cantalupo": 4,
+      "lenticchia": 5,
+      "lenticchia_castelluccio": 5,
+      "panna": 4,
+      "mirtillo": 4,
+      "mora": 4,
+      "ribes": 4,
+      "melagrana": 3,
+      "kiwi": 3,
+      "topinambur": 3,
+      "sedano_rapa": 4,
+      "spinacio": 4,
+      "bietola": 4,
+      "cavoletti_bruxelles": 3,
+      "asparago_bianco": 4,
+      "vitello": 4,
+      "yogurt": 4,
+      "mascarpone": 3,
+      "burrata": 4
     },
     "immagine": "https://images.pexels.com/photos/1414110/pexels-photo-1414110.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -179,7 +327,14 @@
       "vaniglia": 4,
       "finocchio": 4,
       "maiale": 4,
-      "miele": 5
+      "miele": 5,
+      "carota": 5,
+      "caffe": 4,
+      "caffe_espresso": 4,
+      "cioccolato_70": 5,
+      "cioccolato_85": 5,
+      "panna": 4,
+      "barbabietola": 4
     },
     "immagine": "https://images.pexels.com/photos/161559/background-orange-fruit-orange-161559.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -208,7 +363,29 @@
       "parmigiano": 4,
       "peperoncino": 4,
       "olive": 5,
-      "cappero": 5
+      "cappero": 5,
+      "melanzana": 5,
+      "cipolla": 5,
+      "sale": 5,
+      "ricotta": 4,
+      "peperone": 5,
+      "fagiolo": 5,
+      "peperone_carmagnola": 5,
+      "peperone_piquillo": 5,
+      "melanzana_tonda": 5,
+      "cipolla_tropea": 5,
+      "oliva_taggiaca": 5,
+      "oliva_coratina": 5,
+      "oliva_nocellara": 5,
+      "fagiolo_borlotti": 5,
+      "fagiolo_cannellino": 5,
+      "parmigiano_12_19": 4,
+      "parmigiano_20_26": 4,
+      "parmigiano_27_34": 4,
+      "maggiorana": 4,
+      "alloro": 3,
+      "paprika": 4,
+      "burrata": 5
     },
     "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -234,7 +411,8 @@
       "parmigiano": 4,
       "ricotta": 5,
       "olio": 5,
-      "peperoncino": 4
+      "peperoncino": 4,
+      "origano": 5
     },
     "immagine": "https://images.pexels.com/photos/5701950/pexels-photo-5701950.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -259,7 +437,8 @@
       "parmigiano": 4,
       "ricotta": 4,
       "aglio": 4,
-      "timo": 4
+      "timo": 4,
+      "maggiorana": 4
     },
     "immagine": "https://images.pexels.com/photos/3375263/pexels-photo-3375263.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -284,7 +463,11 @@
       "timo": 4,
       "miele": 5,
       "burro": 4,
-      "coriandolo": 4
+      "coriandolo": 4,
+      "sedano": 5,
+      "cannella": 4,
+      "aceto": 4,
+      "cardamomo": 3
     },
     "immagine": "https://images.pexels.com/photos/8477073/pexels-photo-8477073.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -311,7 +494,15 @@
       "maiale": 4,
       "manzo": 4,
       "noci": 4,
-      "parmigiano": 4
+      "parmigiano": 4,
+      "gorgonzola": 4,
+      "mela_granny": 4,
+      "mela_renetta": 4,
+      "gorgonzola_dolce": 4,
+      "gorgonzola_piccante": 4,
+      "cinghiale": 4,
+      "cervo": 4,
+      "blue_cheese": 4
     },
     "immagine": "https://images.pexels.com/photos/1435895/pexels-photo-1435895.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -337,7 +528,23 @@
       "aglio": 4,
       "cipolla": 4,
       "formaggio": 5,
-      "carne": 4
+      "carne": 4,
+      "senape": 4,
+      "funghi": 5,
+      "prezzemolo": 4,
+      "parmigiano_12_19": 5,
+      "parmigiano_20_26": 5,
+      "parmigiano_27_34": 5,
+      "porro": 5,
+      "erba_cipollina": 4,
+      "alloro": 3,
+      "noce_moscata": 5,
+      "paprika": 4,
+      "pancetta": 4,
+      "speck": 4,
+      "salsiccia": 4,
+      "guanciale": 3,
+      "gruyere": 4
     },
     "immagine": "https://images.pexels.com/photos/144248/potatoes-vegetables-mashed-potatoes-potatoes-144248.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -363,7 +570,24 @@
       "vino": 4,
       "timo": 4,
       "rosmarino": 4,
-      "aceto": 5
+      "aceto": 5,
+      "sedano": 5,
+      "patata": 4,
+      "manzo": 4,
+      "maiale": 4,
+      "pollo": 4,
+      "focaccia": 4,
+      "fagiolo": 5,
+      "mela_granny": 4,
+      "mela_renetta": 4,
+      "patata_kennebec": 4,
+      "patata_vitelotte": 4,
+      "fagiolo_borlotti": 5,
+      "fagiolo_cannellino": 5,
+      "fassona_piemonte": 5,
+      "cinghiale": 4,
+      "cervo": 4,
+      "gruyere": 4
     },
     "immagine": "https://images.pexels.com/photos/130049/pexels-photo-130049.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -388,7 +612,66 @@
       "rosmarino": 5,
       "limone": 4,
       "prezzemolo": 5,
-      "olio": 5
+      "olio": 5,
+      "melanzana": 5,
+      "zucchina": 4,
+      "manzo": 4,
+      "pollo": 4,
+      "funghi": 5,
+      "pesce": 4,
+      "olive": 5,
+      "peperoncino": 5,
+      "verdure": 5,
+      "peperone": 5,
+      "cece": 5,
+      "limone_sorrento": 4,
+      "pomodoro_sanmarzano": 5,
+      "pomodoro_datterino": 5,
+      "pomodoro_pachino": 5,
+      "peperone_carmagnola": 5,
+      "peperone_piquillo": 5,
+      "melanzana_tonda": 5,
+      "zucchina_romanesca": 4,
+      "patata_kennebec": 4,
+      "patata_vitelotte": 4,
+      "oliva_taggiaca": 5,
+      "oliva_coratina": 5,
+      "oliva_nocellara": 5,
+      "pesce_orata": 4,
+      "pesce_spigola": 4,
+      "pesce_sgombro": 4,
+      "pesce_sardina": 4,
+      "pesce_tonno": 4,
+      "pesce_salmone": 4,
+      "pesce_baccala": 4,
+      "pesce_aringa": 4,
+      "pesce_anguilla": 4,
+      "pesce_triglia": 4,
+      "pesce_rombo": 4,
+      "pesce_sanpietro": 4,
+      "pesce_merluzzo": 4,
+      "pesce_pescespada": 4,
+      "pesce_palamita": 4,
+      "crostacei_gambero": 4,
+      "crostacei_scampo": 4,
+      "molluschi_cozza": 4,
+      "molluschi_vongola": 4,
+      "molluschi_calamarо": 4,
+      "asparago": 5,
+      "asparago_albenga": 5,
+      "carciofo": 5,
+      "carciofo_romanesco": 5,
+      "fava": 5,
+      "fagiolino": 5,
+      "limone_femminello": 4,
+      "bergamotto": 4,
+      "cedro": 4,
+      "lenticchia": 5,
+      "lenticchia_castelluccio": 5,
+      "cinghiale": 4,
+      "cervo": 4,
+      "spinacio": 4,
+      "bietola": 4
     },
     "immagine": "https://images.pexels.com/photos/4197448/pexels-photo-4197448.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -416,7 +699,10 @@
       "senape": 4,
       "aglio": 4,
       "cipolla": 4,
-      "sedano": 4
+      "sedano": 4,
+      "scalogno": 4,
+      "sedano_rapa": 3,
+      "alloro": 4
     },
     "immagine": "https://images.pexels.com/photos/128402/pexels-photo-128402.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -444,7 +730,39 @@
       "vino": 4,
       "miele": 5,
       "prugna": 5,
-      "pesca": 4
+      "pesca": 4,
+      "pera": 4,
+      "albicocca": 4,
+      "ciliegia": 4,
+      "arancia": 4,
+      "sedano": 4,
+      "zenzero": 4,
+      "aceto": 4,
+      "finocchio": 4,
+      "salvia": 5,
+      "cavolo": 5,
+      "mela_granny": 5,
+      "mela_renetta": 5,
+      "pera_abate": 4,
+      "pera_madernassa": 4,
+      "ciliegia_marasca": 4,
+      "arancia_tarocco": 4,
+      "arancia_moro": 4,
+      "cavolo_verza": 5,
+      "cavolo_nero": 5,
+      "cavolfiore": 5,
+      "broccolo": 5,
+      "cavolo_rosso": 5,
+      "broccolo_romanesco": 5,
+      "mandarino": 4,
+      "mora": 3,
+      "ribes": 3,
+      "ananas": 3,
+      "rapa": 3,
+      "cavolo_cappuccio": 4,
+      "maggiorana": 4,
+      "alloro": 4,
+      "paprika": 4
     },
     "immagine": "https://images.pexels.com/photos/236798/pexels-photo-236798.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -470,7 +788,15 @@
       "cipolla": 4,
       "burro": 4,
       "funghi": 4,
-      "salvia": 5
+      "salvia": 5,
+      "senape": 4,
+      "zafferano": 5,
+      "limone_sorrento": 5,
+      "limone_femminello": 5,
+      "bergamotto": 5,
+      "cedro": 5,
+      "dragoncello": 5,
+      "paprika": 4
     },
     "immagine": "https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -495,7 +821,15 @@
       "zenzero": 4,
       "miele": 4,
       "vino": 5,
-      "prugna": 5
+      "prugna": 5,
+      "ciliegia_marasca": 5,
+      "arancia_tarocco": 5,
+      "arancia_moro": 5,
+      "mandarino": 5,
+      "mora": 4,
+      "ribes": 4,
+      "mango": 3,
+      "pepe_rosa": 4
     },
     "immagine": "https://images.pexels.com/photos/162419/duck-bird-animal-waterfowl-162419.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -522,7 +856,35 @@
       "lampone": 5,
       "pera": 4,
       "ciliegia": 5,
-      "menta": 4
+      "menta": 4,
+      "mandorla": 5,
+      "pistacchio": 5,
+      "cannella": 4,
+      "caramello": 5,
+      "prugna": 4,
+      "pepe": 4,
+      "peperoncino": 5,
+      "fragola": 5,
+      "pera_abate": 5,
+      "pera_madernassa": 4,
+      "ciliegia_marasca": 5,
+      "arancia_tarocco": 5,
+      "arancia_moro": 5,
+      "caffe_espresso": 5,
+      "nocciola_piemonte": 5,
+      "mandorla_pizzuta": 5,
+      "pistacchio_bronte": 5,
+      "mandarino": 5,
+      "castagna": 5,
+      "pinolo": 5,
+      "anacardo": 5,
+      "panna": 5,
+      "mirtillo": 5,
+      "mora": 4,
+      "ribes": 3,
+      "cardamomo": 4,
+      "mascarpone": 5,
+      "blue_cheese": 3
     },
     "immagine": "https://images.pexels.com/photos/918327/pexels-photo-918327.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -547,7 +909,21 @@
       "caramello": 5,
       "vaniglia": 4,
       "mela": 4,
-      "cannella": 4
+      "cannella": 4,
+      "mela_granny": 4,
+      "mela_renetta": 4,
+      "pera_abate": 5,
+      "pera_madernassa": 5,
+      "caffe_espresso": 5,
+      "cioccolato_70": 5,
+      "cioccolato_85": 5,
+      "panna": 5,
+      "barbabietola": 4,
+      "topinambur": 5,
+      "sedano_rapa": 4,
+      "cavoletti_bruxelles": 4,
+      "robiola_tre_latti": 4,
+      "gouda_stagionato": 4
     },
     "immagine": "https://images.pexels.com/photos/372882/pexels-photo-372882.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -572,7 +948,11 @@
       "cioccolato": 5,
       "vaniglia": 5,
       "limone": 4,
-      "miele": 4
+      "miele": 4,
+      "pesca_gialla": 5,
+      "ciliegia_marasca": 5,
+      "pesca_perco": 5,
+      "panna": 5
     },
     "immagine": "https://images.pexels.com/photos/1295572/pexels-photo-1295572.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -597,7 +977,9 @@
       "albicocca": 5,
       "limone": 4,
       "miele": 4,
-      "vaniglia": 5
+      "vaniglia": 5,
+      "fragola": 5,
+      "panna": 5
     },
     "immagine": "https://images.pexels.com/photos/4087659/pexels-photo-4087659.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -622,7 +1004,21 @@
       "aglio": 4,
       "olio": 5,
       "zucchina": 5,
-      "melanzana": 5
+      "melanzana": 5,
+      "pesca": 4,
+      "pesca_gialla": 4,
+      "limone_sorrento": 5,
+      "pomodoro_sanmarzano": 5,
+      "pomodoro_datterino": 5,
+      "pomodoro_pachino": 5,
+      "melanzana_tonda": 5,
+      "zucchina_romanesca": 5,
+      "pesca_perco": 4,
+      "limone_femminello": 5,
+      "bergamotto": 5,
+      "cedro": 5,
+      "panna": 4,
+      "burrata": 4
     },
     "immagine": "https://images.pexels.com/photos/606540/pexels-photo-606540.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -647,7 +1043,30 @@
       "manzo": 4,
       "aglio": 5,
       "limone": 4,
-      "focaccia": 5
+      "focaccia": 5,
+      "mela": 3,
+      "cipolla": 4,
+      "funghi": 4,
+      "carne": 5,
+      "agnello": 5,
+      "fagiolo": 4,
+      "cece": 5,
+      "mela_granny": 3,
+      "mela_renetta": 3,
+      "patata_kennebec": 5,
+      "patata_vitelotte": 5,
+      "cipolla_tropea": 4,
+      "fagiolo_borlotti": 4,
+      "fagiolo_cannellino": 4,
+      "fassona_piemonte": 5,
+      "agnello_sardo": 5,
+      "lenticchia": 5,
+      "lenticchia_castelluccio": 5,
+      "coniglio": 5,
+      "capretto": 5,
+      "cinghiale": 4,
+      "cervo": 4,
+      "mirtillo": 3
     },
     "immagine": "https://images.pexels.com/photos/4198770/pexels-photo-4198770.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -672,7 +1091,39 @@
       "mela": 4,
       "funghi": 5,
       "limone": 4,
-      "carota": 4
+      "carota": 4,
+      "zucchina": 4,
+      "cipolla": 4,
+      "carne": 5,
+      "verdure": 4,
+      "zucca": 5,
+      "mela_granny": 4,
+      "mela_renetta": 4,
+      "limone_sorrento": 4,
+      "zucchina_romanesca": 4,
+      "patata_kennebec": 5,
+      "patata_vitelotte": 5,
+      "cipolla_tropea": 4,
+      "zucca_mantovana": 5,
+      "zucca_delica": 5,
+      "fassona_piemonte": 5,
+      "asparago": 4,
+      "asparago_albenga": 4,
+      "carciofo": 4,
+      "carciofo_romanesco": 4,
+      "fava": 4,
+      "fagiolino": 4,
+      "limone_femminello": 4,
+      "bergamotto": 4,
+      "cedro": 4,
+      "mora": 3,
+      "scalogno": 4,
+      "porro": 4,
+      "rapa": 3,
+      "topinambur": 4,
+      "faraona": 4,
+      "caprino": 4,
+      "robiola_tre_latti": 4
     },
     "immagine": "https://images.pexels.com/photos/4198772/pexels-photo-4198772.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -696,7 +1147,25 @@
       "limone": 5,
       "pisello": 5,
       "melanzana": 4,
-      "fragola": 5
+      "fragola": 5,
+      "melone": 5,
+      "lampone": 4,
+      "agnello": 5,
+      "melanzana_tonda": 4,
+      "zucchina_romanesca": 5,
+      "cioccolato_70": 4,
+      "cioccolato_85": 4,
+      "agnello_sardo": 5,
+      "melone_cantalupo": 5,
+      "coniglio": 5,
+      "capretto": 5,
+      "panna": 4,
+      "ribes": 3,
+      "melagrana": 4,
+      "ananas": 4,
+      "kiwi": 4,
+      "lime": 4,
+      "yogurt": 4
     },
     "immagine": "https://images.pexels.com/photos/4198771/pexels-photo-4198771.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -721,7 +1190,28 @@
       "arancia": 5,
       "pera": 4,
       "maiale": 4,
-      "anatra": 4
+      "anatra": 4,
+      "pesca": 4,
+      "albicocca": 4,
+      "coriandolo": 5,
+      "mela_granny": 5,
+      "mela_renetta": 4,
+      "pera_abate": 3,
+      "pera_madernassa": 3,
+      "pesca_gialla": 4,
+      "arancia_tarocco": 5,
+      "arancia_moro": 5,
+      "limone_sorrento": 4,
+      "pesca_perco": 4,
+      "limone_femminello": 4,
+      "mandarino": 5,
+      "bergamotto": 4,
+      "cedro": 4,
+      "panna": 4,
+      "mango": 4,
+      "ananas": 4,
+      "kiwi": 3,
+      "lime": 4
     },
     "immagine": "https://images.pexels.com/photos/161556/background-ginger-ginger-root-161556.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -747,7 +1237,25 @@
       "cioccolato": 4,
       "ciliegia": 4,
       "carota": 4,
-      "miele": 5
+      "miele": 5,
+      "albicocca": 4,
+      "nocciola": 4,
+      "caffe": 4,
+      "prugna": 4,
+      "mela_granny": 5,
+      "mela_renetta": 5,
+      "pera_abate": 4,
+      "pera_madernassa": 4,
+      "ciliegia_marasca": 4,
+      "arancia_tarocco": 5,
+      "arancia_moro": 5,
+      "caffe_espresso": 4,
+      "nocciola_piemonte": 4,
+      "mandarino": 5,
+      "castagna": 4,
+      "pinolo": 4,
+      "anacardo": 4,
+      "panna": 5
     },
     "immagine": "https://images.pexels.com/photos/1306248/pexels-photo-1306248.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -772,7 +1280,47 @@
       "arancia": 5,
       "carota": 5,
       "noci": 5,
-      "formaggio": 5
+      "formaggio": 5,
+      "pesca": 5,
+      "albicocca": 5,
+      "anatra": 4,
+      "mandorla": 4,
+      "pistacchio": 4,
+      "cannella": 5,
+      "senape": 5,
+      "gorgonzola": 5,
+      "melone": 4,
+      "pecorino": 5,
+      "burro": 4,
+      "sale": 4,
+      "ricotta": 5,
+      "mela_granny": 5,
+      "mela_renetta": 5,
+      "pesca_gialla": 5,
+      "arancia_tarocco": 5,
+      "arancia_moro": 5,
+      "mandorla_pizzuta": 4,
+      "pistacchio_bronte": 4,
+      "gorgonzola_dolce": 5,
+      "gorgonzola_piccante": 5,
+      "robiola_roccaverano": 5,
+      "toma_piemontese": 5,
+      "castelmagno": 5,
+      "fontina": 5,
+      "taleggio": 5,
+      "pecorino_romano": 5,
+      "fiore_sardo": 5,
+      "formaggio_raschera": 5,
+      "pesca_perco": 5,
+      "mandarino": 5,
+      "melone_cantalupo": 4,
+      "panna": 5,
+      "yogurt": 5,
+      "caprino": 4,
+      "stracchino": 4,
+      "crescenza": 4,
+      "robiola_tre_latti": 4,
+      "blue_cheese": 5
     },
     "immagine": "https://images.pexels.com/photos/33260/honey-syrup-organic-honey-jar-33260.jpg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -796,7 +1344,23 @@
       "pollo": 4,
       "mela": 4,
       "miele": 5,
-      "patata": 4
+      "patata": 4,
+      "cavolo": 5,
+      "mela_granny": 4,
+      "mela_renetta": 4,
+      "cavolo_verza": 5,
+      "cavolo_nero": 5,
+      "cavolfiore": 5,
+      "broccolo": 5,
+      "cavolo_rosso": 5,
+      "broccolo_romanesco": 5,
+      "cinghiale": 4,
+      "cervo": 4,
+      "rapa": 4,
+      "sedano_rapa": 4,
+      "cavolo_cappuccio": 4,
+      "dragoncello": 4,
+      "gouda_stagionato": 4
     },
     "immagine": "https://images.pexels.com/photos/5419221/pexels-photo-5419221.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -821,7 +1385,22 @@
       "aglio": 5,
       "parmigiano": 5,
       "burro": 5,
-      "patata": 5
+      "patata": 5,
+      "pollo": 4,
+      "riso": 5,
+      "riso_carnaroli": 5,
+      "riso_vialone": 5,
+      "parmigiano_12_19": 5,
+      "parmigiano_20_26": 5,
+      "parmigiano_27_34": 5,
+      "farro": 5,
+      "orzo": 5,
+      "cinghiale": 5,
+      "cervo": 5,
+      "maggiorana": 4,
+      "vitello": 4,
+      "faraona": 4,
+      "gruyere": 4
     },
     "immagine": "https://images.pexels.com/photos/1210505/pexels-photo-1210505.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -847,7 +1426,45 @@
       "patata": 5,
       "pomodoro": 4,
       "balsamico": 5,
-      "noci": 5
+      "noci": 5,
+      "melanzana": 4,
+      "zucchina": 4,
+      "sedano": 4,
+      "fico": 5,
+      "zafferano": 5,
+      "prosciutto": 4,
+      "burro": 4,
+      "tartufo": 5,
+      "pepe": 4,
+      "pisello": 4,
+      "zucca": 5,
+      "radicchio": 4,
+      "uva": 4,
+      "riso": 5,
+      "pomodoro_sanmarzano": 4,
+      "pomodoro_datterino": 4,
+      "pomodoro_pachino": 4,
+      "melanzana_tonda": 4,
+      "zucchina_romanesca": 4,
+      "patata_kennebec": 5,
+      "patata_vitelotte": 5,
+      "zucca_mantovana": 5,
+      "zucca_delica": 5,
+      "radicchio_tardivo": 5,
+      "radicchio_castelfranco": 4,
+      "uva_moscato": 4,
+      "uva_nebiolo": 4,
+      "uva_barbera": 4,
+      "uva_sangiovese": 4,
+      "riso_carnaroli": 5,
+      "riso_vialone": 5,
+      "uva_chardonnay": 4,
+      "farro": 5,
+      "orzo": 5,
+      "porro": 4,
+      "topinambur": 4,
+      "cavoletti_bruxelles": 4,
+      "asparago_bianco": 4
     },
     "immagine": "https://images.pexels.com/photos/236010/pexels-photo-236010.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -872,7 +1489,10 @@
       "noci": 5,
       "miele": 5,
       "sedano": 4,
-      "vino": 5
+      "vino": 5,
+      "fico": 5,
+      "pera_abate": 5,
+      "pera_madernassa": 5
     },
     "immagine": "https://images.pexels.com/photos/773253/pexels-photo-773253.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -896,7 +1516,15 @@
       "vaniglia": 4,
       "caramello": 5,
       "arancia": 4,
-      "cannella": 4
+      "cannella": 4,
+      "cioccolato_70": 5,
+      "cioccolato_85": 5,
+      "nocciola_piemonte": 5,
+      "castagna": 5,
+      "pinolo": 5,
+      "anacardo": 5,
+      "cardamomo": 4,
+      "mascarpone": 5
     },
     "immagine": "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -920,7 +1548,55 @@
       "limone": 5,
       "aglio": 5,
       "pesce": 5,
-      "verdure": 5
+      "verdure": 5,
+      "melanzana": 5,
+      "aceto": 5,
+      "mozzarella": 5,
+      "focaccia": 5,
+      "peperoncino": 5,
+      "peperone": 5,
+      "fagiolo": 5,
+      "cece": 5,
+      "limone_sorrento": 5,
+      "pomodoro_sanmarzano": 5,
+      "pomodoro_datterino": 5,
+      "pomodoro_pachino": 5,
+      "peperone_carmagnola": 5,
+      "peperone_piquillo": 5,
+      "melanzana_tonda": 5,
+      "fagiolo_borlotti": 5,
+      "fagiolo_cannellino": 5,
+      "pesce_orata": 5,
+      "pesce_spigola": 5,
+      "pesce_sgombro": 5,
+      "pesce_sardina": 5,
+      "pesce_tonno": 5,
+      "pesce_salmone": 5,
+      "pesce_baccala": 5,
+      "pesce_aringa": 5,
+      "pesce_anguilla": 5,
+      "pesce_triglia": 5,
+      "pesce_rombo": 5,
+      "pesce_sanpietro": 5,
+      "pesce_merluzzo": 5,
+      "pesce_pescespada": 5,
+      "pesce_palamita": 5,
+      "crostacei_gambero": 5,
+      "crostacei_scampo": 5,
+      "molluschi_cozza": 5,
+      "molluschi_vongola": 5,
+      "molluschi_calamarо": 5,
+      "asparago": 5,
+      "asparago_albenga": 5,
+      "carciofo": 5,
+      "carciofo_romanesco": 5,
+      "fava": 5,
+      "fagiolino": 5,
+      "limone_femminello": 5,
+      "bergamotto": 5,
+      "cedro": 5,
+      "lenticchia": 5,
+      "lenticchia_castelluccio": 5
     },
     "immagine": "https://images.pexels.com/photos/33783/olive-oil-salad-dressing-cooking-33783.jpg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -944,7 +1620,34 @@
       "carota": 4,
       "maiale": 4,
       "verdure": 5,
-      "olio": 5
+      "olio": 5,
+      "peperone": 4,
+      "radicchio": 5,
+      "cavolo": 5,
+      "mela_granny": 5,
+      "mela_renetta": 5,
+      "peperone_carmagnola": 5,
+      "peperone_piquillo": 4,
+      "cipolla_tropea": 5,
+      "radicchio_tardivo": 5,
+      "radicchio_castelfranco": 5,
+      "cavolo_verza": 5,
+      "cavolo_nero": 5,
+      "cavolfiore": 5,
+      "broccolo": 5,
+      "cavolo_rosso": 5,
+      "asparago": 5,
+      "asparago_albenga": 5,
+      "carciofo": 5,
+      "carciofo_romanesco": 5,
+      "fava": 5,
+      "fagiolino": 5,
+      "broccolo_romanesco": 5,
+      "scalogno": 4,
+      "barbabietola": 4,
+      "rapa": 3,
+      "cavolo_cappuccio": 4,
+      "dragoncello": 4
     },
     "immagine": "https://images.pexels.com/photos/4110251/pexels-photo-4110251.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -966,7 +1669,10 @@
       "arancia": 5,
       "limone": 5,
       "maiale": 4,
-      "pesce": 5
+      "pesce": 5,
+      "arancia_tarocco": 4,
+      "arancia_moro": 4,
+      "mandarino": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1008,7 +1714,8 @@
       "prosciutto": 5,
       "parmigiano": 5,
       "noci": 5,
-      "gorgonzola": 5
+      "gorgonzola": 5,
+      "pecorino": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1029,7 +1736,11 @@
       "riso": 5,
       "pollo": 5,
       "parmigiano": 5,
-      "burro": 5
+      "burro": 5,
+      "riso_carnaroli": 5,
+      "riso_vialone": 5,
+      "farro": 5,
+      "orzo": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1051,7 +1762,8 @@
       "miele": 5,
       "noci": 5,
       "pera": 5,
-      "fico": 5
+      "fico": 5,
+      "guanciale": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1073,7 +1785,32 @@
       "pera": 5,
       "pesca": 5,
       "albicocca": 5,
-      "caffe": 4
+      "caffe": 4,
+      "ciliegia": 4,
+      "arancia": 4,
+      "nocciola": 4,
+      "mandorla": 5,
+      "pistacchio": 5,
+      "lampone": 5,
+      "pera_abate": 5,
+      "pera_madernassa": 5,
+      "pesca_gialla": 5,
+      "ciliegia_marasca": 4,
+      "arancia_tarocco": 4,
+      "arancia_moro": 4,
+      "caffe_espresso": 4,
+      "cioccolato_70": 4,
+      "cioccolato_85": 4,
+      "nocciola_piemonte": 4,
+      "mandorla_pizzuta": 5,
+      "pistacchio_bronte": 5,
+      "pesca_perco": 5,
+      "mandarino": 4,
+      "castagna": 4,
+      "pinolo": 4,
+      "anacardo": 4,
+      "panna": 5,
+      "mirtillo": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1095,7 +1832,22 @@
       "manzo": 5,
       "anatra": 5,
       "ciliegia": 5,
-      "gorgonzola": 5
+      "gorgonzola": 5,
+      "pera": 4,
+      "cipolla": 4,
+      "maiale": 4,
+      "carne": 5,
+      "pera_abate": 4,
+      "pera_madernassa": 4,
+      "ciliegia_marasca": 5,
+      "cipolla_tropea": 4,
+      "gorgonzola_dolce": 5,
+      "gorgonzola_piccante": 5,
+      "fassona_piemonte": 5,
+      "cinghiale": 5,
+      "cervo": 5,
+      "scalogno": 4,
+      "gruyere": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1117,7 +1869,18 @@
       "pesca": 5,
       "melone": 5,
       "fico": 5,
-      "parmigiano": 4
+      "parmigiano": 4,
+      "pisello": 5,
+      "uva": 5,
+      "pesca_gialla": 5,
+      "uva_moscato": 5,
+      "uva_nebiolo": 5,
+      "uva_barbera": 5,
+      "uva_sangiovese": 5,
+      "pesca_perco": 5,
+      "melone_cantalupo": 5,
+      "uva_chardonnay": 5,
+      "asparago_bianco": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1139,7 +1902,9 @@
       "pesca": 5,
       "albicocca": 5,
       "fragola": 5,
-      "pera": 4
+      "pera": 4,
+      "pesca_gialla": 5,
+      "pesca_perco": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1160,7 +1925,31 @@
       "limone": 5,
       "aglio": 5,
       "pesce": 5,
-      "patata": 4
+      "patata": 4,
+      "limone_sorrento": 5,
+      "pesce_orata": 5,
+      "pesce_spigola": 5,
+      "pesce_sgombro": 5,
+      "pesce_sardina": 5,
+      "pesce_tonno": 5,
+      "pesce_salmone": 5,
+      "pesce_baccala": 5,
+      "pesce_aringa": 5,
+      "pesce_anguilla": 5,
+      "pesce_triglia": 5,
+      "pesce_rombo": 5,
+      "pesce_sanpietro": 5,
+      "pesce_merluzzo": 5,
+      "pesce_pescespada": 5,
+      "pesce_palamita": 5,
+      "crostacei_gambero": 5,
+      "crostacei_scampo": 5,
+      "molluschi_cozza": 5,
+      "molluschi_vongola": 5,
+      "molluschi_calamarо": 5,
+      "limone_femminello": 5,
+      "bergamotto": 5,
+      "cedro": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1182,7 +1971,16 @@
       "limone": 5,
       "olio": 5,
       "prezzemolo": 5,
-      "aglio": 4
+      "aglio": 4,
+      "finocchio": 5,
+      "cappero": 5,
+      "limone_sorrento": 5,
+      "pomodoro_pachino": 5,
+      "limone_femminello": 5,
+      "bergamotto": 5,
+      "cedro": 5,
+      "lime": 4,
+      "pepe_rosa": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1204,7 +2002,37 @@
       "patata": 5,
       "parmigiano": 4,
       "funghi": 5,
-      "miele": 4
+      "miele": 4,
+      "limone": 4,
+      "carota": 4,
+      "pollo": 4,
+      "zafferano": 5,
+      "tartufo": 5,
+      "acciuga": 4,
+      "pisello": 4,
+      "salvia": 5,
+      "zucca": 5,
+      "riso": 5,
+      "limone_sorrento": 4,
+      "patata_kennebec": 5,
+      "patata_vitelotte": 5,
+      "zucca_mantovana": 5,
+      "zucca_delica": 5,
+      "riso_carnaroli": 5,
+      "riso_vialone": 5,
+      "limone_femminello": 4,
+      "bergamotto": 4,
+      "cedro": 4,
+      "farro": 5,
+      "orzo": 5,
+      "panna": 5,
+      "scalogno": 4,
+      "porro": 5,
+      "rapa": 4,
+      "topinambur": 4,
+      "cavoletti_bruxelles": 4,
+      "asparago_bianco": 5,
+      "vitello": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1226,7 +2054,16 @@
       "nocciola": 5,
       "mela": 5,
       "caffe": 5,
-      "cioccolato": 5
+      "cioccolato": 5,
+      "sale": 4,
+      "pera_abate": 5,
+      "pera_madernassa": 5,
+      "caffe_espresso": 5,
+      "nocciola_piemonte": 5,
+      "castagna": 5,
+      "pinolo": 5,
+      "anacardo": 5,
+      "panna": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1248,7 +2085,11 @@
       "cioccolato": 5,
       "pistacchio": 5,
       "menta": 4,
-      "vaniglia": 5
+      "vaniglia": 5,
+      "cioccolato_70": 5,
+      "cioccolato_85": 5,
+      "pistacchio_bronte": 5,
+      "panna": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1292,7 +2133,35 @@
       "gorgonzola": 5,
       "parmigiano": 5,
       "miele": 5,
-      "pera": 5
+      "pera": 5,
+      "sedano": 4,
+      "fico": 5,
+      "pecorino": 5,
+      "formaggio": 5,
+      "radicchio": 5,
+      "uva": 5,
+      "radicchio_tardivo": 5,
+      "radicchio_castelfranco": 5,
+      "uva_moscato": 5,
+      "uva_nebiolo": 5,
+      "uva_barbera": 5,
+      "uva_sangiovese": 5,
+      "parmigiano_12_19": 5,
+      "parmigiano_20_26": 5,
+      "parmigiano_27_34": 5,
+      "gorgonzola_dolce": 5,
+      "gorgonzola_piccante": 5,
+      "robiola_roccaverano": 5,
+      "toma_piemontese": 5,
+      "castelmagno": 5,
+      "fontina": 5,
+      "taleggio": 5,
+      "pecorino_romano": 5,
+      "fiore_sardo": 5,
+      "formaggio_raschera": 5,
+      "uva_chardonnay": 5,
+      "stracchino": 4,
+      "crescenza": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1312,7 +2181,10 @@
     "pairing": {
       "pomodoro": 5,
       "basilico": 5,
-      "olio": 5
+      "olio": 5,
+      "pomodoro_sanmarzano": 5,
+      "pomodoro_datterino": 5,
+      "pomodoro_pachino": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1333,7 +2205,14 @@
       "pomodoro": 5,
       "limone": 5,
       "olive": 5,
-      "pesce": 5
+      "pesce": 5,
+      "acciuga": 5,
+      "pomodoro_sanmarzano": 5,
+      "pomodoro_datterino": 5,
+      "pomodoro_pachino": 5,
+      "oliva_taggiaca": 5,
+      "oliva_coratina": 5,
+      "oliva_nocellara": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1355,7 +2234,11 @@
       "pomodoro": 5,
       "cappero": 5,
       "aglio": 5,
-      "formaggio": 4
+      "formaggio": 4,
+      "origano": 5,
+      "pomodoro_sanmarzano": 5,
+      "pomodoro_datterino": 5,
+      "pomodoro_pachino": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1377,7 +2260,26 @@
       "miele": 5,
       "noci": 5,
       "pera": 5,
-      "mela": 4
+      "mela": 4,
+      "patata": 5,
+      "cipolla": 4,
+      "olive": 4,
+      "focaccia": 4,
+      "uva": 5,
+      "mela_renetta": 5,
+      "patata_kennebec": 5,
+      "patata_vitelotte": 5,
+      "cipolla_tropea": 4,
+      "uva_moscato": 5,
+      "uva_nebiolo": 5,
+      "uva_barbera": 5,
+      "uva_sangiovese": 5,
+      "oliva_taggiaca": 4,
+      "oliva_coratina": 4,
+      "oliva_nocellara": 4,
+      "uva_chardonnay": 5,
+      "pepe_rosa": 3,
+      "speck": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1399,7 +2301,11 @@
       "rosmarino": 5,
       "timo": 5,
       "cipolla": 5,
-      "vino": 5
+      "vino": 5,
+      "patata": 4,
+      "patata_kennebec": 4,
+      "patata_vitelotte": 4,
+      "cipolla_tropea": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1420,7 +2326,9 @@
     "pairing": {
       "manzo": 5,
       "parmigiano": 5,
-      "burro": 5
+      "burro": 5,
+      "cinghiale": 5,
+      "cervo": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1441,7 +2349,10 @@
     "pairing": {
       "manzo": 5,
       "cioccolato": 4,
-      "parmigiano": 4
+      "parmigiano": 4,
+      "cinghiale": 5,
+      "cervo": 5,
+      "guanciale": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1483,7 +2394,10 @@
       "cioccolato": 4,
       "caramello": 4,
       "pomodoro": 5,
-      "miele": 4
+      "miele": 4,
+      "cioccolato_70": 4,
+      "cioccolato_85": 4,
+      "panna": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1505,7 +2419,10 @@
       "parmigiano": 5,
       "fragola": 5,
       "mela": 5,
-      "pera": 5
+      "pera": 5,
+      "parmigiano_12_19": 5,
+      "parmigiano_20_26": 5,
+      "parmigiano_27_34": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1525,7 +2442,10 @@
     "pairing": {
       "pomodoro": 5,
       "melanzana": 5,
-      "olive": 5
+      "olive": 5,
+      "pomodoro_sanmarzano": 5,
+      "pomodoro_datterino": 5,
+      "pomodoro_pachino": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -1547,7 +2467,12 @@
       "pomodoro": 5,
       "cappero": 5,
       "limone": 5,
-      "burro": 4
+      "burro": 4,
+      "pomodoro_sanmarzano": 5,
+      "pomodoro_datterino": 5,
+      "pomodoro_pachino": 5,
+      "bietola": 4,
+      "burrata": 3
     },
     "tipo_record": "base",
     "parent": null,
@@ -1568,7 +2493,15 @@
       "pomodoro": 5,
       "cioccolato": 5,
       "aglio": 5,
-      "olio": 5
+      "olio": 5,
+      "melanzana": 4,
+      "coriandolo": 5,
+      "pomodoro_sanmarzano": 4,
+      "pomodoro_datterino": 4,
+      "pomodoro_pachino": 4,
+      "melanzana_tonda": 4,
+      "mango": 4,
+      "ananas": 3
     },
     "tipo_record": "base",
     "parent": null,
@@ -1589,7 +2522,16 @@
     "pairing": {
       "limone": 5,
       "pomodoro": 4,
-      "miele": 5
+      "miele": 5,
+      "melanzana": 5,
+      "zucchina": 4,
+      "melanzana_tonda": 5,
+      "zucchina_romanesca": 4,
+      "panna": 5,
+      "spinacio": 5,
+      "bietola": 4,
+      "erba_cipollina": 4,
+      "noce_moscata": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1609,7 +2551,11 @@
     "pairing": {
       "carota": 4,
       "agnello": 5,
-      "cavolo": 4
+      "cavolo": 4,
+      "agnello_sardo": 5,
+      "coniglio": 5,
+      "capretto": 5,
+      "cavolo_cappuccio": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1630,7 +2576,10 @@
       "carota": 4,
       "zenzero": 5,
       "limone": 5,
-      "peperoncino": 5
+      "peperoncino": 5,
+      "melagrana": 3,
+      "mango": 4,
+      "lime": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1674,7 +2623,12 @@
       "menta": 5,
       "cioccolato": 5,
       "balsamico": 5,
-      "pistacchio": 5
+      "pistacchio": 5,
+      "moscato": 5,
+      "panna": 5,
+      "pepe_rosa": 3,
+      "yogurt": 4,
+      "mascarpone": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1695,7 +2649,11 @@
       "burro": 5,
       "pollo": 5,
       "maiale": 5,
-      "zucca": 5
+      "zucca": 5,
+      "zucca_mantovana": 5,
+      "zucca_delica": 5,
+      "vitello": 4,
+      "faraona": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1736,7 +2694,8 @@
     "pairing": {
       "cumino": 5,
       "rosmarino": 5,
-      "menta": 5
+      "menta": 5,
+      "melagrana": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1757,7 +2716,9 @@
       "olio": 5,
       "aglio": 5,
       "pomodoro": 5,
-      "aceto": 4
+      "aceto": 4,
+      "paprika": 4,
+      "salsiccia": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1779,7 +2740,11 @@
       "timo": 5,
       "salvia": 5,
       "parmigiano": 5,
-      "burro": 5
+      "burro": 5,
+      "noce_moscata": 4,
+      "pancetta": 4,
+      "stracchino": 4,
+      "crescenza": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1801,7 +2766,10 @@
       "parmigiano": 4,
       "noci": 5,
       "aceto": 5,
-      "mela": 4
+      "mela": 4,
+      "speck": 4,
+      "stracchino": 4,
+      "crescenza": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1822,7 +2790,11 @@
       "senape": 5,
       "aceto": 5,
       "mela": 4,
-      "maiale": 5
+      "maiale": 5,
+      "cumino": 4,
+      "melagrana": 3,
+      "speck": 4,
+      "salsiccia": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1844,7 +2816,8 @@
       "formaggio": 5,
       "prosciutto": 5,
       "parmigiano": 4,
-      "noci": 5
+      "noci": 5,
+      "faraona": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1886,7 +2859,12 @@
       "pomodoro": 5,
       "cipolla": 5,
       "rosmarino": 4,
-      "olio": 5
+      "olio": 5,
+      "maggiorana": 3,
+      "alloro": 5,
+      "pancetta": 4,
+      "salsiccia": 4,
+      "guanciale": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -4254,7 +5232,9 @@
       "caramello": 5,
       "vaniglia": 4,
       "mela": 4,
-      "cannella": 4
+      "cannella": 4,
+      "panna": 5,
+      "faraona": 4
     },
     "immagine": "https://images.pexels.com/photos/372882/pexels-photo-372882.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -4279,7 +5259,8 @@
       "caramello": 5,
       "vaniglia": 4,
       "mela": 4,
-      "cannella": 4
+      "cannella": 4,
+      "bietola": 4
     },
     "immagine": "https://images.pexels.com/photos/372882/pexels-photo-372882.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -4445,7 +5426,10 @@
       "menta": 4,
       "zenzero": 4,
       "ricotta": 5,
-      "burro": 5
+      "burro": 5,
+      "dragoncello": 3,
+      "erba_cipollina": 4,
+      "noce_moscata": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -4455,14 +5439,14 @@
     "stagionatura": null
   },
   "_metadata": {
-    "schema_version": "2.0",
+    "schema_version": "2.3",
     "hierarchy": "categoria → famiglia → ingrediente base → varietà/tipologia → stagionatura",
     "selectable_records": true,
     "orphan_pairing_keys": [],
     "versione_schema": "2.2",
     "struttura": "categoria > famiglia > ingrediente > varieta_tipologia > stagionatura",
-    "ultimo_aggiornamento": "2026-10-07",
-    "note": "Database alleggerito con potatura curatoriale: mantenute le varietà gastronomicamente distintive, le principali tipologie di formaggi e le specie ittiche; eliminate varianti ridondanti con pairing identico al parent. Gli ingredienti autonomi non sono più figli artificiali di altre categorie."
+    "ultimo_aggiornamento": "2026-10-13",
+    "note": "Archivio ampliato con ingredienti distintivi, sinonimi di ricerca e relazioni di pairing reciproche dove mancanti. I punteggi sono ipotesi curate e richiedono verifica sensoriale; non sono misure scientifiche."
   },
   "_pairing_types": {
     "affinita": {
@@ -4481,5 +5465,1136 @@
       "nome": "Complementarità",
       "descrizione": "Ingredienti diversi che si completano nel piatto."
     }
+  },
+  "mirtillo": {
+    "nome": "Mirtillo",
+    "categoria": "Frutta",
+    "famiglia": "Bacche",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "bosco"
+    ],
+    "pairing": {
+      "limone": 4,
+      "vaniglia": 4,
+      "cioccolato": 5,
+      "capriolo": 4,
+      "rosmarino": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "mirtilli"
+    ]
+  },
+  "mora": {
+    "nome": "Mora",
+    "categoria": "Frutta",
+    "famiglia": "Bacche",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "bosco"
+    ],
+    "pairing": {
+      "cioccolato": 4,
+      "limone": 4,
+      "anatra": 4,
+      "maiale": 3,
+      "timo": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "more"
+    ]
+  },
+  "ribes": {
+    "nome": "Ribes",
+    "categoria": "Frutta",
+    "famiglia": "Bacche",
+    "profilo": [
+      "acido",
+      "fruttato",
+      "fresco",
+      "bosco"
+    ],
+    "pairing": {
+      "anatra": 4,
+      "maiale": 3,
+      "cioccolato": 3,
+      "menta": 3,
+      "limone": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "ribes rosso",
+      "ribes nero"
+    ]
+  },
+  "melagrana": {
+    "nome": "Melagrana",
+    "categoria": "Frutta",
+    "famiglia": "Frutti",
+    "profilo": [
+      "acido",
+      "dolce",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "agnello": 4,
+      "menta": 4,
+      "limone": 3,
+      "coriandolo": 3,
+      "cavolo": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "melograno",
+      "chicchi di melagrana"
+    ]
+  },
+  "mango": {
+    "nome": "Mango",
+    "categoria": "Frutta",
+    "famiglia": "Frutti tropicali",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "floreale"
+    ],
+    "pairing": {
+      "lime": 5,
+      "zenzero": 4,
+      "peperoncino": 4,
+      "coriandolo": 4,
+      "anatra": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "mango maturo"
+    ]
+  },
+  "ananas": {
+    "nome": "Ananas",
+    "categoria": "Frutta",
+    "famiglia": "Frutti tropicali",
+    "profilo": [
+      "dolce",
+      "acido",
+      "fruttato",
+      "fresco"
+    ],
+    "pairing": {
+      "lime": 4,
+      "zenzero": 4,
+      "peperoncino": 3,
+      "menta": 4,
+      "maiale": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "pineapple"
+    ]
+  },
+  "kiwi": {
+    "nome": "Kiwi",
+    "categoria": "Frutta",
+    "famiglia": "Frutti",
+    "profilo": [
+      "acido",
+      "fresco",
+      "fruttato"
+    ],
+    "pairing": {
+      "limone": 3,
+      "menta": 4,
+      "mela": 3,
+      "zenzero": 3,
+      "yogurt": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": []
+  },
+  "lime": {
+    "nome": "Lime",
+    "categoria": "Agrumi",
+    "famiglia": "Agrumi",
+    "profilo": [
+      "acido",
+      "fresco",
+      "agrumato"
+    ],
+    "pairing": {
+      "mango": 5,
+      "coriandolo": 4,
+      "zenzero": 4,
+      "menta": 4,
+      "pesce": 4,
+      "ananas": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "limetta"
+    ]
+  },
+  "scalogno": {
+    "nome": "Scalogno",
+    "categoria": "Verdure",
+    "famiglia": "Alliacee",
+    "profilo": [
+      "dolce",
+      "vegetale",
+      "solforato"
+    ],
+    "pairing": {
+      "manzo": 4,
+      "burro": 4,
+      "aceto": 4,
+      "timo": 4,
+      "vino": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "scalogni"
+    ]
+  },
+  "porro": {
+    "nome": "Porro",
+    "categoria": "Verdure",
+    "famiglia": "Alliacee",
+    "profilo": [
+      "dolce",
+      "vegetale",
+      "delicato"
+    ],
+    "pairing": {
+      "patata": 5,
+      "burro": 5,
+      "timo": 4,
+      "parmigiano": 4,
+      "noce_moscata": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "porri"
+    ]
+  },
+  "barbabietola": {
+    "nome": "Barbabietola",
+    "categoria": "Verdure",
+    "famiglia": "Radici",
+    "profilo": [
+      "terroso",
+      "dolce",
+      "vegetale"
+    ],
+    "pairing": {
+      "caprino": 5,
+      "aceto": 4,
+      "arancia": 4,
+      "nocciola": 4,
+      "aneto": 3,
+      "robiola_tre_latti": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "barbabietola rossa"
+    ]
+  },
+  "rapa": {
+    "nome": "Rapa",
+    "categoria": "Verdure",
+    "famiglia": "Radici",
+    "profilo": [
+      "vegetale",
+      "terroso",
+      "pungente"
+    ],
+    "pairing": {
+      "burro": 4,
+      "senape": 4,
+      "maiale": 3,
+      "timo": 3,
+      "aceto": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "rape"
+    ]
+  },
+  "topinambur": {
+    "nome": "Topinambur",
+    "categoria": "Tuberi",
+    "famiglia": "Tuberi",
+    "profilo": [
+      "dolce",
+      "terroso",
+      "nocciolato"
+    ],
+    "pairing": {
+      "nocciola": 5,
+      "burro": 4,
+      "parmigiano": 4,
+      "timo": 4,
+      "limone": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "carciofo di Gerusalemme"
+    ]
+  },
+  "sedano_rapa": {
+    "nome": "Sedano rapa",
+    "categoria": "Verdure",
+    "famiglia": "Radici",
+    "profilo": [
+      "vegetale",
+      "terroso",
+      "fresco"
+    ],
+    "pairing": {
+      "mela": 4,
+      "senape": 4,
+      "nocciola": 4,
+      "limone": 4,
+      "manzo": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "sedano-rappa",
+      "radice di sedano"
+    ]
+  },
+  "spinacio": {
+    "nome": "Spinacio",
+    "categoria": "Verdure",
+    "famiglia": "Foglie",
+    "profilo": [
+      "vegetale",
+      "verde",
+      "minerale"
+    ],
+    "pairing": {
+      "ricotta": 5,
+      "noce_moscata": 4,
+      "limone": 4,
+      "aglio": 4,
+      "uovo": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "spinaci"
+    ]
+  },
+  "bietola": {
+    "nome": "Bietola",
+    "categoria": "Verdure",
+    "famiglia": "Foglie",
+    "profilo": [
+      "vegetale",
+      "terroso",
+      "verde"
+    ],
+    "pairing": {
+      "aglio": 4,
+      "limone": 4,
+      "acciuga": 4,
+      "ricotta": 4,
+      "pinolo": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "bietole",
+      "coste"
+    ]
+  },
+  "cavolo_cappuccio": {
+    "nome": "Cavolo cappuccio",
+    "categoria": "Verdure",
+    "famiglia": "Brassicacee",
+    "profilo": [
+      "vegetale",
+      "dolce",
+      "solforato"
+    ],
+    "pairing": {
+      "maiale": 4,
+      "aceto": 4,
+      "mela": 4,
+      "cumino": 4,
+      "senape": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "cavolo bianco"
+    ]
+  },
+  "cavoletti_bruxelles": {
+    "nome": "Cavoletti di Bruxelles",
+    "categoria": "Verdure",
+    "famiglia": "Brassicacee",
+    "profilo": [
+      "vegetale",
+      "amaro",
+      "solforato"
+    ],
+    "pairing": {
+      "pancetta": 5,
+      "nocciola": 4,
+      "burro": 4,
+      "limone": 3,
+      "parmigiano": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "cavolini di Bruxelles"
+    ]
+  },
+  "asparago_bianco": {
+    "nome": "Asparago bianco",
+    "categoria": "Verdure",
+    "famiglia": "Germogli",
+    "profilo": [
+      "vegetale",
+      "dolce",
+      "minerale"
+    ],
+    "pairing": {
+      "burro": 5,
+      "uovo": 5,
+      "parmigiano": 4,
+      "limone": 4,
+      "prosciutto": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "asparagi bianchi"
+    ]
+  },
+  "dragoncello": {
+    "nome": "Dragoncello",
+    "categoria": "Erbe",
+    "famiglia": "Erbe aromatiche",
+    "profilo": [
+      "anisato",
+      "erbaceo",
+      "fresco"
+    ],
+    "pairing": {
+      "pollo": 5,
+      "uovo": 4,
+      "senape": 4,
+      "aceto": 4,
+      "panna": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "estragone"
+    ]
+  },
+  "maggiorana": {
+    "nome": "Maggiorana",
+    "categoria": "Erbe",
+    "famiglia": "Erbe aromatiche",
+    "profilo": [
+      "erbaceo",
+      "floreale",
+      "dolce"
+    ],
+    "pairing": {
+      "pomodoro": 4,
+      "maiale": 4,
+      "funghi": 4,
+      "zucchina": 4,
+      "fagiolo": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": []
+  },
+  "erba_cipollina": {
+    "nome": "Erba cipollina",
+    "categoria": "Erbe",
+    "famiglia": "Alliacee",
+    "profilo": [
+      "erbaceo",
+      "fresco",
+      "solforato"
+    ],
+    "pairing": {
+      "ricotta": 4,
+      "uovo": 5,
+      "patata": 4,
+      "salmone": 4,
+      "panna": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "cipollina"
+    ]
+  },
+  "alloro": {
+    "nome": "Alloro",
+    "categoria": "Erbe",
+    "famiglia": "Erbe aromatiche",
+    "profilo": [
+      "balsamico",
+      "erbaceo",
+      "speziato"
+    ],
+    "pairing": {
+      "fagiolo": 5,
+      "manzo": 4,
+      "maiale": 4,
+      "pomodoro": 3,
+      "patata": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "foglia di alloro"
+    ]
+  },
+  "cardamomo": {
+    "nome": "Cardamomo",
+    "categoria": "Spezie",
+    "famiglia": "Spezie",
+    "profilo": [
+      "agrumato",
+      "floreale",
+      "speziato"
+    ],
+    "pairing": {
+      "pera": 4,
+      "mela": 4,
+      "caffe": 4,
+      "cioccolato": 4,
+      "carota": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "semi di cardamomo"
+    ]
+  },
+  "noce_moscata": {
+    "nome": "Noce moscata",
+    "categoria": "Spezie",
+    "famiglia": "Spezie",
+    "profilo": [
+      "caldo",
+      "dolce",
+      "speziato"
+    ],
+    "pairing": {
+      "patata": 5,
+      "panna": 4,
+      "spinacio": 4,
+      "ricotta": 4,
+      "zucca": 4,
+      "porro": 4,
+      "gruyere": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "noce moscata grattugiata"
+    ]
+  },
+  "paprika": {
+    "nome": "Paprika",
+    "categoria": "Spezie",
+    "famiglia": "Spezie",
+    "profilo": [
+      "affumicato",
+      "dolce",
+      "speziato"
+    ],
+    "pairing": {
+      "pollo": 4,
+      "maiale": 4,
+      "patata": 4,
+      "pomodoro": 4,
+      "peperone": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "paprica"
+    ]
+  },
+  "pepe_rosa": {
+    "nome": "Pepe rosa",
+    "categoria": "Spezie",
+    "famiglia": "Spezie",
+    "profilo": [
+      "floreale",
+      "fruttato",
+      "speziato"
+    ],
+    "pairing": {
+      "anatra": 4,
+      "pesce": 4,
+      "fragola": 3,
+      "formaggio": 3,
+      "agrumi": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "bacche di pepe rosa"
+    ]
+  },
+  "pancetta": {
+    "nome": "Pancetta",
+    "categoria": "Carni",
+    "famiglia": "Salumi",
+    "profilo": [
+      "grasso",
+      "sapido",
+      "affumicato"
+    ],
+    "pairing": {
+      "cavoletti_bruxelles": 5,
+      "fagiolo": 4,
+      "uovo": 4,
+      "patata": 4,
+      "zucca": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "pancetta tesa"
+    ]
+  },
+  "speck": {
+    "nome": "Speck",
+    "categoria": "Carni",
+    "famiglia": "Salumi",
+    "profilo": [
+      "affumicato",
+      "sapido",
+      "grasso"
+    ],
+    "pairing": {
+      "patata": 4,
+      "radicchio": 4,
+      "formaggio": 4,
+      "mela": 3,
+      "cavolo": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "speck altoatesino"
+    ]
+  },
+  "salsiccia": {
+    "nome": "Salsiccia",
+    "categoria": "Carni",
+    "famiglia": "Salumi freschi",
+    "profilo": [
+      "grasso",
+      "sapido",
+      "speziato"
+    ],
+    "pairing": {
+      "fagiolo": 4,
+      "polenta": 4,
+      "patata": 4,
+      "peperone": 4,
+      "cavolo": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "salsicce"
+    ]
+  },
+  "guanciale": {
+    "nome": "Guanciale",
+    "categoria": "Carni",
+    "famiglia": "Salumi",
+    "profilo": [
+      "grasso",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "uovo": 5,
+      "pecorino": 5,
+      "pepe": 5,
+      "fagiolo": 4,
+      "patata": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "guanciale di maiale"
+    ]
+  },
+  "vitello": {
+    "nome": "Vitello",
+    "categoria": "Carne",
+    "famiglia": "Carni",
+    "profilo": [
+      "delicato",
+      "umami",
+      "dolce"
+    ],
+    "pairing": {
+      "tonno": 4,
+      "limone": 4,
+      "salvia": 4,
+      "burro": 4,
+      "funghi": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "carne di vitello"
+    ]
+  },
+  "faraona": {
+    "nome": "Faraona",
+    "categoria": "Carne",
+    "famiglia": "Pollame",
+    "profilo": [
+      "selvatico",
+      "delicato",
+      "umami"
+    ],
+    "pairing": {
+      "uva": 4,
+      "castagna": 4,
+      "timo": 4,
+      "salvia": 4,
+      "funghi": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "faraona intera"
+    ]
+  },
+  "yogurt": {
+    "nome": "Yogurt",
+    "categoria": "Latticini",
+    "famiglia": "Latticini fermentati",
+    "profilo": [
+      "acido",
+      "cremoso",
+      "fresco"
+    ],
+    "pairing": {
+      "miele": 5,
+      "limone": 4,
+      "menta": 4,
+      "cetriolo": 4,
+      "fragola": 4,
+      "kiwi": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "yogurt bianco"
+    ]
+  },
+  "mascarpone": {
+    "nome": "Mascarpone",
+    "categoria": "Latticini",
+    "famiglia": "Formaggi freschi",
+    "profilo": [
+      "grasso",
+      "cremoso",
+      "dolce"
+    ],
+    "pairing": {
+      "caffe": 5,
+      "cioccolato": 5,
+      "pera": 4,
+      "limone": 3,
+      "fragola": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "mascarpone fresco"
+    ]
+  },
+  "caprino": {
+    "nome": "Caprino",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi freschi",
+    "profilo": [
+      "acido",
+      "lattico",
+      "caprino"
+    ],
+    "pairing": {
+      "barbabietola": 5,
+      "miele": 4,
+      "noce": 4,
+      "timo": 4,
+      "pera": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "formaggio caprino"
+    ]
+  },
+  "burrata": {
+    "nome": "Burrata",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi freschi",
+    "profilo": [
+      "lattico",
+      "cremoso",
+      "grasso"
+    ],
+    "pairing": {
+      "pomodoro": 5,
+      "basilico": 4,
+      "pesca": 4,
+      "acciuga": 3,
+      "limone": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "burrata pugliese"
+    ]
+  },
+  "stracchino": {
+    "nome": "Stracchino",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi freschi",
+    "profilo": [
+      "lattico",
+      "acido",
+      "cremoso"
+    ],
+    "pairing": {
+      "pera": 4,
+      "radicchio": 4,
+      "miele": 4,
+      "noci": 4,
+      "zucca": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "crescenza",
+      "stracchino fresco"
+    ]
+  },
+  "crescenza": {
+    "nome": "Crescenza",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi freschi",
+    "profilo": [
+      "lattico",
+      "acido",
+      "cremoso"
+    ],
+    "pairing": {
+      "pera": 4,
+      "radicchio": 4,
+      "miele": 4,
+      "noci": 4,
+      "zucca": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "certosa"
+    ]
+  },
+  "robiola_tre_latti": {
+    "nome": "Robiola tre latti",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi freschi",
+    "profilo": [
+      "lattico",
+      "acido",
+      "cremoso"
+    ],
+    "pairing": {
+      "miele": 4,
+      "nocciola": 4,
+      "timo": 4,
+      "pera": 4,
+      "barbabietola": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "robiola vaccina"
+    ]
+  },
+  "gouda_stagionato": {
+    "nome": "Gouda stagionato",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi stagionati",
+    "profilo": [
+      "umami",
+      "nocciolato",
+      "caramellato"
+    ],
+    "pairing": {
+      "mela": 4,
+      "senape": 4,
+      "birra": 4,
+      "pera": 4,
+      "nocciola": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "gouda vecchio"
+    ]
+  },
+  "gruyere": {
+    "nome": "Gruyère",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi stagionati",
+    "profilo": [
+      "umami",
+      "nocciolato",
+      "lattico"
+    ],
+    "pairing": {
+      "cipolla": 4,
+      "patata": 4,
+      "vino": 4,
+      "noce_moscata": 4,
+      "funghi": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "gruyere"
+    ]
+  },
+  "blue_cheese": {
+    "nome": "Formaggio erborinato",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi erborinati",
+    "profilo": [
+      "piccante",
+      "salato",
+      "umami"
+    ],
+    "pairing": {
+      "pera": 5,
+      "miele": 5,
+      "noce": 5,
+      "sedano": 4,
+      "cioccolato": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "blue cheese",
+      "formaggio blu"
+    ]
   }
 }
