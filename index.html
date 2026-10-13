@@ -397,6 +397,17 @@ input[type=file]{
   color: #25231f !important;
 }
 
+
+/* Suggerimenti ingredienti: selezione evidente e comoda su touch */
+.suggest .suggest-option{display:flex;align-items:center;gap:10px;min-height:54px;padding:8px 11px;cursor:pointer;background:#fff;color:#25231f;border-bottom:1px solid #eee9e1;}
+.suggest .suggest-option:last-child{border-bottom:0}
+.suggest .suggest-option.active,.suggest .suggest-option:hover{background:#f2e7dc;color:#25231f;}
+.suggest .suggest-copy{display:flex;flex-direction:column;gap:3px;min-width:0;}
+.suggest .suggest-copy b{font-size:14px;line-height:1.2;color:#25231f;}
+.suggest .suggest-copy small{font-size:11px;line-height:1.25;color:#716c64;}
+.suggest .suggest-visual{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border-radius:9px;overflow:hidden;background:#f4eee6;}
+.suggest .suggest-visual img{width:100%;height:100%;object-fit:cover;}
+
 </style>
 </head>
 <body>
@@ -724,11 +735,69 @@ async function load(){
   status.textContent="ERRORE database: "+reason;
   return false;
 }
-function autocomplete(inputId,boxId){const inp=$(inputId),box=$(boxId);inp.addEventListener("input",()=>{const q=norm(inp.value);box.innerHTML="";if(!q){box.style.display="none";return}const arr=Object.keys(db).map(k=>({k,n:nome(k),d:db[k]})).filter(x=>norm(x.n).includes(q)||norm(x.k).includes(q)).sort((a,b)=>a.n.localeCompare(b.n,"it")).slice(0,15);for(const x of arr){const d=document.createElement("div");d.innerHTML='<div class="suggest-visual">'+(x.d?.immagine?'<img src="'+esc(x.d.immagine)+'" alt="" loading="lazy">':'<span class="ingredient-emoji">'+(ingredientEmoji[x.k]||"✦")+'</span>')+'</div><div><b>'+esc(x.n)+'</b><br><small>'+esc(Array.isArray(x.d?.profilo)?x.d.profilo.join(", "):"")+'</small></div>';d.onclick=e=>{
-  e.stopPropagation();
-  inp.value=x.n;
-  box.style.display="none";
-};box.appendChild(d)}box.style.display=box.children.length?"block":"none"})}
+function autocomplete(inputId,boxId){
+  const inp=$(inputId),box=$(boxId);
+  let active=-1,items=[];
+  function render(){
+    const q=norm(inp.value).trim();
+    box.innerHTML="";
+    active=-1;items=[];
+    if(!q){box.style.display="none";return}
+    const tokens=q.split(/\s+/).filter(Boolean);
+    items=Object.keys(db).map(k=>{
+      const d=db[k]||{},n=nome(k),aliases=Array.isArray(d.sinonimi)?d.sinonimi:[];
+      const fields=[n,k.replace(/_/g," "),...aliases].map(x=>norm(x));
+      const rank=fields.some(x=>x===q)?0:fields.some(x=>x.startsWith(q))?1:fields.some(x=>tokens.every(t=>x.includes(t)))?2:fields.some(x=>x.includes(q))?3:99;
+      return {k,n,d,rank};
+    }).filter(x=>x.rank<99)
+     .sort((a,b)=>a.rank-b.rank||a.n.localeCompare(b.n,"it"))
+     .slice(0,10);
+    items.forEach((x,i)=>{
+      const option=document.createElement("div");
+      option.className="suggest-option";
+      option.setAttribute("role","option");
+      option.setAttribute("aria-selected","false");
+      const visual=x.d?.immagine
+        ? '<img src="'+esc(x.d.immagine)+'" alt="" loading="lazy">'
+        : '<span class="ingredient-emoji">'+(ingredientEmoji[x.k]||"✦")+'</span>';
+      const kind=x.d?.tipo_record==="preparazione"?"Preparazione":(x.d?.categoria||"Ingrediente");
+      const profile=Array.isArray(x.d?.profilo)?x.d.profilo.slice(0,4).join(" · "):"";
+      option.innerHTML='<span class="suggest-visual">'+visual+'</span><span class="suggest-copy"><b>'+esc(x.n)+'</b><small>'+esc(kind)+(profile?" · "+esc(profile):"")+'</small></span>';
+      option.addEventListener("mousedown",e=>e.preventDefault());
+      option.addEventListener("click",e=>{e.stopPropagation();choose(i)});
+      box.appendChild(option);
+    });
+    box.style.display=items.length?"block":"none";
+  }
+  function choose(i){
+    if(!items[i])return;
+    inp.value=items[i].n;
+    box.style.display="none";active=-1;
+    inp.dispatchEvent(new Event("change",{bubbles:true}));
+  }
+  function highlight(i){
+    if(!items.length)return;
+    active=(i+items.length)%items.length;
+    [...box.children].forEach((el,j)=>{
+      el.classList.toggle("active",j===active);
+      el.setAttribute("aria-selected",j===active?"true":"false");
+    });
+    box.children[active]?.scrollIntoView({block:"nearest"});
+  }
+  inp.setAttribute("autocomplete","off");
+  inp.setAttribute("aria-autocomplete","list");
+  inp.setAttribute("aria-expanded","false");
+  inp.addEventListener("input",()=>{render();inp.setAttribute("aria-expanded",box.style.display==="block"?"true":"false")});
+  inp.addEventListener("focus",()=>{if(inp.value.trim()){render();inp.setAttribute("aria-expanded",box.style.display==="block"?"true":"false")}});
+  inp.addEventListener("keydown",e=>{
+    if(box.style.display!=="block"&&(e.key==="ArrowDown")&&inp.value.trim()){render();}
+    if(box.style.display!=="block")return;
+    if(e.key==="ArrowDown"){e.preventDefault();highlight(active+1);}
+    else if(e.key==="ArrowUp"){e.preventDefault();highlight(active<0?items.length-1:active-1);}
+    else if(e.key==="Enter"&&items.length){e.preventDefault();choose(active<0?0:active);}
+    else if(e.key==="Escape"){box.style.display="none";inp.setAttribute("aria-expanded","false");active=-1;}
+  });
+}
 function discover(){
   const f=find($("scopriIngrediente").value),box=$("risultatiScopri");
   box.innerHTML="";
