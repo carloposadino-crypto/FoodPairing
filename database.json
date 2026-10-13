@@ -6173,7 +6173,11 @@
       "umami"
     ],
     "pairing": {
-      "tonno_sottolio": 4
+      "tonno_sottolio": 5,
+      "limone": 4,
+      "cappero": 4,
+      "prezzemolo": 3,
+      "sedano": 3
     },
     "tipo_record": "varieta_tipologia",
     "parent": "vitello",
@@ -6196,7 +6200,15 @@
       "delicato"
     ],
     "pairing": {
-      "acciuga": 3
+      "acciuga": 3,
+      "sale": 5,
+      "olio": 4,
+      "pepe": 4,
+      "uovo": 3,
+      "cappero": 3,
+      "scalogno": 4,
+      "erba_cipollina": 4,
+      "grana_padano": 3
     },
     "tipo_record": "preparazione",
     "parent": "fassona_piemonte",
@@ -6218,7 +6230,16 @@
       "ricco"
     ],
     "pairing": {
-      "purea_verdure": 3
+      "purea_verdure": 4,
+      "patata": 4,
+      "sedano": 4,
+      "carota": 4,
+      "cipolla": 4,
+      "alloro": 4,
+      "rosmarino": 4,
+      "mela": 3,
+      "polenta": 4,
+      "fondo_bruno": 5
     },
     "tipo_record": "varieta_tipologia",
     "parent": "maiale",
@@ -6238,7 +6259,17 @@
       "ricco",
       "grasso"
     ],
-    "pairing": {},
+    "pairing": {
+      "fondo_bruno": 5,
+      "carota": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "alloro": 4,
+      "rosmarino": 3,
+      "patata": 4,
+      "polenta": 4,
+      "funghi": 4
+    },
     "tipo_record": "varieta_tipologia",
     "parent": "manzo",
     "tipologia": "taglio",
@@ -6254,7 +6285,16 @@
       "magro",
       "umami"
     ],
-    "pairing": {},
+    "pairing": {
+      "limone": 4,
+      "burro": 3,
+      "salvia": 4,
+      "rosmarino": 3,
+      "carota": 3,
+      "sedano": 3,
+      "cappero": 3,
+      "vino": 3
+    },
     "tipo_record": "varieta_tipologia",
     "parent": "vitello",
     "tipologia": "taglio",
@@ -6270,7 +6310,16 @@
       "magro",
       "umami"
     ],
-    "pairing": {},
+    "pairing": {
+      "limone": 4,
+      "burro": 3,
+      "salvia": 4,
+      "rosmarino": 3,
+      "carota": 3,
+      "sedano": 3,
+      "cappero": 3,
+      "vino": 3
+    },
     "tipo_record": "varieta_tipologia",
     "parent": "vitello",
     "tipologia": "taglio",
@@ -6286,7 +6335,17 @@
       "ricco",
       "collaginoso"
     ],
-    "pairing": {},
+    "pairing": {
+      "fondo_bruno": 5,
+      "carota": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "alloro": 4,
+      "patata": 4,
+      "polenta": 4,
+      "funghi": 4,
+      "timo": 4
+    },
     "tipo_record": "varieta_tipologia",
     "parent": "vitello",
     "tipologia": "taglio",
@@ -6302,7 +6361,17 @@
       "ricco",
       "collaginoso"
     ],
-    "pairing": {},
+    "pairing": {
+      "fondo_bruno": 5,
+      "carota": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "alloro": 4,
+      "patata": 4,
+      "polenta": 4,
+      "funghi": 4,
+      "pepe": 3
+    },
     "tipo_record": "varieta_tipologia",
     "parent": "manzo",
     "tipologia": "taglio",
@@ -6321,7 +6390,16 @@
       "umami",
       "ricco"
     ],
-    "pairing": {},
+    "pairing": {
+      "fondo_bruno": 4,
+      "carota": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "alloro": 4,
+      "patata": 4,
+      "polenta": 4,
+      "pepe": 3
+    },
     "tipo_record": "varieta_tipologia",
     "parent": "manzo",
     "tipologia": "taglio",
@@ -6337,7 +6415,14 @@
       "ricco",
       "sapido"
     ],
-    "pairing": {},
+    "pairing": {
+      "prezzemolo": 4,
+      "cappero": 4,
+      "acciuga": 4,
+      "aceto": 4,
+      "senape": 3,
+      "patata": 3
+    },
     "tipo_record": "varieta_tipologia",
     "parent": "manzo",
     "tipologia": "taglio",
@@ -6353,7 +6438,17 @@
       "ricco",
       "collaginoso"
     ],
-    "pairing": {},
+    "pairing": {
+      "fondo_bruno": 5,
+      "carota": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "alloro": 4,
+      "pepe": 4,
+      "polenta": 4,
+      "patata": 4,
+      "vino": 4
+    },
     "tipo_record": "varieta_tipologia",
     "parent": "manzo",
     "tipologia": "taglio",
@@ -6656,7 +6751,14 @@
       "nocciolato"
     ],
     "pairing": {
-      "prezzemolo": 4
+      "prezzemolo": 4,
+      "burro_nocciola": 4,
+      "burro": 4,
+      "aglio": 3,
+      "polenta": 4,
+      "patata": 4,
+      "timo": 4,
+      "riso": 3
     },
     "tipo_record": "varieta_tipologia",
     "parent": "funghi",
@@ -6677,7 +6779,12 @@
       "concentrato"
     ],
     "pairing": {
-      "riso": 4
+      "riso": 4,
+      "fondo_bruno": 4,
+      "burro": 4,
+      "prezzemolo": 4,
+      "polenta": 4,
+      "manzo": 3
     },
     "tipo_record": "varieta_tipologia",
     "parent": "funghi",
@@ -6698,7 +6805,13 @@
       "pepato"
     ],
     "pairing": {
-      "burro": 4
+      "burro": 4,
+      "burro_nocciola": 4,
+      "prezzemolo": 4,
+      "timo": 4,
+      "polenta": 4,
+      "patata": 4,
+      "uovo": 3
     },
     "tipo_record": "varieta_tipologia",
     "parent": "funghi",
@@ -6720,7 +6833,16 @@
       "sapido"
     ],
     "pairing": {
-      "manzo": 5
+      "manzo": 5,
+      "vitello": 4,
+      "guancia_maiale": 5,
+      "guancia_vitello": 5,
+      "carota": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "alloro": 4,
+      "vino": 4,
+      "porcino_secco": 4
     },
     "tipo_record": "preparazione",
     "parent": "manzo",
@@ -6738,7 +6860,14 @@
       "sapido"
     ],
     "pairing": {
-      "sedano": 5
+      "sedano": 5,
+      "sedano_rapa": 4,
+      "vitello": 3,
+      "girello_vitello": 3,
+      "battuta_fassona": 3,
+      "limone": 4,
+      "olio": 4,
+      "acciuga": 3
     },
     "tipo_record": "preparazione",
     "parent": "sedano",
@@ -6756,7 +6885,14 @@
       "aromatico"
     ],
     "pairing": {
-      "rosmarino": 4
+      "rosmarino": 4,
+      "timo": 4,
+      "salvia": 4,
+      "aglio": 4,
+      "patata": 4,
+      "carne": 3,
+      "manzo": 3,
+      "maiale": 3
     },
     "tipo_record": "preparazione",
     "parent": "olio",
@@ -6774,7 +6910,12 @@
       "nocciolato"
     ],
     "pairing": {
-      "nocciola": 4
+      "nocciola": 4,
+      "burro": 5,
+      "patata": 4,
+      "porcino_fresco": 4,
+      "finferlo": 4,
+      "salvia": 4
     },
     "tipo_record": "preparazione",
     "parent": "burro",
@@ -6792,7 +6933,14 @@
       "cremoso"
     ],
     "pairing": {
-      "acciuga": 4
+      "acciuga": 4,
+      "tonno_sottolio": 5,
+      "limone": 5,
+      "cappero": 4,
+      "prezzemolo": 4,
+      "vitello": 4,
+      "girello_vitello": 4,
+      "patata": 3
     },
     "tipo_record": "preparazione",
     "parent": null,
@@ -6812,7 +6960,17 @@
       "cremoso",
       "delicato"
     ],
-    "pairing": {},
+    "pairing": {
+      "guancia_maiale": 4,
+      "guancia_vitello": 4,
+      "manzo": 3,
+      "vitello": 3,
+      "patata": 4,
+      "sedano_rapa": 4,
+      "carota": 4,
+      "zucca": 4,
+      "porcino_fresco": 3
+    },
     "tipo_record": "preparazione",
     "parent": null,
     "tipologia": "purea",
@@ -6828,7 +6986,17 @@
       "ricco",
       "grasso"
     ],
-    "pairing": {},
+    "pairing": {
+      "fondo_bruno": 5,
+      "carota": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "alloro": 4,
+      "pepe": 4,
+      "patata": 4,
+      "polenta": 4,
+      "vino": 3
+    },
     "tipo_record": "varieta_tipologia",
     "parent": "manzo",
     "tipologia": "taglio",
@@ -6847,7 +7015,17 @@
       "ricco",
       "collaginoso"
     ],
-    "pairing": {},
+    "pairing": {
+      "fondo_bruno": 5,
+      "carota": 4,
+      "sedano": 4,
+      "cipolla": 4,
+      "alloro": 4,
+      "rosmarino": 3,
+      "patata": 4,
+      "polenta": 4,
+      "funghi": 4
+    },
     "tipo_record": "varieta_tipologia",
     "parent": "manzo",
     "tipologia": "taglio",
