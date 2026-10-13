@@ -1802,7 +1802,7 @@
   },
   "prosciutto": {
     "nome": "Prosciutto crudo",
-    "categoria": "Carni",
+    "categoria": "Carne",
     "famiglia": "Salumi",
     "profilo": [
       "sapido",
@@ -4826,7 +4826,7 @@
   },
   "panna": {
     "nome": "Panna",
-    "categoria": "latticini",
+    "categoria": "Latticini",
     "famiglia": "panna e creme",
     "profilo": [
       "grasso",
@@ -5531,7 +5531,7 @@
   },
   "pancetta": {
     "nome": "Pancetta",
-    "categoria": "Carni",
+    "categoria": "Carne",
     "famiglia": "Salumi",
     "profilo": [
       "grasso",
@@ -5557,7 +5557,7 @@
   },
   "speck": {
     "nome": "Speck",
-    "categoria": "Carni",
+    "categoria": "Carne",
     "famiglia": "Salumi",
     "profilo": [
       "affumicato",
@@ -5583,7 +5583,7 @@
   },
   "salsiccia": {
     "nome": "Salsiccia",
-    "categoria": "Carni",
+    "categoria": "Carne",
     "famiglia": "Salumi freschi",
     "profilo": [
       "grasso",
@@ -5609,7 +5609,7 @@
   },
   "guanciale": {
     "nome": "Guanciale",
-    "categoria": "Carni",
+    "categoria": "Carne",
     "famiglia": "Salumi",
     "profilo": [
       "grasso",
