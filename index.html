@@ -1499,7 +1499,6 @@ function enhanceBuilderRender(){
 }
 
 
-async 
 /* Creative Kitchen Lab: a separate exploratory layer over the existing database. */
 function labProfile(key){
   return Array.isArray(db[key]?.profilo) ? db[key].profilo.map(norm) : [];
@@ -1658,7 +1657,7 @@ function setupCreativeLab(){
   });
 }
 
-function initApp(){
+async function initApp(){
   try{
     setupCreativeLab();
     $("cerca").onclick=e=>{e.preventDefault();search()};
