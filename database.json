@@ -57,7 +57,6 @@
       "pinolo": 4,
       "anacardo": 4,
       "panna": 5,
-      "kiwi": 3,
       "sedano_rapa": 4,
       "cavolo_cappuccio": 4,
       "cardamomo": 4,
@@ -230,7 +229,6 @@
       "agrumato"
     ],
     "pairing": {
-      "pesce": 5,
       "pollo": 5,
       "basilico": 5,
       "timo": 4,
@@ -261,26 +259,6 @@
       "zucchina_romanesca": 5,
       "mandorla_pizzuta": 4,
       "pistacchio_bronte": 5,
-      "pesce_orata": 5,
-      "pesce_spigola": 5,
-      "pesce_sgombro": 5,
-      "pesce_sardina": 5,
-      "pesce_tonno": 5,
-      "pesce_salmone": 5,
-      "pesce_baccala": 5,
-      "pesce_aringa": 5,
-      "pesce_anguilla": 5,
-      "pesce_triglia": 5,
-      "pesce_rombo": 5,
-      "pesce_sanpietro": 5,
-      "pesce_merluzzo": 5,
-      "pesce_pescespada": 5,
-      "pesce_palamita": 5,
-      "crostacei_gambero": 5,
-      "crostacei_scampo": 5,
-      "molluschi_cozza": 5,
-      "molluschi_vongola": 5,
-      "molluschi_calamarо": 5,
       "pesca_perco": 4,
       "melone_cantalupo": 4,
       "lenticchia": 5,
@@ -290,7 +268,6 @@
       "mora": 4,
       "ribes": 4,
       "melagrana": 3,
-      "kiwi": 3,
       "topinambur": 3,
       "sedano_rapa": 4,
       "spinacio": 4,
@@ -302,7 +279,8 @@
       "mascarpone": 3,
       "burrata": 4,
       "pepe_rosa": 4,
-      "aneto": 4
+      "aneto": 4,
+      "tonno_sottolio": 5
     },
     "immagine": "https://images.pexels.com/photos/1414110/pexels-photo-1414110.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -622,7 +600,6 @@
       "manzo": 4,
       "pollo": 4,
       "funghi": 5,
-      "pesce": 4,
       "olive": 5,
       "peperoncino": 5,
       "verdure": 5,
@@ -641,26 +618,6 @@
       "oliva_taggiaca": 5,
       "oliva_coratina": 5,
       "oliva_nocellara": 5,
-      "pesce_orata": 4,
-      "pesce_spigola": 4,
-      "pesce_sgombro": 4,
-      "pesce_sardina": 4,
-      "pesce_tonno": 4,
-      "pesce_salmone": 4,
-      "pesce_baccala": 4,
-      "pesce_aringa": 4,
-      "pesce_anguilla": 4,
-      "pesce_triglia": 4,
-      "pesce_rombo": 4,
-      "pesce_sanpietro": 4,
-      "pesce_merluzzo": 4,
-      "pesce_pescespada": 4,
-      "pesce_palamita": 4,
-      "crostacei_gambero": 4,
-      "crostacei_scampo": 4,
-      "molluschi_cozza": 4,
-      "molluschi_vongola": 4,
-      "molluschi_calamarо": 4,
       "asparago": 5,
       "asparago_albenga": 5,
       "carciofo": 5,
@@ -676,7 +633,8 @@
       "cervo": 4,
       "spinacio": 4,
       "bietola": 4,
-      "cetriolo": 3
+      "cetriolo": 3,
+      "tonno_sottolio": 4
     },
     "immagine": "https://images.pexels.com/photos/4197448/pexels-photo-4197448.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -762,7 +720,6 @@
       "mandarino": 4,
       "mora": 3,
       "ribes": 3,
-      "ananas": 3,
       "rapa": 3,
       "cavolo_cappuccio": 4,
       "maggiorana": 4,
@@ -835,7 +792,6 @@
       "mandarino": 5,
       "mora": 4,
       "ribes": 4,
-      "mango": 3,
       "pepe_rosa": 4
     },
     "immagine": "https://images.pexels.com/photos/162419/duck-bird-animal-waterfowl-162419.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -1173,8 +1129,6 @@
       "panna": 4,
       "ribes": 3,
       "melagrana": 4,
-      "ananas": 4,
-      "kiwi": 4,
       "lime": 4,
       "yogurt": 4,
       "cetriolo": 4
@@ -1220,9 +1174,6 @@
       "bergamotto": 4,
       "cedro": 4,
       "panna": 4,
-      "mango": 4,
-      "ananas": 4,
-      "kiwi": 3,
       "lime": 4
     },
     "immagine": "https://images.pexels.com/photos/161556/background-ginger-ginger-root-161556.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -1562,7 +1513,6 @@
       "basilico": 5,
       "limone": 5,
       "aglio": 5,
-      "pesce": 5,
       "verdure": 5,
       "melanzana": 5,
       "aceto": 5,
@@ -1581,26 +1531,6 @@
       "melanzana_tonda": 5,
       "fagiolo_borlotti": 5,
       "fagiolo_cannellino": 5,
-      "pesce_orata": 5,
-      "pesce_spigola": 5,
-      "pesce_sgombro": 5,
-      "pesce_sardina": 5,
-      "pesce_tonno": 5,
-      "pesce_salmone": 5,
-      "pesce_baccala": 5,
-      "pesce_aringa": 5,
-      "pesce_anguilla": 5,
-      "pesce_triglia": 5,
-      "pesce_rombo": 5,
-      "pesce_sanpietro": 5,
-      "pesce_merluzzo": 5,
-      "pesce_pescespada": 5,
-      "pesce_palamita": 5,
-      "crostacei_gambero": 5,
-      "crostacei_scampo": 5,
-      "molluschi_cozza": 5,
-      "molluschi_vongola": 5,
-      "molluschi_calamarо": 5,
       "asparago": 5,
       "asparago_albenga": 5,
       "carciofo": 5,
@@ -1611,7 +1541,8 @@
       "bergamotto": 5,
       "cedro": 5,
       "lenticchia": 5,
-      "lenticchia_castelluccio": 5
+      "lenticchia_castelluccio": 5,
+      "tonno_sottolio": 5
     },
     "immagine": "https://images.pexels.com/photos/33783/olive-oil-salad-dressing-cooking-33783.jpg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1684,7 +1615,6 @@
       "arancia": 5,
       "limone": 5,
       "maiale": 4,
-      "pesce": 5,
       "arancia_tarocco": 4,
       "arancia_moro": 4,
       "mandarino": 4
@@ -1939,63 +1869,12 @@
     "pairing": {
       "limone": 5,
       "aglio": 5,
-      "pesce": 5,
       "patata": 4,
       "limone_sorrento": 5,
-      "pesce_orata": 5,
-      "pesce_spigola": 5,
-      "pesce_sgombro": 5,
-      "pesce_sardina": 5,
-      "pesce_tonno": 5,
-      "pesce_salmone": 5,
-      "pesce_baccala": 5,
-      "pesce_aringa": 5,
-      "pesce_anguilla": 5,
-      "pesce_triglia": 5,
-      "pesce_rombo": 5,
-      "pesce_sanpietro": 5,
-      "pesce_merluzzo": 5,
-      "pesce_pescespada": 5,
-      "pesce_palamita": 5,
-      "crostacei_gambero": 5,
-      "crostacei_scampo": 5,
-      "molluschi_cozza": 5,
-      "molluschi_vongola": 5,
-      "molluschi_calamarо": 5,
-      "limone_femminello": 5,
-      "bergamotto": 5,
-      "cedro": 5
-    },
-    "tipo_record": "base",
-    "parent": null,
-    "tipologia": "generico",
-    "varieta": "",
-    "stagionatura": null
-  },
-  "pesce": {
-    "nome": "Pesce",
-    "categoria": "Pesce",
-    "famiglia": "Pesce",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4,
-      "finocchio": 5,
-      "cappero": 5,
-      "limone_sorrento": 5,
-      "pomodoro_pachino": 5,
       "limone_femminello": 5,
       "bergamotto": 5,
       "cedro": 5,
-      "lime": 4,
-      "pepe_rosa": 4
+      "tonno_sottolio": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -2222,7 +2101,6 @@
       "pomodoro": 5,
       "limone": 5,
       "olive": 5,
-      "pesce": 5,
       "acciuga": 5,
       "pomodoro_sanmarzano": 5,
       "pomodoro_datterino": 5,
@@ -2518,9 +2396,7 @@
       "pomodoro_sanmarzano": 4,
       "pomodoro_datterino": 4,
       "pomodoro_pachino": 4,
-      "melanzana_tonda": 4,
-      "mango": 4,
-      "ananas": 3
+      "melanzana_tonda": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -2597,7 +2473,6 @@
       "limone": 5,
       "peperoncino": 5,
       "melagrana": 3,
-      "mango": 4,
       "lime": 4
     },
     "tipo_record": "base",
@@ -3146,7 +3021,6 @@
       "agrumato"
     ],
     "pairing": {
-      "pesce": 5,
       "pollo": 5,
       "basilico": 5,
       "timo": 4,
@@ -3241,8 +3115,7 @@
       "parmigiano": 4,
       "peperoncino": 4,
       "olive": 5,
-      "cappero": 5,
-      "pesce": 5
+      "cappero": 5
     },
     "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "varieta_tipologia",
@@ -4331,98 +4204,6 @@
     "varieta": "Sardo",
     "stagionatura": null
   },
-  "pesce_orata": {
-    "nome": "Orata",
-    "categoria": "Pesce",
-    "famiglia": "Pesce",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Orata",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "pesce_spigola": {
-    "nome": "Spigola",
-    "categoria": "Pesce",
-    "famiglia": "Pesce",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Spigola",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "pesce_sgombro": {
-    "nome": "Sgombro",
-    "categoria": "Pesce",
-    "famiglia": "Pesce azzurro",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Sgombro",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "pesce_sardina": {
-    "nome": "Sardina",
-    "categoria": "Pesce",
-    "famiglia": "Pesce azzurro",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Sardina",
-    "tipologia": "",
-    "stagionatura": null
-  },
   "pesce_tonno": {
     "nome": "Tonno",
     "categoria": "Pesce",
@@ -4442,355 +4223,8 @@
     },
     "immagine": "",
     "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
+    "parent": null,
     "varieta": "Tonno",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "pesce_salmone": {
-    "nome": "Salmone",
-    "categoria": "Pesce",
-    "famiglia": "Pesce",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4,
-      "erba_cipollina": 4,
-      "aneto": 5
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Salmone",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "pesce_baccala": {
-    "nome": "Baccalà",
-    "categoria": "Pesce",
-    "famiglia": "Pesce",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Baccalà",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "pesce_aringa": {
-    "nome": "Aringa",
-    "categoria": "Pesce",
-    "famiglia": "Pesce azzurro",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Aringa",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "pesce_anguilla": {
-    "nome": "Anguilla",
-    "categoria": "Pesce",
-    "famiglia": "Pesce",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Anguilla",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "pesce_triglia": {
-    "nome": "Triglia",
-    "categoria": "Pesce",
-    "famiglia": "Pesce",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Triglia",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "pesce_rombo": {
-    "nome": "Rombo",
-    "categoria": "Pesce",
-    "famiglia": "Pesce",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Rombo",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "pesce_sanpietro": {
-    "nome": "San Pietro",
-    "categoria": "Pesce",
-    "famiglia": "Pesce",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "San Pietro",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "pesce_merluzzo": {
-    "nome": "Merluzzo",
-    "categoria": "Pesce",
-    "famiglia": "Pesce",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Merluzzo",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "pesce_pescespada": {
-    "nome": "Pesce spada",
-    "categoria": "Pesce",
-    "famiglia": "Pesce",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Pesce spada",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "pesce_palamita": {
-    "nome": "Palamita",
-    "categoria": "Pesce",
-    "famiglia": "Pesce azzurro",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Palamita",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "crostacei_gambero": {
-    "nome": "Gambero",
-    "categoria": "Pesce",
-    "famiglia": "Crostacei",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Gambero",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "crostacei_scampo": {
-    "nome": "Scampo",
-    "categoria": "Pesce",
-    "famiglia": "Crostacei",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Scampo",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "molluschi_cozza": {
-    "nome": "Cozza",
-    "categoria": "Pesce",
-    "famiglia": "Molluschi",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Cozza",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "molluschi_vongola": {
-    "nome": "Vongola",
-    "categoria": "Pesce",
-    "famiglia": "Molluschi",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Vongola",
-    "tipologia": "",
-    "stagionatura": null
-  },
-  "molluschi_calamarо": {
-    "nome": "Calamaro",
-    "categoria": "Pesce",
-    "famiglia": "Molluschi",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": "pesce",
-    "varieta": "Calamaro",
     "tipologia": "",
     "stagionatura": null
   },
@@ -5008,7 +4442,6 @@
       "agrumato"
     ],
     "pairing": {
-      "pesce": 5,
       "pollo": 5,
       "basilico": 5,
       "timo": 4,
@@ -5062,7 +4495,6 @@
       "agrumato"
     ],
     "pairing": {
-      "pesce": 5,
       "pollo": 5,
       "basilico": 5,
       "timo": 4,
@@ -5089,7 +4521,6 @@
       "agrumato"
     ],
     "pairing": {
-      "pesce": 5,
       "pollo": 5,
       "basilico": 5,
       "timo": 4,
@@ -5464,14 +4895,14 @@
     "stagionatura": null
   },
   "_metadata": {
-    "schema_version": "2.3",
-    "hierarchy": "categoria → famiglia → ingrediente base → varietà/tipologia → stagionatura",
+    "schema_version": "2.4",
+    "hierarchy": "categoria → famiglia → ingrediente base → taglio/tipologia/preparazione → stagionatura",
     "selectable_records": true,
     "orphan_pairing_keys": [],
-    "versione_schema": "2.2",
-    "struttura": "categoria > famiglia > ingrediente > varieta_tipologia > stagionatura",
+    "versione_schema": "2.4",
+    "struttura": "categoria > famiglia > ingrediente base > taglio/tipologia/preparazione > stagionatura",
     "ultimo_aggiornamento": "2026-10-13",
-    "note": "Archivio ampliato con ingredienti distintivi, sinonimi di ricerca e relazioni reciproche dove mancanti. I punteggi aggiunti sono ipotesi curate e richiedono verifica sensoriale; non sono misure scientifiche."
+    "note": "Archivio riorganizzato per cucina italiana contemporanea con focus piemontese. Le relazioni aggiunte sono ipotesi culinarie da verificare sensorialmente, non misure scientifiche."
   },
   "_pairing_types": {
     "affinita": {
@@ -5601,84 +5032,6 @@
       "chicchi di melagrana"
     ]
   },
-  "mango": {
-    "nome": "Mango",
-    "categoria": "Frutta",
-    "famiglia": "Frutti tropicali",
-    "profilo": [
-      "dolce",
-      "acido",
-      "fruttato",
-      "floreale"
-    ],
-    "pairing": {
-      "lime": 5,
-      "zenzero": 4,
-      "peperoncino": 4,
-      "coriandolo": 4,
-      "anatra": 3
-    },
-    "immagine": "",
-    "tipo_record": "base",
-    "parent": null,
-    "tipologia": "generico",
-    "varieta": "",
-    "stagionatura": null,
-    "sinonimi": [
-      "mango maturo"
-    ]
-  },
-  "ananas": {
-    "nome": "Ananas",
-    "categoria": "Frutta",
-    "famiglia": "Frutti tropicali",
-    "profilo": [
-      "dolce",
-      "acido",
-      "fruttato",
-      "fresco"
-    ],
-    "pairing": {
-      "lime": 4,
-      "zenzero": 4,
-      "peperoncino": 3,
-      "menta": 4,
-      "maiale": 3
-    },
-    "immagine": "",
-    "tipo_record": "base",
-    "parent": null,
-    "tipologia": "generico",
-    "varieta": "",
-    "stagionatura": null,
-    "sinonimi": [
-      "pineapple"
-    ]
-  },
-  "kiwi": {
-    "nome": "Kiwi",
-    "categoria": "Frutta",
-    "famiglia": "Frutti",
-    "profilo": [
-      "acido",
-      "fresco",
-      "fruttato"
-    ],
-    "pairing": {
-      "limone": 3,
-      "menta": 4,
-      "mela": 3,
-      "zenzero": 3,
-      "yogurt": 4
-    },
-    "immagine": "",
-    "tipo_record": "base",
-    "parent": null,
-    "tipologia": "generico",
-    "varieta": "",
-    "stagionatura": null,
-    "sinonimi": []
-  },
   "lime": {
     "nome": "Lime",
     "categoria": "Agrumi",
@@ -5689,12 +5042,9 @@
       "agrumato"
     ],
     "pairing": {
-      "mango": 5,
       "coriandolo": 4,
       "zenzero": 4,
       "menta": 4,
-      "pesce": 4,
-      "ananas": 4,
       "cetriolo": 4
     },
     "immagine": "",
@@ -6059,8 +5409,7 @@
       "ricotta": 4,
       "uovo": 5,
       "patata": 4,
-      "panna": 4,
-      "pesce_salmone": 4
+      "panna": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -6189,7 +5538,6 @@
     ],
     "pairing": {
       "anatra": 4,
-      "pesce": 4,
       "fragola": 3,
       "formaggio": 3,
       "limone": 4,
@@ -6323,7 +5671,7 @@
       "salvia": 4,
       "burro": 4,
       "funghi": 4,
-      "pesce_tonno": 4
+      "tonno_sottolio": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -6376,7 +5724,6 @@
       "menta": 4,
       "cetriolo": 4,
       "fragola": 4,
-      "kiwi": 4,
       "aneto": 4
     },
     "immagine": "",
@@ -6666,7 +6013,6 @@
     ],
     "pairing": {
       "barbabietola": 4,
-      "pesce_salmone": 5,
       "cetriolo": 4,
       "limone": 4,
       "yogurt": 4
@@ -6811,6 +6157,728 @@
     "stagionatura": null,
     "sinonimi": [
       "bacche di ginepro"
+    ]
+  },
+  "tonno_sottolio": {
+    "nome": "Tonno sott’olio",
+    "categoria": "Conserve",
+    "famiglia": "Conserve ittiche",
+    "profilo": [
+      "umami",
+      "sapido",
+      "grasso",
+      "marino"
+    ],
+    "pairing": {
+      "limone": 5,
+      "olio": 5,
+      "prezzemolo": 5,
+      "aglio": 4,
+      "vitello": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "conserva",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "tonno in olio",
+      "tonno sottolio",
+      "tonno in scatola"
+    ]
+  },
+  "girello_vitello": {
+    "nome": "Girello di vitello",
+    "categoria": "Carne",
+    "famiglia": "Tagli di vitello",
+    "profilo": [
+      "delicato",
+      "magro",
+      "umami"
+    ],
+    "pairing": {
+      "tonno_sottolio": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "vitello",
+    "tipologia": "taglio",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "magatello",
+      "eye round di vitello"
+    ]
+  },
+  "battuta_fassona": {
+    "nome": "Battuta di Fassona",
+    "categoria": "Preparazioni",
+    "famiglia": "Preparazioni di carne",
+    "profilo": [
+      "fresco",
+      "umami",
+      "sapido",
+      "delicato"
+    ],
+    "pairing": {
+      "acciuga": 3
+    },
+    "tipo_record": "preparazione",
+    "parent": "fassona_piemonte",
+    "tipologia": "preparazione",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "battuta al coltello di Fassona",
+      "carne cruda di Fassona"
+    ]
+  },
+  "guancia_maiale": {
+    "nome": "Guancia di maiale",
+    "categoria": "Carne",
+    "famiglia": "Tagli di maiale",
+    "profilo": [
+      "grasso",
+      "umami",
+      "ricco"
+    ],
+    "pairing": {
+      "purea_verdure": 3
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "maiale",
+    "tipologia": "taglio",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "guance di maiale"
+    ]
+  },
+  "reale_manzo": {
+    "nome": "Reale di manzo",
+    "categoria": "Carne",
+    "famiglia": "Tagli di manzo",
+    "profilo": [
+      "umami",
+      "ricco",
+      "grasso"
+    ],
+    "pairing": {},
+    "tipo_record": "varieta_tipologia",
+    "parent": "manzo",
+    "tipologia": "taglio",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "fesa_vitello": {
+    "nome": "Fesa di vitello",
+    "categoria": "Carne",
+    "famiglia": "Tagli di vitello",
+    "profilo": [
+      "delicato",
+      "magro",
+      "umami"
+    ],
+    "pairing": {},
+    "tipo_record": "varieta_tipologia",
+    "parent": "vitello",
+    "tipologia": "taglio",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "noce_vitello": {
+    "nome": "Noce di vitello",
+    "categoria": "Carne",
+    "famiglia": "Tagli di vitello",
+    "profilo": [
+      "delicato",
+      "magro",
+      "umami"
+    ],
+    "pairing": {},
+    "tipo_record": "varieta_tipologia",
+    "parent": "vitello",
+    "tipologia": "taglio",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "guancia_vitello": {
+    "nome": "Guancia di vitello",
+    "categoria": "Carne",
+    "famiglia": "Tagli di vitello",
+    "profilo": [
+      "umami",
+      "ricco",
+      "collaginoso"
+    ],
+    "pairing": {},
+    "tipo_record": "varieta_tipologia",
+    "parent": "vitello",
+    "tipologia": "taglio",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "muscolo_manzo": {
+    "nome": "Muscolo di manzo",
+    "categoria": "Carne",
+    "famiglia": "Tagli di manzo",
+    "profilo": [
+      "umami",
+      "ricco",
+      "collaginoso"
+    ],
+    "pairing": {},
+    "tipo_record": "varieta_tipologia",
+    "parent": "manzo",
+    "tipologia": "taglio",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "geretto di manzo"
+    ]
+  },
+  "biancostato_manzo": {
+    "nome": "Biancostato di manzo",
+    "categoria": "Carne",
+    "famiglia": "Tagli di manzo",
+    "profilo": [
+      "grasso",
+      "umami",
+      "ricco"
+    ],
+    "pairing": {},
+    "tipo_record": "varieta_tipologia",
+    "parent": "manzo",
+    "tipologia": "taglio",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "lingua_manzo": {
+    "nome": "Lingua di manzo",
+    "categoria": "Carne",
+    "famiglia": "Frattaglie bovine",
+    "profilo": [
+      "umami",
+      "ricco",
+      "sapido"
+    ],
+    "pairing": {},
+    "tipo_record": "varieta_tipologia",
+    "parent": "manzo",
+    "tipologia": "taglio",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "coda_manzo": {
+    "nome": "Coda di manzo",
+    "categoria": "Carne",
+    "famiglia": "Frattaglie bovine",
+    "profilo": [
+      "umami",
+      "ricco",
+      "collaginoso"
+    ],
+    "pairing": {},
+    "tipo_record": "varieta_tipologia",
+    "parent": "manzo",
+    "tipologia": "taglio",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "pompelmo": {
+    "nome": "Pompelmo",
+    "categoria": "Agrumi",
+    "famiglia": "Agrumi",
+    "profilo": [
+      "agrumato",
+      "amaro",
+      "acido",
+      "fresco"
+    ],
+    "pairing": {
+      "anatra": 4,
+      "finocchio": 4,
+      "gorgonzola": 3
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "grapefruit"
+    ]
+  },
+  "rabarbaro": {
+    "nome": "Rabarbaro",
+    "categoria": "Frutta",
+    "famiglia": "Fusti e frutti aciduli",
+    "profilo": [
+      "acido",
+      "vegetale",
+      "fresco"
+    ],
+    "pairing": {
+      "fragola": 5,
+      "maiale": 3,
+      "vaniglia": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "dattero": {
+    "nome": "Dattero",
+    "categoria": "Frutta",
+    "famiglia": "Frutta mediterranea e secca",
+    "profilo": [
+      "dolce",
+      "caramellato",
+      "mielato"
+    ],
+    "pairing": {
+      "nocciola": 5,
+      "agnello": 4,
+      "gorgonzola": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "datteri"
+    ]
+  },
+  "tamarindo": {
+    "nome": "Tamarindo",
+    "categoria": "Frutta",
+    "famiglia": "Frutti aciduli e aromatici",
+    "profilo": [
+      "acido",
+      "agrodolce",
+      "fruttato"
+    ],
+    "pairing": {
+      "maiale": 4,
+      "peperoncino": 4,
+      "zenzero": 4
+    },
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "polpa di tamarindo"
+    ]
+  },
+  "grana_padano": {
+    "nome": "Grana Padano DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi stagionati italiani",
+    "profilo": [
+      "umami",
+      "sapido",
+      "lattico",
+      "frutta_secca"
+    ],
+    "pairing": {
+      "pera": 4,
+      "noci": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "grana"
+    ]
+  },
+  "bra_tenero": {
+    "nome": "Bra Tenero DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi piemontesi",
+    "profilo": [
+      "lattico",
+      "burroso",
+      "sapido"
+    ],
+    "pairing": {
+      "patata": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "bra_duro": {
+    "nome": "Bra Duro DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi piemontesi",
+    "profilo": [
+      "stagionato",
+      "sapido",
+      "umami"
+    ],
+    "pairing": {
+      "miele": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "toma_alpeggio": {
+    "nome": "Toma d’alpeggio",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi piemontesi",
+    "profilo": [
+      "lattico",
+      "erbaceo",
+      "sapido"
+    ],
+    "pairing": {
+      "patata": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "toma di alpeggio"
+    ]
+  },
+  "tomino": {
+    "nome": "Tomino piemontese",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi piemontesi",
+    "profilo": [
+      "lattico",
+      "delicato",
+      "burroso"
+    ],
+    "pairing": {
+      "miele": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "tomino"
+    ]
+  },
+  "provolone": {
+    "nome": "Provolone",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi italiani a pasta filata",
+    "profilo": [
+      "lattico",
+      "sapido",
+      "burroso"
+    ],
+    "pairing": {
+      "pomodoro": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "asiago": {
+    "nome": "Asiago DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi italiani",
+    "profilo": [
+      "lattico",
+      "burroso",
+      "sapido"
+    ],
+    "pairing": {
+      "mela": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "scamorza": {
+    "nome": "Scamorza",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi italiani a pasta filata",
+    "profilo": [
+      "lattico",
+      "affumicato",
+      "sapido"
+    ],
+    "pairing": {
+      "melanzana": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "formaggio",
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "scamorza affumicata"
+    ]
+  },
+  "mozzarella_bufala": {
+    "nome": "Mozzarella di bufala campana DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi italiani freschi",
+    "profilo": [
+      "lattico",
+      "fresco",
+      "acido",
+      "grasso"
+    ],
+    "pairing": {
+      "pomodoro": 5
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "mozzarella",
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "mozzarella di bufala"
+    ]
+  },
+  "pecorino_toscano": {
+    "nome": "Pecorino Toscano DOP",
+    "categoria": "Formaggi",
+    "famiglia": "Formaggi ovini italiani",
+    "profilo": [
+      "lattico",
+      "sapido",
+      "erbaceo"
+    ],
+    "pairing": {},
+    "tipo_record": "varieta_tipologia",
+    "parent": "pecorino",
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "porcino_fresco": {
+    "nome": "Porcino fresco",
+    "categoria": "Funghi",
+    "famiglia": "Funghi spontanei",
+    "profilo": [
+      "terroso",
+      "umami",
+      "nocciolato"
+    ],
+    "pairing": {
+      "prezzemolo": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "funghi",
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "funghi porcini freschi"
+    ]
+  },
+  "porcino_secco": {
+    "nome": "Porcino secco",
+    "categoria": "Funghi",
+    "famiglia": "Funghi spontanei",
+    "profilo": [
+      "terroso",
+      "umami",
+      "concentrato"
+    ],
+    "pairing": {
+      "riso": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "funghi",
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "funghi porcini secchi"
+    ]
+  },
+  "finferlo": {
+    "nome": "Finferlo",
+    "categoria": "Funghi",
+    "famiglia": "Funghi spontanei",
+    "profilo": [
+      "terroso",
+      "fruttato",
+      "pepato"
+    ],
+    "pairing": {
+      "burro": 4
+    },
+    "tipo_record": "varieta_tipologia",
+    "parent": "funghi",
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "gallinaccio"
+    ]
+  },
+  "fondo_bruno": {
+    "nome": "Fondo bruno",
+    "categoria": "Preparazioni",
+    "famiglia": "Fondi e riduzioni",
+    "profilo": [
+      "umami",
+      "tostato",
+      "ricco",
+      "sapido"
+    ],
+    "pairing": {
+      "manzo": 5
+    },
+    "tipo_record": "preparazione",
+    "parent": "manzo",
+    "tipologia": "fondo",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "gel_sedano": {
+    "nome": "Gel di sedano",
+    "categoria": "Preparazioni",
+    "famiglia": "Gel e salse vegetali",
+    "profilo": [
+      "vegetale",
+      "fresco",
+      "sapido"
+    ],
+    "pairing": {
+      "sedano": 5
+    },
+    "tipo_record": "preparazione",
+    "parent": "sedano",
+    "tipologia": "gel",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "olio_aromatico": {
+    "nome": "Olio aromatico",
+    "categoria": "Preparazioni",
+    "famiglia": "Oli aromatizzati",
+    "profilo": [
+      "grasso",
+      "erbaceo",
+      "aromatico"
+    ],
+    "pairing": {
+      "rosmarino": 4
+    },
+    "tipo_record": "preparazione",
+    "parent": "olio",
+    "tipologia": "olio aromatizzato",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "burro_nocciola": {
+    "nome": "Burro nocciola",
+    "categoria": "Preparazioni",
+    "famiglia": "Preparazioni a base di burro",
+    "profilo": [
+      "grasso",
+      "tostato",
+      "nocciolato"
+    ],
+    "pairing": {
+      "nocciola": 4
+    },
+    "tipo_record": "preparazione",
+    "parent": "burro",
+    "tipologia": "burro aromatizzato",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "maionese": {
+    "nome": "Maionese",
+    "categoria": "Preparazioni",
+    "famiglia": "Salse emulsionate",
+    "profilo": [
+      "grasso",
+      "acido",
+      "cremoso"
+    ],
+    "pairing": {
+      "acciuga": 4
+    },
+    "tipo_record": "preparazione",
+    "parent": null,
+    "tipologia": "salsa",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "maionese classica"
+    ]
+  },
+  "purea_verdure": {
+    "nome": "Purea di verdure",
+    "categoria": "Preparazioni",
+    "famiglia": "Puree e creme vegetali",
+    "profilo": [
+      "vegetale",
+      "cremoso",
+      "delicato"
+    ],
+    "pairing": {},
+    "tipo_record": "preparazione",
+    "parent": null,
+    "tipologia": "purea",
+    "varieta": "",
+    "stagionatura": null
+  },
+  "punta_petto_manzo": {
+    "nome": "Punta di petto di manzo",
+    "categoria": "Carne",
+    "famiglia": "Tagli di manzo",
+    "profilo": [
+      "umami",
+      "ricco",
+      "grasso"
+    ],
+    "pairing": {},
+    "tipo_record": "varieta_tipologia",
+    "parent": "manzo",
+    "tipologia": "taglio",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "punta di petto"
+    ]
+  },
+  "cappello_del_prete": {
+    "nome": "Cappello del prete",
+    "categoria": "Carne",
+    "famiglia": "Tagli di manzo",
+    "profilo": [
+      "umami",
+      "ricco",
+      "collaginoso"
+    ],
+    "pairing": {},
+    "tipo_record": "varieta_tipologia",
+    "parent": "manzo",
+    "tipologia": "taglio",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "cappello del prete di manzo"
     ]
   }
 }
