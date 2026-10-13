@@ -413,6 +413,28 @@ input[type=file]{
 .fp-nav a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:38px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--text);font-size:12px;font-weight:750;text-decoration:none;white-space:nowrap}
 .fp-nav a:hover,.fp-nav a:focus{background:#eee3d8;border-color:#c9b5a2;outline:none}
 #ingredientSearch,#combinationBuilder,#creativeLab,#sourceInspiration,#newDiscovery,#advancedTools{scroll-margin-top:100px}
+
+/* Interfaccia a schermata singola: progettata prima di tutto per smartphone */
+.fp-nav{position:sticky;top:72px;z-index:15;display:flex;gap:8px;overflow-x:auto;padding:9px 2px 12px;margin:0 -2px 12px;background:var(--bg);scrollbar-width:thin}
+.fp-nav a{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 14px;border:1px solid #d5c9bb;border-radius:12px;background:#fffdf9;color:#39332d;font-size:13px;font-weight:800;text-decoration:none;white-space:nowrap;box-shadow:0 2px 7px rgba(45,38,30,.04)}
+.fp-nav a[aria-current="page"]{background:#a6533f;border-color:#a6533f;color:#fff;box-shadow:0 4px 12px rgba(166,83,63,.2)}
+.fp-nav a:focus-visible{outline:3px solid rgba(166,83,63,.3);outline-offset:2px}
+.fp-panel-hidden{display:none!important}
+#ingredientSearch{border:1px solid #d8c6b4;box-shadow:0 10px 30px rgba(45,38,30,.08)}
+#ingredientSearch .hero-kicker{font-size:11px}
+#ingredientSearch .hero h2{line-height:1.12}
+#ingredientSearch #cerca{min-height:52px;font-size:16px}
+#combinationBuilder>h2,#newDiscovery>h2,#sourceInspiration>h2{font-family:Georgia,"Times New Roman",serif;font-size:25px;line-height:1.15}
+#combinationBuilder .muted,#newDiscovery .muted{font-size:14px;line-height:1.55}
+@media(max-width:650px){
+ .fp-nav{top:64px;margin-left:-9px;margin-right:-9px;padding-left:9px;padding-right:9px;gap:6px}
+ .fp-nav a{min-height:40px;padding:9px 11px;font-size:12px;border-radius:10px}
+ main{padding-top:8px}
+ .hero{padding:17px 15px}
+ .hero-art{display:none}
+ .hero h2{font-size:27px}
+}
+
 </style>
 </head>
 <body>
@@ -1910,8 +1932,38 @@ function sourceSaveIdea(id){const idea=sourceLastReport?.ideas?.find(x=>x.id===i
 async function sourceRun(){const type=sourceType(),goal=$("sourceGoal").value,mode=$("sourceMode").value,constraints=$("sourceConstraints").value.trim();$("sourceResults").innerHTML="";const btn=$("sourceExtract");btn.disabled=true;btn.textContent="Estrazione in corso…";try{let extractedText="",sourceName="",sourceUrl="";if(type==="link"){sourceUrl=$("sourceUrl").value.trim();if(!sourceUrl)throw new Error("Incolla prima un link.");const u=new URL(sourceUrl);if(!["https:","http:"].includes(u.protocol))throw new Error("Sono ammessi solo link http o https.");$("sourceStatus").textContent="Recupero della pagina pubblica…";const res=await fetch(SOURCE_API+"?url="+encodeURIComponent(u.href),{headers:{Accept:"application/json"}});const payload=await res.json().catch(()=>({}));if(!res.ok)throw new Error(payload.error||("Impossibile leggere la pagina (HTTP "+res.status+"). Puoi incollare direttamente il testo scegliendo «Ricetta in testo»."));extractedText=String(payload.text||"");sourceName=payload.title||u.hostname;if(!extractedText.trim())throw new Error("La pagina non contiene testo estraibile.");}else if(type==="testo"){extractedText=$("sourcePastedText").value.trim();if(extractedText.length<30)throw new Error("Incolla una ricetta o una tecnica di almeno 30 caratteri.");sourceName="Testo incollato";}else{const file=$("sourceFile").files?.[0];if(!file)throw new Error("Seleziona prima un file.");if(file.size>15*1024*1024)throw new Error("Il file supera 15 MB. Usa un file più leggero.");$("sourceStatus").textContent=type==="pdf"?"Lettura testo del PDF…":"Lettura testo nella foto tramite OCR…";const got=type==="pdf"?await sourceLoadPdf(file):await sourceLoadImage(file);extractedText=got.text;sourceName=got.name;}if(extractedText.length>30000)extractedText=extractedText.slice(0,30000);const ingredients=sourceFindMentions(extractedText),techniques=sourceExtractTechniques(extractedText),facts=sourceSentenceSnippets(extractedText,[...techniques,...ingredients.map(nome)],5);const explanation=goal==="tecnica"?"Le tecniche sono rilevate tramite parole chiave. Le proposte ne trasferiscono il principio operativo a ingredienti o contesti diversi; non sono ricette estratte dalla fonte.":goal==="piatto"?"Le idee reinterpretano gli elementi individuati senza copiare automaticamente la struttura originale.":goal==="ingredienti"?"Le relazioni del database sono indizi; l'assenza di un legame non significa incompatibilità.":"Il sistema tenta di astrarre un principio operativo e riapplicarlo; è un'analisi euristica.";const report={sourceType:type,sourceName,sourceUrl,goal,mode,constraints,extractedText,ingredients,techniques,extractedFacts:facts,goalExplanation:explanation};const ideas=sourceCreativeIdeas(report);sourceRenderReport(report,ideas);$("sourceStatus").textContent="Analisi completata: "+extractedText.length+" caratteri estratti; "+ingredients.length+" ingredienti riconosciuti; "+techniques.length+" tecniche rilevate. Le proposte sono ipotesi.";}catch(e){$("sourceStatus").textContent="Non completato: "+(e.message||"errore di estrazione");}finally{btn.disabled=false;btn.textContent="Estrai contenuti e genera piste";}}
 function setupSourceInspiration(){document.querySelectorAll('input[name="sourceType"]').forEach(el=>el.addEventListener("change",sourceSetType));$("sourceExtract").addEventListener("click",sourceRun);$("sourceResults").addEventListener("click",e=>{const b=e.target.closest("[data-source-save]");if(b)sourceSaveIdea(b.getAttribute("data-source-save"));});sourceSetType();}
 
+
+function setupSectionNavigation(){
+  const nav=document.querySelector(".fp-nav");
+  if(!nav)return;
+  const links=[...nav.querySelectorAll("a[href^='#']")];
+  const panels=links.map(a=>document.getElementById(a.getAttribute("href").slice(1))).filter(Boolean);
+  function showPanel(id,scroll){
+    panels.forEach(panel=>{
+      const active=panel.id===id;
+      panel.classList.toggle("fp-panel-hidden",!active);
+      if(panel.id==="advancedTools"&&active)panel.open=true;
+    });
+    links.forEach(a=>{
+      const active=a.getAttribute("href")==="#"+id;
+      if(active)a.setAttribute("aria-current","page");
+      else a.removeAttribute("aria-current");
+    });
+    if(scroll)window.scrollTo({top:0,behavior:"smooth"});
+  }
+  links.forEach(a=>a.addEventListener("click",e=>{
+    e.preventDefault();
+    const id=a.getAttribute("href").slice(1);
+    showPanel(id,true);
+    history.replaceState(null,"","#"+id);
+  }));
+  const requested=location.hash.slice(1);
+  showPanel(panels.some(p=>p.id===requested)?requested:"ingredientSearch",false);
+}
+
 async function initApp(){
   try{
+    setupSectionNavigation();
     setupCreativeLab();
     setupSourceInspiration();
     $("cerca").onclick=e=>{e.preventDefault();search()};
