@@ -5467,9 +5467,7 @@
     "schema_version": "2.3",
     "hierarchy": "categoria → famiglia → ingrediente base → varietà/tipologia → stagionatura",
     "selectable_records": true,
-    "orphan_pairing_keys": [
-      "polenta -> brasato"
-    ],
+    "orphan_pairing_keys": [],
     "versione_schema": "2.2",
     "struttura": "categoria > famiglia > ingrediente > varieta_tipologia > stagionatura",
     "ultimo_aggiornamento": "2026-10-13",
@@ -6722,8 +6720,8 @@
       "salsiccia": 4,
       "funghi": 5,
       "formaggio": 4,
-      "brasato": 4,
-      "gorgonzola": 4
+      "gorgonzola": 4,
+      "manzo": 4
     },
     "immagine": "",
     "tipo_record": "base",
