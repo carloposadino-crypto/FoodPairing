@@ -1707,14 +1707,23 @@ function labSameLineage(a,b){
 function labBreadth(key){return Object.keys(db[key]?.pairing||{}).length;}
 function labPairInfo(a,b){
   const evidence=getPairEvidence(a,b);
+  const directDatabase=Math.max(scoreData(db[a],b),scoreData(db[b],a));
+  const inheritedDatabase=directDatabase?0:evidence.database;
   const pa=labProfile(a),pb=labProfile(b);
   const shared=pa.filter(x=>pb.includes(x));
-  return {score:evidence.score,source:evidence.source,shared};
+  let source=evidence.source;
+  if(inheritedDatabase>0){
+    source=source.split("+").filter(x=>x!=="database").concat("inherited").join("+");
+  }
+  const direct=directDatabase>0||evidence.verified>0||evidence.external>0;
+  return {score:evidence.score,source,shared,direct,directDatabase,inheritedDatabase,verified:evidence.verified,external:evidence.external};
 }
 function labCandidateData(candidate,anchors,mode,goal){
   const pairs=anchors.map(a=>({key:a,...labPairInfo(a,candidate)}));
   const scores=pairs.map(p=>p.score);
   const known=pairs.filter(p=>p.score>0).length;
+  const directKnown=pairs.filter(p=>p.direct).length;
+  const inheritedKnown=pairs.filter(p=>p.inheritedDatabase>0&&!p.direct).length;
   const strong=pairs.filter(p=>p.score>=4).length;
   const moderate=pairs.filter(p=>p.score>=2&&p.score<4).length;
   const profiles=labProfile(candidate);
@@ -1727,6 +1736,7 @@ function labCandidateData(candidate,anchors,mode,goal){
   const knownScores=scores.filter(x=>x>0);
   const weakest=known===anchors.length&&knownScores.length?Math.min(...knownScores):0;
   const coverage=anchors.length?known/anchors.length:0;
+  const directCoverage=anchors.length?directKnown/anchors.length:0;
   const balance=avg>0?weakest/avg:0;
   const breadth=labBreadth(candidate);
   const novelty=Math.max(5,Math.min(95,Math.round(20+((anchors.length-known)/Math.max(1,anchors.length))*55+Math.max(0,categories-1)*5+Math.max(0,families-1)*3-strong*8-Math.min(18,breadth*.7))));
@@ -1735,11 +1745,11 @@ function labCandidateData(candidate,anchors,mode,goal){
   const diversity=Math.max(0,categories-1)*1.3+Math.max(0,families-1)*.6;
   let value=0;
   if(mode==="applicabile"){
-    value=evidence+diversity+Math.min(3,distinct.length*.35)+coverage*3+balance*2;
+    value=evidence+diversity+Math.min(3,distinct.length*.35)+coverage*3+balance*2+directCoverage*2.5-inheritedKnown*1.2;
     if(known===0)value-=4;
     if(known<anchors.length)value-=(anchors.length-known)*1.5;
   }else{
-    value=(anchors.length-known)*3.5+diversity+distinct.length*1.5+bridge*.6+novelty*.18;
+    value=(anchors.length-known)*3.5+diversity+distinct.length*1.5+bridge*.6+novelty*.18+inheritedKnown*.8;
     if(goal==="contrasto")value+=distinct.length*1.4-bridge*.35;
     if(known===anchors.length)value-=2;
   }
@@ -1748,7 +1758,7 @@ function labCandidateData(candidate,anchors,mode,goal){
   if(goal==="piatto")value+=coverage*2+avg+bridge;
   if(goal==="classico")value+=bridge*1.4+moderate*1.2+diversity*.5;
   value-=Math.min(5,breadth*.18);
-  return {key:candidate,pairs,known,strong,moderate,avg,weakest,coverage,balance,shared,distinct,categories,families,breadth,novelty,value,mode,goal};
+  return {key:candidate,pairs,known,directKnown,inheritedKnown,directCoverage,strong,moderate,avg,weakest,coverage,balance,shared,distinct,categories,families,breadth,novelty,value,mode,goal};
 }
 function labExplain(data,anchors){
   const n=nome(data.key);
@@ -1787,7 +1797,8 @@ function labTest(data){
 function labSourceLabel(source){
   if(source==="none")return "nessuna relazione registrata";
   const labels=[];
-  if(source.includes("database"))labels.push("archivio");
+  if(source.includes("database"))labels.push("relazione diretta in archivio");
+  if(source.includes("inherited"))labels.push("relazione dedotta da una variante/famiglia");
   if(source.includes("verified"))labels.push("verifica manuale");
   if(source.includes("external"))labels.push("fonte esterna");
   return labels.join(" + ");
@@ -1799,10 +1810,10 @@ function labRenderCard(data,anchors){
   const title=allKeys.map(nome).join(" + ");
   return "<article class='lab-result'><div class='lab-result-head'><div><h3>"+esc(nome(data.key))+"</h3><div class='muted'>"+esc(labRole(data))+"</div></div><span class='lab-tag strong'>"+esc(modeLabel)+"</span></div>"+
     "<div class='lab-tags'><span class='lab-tag'>"+esc(db[data.key]?.categoria||"Categoria non indicata")+"</span><span class='lab-tag'>"+(data.known?data.known+"/"+anchors.length+" relazioni note":"nessuna relazione diretta registrata")+"</span></div>"+
-    "<div class='lab-metrics'><div class='lab-metric'><b>"+data.novelty+"%</b><small>novità stimata*</small></div><div class='lab-metric'><b>"+(data.known?data.avg.toFixed(1)+"/5":"—")+"</b><small>media relazioni note</small></div><div class='lab-metric'><b>"+data.known+"/"+anchors.length+"</b><small>relazioni con dati</small></div><div class='lab-metric'><b>"+(data.known===anchors.length?data.weakest+"/5":"—")+"</b><small>punteggio minimo, se completo</small></div></div>"+
+    "<div class='lab-metrics'><div class='lab-metric'><b>"+data.novelty+"%</b><small>novità stimata*</small></div><div class='lab-metric'><b>"+(data.known?data.avg.toFixed(1)+"/5":"—")+"</b><small>media relazioni note</small></div><div class='lab-metric'><b>"+data.directKnown+"/"+anchors.length+"</b><small>relazioni dirette/verificate</small></div><div class='lab-metric'><b>"+(data.known===anchors.length?data.weakest+"/5":"—")+"</b><small>punteggio minimo, se completo</small></div></div>"+
     "<p><b>Perché esplorarla.</b> "+esc(labExplain(data,anchors))+"</p>"+
     "<p><b>Prova pratica.</b> "+esc(labTest(data))+"</p>"+
-    "<details><summary>Apri evidenze e limiti</summary><p><b>Combinazione:</b> "+esc(title)+"</p>"+pairHtml+"<p><b>Limite:</b> il punteggio medio descrive solo le relazioni presenti nelle fonti collegate. La novità è stimata anche in base a quanto l’ingrediente è già connesso nell’archivio; non misura l’originalità assoluta e non certifica la riuscita del piatto.</p><p><b>Profili condivisi:</b> "+(data.shared.length?data.shared.map(esc).join(", "):"nessuno registrato")+". <b>Profili distintivi:</b> "+(data.distinct.length?data.distinct.map(esc).join(", "):"nessuno registrato")+".</p></details>"+
+    "<details><summary>Apri evidenze e limiti</summary><p><b>Combinazione:</b> "+esc(title)+"</p><p><b>Copertura:</b> "+data.known+"/"+anchors.length+" relazioni hanno un punteggio; "+data.directKnown+" sono dirette o verificate e "+data.inheritedKnown+" sono dedotte da varianti o famiglie. Le relazioni dedotte aiutano a esplorare ma sono meno specifiche del dato diretto.</p>"+pairHtml+"<p><b>Limite:</b> il punteggio medio descrive le relazioni presenti nelle fonti collegate. La novità è stimata anche in base alla connettività dell’ingrediente nell’archivio; non misura l’originalità assoluta e non certifica la riuscita del piatto.</p><p><b>Profili condivisi:</b> "+(data.shared.length?data.shared.map(esc).join(", "):"nessuno registrato")+". <b>Profili distintivi:</b> "+(data.distinct.length?data.distinct.map(esc).join(", "):"nessuno registrato")+".</p></details>"+
     "<button type='button' class='lab-save' data-lab-save='"+esc(data.key)+"' data-lab-anchors='"+esc(anchors.join("|"))+"'>Salva come ipotesi da testare</button></article>";
 }
 function labSavedHypotheses(){
