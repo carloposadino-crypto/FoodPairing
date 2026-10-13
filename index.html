@@ -1626,11 +1626,31 @@ function labSaveHypothesis(key,anchors){
   const status=$("labStatus");
   status.textContent="Ipotesi salvata nel banco sperimentale di questo dispositivo. Ipotesi in archivio: "+Math.min(list.length,200)+".";
 }
+
+function labConstraintTerms(text){
+  const terms=[],re=/(?:niente|senza|no|escludi|escludere|evita|evitare|non usare)\s+(?:(?:il|lo|la|i|gli|le|l['’])\s+)?([a-zà-ÿ]+)/gi;
+  let m;while((m=re.exec(norm(text)))){const t=norm(m[1]);if(t.length>=3&&!["fare","usare","aggiungere","frittura","fritto","fritta"].includes(t))terms.push(t);}
+  return [...new Set(terms)];
+}
+function labConstraintExcludes(key,terms){
+  if(!terms.length)return false;
+  const d=db[key]||{},hay=norm([key,d.nome,d.categoria,d.famiglia].join(" "));
+  return terms.some(term=>{
+    if(["pesce","pesci","fish"].includes(term)){
+      return /(pesce|fish|crostace|mollusch|frutti di mare)/.test(hay)&&!/(acciug|anchov)/.test(hay);
+    }
+    const stem=term.length>5?term.slice(0,6):term;
+    return hay.includes(term)||hay.includes(stem);
+  });
+}
+
 function labGenerate(){
   const status=$("labStatus"),out=$("labResults");
   out.innerHTML="";
   const mode=document.querySelector('input[name="labMode"]:checked')?.value||"applicabile";
   const goal=$("labGoal").value;
+  const constraintText=String($("labConstraints").value||"").trim();
+  const excludedTerms=labConstraintTerms(constraintText);
   const inputs=[$("labIngredient1").value,$("labIngredient2").value,$("labIngredient3").value].map(v=>String(v||"").trim()).filter(Boolean);
   const anchors=[];
   for(const raw of inputs){
@@ -1642,15 +1662,15 @@ function labGenerate(){
   if(inputs.length!==anchors.length){status.textContent="Hai inserito due volte lo stesso ingrediente. Usa ingredienti diversi.";return}
   status.textContent="Esplorazione in corso: confronto profili, relazioni note e categorie...";
   const excluded=new Set(anchors);
-  let candidates=Object.keys(db).filter(k=>!excluded.has(k)&&!anchors.some(a=>labSameLineage(k,a))).map(k=>labCandidateData(k,anchors,mode,goal));
+  let candidates=Object.keys(db).filter(k=>!excluded.has(k)&&!anchors.some(a=>labSameLineage(k,a))&&!labConstraintExcludes(k,excludedTerms)).map(k=>labCandidateData(k,anchors,mode,goal));
   candidates=candidates.filter(x=>mode==="estrema" ? (x.known<anchors.length || x.novelty>=35) : (x.known>0 || x.shared.length>0));
   candidates.sort((a,b)=>b.value-a.value||b.novelty-a.novelty||b.avg-a.avg);
   const count=Number($("labCount").value)||6;
   const selected=[],seenRoots=new Set();
   for(const candidate of candidates){const root=labRoot(candidate.key);if(seenRoots.has(root))continue;seenRoots.add(root);selected.push(candidate);if(selected.length>=count)break;}
   if(!selected.length){status.textContent="Non ci sono abbastanza candidati utili con i dati attuali. Prova un altro ingrediente o la modalità estrema.";return}
-  const constraint=String($("labConstraints").value||"").trim();
-  const constraintHtml=constraint?"<div class='lab-notice'><b>Vincolo da tenere presente:</b> "+esc(constraint)+". Le proposte qui sotto non sono ancora filtrate automaticamente in base a questo testo: usalo come criterio di selezione e verifica.</div>":"";
+  const constraint=constraintText;
+  const constraintHtml=constraint?"<div class='lab-notice'><b>Vincolo dichiarato:</b> "+esc(constraint)+". "+(excludedTerms.length?"Esclusioni riconosciute e applicate agli ingredienti: "+excludedTerms.map(esc).join(", ")+". ":"")+"I vincoli relativi a tecnica, tempi e costi restano indicazioni per la valutazione, non filtri automatici.</div>":"";
   status.textContent="Trovate "+selected.length+" piste. Confronta le motivazioni e scegli quali verificare.";
   out.innerHTML=constraintHtml+"<p class='lab-notice'>*Novità stimata rispetto alle relazioni presenti nell'archivio locale; non misura l'originalità assoluta. Le idee non verificate sono ipotesi culinarie.</p>"+selected.map(x=>labRenderCard(x,anchors)).join("");
 }
