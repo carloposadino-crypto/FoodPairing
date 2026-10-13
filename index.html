@@ -339,7 +339,7 @@ input[type=file]{
 .lab-tags{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}
 .lab-tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 8px;font-size:11px;color:var(--muted);background:#fff}
 .lab-tag.strong{border-color:#9a5b40;color:#86402f;font-weight:700}
-.lab-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+.lab-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}
 .lab-metric{padding:9px;border-radius:10px;background:#fff;border:1px solid var(--line)}
 .lab-metric b{display:block;font-size:17px}
 .lab-metric small{font-size:10px;color:var(--muted)}
@@ -354,7 +354,7 @@ input[type=file]{
 .lab-bench-item p{margin:5px 0}
 .lab-bench-item button{margin-top:6px;font-size:13px;min-height:38px}
 @media(max-width:560px){.lab-bench-tools{grid-template-columns:1fr}}
-@media(max-width:560px){.lab-mode-grid,.lab-goal-row{grid-template-columns:1fr}.lab-mode{min-height:auto}.lab-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.lab-metric{padding:7px}.lab-metric b{font-size:15px}}
+@media(max-width:560px){.lab-mode-grid,.lab-goal-row{grid-template-columns:1fr}.lab-mode{min-height:auto}.lab-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.lab-metric{padding:7px}.lab-metric b{font-size:15px}}
 
 
 #sourceInspiration .lab-mode{min-height:86px}#sourceInspiration .lab-mode strong{color:var(--text)}#sourceInspiration .lab-mode span{color:var(--muted)}
@@ -1799,7 +1799,7 @@ function labRenderCard(data,anchors){
   const title=allKeys.map(nome).join(" + ");
   return "<article class='lab-result'><div class='lab-result-head'><div><h3>"+esc(nome(data.key))+"</h3><div class='muted'>"+esc(labRole(data))+"</div></div><span class='lab-tag strong'>"+esc(modeLabel)+"</span></div>"+
     "<div class='lab-tags'><span class='lab-tag'>"+esc(db[data.key]?.categoria||"Categoria non indicata")+"</span><span class='lab-tag'>"+(data.known?data.known+"/"+anchors.length+" relazioni note":"nessuna relazione diretta registrata")+"</span></div>"+
-    "<div class='lab-metrics'><div class='lab-metric'><b>"+data.novelty+"%</b><small>novità stimata*</small></div><div class='lab-metric'><b>"+(data.known?data.avg.toFixed(1)+"/5":"—")+"</b><small>punteggio medio registrato</small></div><div class='lab-metric'><b>"+data.known+"/"+anchors.length+"</b><small>relazioni con dati</small></div></div>"+
+    "<div class='lab-metrics'><div class='lab-metric'><b>"+data.novelty+"%</b><small>novità stimata*</small></div><div class='lab-metric'><b>"+(data.known?data.avg.toFixed(1)+"/5":"—")+"</b><small>media relazioni note</small></div><div class='lab-metric'><b>"+data.known+"/"+anchors.length+"</b><small>relazioni con dati</small></div><div class='lab-metric'><b>"+(data.known===anchors.length?data.weakest+"/5":"—")+"</b><small>punteggio minimo, se completo</small></div></div>"+
     "<p><b>Perché esplorarla.</b> "+esc(labExplain(data,anchors))+"</p>"+
     "<p><b>Prova pratica.</b> "+esc(labTest(data))+"</p>"+
     "<details><summary>Apri evidenze e limiti</summary><p><b>Combinazione:</b> "+esc(title)+"</p>"+pairHtml+"<p><b>Limite:</b> il punteggio medio descrive solo le relazioni presenti nelle fonti collegate. La novità è stimata anche in base a quanto l’ingrediente è già connesso nell’archivio; non misura l’originalità assoluta e non certifica la riuscita del piatto.</p><p><b>Profili condivisi:</b> "+(data.shared.length?data.shared.map(esc).join(", "):"nessuno registrato")+". <b>Profili distintivi:</b> "+(data.distinct.length?data.distinct.map(esc).join(", "):"nessuno registrato")+".</p></details>"+
