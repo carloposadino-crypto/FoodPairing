@@ -300,7 +300,9 @@
       "vitello": 4,
       "yogurt": 4,
       "mascarpone": 3,
-      "burrata": 4
+      "burrata": 4,
+      "pepe_rosa": 4,
+      "aneto": 4
     },
     "immagine": "https://images.pexels.com/photos/1414110/pexels-photo-1414110.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -334,7 +336,8 @@
       "cioccolato_70": 5,
       "cioccolato_85": 5,
       "panna": 4,
-      "barbabietola": 4
+      "barbabietola": 4,
+      "pepe_rosa": 4
     },
     "immagine": "https://images.pexels.com/photos/161559/background-orange-fruit-orange-161559.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -544,7 +547,8 @@
       "speck": 4,
       "salsiccia": 4,
       "guanciale": 3,
-      "gruyere": 4
+      "gruyere": 4,
+      "uovo": 4
     },
     "immagine": "https://images.pexels.com/photos/144248/potatoes-vegetables-mashed-potatoes-potatoes-144248.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -671,7 +675,8 @@
       "cinghiale": 4,
       "cervo": 4,
       "spinacio": 4,
-      "bietola": 4
+      "bietola": 4,
+      "cetriolo": 3
     },
     "immagine": "https://images.pexels.com/photos/4197448/pexels-photo-4197448.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -762,7 +767,9 @@
       "cavolo_cappuccio": 4,
       "maggiorana": 4,
       "alloro": 4,
-      "paprika": 4
+      "paprika": 4,
+      "birra": 4,
+      "ginepro": 4
     },
     "immagine": "https://images.pexels.com/photos/236798/pexels-photo-236798.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -884,7 +891,9 @@
       "ribes": 3,
       "cardamomo": 4,
       "mascarpone": 5,
-      "blue_cheese": 3
+      "blue_cheese": 3,
+      "capriolo": 3,
+      "birra": 3
     },
     "immagine": "https://images.pexels.com/photos/918327/pexels-photo-918327.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1066,7 +1075,9 @@
       "capretto": 5,
       "cinghiale": 4,
       "cervo": 4,
-      "mirtillo": 3
+      "mirtillo": 3,
+      "capriolo": 4,
+      "ginepro": 4
     },
     "immagine": "https://images.pexels.com/photos/4198770/pexels-photo-4198770.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1165,7 +1176,8 @@
       "ananas": 4,
       "kiwi": 4,
       "lime": 4,
-      "yogurt": 4
+      "yogurt": 4,
+      "cetriolo": 4
     },
     "immagine": "https://images.pexels.com/photos/4198771/pexels-photo-4198771.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1360,7 +1372,8 @@
       "sedano_rapa": 4,
       "cavolo_cappuccio": 4,
       "dragoncello": 4,
-      "gouda_stagionato": 4
+      "gouda_stagionato": 4,
+      "birra": 4
     },
     "immagine": "https://images.pexels.com/photos/5419221/pexels-photo-5419221.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1400,7 +1413,8 @@
       "maggiorana": 4,
       "vitello": 4,
       "faraona": 4,
-      "gruyere": 4
+      "gruyere": 4,
+      "polenta": 5
     },
     "immagine": "https://images.pexels.com/photos/1210505/pexels-photo-1210505.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1492,7 +1506,8 @@
       "vino": 5,
       "fico": 5,
       "pera_abate": 5,
-      "pera_madernassa": 5
+      "pera_madernassa": 5,
+      "polenta": 4
     },
     "immagine": "https://images.pexels.com/photos/773253/pexels-photo-773253.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -2161,7 +2176,9 @@
       "formaggio_raschera": 5,
       "uva_chardonnay": 5,
       "stracchino": 4,
-      "crescenza": 4
+      "crescenza": 4,
+      "caprino": 4,
+      "blue_cheese": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -2279,7 +2296,9 @@
       "oliva_nocellara": 4,
       "uva_chardonnay": 5,
       "pepe_rosa": 3,
-      "speck": 4
+      "speck": 4,
+      "polenta": 4,
+      "birra": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -2794,7 +2813,8 @@
       "cumino": 4,
       "melagrana": 3,
       "speck": 4,
-      "salsiccia": 4
+      "salsiccia": 4,
+      "ginepro": 3
     },
     "tipo_record": "base",
     "parent": null,
@@ -4417,7 +4437,8 @@
       "limone": 5,
       "olio": 5,
       "prezzemolo": 5,
-      "aglio": 4
+      "aglio": 4,
+      "vitello": 4
     },
     "immagine": "",
     "tipo_record": "varieta_tipologia",
@@ -4440,7 +4461,9 @@
       "limone": 5,
       "olio": 5,
       "prezzemolo": 5,
-      "aglio": 4
+      "aglio": 4,
+      "erba_cipollina": 4,
+      "aneto": 5
     },
     "immagine": "",
     "tipo_record": "varieta_tipologia",
@@ -5234,7 +5257,8 @@
       "mela": 4,
       "cannella": 4,
       "panna": 5,
-      "faraona": 4
+      "faraona": 4,
+      "capriolo": 4
     },
     "immagine": "https://images.pexels.com/photos/372882/pexels-photo-372882.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -5383,7 +5407,8 @@
       "senape": 4,
       "aglio": 4,
       "cipolla": 4,
-      "sedano": 4
+      "sedano": 4,
+      "ginepro": 5
     },
     "immagine": "https://images.pexels.com/photos/128402/pexels-photo-128402.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -5442,11 +5467,13 @@
     "schema_version": "2.3",
     "hierarchy": "categoria → famiglia → ingrediente base → varietà/tipologia → stagionatura",
     "selectable_records": true,
-    "orphan_pairing_keys": [],
+    "orphan_pairing_keys": [
+      "polenta -> brasato"
+    ],
     "versione_schema": "2.2",
     "struttura": "categoria > famiglia > ingrediente > varieta_tipologia > stagionatura",
     "ultimo_aggiornamento": "2026-10-13",
-    "note": "Archivio ampliato con ingredienti distintivi, sinonimi di ricerca e relazioni di pairing reciproche dove mancanti. I punteggi sono ipotesi curate e richiedono verifica sensoriale; non sono misure scientifiche."
+    "note": "Archivio ampliato con ingredienti distintivi, sinonimi di ricerca e relazioni reciproche dove mancanti. I punteggi aggiunti sono ipotesi curate e richiedono verifica sensoriale; non sono misure scientifiche."
   },
   "_pairing_types": {
     "affinita": {
@@ -5669,7 +5696,8 @@
       "zenzero": 4,
       "menta": 4,
       "pesce": 4,
-      "ananas": 4
+      "ananas": 4,
+      "cetriolo": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -6033,8 +6061,8 @@
       "ricotta": 4,
       "uovo": 5,
       "patata": 4,
-      "salmone": 4,
-      "panna": 4
+      "panna": 4,
+      "pesce_salmone": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -6166,7 +6194,8 @@
       "pesce": 4,
       "fragola": 3,
       "formaggio": 3,
-      "agrumi": 4
+      "limone": 4,
+      "arancia": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -6292,11 +6321,11 @@
       "dolce"
     ],
     "pairing": {
-      "tonno": 4,
       "limone": 4,
       "salvia": 4,
       "burro": 4,
-      "funghi": 4
+      "funghi": 4,
+      "pesce_tonno": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -6349,7 +6378,8 @@
       "menta": 4,
       "cetriolo": 4,
       "fragola": 4,
-      "kiwi": 4
+      "kiwi": 4,
+      "aneto": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -6399,9 +6429,9 @@
     "pairing": {
       "barbabietola": 5,
       "miele": 4,
-      "noce": 4,
       "timo": 4,
-      "pera": 4
+      "pera": 4,
+      "noci": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -6582,9 +6612,9 @@
     "pairing": {
       "pera": 5,
       "miele": 5,
-      "noce": 5,
       "sedano": 4,
-      "cioccolato": 3
+      "cioccolato": 3,
+      "noci": 5
     },
     "immagine": "",
     "tipo_record": "base",
@@ -6595,6 +6625,194 @@
     "sinonimi": [
       "blue cheese",
       "formaggio blu"
+    ]
+  },
+  "uovo": {
+    "nome": "Uovo",
+    "categoria": "Latticini",
+    "famiglia": "Uova",
+    "profilo": [
+      "umami",
+      "cremoso",
+      "delicato"
+    ],
+    "pairing": {
+      "asparago_bianco": 5,
+      "spinacio": 4,
+      "pancetta": 4,
+      "guanciale": 5,
+      "erba_cipollina": 5,
+      "patata": 4,
+      "dragoncello": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "uova",
+      "uovo intero",
+      "tuorlo"
+    ]
+  },
+  "aneto": {
+    "nome": "Aneto",
+    "categoria": "Erbe",
+    "famiglia": "Erbe aromatiche",
+    "profilo": [
+      "erbaceo",
+      "fresco",
+      "anisato"
+    ],
+    "pairing": {
+      "barbabietola": 4,
+      "pesce_salmone": 5,
+      "cetriolo": 4,
+      "limone": 4,
+      "yogurt": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "dill"
+    ]
+  },
+  "capriolo": {
+    "nome": "Capriolo",
+    "categoria": "Carne",
+    "famiglia": "Selvaggina",
+    "profilo": [
+      "selvatico",
+      "ferroso",
+      "umami"
+    ],
+    "pairing": {
+      "mirtillo": 4,
+      "castagna": 4,
+      "rosmarino": 4,
+      "ginepro": 5,
+      "cioccolato": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "carne di capriolo"
+    ]
+  },
+  "polenta": {
+    "nome": "Polenta",
+    "categoria": "Cereali",
+    "famiglia": "Preparazioni di cereali",
+    "profilo": [
+      "mais",
+      "dolce",
+      "tostato"
+    ],
+    "pairing": {
+      "salsiccia": 4,
+      "funghi": 5,
+      "formaggio": 4,
+      "brasato": 4,
+      "gorgonzola": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "farina di mais cotta",
+      "polenta di mais"
+    ]
+  },
+  "cetriolo": {
+    "nome": "Cetriolo",
+    "categoria": "Verdure",
+    "famiglia": "Cucurbitacee",
+    "profilo": [
+      "fresco",
+      "vegetale",
+      "acquoso"
+    ],
+    "pairing": {
+      "yogurt": 4,
+      "aneto": 4,
+      "menta": 4,
+      "lime": 4,
+      "aglio": 3
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "cetrioli"
+    ]
+  },
+  "birra": {
+    "nome": "Birra",
+    "categoria": "Bevande",
+    "famiglia": "Bevande fermentate",
+    "profilo": [
+      "amaro",
+      "maltato",
+      "fermentato"
+    ],
+    "pairing": {
+      "gouda_stagionato": 4,
+      "maiale": 4,
+      "senape": 4,
+      "cioccolato": 3,
+      "formaggio": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "birra chiara",
+      "birra artigianale"
+    ]
+  },
+  "ginepro": {
+    "nome": "Ginepro",
+    "categoria": "Spezie",
+    "famiglia": "Bacche aromatiche",
+    "profilo": [
+      "resinoso",
+      "balsamico",
+      "pepato"
+    ],
+    "pairing": {
+      "capriolo": 5,
+      "cervo": 5,
+      "maiale": 4,
+      "cavolo": 3,
+      "rosmarino": 4
+    },
+    "immagine": "",
+    "tipo_record": "base",
+    "parent": null,
+    "tipologia": "generico",
+    "varieta": "",
+    "stagionatura": null,
+    "sinonimi": [
+      "bacche di ginepro"
     ]
   }
 }
