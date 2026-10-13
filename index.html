@@ -317,12 +317,72 @@ input[type=file]{
 .ingredient-visual{background:#f4eee6;}
 .ingredient-visual img{transition:transform .25s ease;}
 .result:hover .ingredient-visual img{transform:scale(1.04);}
+
+/* Creative Kitchen Lab — added as a layer; legacy tools remain intact */
+.lab-intro{background:linear-gradient(135deg,#25231f 0%,#3d332b 62%,#5c493b 100%);color:#fff;border-color:#3d332b}
+.lab-intro h2,.lab-intro h3{color:#fff}
+.lab-intro .muted,.lab-intro .lab-subtitle{color:#e0d7cc}
+.lab-kicker{font-size:11px;letter-spacing:1.8px;font-weight:800;color:#e7b99b;margin-bottom:7px}
+.lab-subtitle{margin:0 0 16px;font-size:14px;max-width:660px}
+.lab-mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.lab-mode{border:1px solid #8a7868;border-radius:13px;padding:13px;background:rgba(255,255,255,.06);cursor:pointer;min-height:100px}
+.lab-mode input{width:auto;min-height:auto;margin:0 6px 0 0;accent-color:#e7b99b}
+.lab-mode strong{display:block;margin:0 0 5px;font-size:14px}
+.lab-mode span{display:block;color:#e0d7cc;font-size:12px;line-height:1.4}
+.lab-intro label{color:inherit}
+.lab-intro input,.lab-intro select,.lab-intro textarea{background:#fff;color:#25231f}
+.lab-goal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lab-output{margin-top:16px}
+.lab-result{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:15px;margin:12px 0}
+.lab-result-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.lab-result h3{margin:0 0 5px;font-size:17px}
+.lab-tags{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}
+.lab-tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 8px;font-size:11px;color:var(--muted);background:#fff}
+.lab-tag.strong{border-color:#9a5b40;color:#86402f;font-weight:700}
+.lab-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+.lab-metric{padding:9px;border-radius:10px;background:#fff;border:1px solid var(--line)}
+.lab-metric b{display:block;font-size:17px}
+.lab-metric small{font-size:10px;color:var(--muted)}
+.lab-result p{margin:8px 0;font-size:13px}
+.lab-result details{margin-top:9px}
+.lab-result summary{cursor:pointer;font-weight:700;font-size:13px}
+.lab-save{margin-top:10px;background:#25231f;color:#fff;border-color:#25231f}
+.lab-notice{font-size:12px;color:var(--muted);padding:9px 0}
+.lab-legacy-note{font-size:12px;color:var(--muted);margin:0 0 14px}
+@media(max-width:560px){.lab-mode-grid,.lab-goal-row{grid-template-columns:1fr}.lab-mode{min-height:auto}.lab-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.lab-metric{padding:7px}.lab-metric b{font-size:15px}}
+
 </style>
 </head>
 <body>
 <header><div class="brand"><div class="brand-mark">FP</div><div class="brand-copy"><h1>FoodPairing</h1><p>Ingredienti · profili · abbinamenti</p></div></div></header>
 <main>
 <div id="status" class="status">Caricamento database...</div>
+
+
+<section class="box lab-intro" id="creativeLab">
+  <div class="lab-kicker">FOODPAIRING · CREATIVE KITCHEN LAB</div>
+  <h2>Non cercare la risposta ovvia. Cerca una direzione.</h2>
+  <p class="lab-subtitle">Parti da due o tre ingredienti. Il laboratorio cerca piste culinarie, spiega il possibile ruolo dell'ingrediente inatteso e ti propone come verificarlo. Le ipotesi non sono ricette già validate.</p>
+  <div class="lab-mode-grid" role="group" aria-label="Modalità creativa">
+    <label class="lab-mode"><strong><input type="radio" name="labMode" value="applicabile" checked> Creatività applicabile</strong><span>Idee insolite ma ragionevoli, pensate per diventare piatti realizzabili.</span></label>
+    <label class="lab-mode"><strong><input type="radio" name="labMode" value="estrema"> Sperimentazione estrema</strong><span>Relazioni poco esplorate, contrasti e ipotesi da mettere alla prova.</span></label>
+  </div>
+  <div class="lab-goal-row">
+    <div><label for="labGoal">Direzione del lavoro</label><select id="labGoal"><option value="sorprendi">Sorprendimi davvero</option><option value="piatto">Costruisci una direzione per un piatto</option><option value="ponte">Trova un ponte aromatico</option><option value="contrasto">Lavora per contrasto</option><option value="classico">Ribalta un classico</option></select></div>
+    <div><label for="labCount">Numero di piste</label><select id="labCount"><option value="4">4 idee selezionate</option><option value="6" selected>6 idee da confrontare</option><option value="8">8 idee da esplorare</option></select></div>
+  </div>
+  <div class="grid">
+    <div class="triple-field"><label for="labIngredient1">Ingrediente di partenza 1</label><input id="labIngredient1" placeholder="Es. zucca" autocomplete="off"><div id="labSuggest1" class="suggest"></div></div>
+    <div class="triple-field"><label for="labIngredient2">Ingrediente di partenza 2</label><input id="labIngredient2" placeholder="Es. cacao" autocomplete="off"><div id="labSuggest2" class="suggest"></div></div>
+  </div>
+  <div class="triple-field"><label for="labIngredient3">Terzo ingrediente (facoltativo)</label><input id="labIngredient3" placeholder="Es. aceto di mele" autocomplete="off"><div id="labSuggest3" class="suggest"></div></div>
+  <div class="field"><label for="labConstraints">Vincoli o obiettivo del piatto (facoltativo)</label><textarea id="labConstraints" rows="2" placeholder="Es. antipasto piemontese, niente frittura, preparazione anticipabile, servizio rapido..."></textarea></div>
+  <button id="labGenerate" type="button">Genera piste creative</button>
+  <div class="lab-notice">La novità è una stima rispetto all'archivio presente, non una misura assoluta. La compatibilità documentata e le ipotesi creative sono mostrate separatamente.</div>
+  <div id="labStatus" class="lab-output" aria-live="polite"></div>
+  <div id="labResults" class="lab-output"></div>
+</section>
+<p class="lab-legacy-note">L'archivio aromatico e gli strumenti precedenti restano disponibili qui sotto. Nessuna funzione esistente è stata rimossa.</p>
 
 <section class="hero box">
 <div class="hero-top">
@@ -1439,8 +1499,168 @@ function enhanceBuilderRender(){
 }
 
 
-async function initApp(){
+async 
+/* Creative Kitchen Lab: a separate exploratory layer over the existing database. */
+function labProfile(key){
+  return Array.isArray(db[key]?.profilo) ? db[key].profilo.map(norm) : [];
+}
+function labCategory(key){ return norm(db[key]?.categoria||""); }
+function labFamily(key){ return norm(db[key]?.famiglia||""); }
+function labPairInfo(a,b){
+  const evidence=getPairEvidence(a,b);
+  const pa=labProfile(a),pb=labProfile(b);
+  const shared=pa.filter(x=>pb.includes(x));
+  return {score:evidence.score,source:evidence.source,shared};
+}
+function labCandidateData(candidate,anchors,mode,goal){
+  const pairs=anchors.map(a=>({key:a,...labPairInfo(a,candidate)}));
+  const known=pairs.filter(p=>p.score>0).length;
+  const strong=pairs.filter(p=>p.score>=4).length;
+  const moderate=pairs.filter(p=>p.score>=2&&p.score<4).length;
+  const profiles=labProfile(candidate);
+  const anchorProfiles=[...new Set(anchors.flatMap(labProfile))];
+  const shared=profiles.filter(p=>anchorProfiles.includes(p));
+  const distinct=profiles.filter(p=>!anchorProfiles.includes(p));
+  const categories=new Set([...anchors.map(labCategory),labCategory(candidate)].filter(Boolean)).size;
+  const families=new Set([...anchors.map(labFamily),labFamily(candidate)].filter(Boolean)).size;
+  const avg= pairs.length ? pairs.reduce((n,p)=>n+p.score,0)/pairs.length : 0;
+  const novelty=Math.max(8,Math.min(96,Math.round(100-(known/Math.max(1,anchors.length))*58-(strong/Math.max(1,anchors.length))*12+categories*7+families*3)));
+  const bridge=shared.length;
+  let value=0;
+  if(mode==="applicabile"){
+    value=(moderate*3)+(known*1.2)+(bridge*2.5)+(categories*2)+(families*1.1)-(strong*3)+(distinct.length*.35);
+    if(known===0)value-=3;
+  }else{
+    value=((anchors.length-known)*4)+(categories*3)+(families*2)+(distinct.length*1.7)+(bridge*.6)-(strong*2);
+    if(goal==="contrasto")value+=distinct.length*1.2-bridge*.25;
+  }
+  if(goal==="ponte")value+=bridge*4+moderate*1.5;
+  if(goal==="sorprendi")value+=novelty*.12;
+  if(goal==="piatto")value+=known*1.4+bridge*1.2-categories*.4;
+  if(goal==="classico")value+=bridge*1.5+moderate*1.5;
+  return {key:candidate,pairs,known,strong,moderate,avg,shared,distinct,categories,families,novelty,value,mode,goal};
+}
+function labExplain(data,anchors){
+  const n=nome(data.key);
+  const shared=data.shared;
+  const distinct=data.distinct;
+  let idea="";
+  if(data.goal==="ponte"){
+    idea=shared.length ? n+" può fare da ponte grazie ai profili in comune ("+shared.slice(0,3).join(", ")+")." : n+" non mostra un ponte aromatico evidente nei dati: l'interesse è verificare se la tecnica riesce a collegare gli ingredienti.";
+  }else if(data.goal==="contrasto"){
+    idea=distinct.length ? n+" introduce una dimensione diversa ("+distinct.slice(0,3).join(", ")+") rispetto ai profili di partenza: usalo in dose controllata per creare contrasto." : n+" sembra più vicino ai profili di partenza che opposto; il contrasto dovrà nascere soprattutto da tecnica o consistenza.";
+  }else if(data.goal==="classico"){
+    idea="Usa "+n+" come deviazione controllata: mantieni riconoscibili gli ingredienti principali e cambia un solo asse del piatto, per esempio acidità, amaro o consistenza.";
+  }else if(data.goal==="piatto"){
+    idea=n+" può entrare come elemento funzionale, non come decorazione: scegli un ruolo preciso e verifica che sostenga il protagonista senza coprirlo.";
+  }else{
+    idea= data.mode==="estrema"
+      ? "La pista è interessante proprio perché non è sostenuta da molte relazioni già registrate. Trattala come ipotesi, non come abbinamento acquisito."
+      : (shared.length ? "La pista ha un appiglio nei profili condivisi ("+shared.slice(0,3).join(", ")+"), ma si discosta dalle combinazioni più ovvie dell'archivio." : "La pista si discosta dalle relazioni registrate. La motivazione è esplorativa: serve un assaggio comparativo prima di promuoverla.");
+  }
+  return idea;
+}
+function labRole(data){
+  if(data.goal==="ponte")return data.shared.length?"Ponte aromatico possibile":"Ponte da verificare";
+  if(data.goal==="contrasto")return data.distinct.length?"Elemento di contrasto":"Contrasto da costruire con la tecnica";
+  if(data.goal==="classico")return"Elemento di rottura controllata";
+  if(data.shared.length>=2)return"Legante aromatico";
+  if(data.distinct.length>=2)return"Accento distintivo";
+  return data.mode==="estrema"?"Variabile sperimentale":"Elemento funzionale";
+}
+function labTest(data){
+  if(data.mode==="estrema")return "Prepara 3 micro-assaggi: controllo senza "+nome(data.key)+", aggiunta minima e aggiunta più evidente. Cambia una sola variabile alla volta; annota equilibrio, persistenza e difetto dominante.";
+  if(data.goal==="contrasto")return "Prova "+nome(data.key)+" in due forme diverse (per esempio crudo e cotto, fresco e tostato, liquido e croccante). Parti da una quantità minima e controlla che il contrasto non copra il protagonista.";
+  if(data.goal==="ponte")return "Prepara una piccola base aromatica con "+nome(data.key)+" e confronta il piatto con e senza il ponte. Se il collegamento non si percepisce all'assaggio, non aumentare automaticamente la dose.";
+  return "Fai una prova da 1-2 bocconi, mantenendo invariata la base. Inserisci "+nome(data.key)+" in una sola funzione (condimento, infusione, crema, polvere o elemento croccante) e confronta con un controllo.";
+}
+function labSourceLabel(source){
+  if(source==="none")return "nessuna relazione registrata";
+  const labels=[];
+  if(source.includes("database"))labels.push("archivio");
+  if(source.includes("verified"))labels.push("verifica manuale");
+  if(source.includes("external"))labels.push("fonte esterna");
+  return labels.join(" + ");
+}
+function labRenderCard(data,anchors){
+  const modeLabel=data.mode==="estrema"?"Sperimentazione estrema":"Creatività applicabile";
+  const pairHtml=data.pairs.map(p=>"<div class='pair-reason'><b>"+esc(nome(p.key))+" + "+esc(nome(data.key))+"</b> · "+(p.score?p.score+"/5":"nessun punteggio registrato")+"<div>Fonte: "+esc(labSourceLabel(p.source))+"</div>"+(p.shared.length?"<div>Profili condivisi: "+p.shared.map(esc).join(", ")+"</div>":"")+"</div>").join("");
+  const allKeys=[...anchors,data.key];
+  const title=allKeys.map(nome).join(" + ");
+  return "<article class='lab-result'><div class='lab-result-head'><div><h3>"+esc(nome(data.key))+"</h3><div class='muted'>"+esc(labRole(data))+"</div></div><span class='lab-tag strong'>"+esc(modeLabel)+"</span></div>"+
+    "<div class='lab-tags'><span class='lab-tag'>"+esc(db[data.key]?.categoria||"Categoria non indicata")+"</span><span class='lab-tag'>"+(data.known?data.known+"/"+anchors.length+" relazioni note":"nessuna relazione diretta registrata")+"</span></div>"+
+    "<div class='lab-metrics'><div class='lab-metric'><b>"+data.novelty+"%</b><small>novità stimata*</small></div><div class='lab-metric'><b>"+(data.known?data.avg.toFixed(1)+"/5":"—")+"</b><small>punteggio medio registrato</small></div><div class='lab-metric'><b>"+data.known+"/"+anchors.length+"</b><small>relazioni con dati</small></div></div>"+
+    "<p><b>Perché esplorarla.</b> "+esc(labExplain(data,anchors))+"</p>"+
+    "<p><b>Prova pratica.</b> "+esc(labTest(data))+"</p>"+
+    "<details><summary>Apri evidenze e limiti</summary><p><b>Combinazione:</b> "+esc(title)+"</p>"+pairHtml+"<p><b>Limite:</b> il punteggio medio descrive solo le relazioni presenti nelle fonti collegate. Non certifica la riuscita del piatto.</p><p><b>Profili condivisi:</b> "+(data.shared.length?data.shared.map(esc).join(", "):"nessuno registrato")+". <b>Profili distintivi:</b> "+(data.distinct.length?data.distinct.map(esc).join(", "):"nessuno registrato")+".</p></details>"+
+    "<button type='button' class='lab-save' data-lab-save='"+esc(data.key)+"' data-lab-anchors='"+esc(anchors.join("|"))+"'>Salva come ipotesi da testare</button></article>";
+}
+function labSavedHypotheses(){
+  try{const v=JSON.parse(localStorage.getItem("foodpairing_creative_hypotheses")||"[]");return Array.isArray(v)?v:[]}catch(e){return []}
+}
+function labSaveHypothesis(key,anchors){
+  const list=labSavedHypotheses();
+  const mode=document.querySelector('input[name="labMode"]:checked')?.value||"applicabile";
+  const goal=$("labGoal")?.value||"sorprendi";
+  const record={id:Date.now()+"_"+key,createdAt:new Date().toISOString(),candidate:key,anchors,mode,goal,constraints:$("labConstraints")?.value||"",status:"da_testare"};
+  list.unshift(record);
+  localStorage.setItem("foodpairing_creative_hypotheses",JSON.stringify(list.slice(0,200)));
+  const status=$("labStatus");
+  status.textContent="Ipotesi salvata nel banco sperimentale di questo dispositivo. Ipotesi in archivio: "+Math.min(list.length,200)+".";
+}
+function labGenerate(){
+  const status=$("labStatus"),out=$("labResults");
+  out.innerHTML="";
+  const mode=document.querySelector('input[name="labMode"]:checked')?.value||"applicabile";
+  const goal=$("labGoal").value;
+  const inputs=[$("labIngredient1").value,$("labIngredient2").value,$("labIngredient3").value].map(v=>String(v||"").trim()).filter(Boolean);
+  const anchors=[];
+  for(const raw of inputs){
+    const key=findFromInputValue(raw);
+    if(!key){status.textContent="Non trovo l'ingrediente «"+raw+"» nell'archivio. Seleziona un ingrediente esistente dai suggerimenti.";return}
+    if(!anchors.includes(key))anchors.push(key);
+  }
+  if(anchors.length<2){status.textContent="Inserisci almeno due ingredienti presenti nell'archivio.";return}
+  if(inputs.length!==anchors.length){status.textContent="Hai inserito due volte lo stesso ingrediente. Usa ingredienti diversi.";return}
+  status.textContent="Esplorazione in corso: confronto profili, relazioni note e categorie...";
+  const excluded=new Set(anchors);
+  let candidates=Object.keys(db).filter(k=>!excluded.has(k)).map(k=>labCandidateData(k,anchors,mode,goal));
+  candidates=candidates.filter(x=>mode==="estrema" ? (x.known<anchors.length || x.novelty>=35) : (x.known>0 || x.shared.length>0 || x.novelty>=45));
+  candidates.sort((a,b)=>b.value-a.value||b.novelty-a.novelty||b.avg-a.avg);
+  const count=Number($("labCount").value)||6;
+  const selected=candidates.slice(0,count);
+  if(!selected.length){status.textContent="Non ci sono abbastanza candidati utili con i dati attuali. Prova un altro ingrediente o la modalità estrema.";return}
+  const constraint=String($("labConstraints").value||"").trim();
+  const constraintHtml=constraint?"<div class='lab-notice'><b>Vincolo da tenere presente:</b> "+esc(constraint)+". Le proposte qui sotto non sono ancora filtrate automaticamente in base a questo testo: usalo come criterio di selezione e verifica.</div>":"";
+  status.textContent="Trovate "+selected.length+" piste. Confronta le motivazioni e scegli quali verificare.";
+  out.innerHTML=constraintHtml+"<p class='lab-notice'>*Novità stimata rispetto alle relazioni presenti nell'archivio locale; non misura l'originalità assoluta. Le idee non verificate sono ipotesi culinarie.</p>"+selected.map(x=>labRenderCard(x,anchors)).join("");
+}
+function findFromInputValue(raw){
+  const q=norm(raw);
+  if(!q)return null;
+  if(db[q])return q;
+  const exact=Object.keys(db).find(k=>norm(nome(k))===q);
+  if(exact)return exact;
+  const matches=Object.keys(db).filter(k=>norm(k).includes(q)||norm(nome(k)).includes(q));
+  return matches.length===1?matches[0]:null;
+}
+function setupCreativeLab(){
+  autocomplete("labIngredient1","labSuggest1");
+  autocomplete("labIngredient2","labSuggest2");
+  autocomplete("labIngredient3","labSuggest3");
+  $("labGenerate").addEventListener("click",labGenerate);
+  $("labResults").addEventListener("click",e=>{
+    const btn=e.target.closest("[data-lab-save]");
+    if(!btn)return;
+    const key=btn.getAttribute("data-lab-save");
+    const anchors=(btn.getAttribute("data-lab-anchors")||"").split("|").filter(Boolean);
+    try{labSaveHypothesis(key,anchors)}catch(err){$("labStatus").textContent="Non riesco a salvare questa ipotesi nel browser: "+(err.message||"errore locale");}
+  });
+}
+
+function initApp(){
   try{
+    setupCreativeLab();
     $("cerca").onclick=e=>{e.preventDefault();search()};
     $("ingrediente").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();search()}});
     $("scopri").onclick=e=>{e.preventDefault();discover()};
