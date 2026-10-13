@@ -408,12 +408,61 @@ input[type=file]{
 .suggest .suggest-visual{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border-radius:9px;overflow:hidden;background:#f4eee6;}
 .suggest .suggest-visual img{width:100%;height:100%;object-fit:cover;}
 
+
+.fp-nav{display:flex;gap:7px;overflow-x:auto;padding:3px 1px 12px;margin:0 0 8px;scrollbar-width:thin}
+.fp-nav a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:38px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--text);font-size:12px;font-weight:750;text-decoration:none;white-space:nowrap}
+.fp-nav a:hover,.fp-nav a:focus{background:#eee3d8;border-color:#c9b5a2;outline:none}
+#ingredientSearch,#combinationBuilder,#creativeLab,#sourceInspiration,#newDiscovery,#advancedTools{scroll-margin-top:100px}
 </style>
 </head>
 <body>
 <header><div class="brand"><div class="brand-mark">FP</div><div class="brand-copy"><h1>FoodPairing</h1><p>Ingredienti · profili · abbinamenti</p></div></div></header>
 <main>
 <div id="status" class="status">Caricamento database...</div>
+
+
+
+
+
+<nav class="fp-nav" aria-label="Sezioni FoodPairing">
+  <a href="#ingredientSearch">Abbinamenti</a>
+  <a href="#combinationBuilder">Componi</a>
+  <a href="#creativeLab">Laboratorio creativo</a>
+  <a href="#sourceInspiration">Da una fonte</a>
+  <a href="#newDiscovery">Nuovi abbinamenti</a>
+  <a href="#advancedTools">Strumenti avanzati</a>
+</nav>
+
+<section class="hero box" id="ingredientSearch">
+<div class="hero-top">
+<div class="hero-copy-block">
+<div class="hero-kicker">ABBINAMENTI AROMATICI</div>
+<h2>Parti da un ingrediente</h2>
+<p class="hero-copy">Cerca un ingrediente e scopri subito gli abbinamenti migliori, con punteggio, profilo e fonte.</p>
+</div>
+<div class="hero-art">🍎</div>
+</div>
+<div class="field"><label>Ingrediente</label><input id="ingrediente" placeholder="Es. mela" autocomplete="off"><div id="suggestMain" class="suggest"></div></div>
+<div class="grid hero-filters">
+<div><label>Categoria</label><select id="categoria"><option value="">Tutte</option></select></div>
+<div><label>Intensità minima</label><select id="intensita"><option value="0">Tutte</option><option value="2">≥ 2</option><option value="3">≥ 3</option><option value="4">≥ 4</option><option value="4.5">≥ 4.5</option></select></div>
+</div>
+<button id="cerca">Cerca abbinamenti</button>
+<div id="risultati"></div>
+</section>
+
+
+<section class="box builder-section" id="combinationBuilder">
+<h2>Costruisci una combinazione</h2>
+<p class="muted">Inserisci tre ingredienti e lascia che FoodPairing cerchi un quarto ingrediente compatibile.</p>
+<div class="grid">
+<div class="triple-field"><label>Ingrediente 1</label><input id="i1" placeholder="Es. mela" autocomplete="off"><div id="s1" class="suggest"></div></div>
+<div class="triple-field"><label>Ingrediente 2</label><input id="i2" placeholder="Es. maiale" autocomplete="off"><div id="s2" class="suggest"></div></div>
+</div>
+<div class="triple-field"><label>Ingrediente 3</label><input id="i3" placeholder="Es. timo" autocomplete="off"><div id="s3" class="suggest"></div></div>
+<button id="esplora">Esplora combinazioni</button>
+<div id="risultati3"></div>
+</section>
 
 
 <section class="box lab-intro" id="creativeLab">
@@ -442,6 +491,7 @@ input[type=file]{
   <div id="labBench" class="lab-output" hidden></div>
 </section>
 
+
 <section class="box" id="sourceInspiration">
  <div class="hero-kicker">FONTE → ANALISI → SPERIMENTAZIONE</div><h2>Ispirazione da una fonte</h2>
  <p class="muted">Estrae contenuti da link, PDF o foto; distingue dati rilevati e ipotesi creative. Le proposte non sono ricette validate.</p>
@@ -458,39 +508,8 @@ input[type=file]{
  <label for="sourceConstraints">Vincoli di cucina (facoltativo)</label><input id="sourceConstraints" placeholder="Es. no frittura, servizio rapido, preparazione anticipabile">
  <button id="sourceExtract" type="button">Estrai contenuti e genera piste</button><div id="sourceStatus" class="lab-notice" aria-live="polite"></div><div id="sourceResults"></div>
 </section>
-<p class="lab-legacy-note">L'archivio aromatico e gli strumenti precedenti restano disponibili qui sotto. Nessuna funzione esistente è stata rimossa.</p>
 
-<section class="hero box">
-<div class="hero-top">
-<div class="hero-copy-block">
-<div class="hero-kicker">ABBINAMENTI AROMATICI</div>
-<h2>Parti da un ingrediente</h2>
-<p class="hero-copy">Cerca un ingrediente e scopri subito gli abbinamenti migliori, con punteggio, profilo e fonte.</p>
-</div>
-<div class="hero-art">🍎</div>
-</div>
-<div class="field"><label>Ingrediente</label><input id="ingrediente" placeholder="Es. mela" autocomplete="off"><div id="suggestMain" class="suggest"></div></div>
-<div class="grid hero-filters">
-<div><label>Categoria</label><select id="categoria"><option value="">Tutte</option></select></div>
-<div><label>Intensità minima</label><select id="intensita"><option value="0">Tutte</option><option value="2">≥ 2</option><option value="3">≥ 3</option><option value="4">≥ 4</option><option value="4.5">≥ 4.5</option></select></div>
-</div>
-<button id="cerca">Cerca abbinamenti</button>
-<div id="risultati"></div>
-</section>
-
-<section class="box builder-section">
-<h2>Costruisci una combinazione</h2>
-<p class="muted">Inserisci tre ingredienti e lascia che FoodPairing cerchi un quarto ingrediente compatibile.</p>
-<div class="grid">
-<div class="triple-field"><label>Ingrediente 1</label><input id="i1" placeholder="Es. mela" autocomplete="off"><div id="s1" class="suggest"></div></div>
-<div class="triple-field"><label>Ingrediente 2</label><input id="i2" placeholder="Es. maiale" autocomplete="off"><div id="s2" class="suggest"></div></div>
-</div>
-<div class="triple-field"><label>Ingrediente 3</label><input id="i3" placeholder="Es. timo" autocomplete="off"><div id="s3" class="suggest"></div></div>
-<button id="esplora">Esplora combinazioni</button>
-<div id="risultati3"></div>
-</section>
-
-<section class="box discovery-tools">
+<section class="box discovery-tools" id="newDiscovery">
 <h2>Scopri nuovi abbinamenti</h2>
 <p class="muted">Trova candidati non ancora presenti come abbinamenti diretti. Restano da verificare.</p>
 <div class="field"><label>Ingrediente di partenza</label><input id="scopriIngrediente" placeholder="Es. mela" autocomplete="off"><div id="suggestScopri" class="suggest"></div></div>
@@ -498,7 +517,8 @@ input[type=file]{
 <div id="risultatiScopri"></div>
 </section>
 
-<details class="advanced">
+
+<details class="advanced" id="advancedTools">
 <summary>Strumenti avanzati</summary>
 <div class="advanced-inner">
 <section class="box">
@@ -549,6 +569,7 @@ input[type=file]{
 </section>
 </div>
 </details>
+
 </main>
 <script>
 let db={};
