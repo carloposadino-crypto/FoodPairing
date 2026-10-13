@@ -4204,30 +4204,6 @@
     "varieta": "Sardo",
     "stagionatura": null
   },
-  "pesce_tonno": {
-    "nome": "Tonno",
-    "categoria": "Pesce",
-    "famiglia": "Pesce",
-    "profilo": [
-      "sapido",
-      "umami",
-      "marino",
-      "delicato"
-    ],
-    "pairing": {
-      "limone": 5,
-      "olio": 5,
-      "prezzemolo": 5,
-      "aglio": 4,
-      "vitello": 4
-    },
-    "immagine": "",
-    "tipo_record": "varieta_tipologia",
-    "parent": null,
-    "varieta": "Tonno",
-    "tipologia": "",
-    "stagionatura": null
-  },
   "formaggio_raschera": {
     "nome": "Raschera DOP",
     "categoria": "Formaggi",
