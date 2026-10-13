@@ -7314,7 +7314,6 @@
       "parmigiano": 4,
       "grana_padano": 4,
       "spinacio": 4,
-      "cardo": 4,
       "patata": 4,
       "cavolfiore": 4,
       "broccolo": 4,
@@ -7366,8 +7365,7 @@
       "brodo_vegetale": 4,
       "funghi": 4,
       "porcino_fresco": 5,
-      "guancia_maiale": 4,
-      "ragù": 4
+      "guancia_maiale": 4
     }
   }
 }
