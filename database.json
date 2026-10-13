@@ -61,7 +61,9 @@
       "cavolo_cappuccio": 4,
       "cardamomo": 4,
       "speck": 3,
-      "gouda_stagionato": 4
+      "gouda_stagionato": 4,
+      "guancia_maiale": 3,
+      "asiago": 4
     },
     "immagine": "https://images.pexels.com/photos/3903200/pexels-photo-3903200.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -122,7 +124,8 @@
       "crescenza": 4,
       "robiola_tre_latti": 4,
       "gouda_stagionato": 4,
-      "blue_cheese": 5
+      "blue_cheese": 5,
+      "grana_padano": 4
     },
     "immagine": "https://images.pexels.com/photos/14050491/pexels-photo-14050491.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -246,7 +249,6 @@
       "rosmarino": 4,
       "menta": 5,
       "miele": 4,
-      "finocchio": 5,
       "melone": 4,
       "cappero": 5,
       "acciuga": 5,
@@ -280,7 +282,13 @@
       "burrata": 4,
       "pepe_rosa": 4,
       "aneto": 4,
-      "tonno_sottolio": 5
+      "tonno_sottolio": 5,
+      "girello_vitello": 4,
+      "fesa_vitello": 4,
+      "noce_vitello": 4,
+      "gel_sedano": 4,
+      "maionese": 5,
+      "pangrattato": 3
     },
     "immagine": "https://images.pexels.com/photos/1414110/pexels-photo-1414110.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -305,7 +313,6 @@
       "cannella": 5,
       "zenzero": 5,
       "vaniglia": 4,
-      "finocchio": 4,
       "maiale": 4,
       "miele": 5,
       "carota": 5,
@@ -366,7 +373,10 @@
       "maggiorana": 4,
       "alloro": 3,
       "paprika": 4,
-      "burrata": 5
+      "burrata": 5,
+      "provolone": 4,
+      "mozzarella_bufala": 5,
+      "fondo_vegetale": 3
     },
     "immagine": "https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -393,7 +403,9 @@
       "ricotta": 5,
       "olio": 5,
       "peperoncino": 4,
-      "origano": 5
+      "origano": 5,
+      "scamorza": 4,
+      "pangrattato": 4
     },
     "immagine": "https://images.pexels.com/photos/5701950/pexels-photo-5701950.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -419,7 +431,8 @@
       "ricotta": 4,
       "aglio": 4,
       "timo": 4,
-      "maggiorana": 4
+      "maggiorana": 4,
+      "pangrattato": 4
     },
     "immagine": "https://images.pexels.com/photos/3375263/pexels-photo-3375263.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -448,7 +461,20 @@
       "sedano": 5,
       "cannella": 4,
       "aceto": 4,
-      "cardamomo": 3
+      "cardamomo": 3,
+      "guancia_maiale": 4,
+      "reale_manzo": 4,
+      "fesa_vitello": 3,
+      "noce_vitello": 3,
+      "guancia_vitello": 4,
+      "muscolo_manzo": 4,
+      "biancostato_manzo": 4,
+      "coda_manzo": 4,
+      "fondo_bruno": 4,
+      "purea_verdure": 4,
+      "punta_petto_manzo": 4,
+      "cappello_del_prete": 4,
+      "fondo_vegetale": 5
     },
     "immagine": "https://images.pexels.com/photos/8477073/pexels-photo-8477073.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -483,7 +509,21 @@
       "gorgonzola_piccante": 4,
       "cinghiale": 4,
       "cervo": 4,
-      "blue_cheese": 4
+      "blue_cheese": 4,
+      "girello_vitello": 3,
+      "guancia_maiale": 4,
+      "reale_manzo": 4,
+      "fesa_vitello": 3,
+      "noce_vitello": 3,
+      "guancia_vitello": 4,
+      "muscolo_manzo": 4,
+      "biancostato_manzo": 4,
+      "coda_manzo": 4,
+      "fondo_bruno": 4,
+      "gel_sedano": 5,
+      "punta_petto_manzo": 4,
+      "cappello_del_prete": 4,
+      "fondo_vegetale": 5
     },
     "immagine": "https://images.pexels.com/photos/1435895/pexels-photo-1435895.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -526,7 +566,27 @@
       "salsiccia": 4,
       "guanciale": 3,
       "gruyere": 4,
-      "uovo": 4
+      "uovo": 4,
+      "guancia_maiale": 4,
+      "reale_manzo": 4,
+      "guancia_vitello": 4,
+      "muscolo_manzo": 4,
+      "biancostato_manzo": 4,
+      "lingua_manzo": 3,
+      "coda_manzo": 4,
+      "bra_tenero": 4,
+      "toma_alpeggio": 4,
+      "porcino_fresco": 4,
+      "finferlo": 4,
+      "olio_aromatico": 4,
+      "burro_nocciola": 4,
+      "maionese": 3,
+      "purea_verdure": 4,
+      "punta_petto_manzo": 4,
+      "cappello_del_prete": 4,
+      "fondo_vegetale": 4,
+      "brodo_vegetale": 4,
+      "besciamella": 4
     },
     "immagine": "https://images.pexels.com/photos/144248/potatoes-vegetables-mashed-potatoes-potatoes-144248.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -569,7 +629,17 @@
       "fassona_piemonte": 5,
       "cinghiale": 4,
       "cervo": 4,
-      "gruyere": 4
+      "gruyere": 4,
+      "guancia_maiale": 4,
+      "reale_manzo": 4,
+      "guancia_vitello": 4,
+      "muscolo_manzo": 4,
+      "biancostato_manzo": 4,
+      "coda_manzo": 4,
+      "fondo_bruno": 4,
+      "punta_petto_manzo": 4,
+      "cappello_del_prete": 4,
+      "fondo_vegetale": 5
     },
     "immagine": "https://images.pexels.com/photos/130049/pexels-photo-130049.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -634,7 +704,11 @@
       "spinacio": 4,
       "bietola": 4,
       "cetriolo": 3,
-      "tonno_sottolio": 4
+      "tonno_sottolio": 4,
+      "porcino_fresco": 3,
+      "olio_aromatico": 4,
+      "fondo_vegetale": 3,
+      "pangrattato": 4
     },
     "immagine": "https://images.pexels.com/photos/4197448/pexels-photo-4197448.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -665,7 +739,12 @@
       "sedano": 4,
       "scalogno": 4,
       "sedano_rapa": 3,
-      "alloro": 4
+      "alloro": 4,
+      "polenta": 4,
+      "porcino_secco": 3,
+      "fondo_bruno": 5,
+      "olio_aromatico": 3,
+      "purea_verdure": 3
     },
     "immagine": "https://images.pexels.com/photos/128402/pexels-photo-128402.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -701,7 +780,6 @@
       "sedano": 4,
       "zenzero": 4,
       "aceto": 4,
-      "finocchio": 4,
       "salvia": 5,
       "cavolo": 5,
       "mela_granny": 5,
@@ -726,7 +804,10 @@
       "alloro": 4,
       "paprika": 4,
       "birra": 4,
-      "ginepro": 4
+      "ginepro": 4,
+      "rabarbaro": 3,
+      "tamarindo": 4,
+      "olio_aromatico": 3
     },
     "immagine": "https://images.pexels.com/photos/236798/pexels-photo-236798.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -792,7 +873,8 @@
       "mandarino": 5,
       "mora": 4,
       "ribes": 4,
-      "pepe_rosa": 4
+      "pepe_rosa": 4,
+      "pompelmo": 4
     },
     "immagine": "https://images.pexels.com/photos/162419/duck-bird-animal-waterfowl-162419.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -888,7 +970,9 @@
       "sedano_rapa": 4,
       "cavoletti_bruxelles": 4,
       "robiola_tre_latti": 4,
-      "gouda_stagionato": 4
+      "gouda_stagionato": 4,
+      "dattero": 5,
+      "burro_nocciola": 4
     },
     "immagine": "https://images.pexels.com/photos/372882/pexels-photo-372882.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1033,7 +1117,13 @@
       "cervo": 4,
       "mirtillo": 3,
       "capriolo": 4,
-      "ginepro": 4
+      "ginepro": 4,
+      "guancia_maiale": 4,
+      "reale_manzo": 3,
+      "fesa_vitello": 3,
+      "noce_vitello": 3,
+      "olio_aromatico": 4,
+      "cappello_del_prete": 3
     },
     "immagine": "https://images.pexels.com/photos/4198770/pexels-photo-4198770.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1090,7 +1180,12 @@
       "topinambur": 4,
       "faraona": 4,
       "caprino": 4,
-      "robiola_tre_latti": 4
+      "robiola_tre_latti": 4,
+      "guancia_vitello": 4,
+      "porcino_fresco": 4,
+      "finferlo": 4,
+      "olio_aromatico": 4,
+      "fondo_vegetale": 4
     },
     "immagine": "https://images.pexels.com/photos/4198772/pexels-photo-4198772.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1174,7 +1269,8 @@
       "bergamotto": 4,
       "cedro": 4,
       "panna": 4,
-      "lime": 4
+      "lime": 4,
+      "tamarindo": 4
     },
     "immagine": "https://images.pexels.com/photos/161556/background-ginger-ginger-root-161556.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1283,7 +1379,9 @@
       "stracchino": 4,
       "crescenza": 4,
       "robiola_tre_latti": 4,
-      "blue_cheese": 5
+      "blue_cheese": 5,
+      "bra_duro": 4,
+      "tomino": 4
     },
     "immagine": "https://images.pexels.com/photos/33260/honey-syrup-organic-honey-jar-33260.jpg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1324,7 +1422,8 @@
       "cavolo_cappuccio": 4,
       "dragoncello": 4,
       "gouda_stagionato": 4,
-      "birra": 4
+      "birra": 4,
+      "lingua_manzo": 3
     },
     "immagine": "https://images.pexels.com/photos/5419221/pexels-photo-5419221.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1365,7 +1464,14 @@
       "vitello": 4,
       "faraona": 4,
       "gruyere": 4,
-      "polenta": 5
+      "polenta": 5,
+      "reale_manzo": 4,
+      "guancia_vitello": 4,
+      "muscolo_manzo": 4,
+      "cappello_del_prete": 4,
+      "fondo_vegetale": 4,
+      "brodo_vegetale": 4,
+      "pasta_fresca": 4
     },
     "immagine": "https://images.pexels.com/photos/1210505/pexels-photo-1210505.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1429,7 +1535,11 @@
       "porro": 4,
       "topinambur": 4,
       "cavoletti_bruxelles": 4,
-      "asparago_bianco": 4
+      "asparago_bianco": 4,
+      "brodo_vegetale": 4,
+      "besciamella": 4,
+      "pangrattato": 4,
+      "pasta_fresca": 4
     },
     "immagine": "https://images.pexels.com/photos/236010/pexels-photo-236010.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1458,7 +1568,9 @@
       "fico": 5,
       "pera_abate": 5,
       "pera_madernassa": 5,
-      "polenta": 4
+      "polenta": 4,
+      "pompelmo": 3,
+      "dattero": 4
     },
     "immagine": "https://images.pexels.com/photos/773253/pexels-photo-773253.jpeg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1542,7 +1654,10 @@
       "cedro": 5,
       "lenticchia": 5,
       "lenticchia_castelluccio": 5,
-      "tonno_sottolio": 5
+      "tonno_sottolio": 5,
+      "battuta_fassona": 4,
+      "gel_sedano": 4,
+      "pangrattato": 4
     },
     "immagine": "https://images.pexels.com/photos/33783/olive-oil-salad-dressing-cooking-33783.jpg?auto=compress&cs=tinysrgb&w=800",
     "tipo_record": "base",
@@ -1593,32 +1708,10 @@
       "barbabietola": 4,
       "rapa": 3,
       "cavolo_cappuccio": 4,
-      "dragoncello": 4
+      "dragoncello": 4,
+      "lingua_manzo": 4
     },
     "immagine": "https://images.pexels.com/photos/4110251/pexels-photo-4110251.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "tipo_record": "base",
-    "parent": null,
-    "tipologia": "generico",
-    "varieta": "",
-    "stagionatura": null
-  },
-  "finocchio": {
-    "nome": "Finocchio",
-    "categoria": "Verdure",
-    "famiglia": "Apiacee",
-    "profilo": [
-      "fresco",
-      "aniciato",
-      "croccante"
-    ],
-    "pairing": {
-      "arancia": 5,
-      "limone": 5,
-      "maiale": 4,
-      "arancia_tarocco": 4,
-      "arancia_moro": 4,
-      "mandarino": 4
-    },
     "tipo_record": "base",
     "parent": null,
     "tipologia": "generico",
@@ -1685,7 +1778,8 @@
       "riso_carnaroli": 5,
       "riso_vialone": 5,
       "farro": 5,
-      "orzo": 5
+      "orzo": 5,
+      "brodo_vegetale": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1755,7 +1849,8 @@
       "pinolo": 4,
       "anacardo": 4,
       "panna": 5,
-      "mirtillo": 4
+      "mirtillo": 4,
+      "rabarbaro": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1792,7 +1887,12 @@
       "cinghiale": 5,
       "cervo": 5,
       "scalogno": 4,
-      "gruyere": 4
+      "gruyere": 4,
+      "fesa_vitello": 3,
+      "noce_vitello": 3,
+      "coda_manzo": 4,
+      "fondo_bruno": 4,
+      "punta_petto_manzo": 3
     },
     "tipo_record": "base",
     "parent": null,
@@ -1874,7 +1974,14 @@
       "limone_femminello": 5,
       "bergamotto": 5,
       "cedro": 5,
-      "tonno_sottolio": 5
+      "tonno_sottolio": 5,
+      "girello_vitello": 3,
+      "lingua_manzo": 4,
+      "porcino_fresco": 4,
+      "porcino_secco": 4,
+      "finferlo": 4,
+      "maionese": 4,
+      "pangrattato": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -1926,7 +2033,15 @@
       "topinambur": 4,
       "cavoletti_bruxelles": 4,
       "asparago_bianco": 5,
-      "vitello": 4
+      "vitello": 4,
+      "fesa_vitello": 3,
+      "noce_vitello": 3,
+      "porcino_fresco": 4,
+      "porcino_secco": 4,
+      "finferlo": 4,
+      "burro_nocciola": 5,
+      "besciamella": 5,
+      "pasta_fresca": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -2057,7 +2172,8 @@
       "stracchino": 4,
       "crescenza": 4,
       "caprino": 4,
-      "blue_cheese": 5
+      "blue_cheese": 5,
+      "grana_padano": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -2107,7 +2223,13 @@
       "pomodoro_pachino": 5,
       "oliva_taggiaca": 5,
       "oliva_coratina": 5,
-      "oliva_nocellara": 5
+      "oliva_nocellara": 5,
+      "girello_vitello": 4,
+      "battuta_fassona": 3,
+      "fesa_vitello": 3,
+      "noce_vitello": 3,
+      "lingua_manzo": 4,
+      "maionese": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -2202,7 +2324,8 @@
       "patata": 4,
       "patata_kennebec": 4,
       "patata_vitelotte": 4,
-      "cipolla_tropea": 5
+      "cipolla_tropea": 5,
+      "olio_aromatico": 3
     },
     "tipo_record": "base",
     "parent": null,
@@ -2249,7 +2372,12 @@
       "parmigiano": 4,
       "cinghiale": 5,
       "cervo": 5,
-      "guanciale": 5
+      "guanciale": 5,
+      "battuta_fassona": 4,
+      "muscolo_manzo": 3,
+      "biancostato_manzo": 3,
+      "coda_manzo": 4,
+      "punta_petto_manzo": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -2294,7 +2422,8 @@
       "miele": 4,
       "cioccolato_70": 4,
       "cioccolato_85": 4,
-      "panna": 4
+      "panna": 4,
+      "battuta_fassona": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -2369,7 +2498,12 @@
       "pomodoro_datterino": 5,
       "pomodoro_pachino": 5,
       "bietola": 4,
-      "burrata": 3
+      "burrata": 3,
+      "battuta_fassona": 3,
+      "lingua_manzo": 4,
+      "gel_sedano": 3,
+      "maionese": 4,
+      "pangrattato": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -2396,7 +2530,8 @@
       "pomodoro_sanmarzano": 4,
       "pomodoro_datterino": 4,
       "pomodoro_pachino": 4,
-      "melanzana_tonda": 4
+      "melanzana_tonda": 4,
+      "tamarindo": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -2522,7 +2657,8 @@
       "panna": 5,
       "pepe_rosa": 3,
       "yogurt": 4,
-      "mascarpone": 4
+      "mascarpone": 4,
+      "rabarbaro": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -2547,7 +2683,11 @@
       "zucca_mantovana": 5,
       "zucca_delica": 5,
       "vitello": 4,
-      "faraona": 4
+      "faraona": 4,
+      "fesa_vitello": 4,
+      "noce_vitello": 4,
+      "olio_aromatico": 4,
+      "burro_nocciola": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -2589,7 +2729,8 @@
       "cumino": 5,
       "rosmarino": 5,
       "menta": 5,
-      "melagrana": 4
+      "melagrana": 4,
+      "dattero": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -2638,7 +2779,11 @@
       "noce_moscata": 4,
       "pancetta": 4,
       "stracchino": 4,
-      "crescenza": 4
+      "crescenza": 4,
+      "purea_verdure": 4,
+      "fondo_vegetale": 4,
+      "brodo_vegetale": 4,
+      "besciamella": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -2733,7 +2878,11 @@
       "funghi": 5,
       "parmigiano": 5,
       "zafferano": 5,
-      "burro": 5
+      "burro": 5,
+      "porcino_fresco": 3,
+      "porcino_secco": 4,
+      "fondo_vegetale": 4,
+      "brodo_vegetale": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -2973,7 +3122,6 @@
       "cannella": 5,
       "zenzero": 5,
       "vaniglia": 4,
-      "finocchio": 4,
       "maiale": 4,
       "miele": 5
     },
@@ -3000,7 +3148,6 @@
       "cannella": 5,
       "zenzero": 5,
       "vaniglia": 4,
-      "finocchio": 4,
       "maiale": 4,
       "miele": 5
     },
@@ -3438,7 +3585,8 @@
       "senape": 5,
       "aceto": 5,
       "mela": 4,
-      "maiale": 5
+      "maiale": 5,
+      "besciamella": 4
     },
     "tipo_record": "varieta_tipologia",
     "parent": "cavolo",
@@ -3459,7 +3607,9 @@
       "senape": 5,
       "aceto": 5,
       "mela": 4,
-      "maiale": 5
+      "maiale": 5,
+      "besciamella": 4,
+      "pangrattato": 4
     },
     "tipo_record": "base",
     "parent": null,
@@ -4240,7 +4390,9 @@
       "olio": 5,
       "aceto": 5,
       "aglio": 5,
-      "timo": 4
+      "timo": 4,
+      "fondo_vegetale": 4,
+      "brodo_vegetale": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -4284,7 +4436,9 @@
       "olio": 5,
       "aceto": 5,
       "aglio": 5,
-      "timo": 4
+      "timo": 4,
+      "brodo_vegetale": 4,
+      "pangrattato": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -4450,7 +4604,6 @@
       "cannella": 5,
       "zenzero": 5,
       "vaniglia": 4,
-      "finocchio": 4,
       "maiale": 4,
       "miele": 5
     },
@@ -5047,7 +5200,9 @@
       "burro": 4,
       "aceto": 4,
       "timo": 4,
-      "vino": 4
+      "vino": 4,
+      "battuta_fassona": 4,
+      "fondo_vegetale": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -5073,7 +5228,8 @@
       "burro": 5,
       "timo": 4,
       "parmigiano": 4,
-      "noce_moscata": 4
+      "noce_moscata": 4,
+      "fondo_vegetale": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -5178,7 +5334,9 @@
       "senape": 4,
       "nocciola": 4,
       "limone": 4,
-      "manzo": 3
+      "manzo": 3,
+      "gel_sedano": 4,
+      "purea_verdure": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -5205,7 +5363,8 @@
       "noce_moscata": 4,
       "limone": 4,
       "aglio": 4,
-      "uovo": 4
+      "uovo": 4,
+      "besciamella": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -5385,7 +5544,8 @@
       "ricotta": 4,
       "uovo": 5,
       "patata": 4,
-      "panna": 4
+      "panna": 4,
+      "battuta_fassona": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -5411,7 +5571,17 @@
       "manzo": 4,
       "maiale": 4,
       "pomodoro": 3,
-      "patata": 3
+      "patata": 3,
+      "guancia_maiale": 4,
+      "reale_manzo": 4,
+      "guancia_vitello": 4,
+      "muscolo_manzo": 4,
+      "biancostato_manzo": 4,
+      "coda_manzo": 4,
+      "fondo_bruno": 4,
+      "punta_petto_manzo": 4,
+      "cappello_del_prete": 4,
+      "fondo_vegetale": 4
     },
     "immagine": "",
     "tipo_record": "base",
@@ -5465,7 +5635,8 @@
       "ricotta": 4,
       "zucca": 4,
       "porro": 4,
-      "gruyere": 4
+      "gruyere": 4,
+      "besciamella": 5
     },
     "immagine": "",
     "tipo_record": "base",
@@ -5621,7 +5792,8 @@
       "pecorino": 5,
       "pepe": 5,
       "fagiolo": 4,
-      "patata": 3
+      "patata": 3,
+      "pangrattato": 3
     },
     "immagine": "",
     "tipo_record": "base",
@@ -5647,7 +5819,11 @@
       "salvia": 4,
       "burro": 4,
       "funghi": 4,
-      "tonno_sottolio": 4
+      "tonno_sottolio": 4,
+      "fondo_bruno": 4,
+      "gel_sedano": 3,
+      "maionese": 4,
+      "purea_verdure": 3
     },
     "immagine": "",
     "tipo_record": "base",
@@ -5950,7 +6126,7 @@
   },
   "uovo": {
     "nome": "Uovo",
-    "categoria": "Latticini",
+    "categoria": "Uova",
     "famiglia": "Uova",
     "profilo": [
       "umami",
@@ -5964,7 +6140,10 @@
       "guanciale": 5,
       "erba_cipollina": 5,
       "patata": 4,
-      "dragoncello": 4
+      "dragoncello": 4,
+      "battuta_fassona": 3,
+      "finferlo": 3,
+      "pasta_fresca": 5
     },
     "immagine": "",
     "tipo_record": "base",
@@ -6043,7 +6222,19 @@
       "funghi": 5,
       "formaggio": 4,
       "gorgonzola": 4,
-      "manzo": 4
+      "manzo": 4,
+      "guancia_maiale": 4,
+      "reale_manzo": 4,
+      "guancia_vitello": 4,
+      "muscolo_manzo": 4,
+      "biancostato_manzo": 4,
+      "coda_manzo": 4,
+      "porcino_fresco": 4,
+      "porcino_secco": 4,
+      "finferlo": 4,
+      "punta_petto_manzo": 4,
+      "cappello_del_prete": 4,
+      "brodo_vegetale": 3
     },
     "immagine": "",
     "tipo_record": "base",
@@ -6150,7 +6341,9 @@
       "olio": 5,
       "prezzemolo": 5,
       "aglio": 4,
-      "vitello": 4
+      "vitello": 4,
+      "girello_vitello": 5,
+      "maionese": 5
     },
     "tipo_record": "base",
     "parent": null,
@@ -6177,7 +6370,9 @@
       "limone": 4,
       "cappero": 4,
       "prezzemolo": 3,
-      "sedano": 3
+      "sedano": 3,
+      "gel_sedano": 3,
+      "maionese": 4
     },
     "tipo_record": "varieta_tipologia",
     "parent": "vitello",
@@ -6208,7 +6403,8 @@
       "cappero": 3,
       "scalogno": 4,
       "erba_cipollina": 4,
-      "grana_padano": 3
+      "grana_padano": 3,
+      "gel_sedano": 3
     },
     "tipo_record": "preparazione",
     "parent": "fassona_piemonte",
@@ -6239,7 +6435,8 @@
       "rosmarino": 4,
       "mela": 3,
       "polenta": 4,
-      "fondo_bruno": 5
+      "fondo_bruno": 5,
+      "pasta_fresca": 4
     },
     "tipo_record": "varieta_tipologia",
     "parent": "maiale",
@@ -6344,7 +6541,8 @@
       "patata": 4,
       "polenta": 4,
       "funghi": 4,
-      "timo": 4
+      "timo": 4,
+      "purea_verdure": 4
     },
     "tipo_record": "varieta_tipologia",
     "parent": "vitello",
@@ -6467,7 +6665,6 @@
     ],
     "pairing": {
       "anatra": 4,
-      "finocchio": 4,
       "gorgonzola": 3
     },
     "tipo_record": "base",
@@ -6557,7 +6754,10 @@
     ],
     "pairing": {
       "pera": 4,
-      "noci": 5
+      "noci": 5,
+      "battuta_fassona": 3,
+      "besciamella": 4,
+      "pasta_fresca": 4
     },
     "tipo_record": "varieta_tipologia",
     "parent": "formaggio",
@@ -6758,7 +6958,10 @@
       "polenta": 4,
       "patata": 4,
       "timo": 4,
-      "riso": 3
+      "riso": 3,
+      "purea_verdure": 3,
+      "fondo_vegetale": 4,
+      "pasta_fresca": 5
     },
     "tipo_record": "varieta_tipologia",
     "parent": "funghi",
@@ -6784,7 +6987,8 @@
       "burro": 4,
       "prezzemolo": 4,
       "polenta": 4,
-      "manzo": 3
+      "manzo": 3,
+      "brodo_vegetale": 4
     },
     "tipo_record": "varieta_tipologia",
     "parent": "funghi",
@@ -6842,7 +7046,13 @@
       "cipolla": 4,
       "alloro": 4,
       "vino": 4,
-      "porcino_secco": 4
+      "porcino_secco": 4,
+      "reale_manzo": 5,
+      "muscolo_manzo": 5,
+      "biancostato_manzo": 4,
+      "coda_manzo": 5,
+      "punta_petto_manzo": 5,
+      "cappello_del_prete": 5
     },
     "tipo_record": "preparazione",
     "parent": "manzo",
@@ -7034,5 +7244,130 @@
     "sinonimi": [
       "cappello del prete di manzo"
     ]
+  },
+  "fondo_vegetale": {
+    "nome": "Fondo vegetale",
+    "categoria": "Preparazioni",
+    "famiglia": "Fondi e brodi",
+    "profilo": [
+      "vegetale",
+      "umami",
+      "dolce",
+      "erbaceo"
+    ],
+    "pairing": {
+      "carota": 5,
+      "sedano": 5,
+      "cipolla": 5,
+      "porro": 4,
+      "scalogno": 4,
+      "aglio": 3,
+      "timo": 4,
+      "alloro": 4,
+      "funghi": 4,
+      "pomodoro": 3,
+      "riso": 4,
+      "zucca": 4,
+      "patata": 4,
+      "asparago": 4,
+      "porcino_fresco": 4,
+      "brodo_vegetale": 4
+    }
+  },
+  "brodo_vegetale": {
+    "nome": "Brodo vegetale",
+    "categoria": "Preparazioni",
+    "famiglia": "Fondi e brodi",
+    "profilo": [
+      "vegetale",
+      "delicato",
+      "umami",
+      "fresco"
+    ],
+    "pairing": {
+      "riso": 5,
+      "zucca": 4,
+      "funghi": 4,
+      "porcino_secco": 4,
+      "asparago": 4,
+      "carciofo": 4,
+      "patata": 4,
+      "polenta": 3,
+      "zafferano": 4,
+      "parmigiano": 4,
+      "pasta_fresca": 4,
+      "fondo_vegetale": 4
+    }
+  },
+  "besciamella": {
+    "nome": "Besciamella",
+    "categoria": "Preparazioni",
+    "famiglia": "Salse madri",
+    "profilo": [
+      "lattico",
+      "cremoso",
+      "burroso",
+      "delicato"
+    ],
+    "pairing": {
+      "burro": 5,
+      "parmigiano": 4,
+      "grana_padano": 4,
+      "spinacio": 4,
+      "cardo": 4,
+      "patata": 4,
+      "cavolfiore": 4,
+      "broccolo": 4,
+      "zucca": 4,
+      "pasta_fresca": 4,
+      "noce_moscata": 5
+    }
+  },
+  "pangrattato": {
+    "nome": "Pangrattato",
+    "categoria": "Panificati",
+    "famiglia": "Pane e derivati",
+    "profilo": [
+      "tostato",
+      "amidaceo",
+      "croccante",
+      "neutro"
+    ],
+    "pairing": {
+      "acciuga": 4,
+      "aglio": 4,
+      "prezzemolo": 4,
+      "olio": 4,
+      "melanzana": 4,
+      "zucchina": 4,
+      "carciofo": 4,
+      "broccolo": 4,
+      "parmigiano": 4,
+      "limone": 3,
+      "guanciale": 3
+    }
+  },
+  "pasta_fresca": {
+    "nome": "Pasta fresca",
+    "categoria": "Preparazioni",
+    "famiglia": "Impasti e paste",
+    "profilo": [
+      "amidaceo",
+      "uovo",
+      "delicato",
+      "neutro"
+    ],
+    "pairing": {
+      "uovo": 5,
+      "burro": 4,
+      "parmigiano": 4,
+      "grana_padano": 4,
+      "besciamella": 4,
+      "brodo_vegetale": 4,
+      "funghi": 4,
+      "porcino_fresco": 5,
+      "guancia_maiale": 4,
+      "ragù": 4
+    }
   }
 }
