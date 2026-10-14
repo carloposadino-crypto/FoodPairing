@@ -503,6 +503,7 @@ input[type=file]{
     <label class="lab-mode"><strong><input type="radio" name="labMode" value="estrema"> Sperimentazione estrema</strong><span>Relazioni poco esplorate, contrasti e ipotesi da mettere alla prova.</span></label>
   </div>
   <div class="lab-goal-row">
+    <div><label for="labWorkflow">Tipo di lavoro</label><select id="labWorkflow"><option value="creative" selected>Piste creative</option><option value="plate">Composizione del piatto</option></select></div>
     <div><label for="labGoal">Direzione del lavoro</label><select id="labGoal"><option value="sorprendi">Sorprendimi davvero</option><option value="piatto">Costruisci una direzione per un piatto</option><option value="ponte">Trova un ponte aromatico</option><option value="contrasto">Lavora per contrasto</option><option value="classico">Ribalta un classico</option></select></div>
     <div><label for="labCount">Numero di piste</label><select id="labCount"><option value="4">4 idee selezionate</option><option value="6" selected>6 idee da confrontare</option><option value="8">8 idee da esplorare</option></select></div>
   </div>
@@ -1848,6 +1849,54 @@ function labConstraintExcludes(key,terms){
   });
 }
 
+function labPlateRoleScore(key,anchors,role){
+  const d=db[key]||{};
+  const hay=norm([key,nome(key),d.categoria,d.famiglia,...(Array.isArray(d.profilo)?d.profilo:[])].join(" "));
+  const profiles=labProfile(key),anchorProfiles=[...new Set(anchors.flatMap(labProfile))];
+  const shared=profiles.filter(p=>anchorProfiles.includes(p)).length;
+  const pairScores=anchors.map(a=>labPairInfo(a,key).score);
+  const known=pairScores.filter(x=>x>0).length;
+  const avg=known?pairScores.filter(x=>x>0).reduce((s,x)=>s+x,0)/known:0;
+  const rules={
+    acid:{label:"Elemento acido",desc:"Per dare slancio e alleggerire la componente grassa.",terms:["acid","agrum","limon","lime","aceto","acet","yogurt","ferment","sottac","melagr","ribes","lampone","pomodor","vino","verjus","senape"]},
+    creamy:{label:"Componente cremosa",desc:"Per dare continuità, morbidezza e legare gli elementi.",terms:["crema","panna","burro","formagg","ricotta","mascarpone","besciamella","pure","patata","uovo","maionese","emulsion","vellutata","yogurt"]},
+    crunchy:{label:"Parte croccante",desc:"Per introdurre contrasto di consistenza e un finale più netto.",terms:["nocciol","mandorl","noce","pistacch","pinol","seme","pangratt","grissin","pane","croccant","chips","cialda","tost","granella","cracker"]},
+    bridge:{label:"Ponte aromatico",desc:"Per collegare gli ingredienti attraverso profili condivisi.",terms:[]},
+    fresh:{label:"Accento fresco/aromatico",desc:"Per aggiungere freschezza, profumo o una nota vegetale.",terms:["erbe","basilico","prezzemol","menta","timo","rosmarin","salvia","erba cipollina","aneto","maggiorana","cerfoglio","scorza","germogl","sedano","insalata","rucola"]}
+  };
+  const r=rules[role];let hit=0;
+  for(const term of r.terms)if(hay.includes(norm(term)))hit+=1;
+  let score=hit?Math.min(8,hit*2.2):0;
+  if(role==="acid"){
+    if(/agrum|aceto|acid|ferment|sottac|verjus/.test(hay))score+=2;
+    if(/carne|pesce|formagg|frit|grasso|burro|panna/.test(norm(anchors.map(a=>[a,nome(a),db[a]?.categoria].join(" ")).join(" "))))score+=0.6;
+  }
+  if(role==="creamy"&&/formagg|lattic|uova|crema|pure|salsa/.test(hay))score+=1.5;
+  if(role==="crunchy"&&/secca|semi|pane|cereali/.test(hay))score+=1.5;
+  if(role==="bridge")score=shared*2.4+(known?avg*.65:0);
+  if(role==="fresh"&&/erbe|aromatic|vegetal|agrum|fresco/.test(hay))score+=1.2;
+  score+=Math.min(2,known*.55)+Math.min(1.5,avg*.3);
+  return {key,score,known,avg,shared,rule:r};
+}
+function labGeneratePlate(anchors,constraintText,excludedTerms){
+  const status=$("labStatus"),out=$("labResults");
+  const excluded=new Set(anchors);
+  const pool=Object.keys(db).filter(k=>!excluded.has(k)&&!anchors.some(a=>labSameLineage(k,a))&&!labConstraintExcludes(k,excludedTerms));
+  const roles=["acid","creamy","crunchy","bridge","fresh"];
+  const results=roles.map(role=>{
+    const ranked=pool.map(k=>labPlateRoleScore(k,anchors,role)).filter(x=>x.score>0.1).sort((a,b)=>b.score-a.score||b.known-a.known||a.key.localeCompare(b.key));
+    const chosen=[],roots=new Set();
+    for(const item of ranked){const root=labRoot(item.key);if(roots.has(root))continue;roots.add(root);chosen.push(item);if(chosen.length===3)break;}
+    return {role,items:chosen};
+  });
+  const missing=results.filter(x=>!x.items.length).map(x=>x.role);
+  status.textContent="Composizione generata: scegli una proposta per ogni funzione e poi verifica il piatto all'assaggio.";
+  out.innerHTML=(constraintText?"<div class='lab-notice'><b>Vincoli inseriti:</b> "+esc(constraintText)+". Le esclusioni riconosciute sono state applicate; tecnica, tempi e costi richiedono valutazione pratica.</div>":"")+
+    "<div class='lab-notice'><b>Come leggerla:</b> gli elementi sono suggerimenti funzionali, non abbinamenti certificati. Il punteggio ordina candidati per parole chiave, profili e relazioni disponibili nel database.</div>"+
+    results.map(group=>"<article class='lab-result'><div class='lab-result-head'><div><h3>"+esc(group.items[0]?.rule.label||({acid:"Elemento acido",creamy:"Componente cremosa",crunchy:"Parte croccante",bridge:"Ponte aromatico",fresh:"Accento fresco/aromatico"}[group.role]))+"</h3><p>"+esc(({acid:"Per dare slancio e alleggerire la componente grassa.",creamy:"Per dare continuità, morbidezza e legare gli elementi.",crunchy:"Per introdurre contrasto di consistenza.",bridge:"Per collegare gli ingredienti con profili condivisi.",fresh:"Per aggiungere freschezza e profumo."})[group.role])+"</p></div></div>"+
+    (group.items.length?group.items.map((x,i)=>"<div class='pair-reason'><b>"+(i+1)+". "+esc(nome(x.key))+"</b><div>"+esc(db[x.key]?.categoria||"Categoria non indicata")+" · "+(x.known?x.known+"/"+anchors.length+" relazioni con gli ingredienti di partenza":"nessuna relazione registrata con gli ingredienti di partenza")+"</div><div>"+(x.shared?"Profili condivisi: "+x.shared:"")+"</div></div>").join(""):"<p>Nessun candidato sufficientemente caratterizzato nell'archivio.</p>")+"</article>").join("")+
+    "<article class='lab-result'><h3>La tua struttura di partenza</h3><p><b>Protagonisti:</b> "+anchors.map(a=>esc(nome(a))).join(" + ")+"</p><p><b>Metodo:</b> scegli un candidato per funzione, poi fai una prova comparativa in piccole quantità. Se un ruolo non serve al piatto, non è obbligatorio inserirlo.</p><p><b>Controllo finale:</b> equilibrio acido/grasso, intensità aromatica, consistenze, temperatura di servizio e compatibilità con la tecnica.</p></article>";
+}
 function labGenerate(){
   const status=$("labStatus"),out=$("labResults");
   out.innerHTML="";
@@ -1864,6 +1913,7 @@ function labGenerate(){
   }
   if(anchors.length<2){status.textContent="Inserisci almeno due ingredienti presenti nell'archivio.";return}
   if(inputs.length!==anchors.length){status.textContent="Hai inserito due volte lo stesso ingrediente. Usa ingredienti diversi.";return}
+  if($("labWorkflow")?.value==="plate"){labGeneratePlate(anchors,constraintText,excludedTerms);return;}
   status.textContent="Esplorazione in corso: confronto profili, relazioni note e categorie...";
   const excluded=new Set(anchors);
   let candidates=Object.keys(db).filter(k=>!excluded.has(k)&&!anchors.some(a=>labSameLineage(k,a))&&!labConstraintExcludes(k,excludedTerms)).map(k=>labCandidateData(k,anchors,mode,goal));
