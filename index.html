@@ -2065,8 +2065,9 @@ function labRecipeCostRefresh(form){
  names.forEach((el,i)=>{
   const name=el.value.trim();if(!name)return;active++;
   const priceInput=prices[i],gramsValue=(grams[i]?.value||"").trim();
-  let prepId=priceInput?.dataset.preparationId||"",prep=preps.find(p=>String(p.id)===String(prepId));
-  if(!prep){prep=preps.find(p=>norm(p.title)===norm(name));if(prep&&priceInput)priceInput.dataset.preparationId=prep.id;}
+  let prepId=priceInput?.dataset.preparationId||el.dataset.preparationId||"",prep=preps.find(p=>String(p.id)===String(prepId));
+  if(!prep){prep=preps.find(p=>norm(p.title)===norm(name));}
+  if(prep){el.dataset.preparationId=prep.id;if(priceInput)priceInput.dataset.preparationId=prep.id;}
   let priceValue=(priceInput?.value||"").trim();
   if(prep){const pc=labPrepCost(prep);if(pc.complete){priceValue=String(pc.costKg);if(priceInput){priceInput.value=pc.costKg.toFixed(4);priceInput.dataset.preparationId=prep.id;} }}
   const rowCost=gramsValue!==""&&priceValue!==""?(Number(gramsValue)/1000)*Number(priceValue):null;
