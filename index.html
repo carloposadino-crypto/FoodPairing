@@ -1975,6 +1975,68 @@ function findFromInputValue(raw){
   return matches.length===1?matches[0]:null;
 }
 
+function labPreparations(){
+ try{const v=JSON.parse(localStorage.getItem("foodpairing_reusable_preparations")||"[]");return Array.isArray(v)?v:[]}catch(e){return []}
+}
+function labPrepCost(prep){
+ const ingredients=Array.isArray(prep.ingredients)?prep.ingredients:[];
+ let total=0,complete=ingredients.length>0;
+ for(const r of ingredients){
+  const g=String(r.grams??"").trim(),p=String(r.priceKg??"").trim();
+  if(!r.name||g===""||p===""){complete=false;continue}
+  total+=(Number(g)/1000)*Number(p);
+ }
+ const yieldG=Number(prep.yieldGrams)||0;
+ return {total,yieldGrams:yieldG,costKg:yieldG>0?total/(yieldG/1000):0,complete:complete&&yieldG>0};
+}
+function labPrepRender(){
+ const box=$("labPrepArchive");if(!box)return;
+ const list=labPreparations();
+ const euro=n=>n.toLocaleString("it-IT",{style:"currency",currency:"EUR"});
+ box.innerHTML="<h3>Preparazioni riutilizzabili</h3><p class='muted'>Registra fondi, salse, creme e altre basi una volta sola. Il costo €/kg potrà essere richiamato nelle schede dei piatti. Distingui sempre resa finale effettiva e peso iniziale degli ingredienti.</p>"+
+ "<details class='lab-recipe-editor'><summary><b>Registra una preparazione</b></summary><form data-lab-prep-form class='lab-recipe-form'>"+
+ "<label>Nome preciso della preparazione</label><input name='prepTitle' required placeholder='Es. Fondo bruno di vitello'>"+
+ "<div class='grid'><div><label>Resa finale (grammi)</label><input name='prepYieldGrams' type='number' min='1' step='1' required placeholder='Es. 1800'></div><div><label>Note / metodo</label><input name='prepMethod' placeholder='Riduzione, filtraggio…'></div></div>"+
+ "<p class='muted'>Quantità usate nell'intera preparazione e prezzo d'acquisto in €/kg. Inserisci il peso netto acquistato/impiegato, non la resa finale.</p><div class='lab-prep-ingredients'>"+
+ "<div class='grid'><div><label>Ingrediente</label><input name='prepIngName' required placeholder='Es. ossa di vitello'></div><div><label>Grammi usati</label><input name='prepIngGrams' type='number' min='0' step='0.1' required></div><div><label>Prezzo €/kg</label><input name='prepIngPrice' type='number' min='0' step='0.01' required></div></div>"+
+ "<div class='grid'><div><label>Ingrediente aggiuntivo</label><input name='prepIngName' placeholder='Ingrediente'></div><div><label>Grammi usati</label><input name='prepIngGrams' type='number' min='0' step='0.1'></div><div><label>Prezzo €/kg</label><input name='prepIngPrice' type='number' min='0' step='0.01'></div></div></div>"+
+ "<div class='lab-notice' data-prep-cost-summary aria-live='polite'>Inserisci ingredienti, prezzi e resa finale per calcolare il costo.</div><button type='submit'>Salva preparazione riutilizzabile</button></form></details>"+
+ (list.length?"<h4>Preparazioni salvate · "+list.length+"</h4>"+list.map(p=>{const c=labPrepCost(p);return "<article class='plate'><b>"+esc(p.title)+"</b><p>Resa finale: "+esc(p.yieldGrams)+" g · Costo preparazione: "+euro(c.total)+" · Costo teorico: <b>"+(c.complete?euro(c.costKg)+"/kg":"incompleto")+"</b></p>"+(p.method?"<p>"+esc(p.method)+"</p>":"")+"<small>"+(c.complete?"Calcolato da tutti gli ingredienti registrati.":"Completa quantità/prezzi e resa per ottenere un costo attendibile.")+"</small> <button type='button' data-prep-delete='"+esc(p.id)+"'>Elimina preparazione</button></article>"}).join(""):"<p class='empty'>Non hai ancora salvato preparazioni.</p>");
+}
+function labPrepCostRefresh(form){
+ const names=Array.from(form.querySelectorAll('[name="prepIngName"]')),grams=Array.from(form.querySelectorAll('[name="prepIngGrams"]')),prices=Array.from(form.querySelectorAll('[name="prepIngPrice"]'));
+ let total=0,active=0,known=0;
+ names.forEach((el,i)=>{if(!el.value.trim())return;active++;const g=(grams[i]?.value||"").trim(),p=(prices[i]?.value||"").trim();if(g!==""&&p!==""){total+=Number(g)/1000*Number(p);known++;}});
+ const y=Number(form.querySelector('[name="prepYieldGrams"]')?.value)||0,box=form.querySelector('[data-prep-cost-summary]');
+ if(!box)return;const euro=n=>n.toLocaleString("it-IT",{style:"currency",currency:"EUR"});
+ box.innerHTML="<b>Anteprima costo</b><p>Costo totale ingredienti: <b>"+euro(total)+"</b></p><p>Costo teorico per kg di resa finale: <b>"+(y>0&&active>0&&known===active?euro(total/(y/1000))+"/kg":"da completare")+"</b></p><small>Non comprende manodopera, energia, scarti non conteggiati e costi fissi.</small>";
+}
+function labPrepSaveForm(form){
+ const names=Array.from(form.querySelectorAll('[name="prepIngName"]')).map(x=>x.value.trim()),grams=Array.from(form.querySelectorAll('[name="prepIngGrams"]')).map(x=>x.value.trim()),prices=Array.from(form.querySelectorAll('[name="prepIngPrice"]')).map(x=>x.value.trim());
+ const ingredients=names.map((name,i)=>({name,grams:grams[i]||"",priceKg:prices[i]||""})).filter(x=>x.name);
+ if(!ingredients.length||ingredients.some(x=>x.grams===""||x.priceKg==="")){$("labStatus").textContent="Completa quantità e prezzi di tutti gli ingredienti della preparazione.";return}
+ const title=form.querySelector('[name="prepTitle"]').value.trim(),yieldGrams=Number(form.querySelector('[name="prepYieldGrams"]').value);
+ if(!title||yieldGrams<=0){$("labStatus").textContent="Inserisci nome e resa finale valida.";return}
+ const list=labPreparations();const record={id:Date.now()+"_prep",title,yieldGrams,method:form.querySelector('[name="prepMethod"]').value.trim(),ingredients,updatedAt:new Date().toISOString()};
+ list.unshift(record);
+ try{localStorage.setItem("foodpairing_reusable_preparations",JSON.stringify(list));}
+ catch(e){$("labStatus").textContent="Salvataggio preparazione non riuscito: "+(e.message||"errore locale");return}
+ $("labStatus").textContent="Preparazione salvata. Puoi richiamarla scrivendone il nome in una scheda ricetta.";
+ labRenderBench();
+}
+function labRecipeUsePreparation(form,input){
+ const names=Array.from(form.querySelectorAll('[name="ingredientName"]')),idx=names.indexOf(input);
+ if(idx<0)return;
+ const key=norm(input.value),prep=labPreparations().find(p=>norm(p.title)===key);
+ if(!prep)return;
+ const prices=Array.from(form.querySelectorAll('[name="ingredientPriceKg"]'));
+ const c=labPrepCost(prep);
+ if(c.complete&&prices[idx]&&!prices[idx].value.trim()){
+  prices[idx].value=c.costKg.toFixed(4);
+  prices[idx].dataset.preparationId=prep.id;
+  const label=prices[idx].parentElement?.querySelector("label");if(label)label.textContent="Prezzo €/kg · da preparazione";
+ }
+}
 function labRecipeIngredients(item){
  const existing=Array.isArray(item.recipeIngredients)&&item.recipeIngredients.length?item.recipeIngredients:null;
  if(existing)return existing;
@@ -2027,13 +2089,14 @@ function labRenderBench(){
   if(!box)return;
   const list=labSavedHypotheses();
   box.hidden=false;
-  if(!list.length){box.innerHTML="<div class='lab-notice'>Il banco è vuoto. Genera una pista e premi «Salva come ipotesi da testare» per iniziare.</div>";return}
-  box.innerHTML="<h3>Banco sperimentale · "+list.length+" ipotesi</h3>"+list.map(item=>{
+  if(!list.length){box.innerHTML="<div id='labPrepArchive' class='lab-notice'></div><div class='lab-notice'>Il banco è vuoto. Genera una pista e premi «Salva come ipotesi da testare» per iniziare.</div>";labPrepRender();return}
+  box.innerHTML="<div id='labPrepArchive' class='lab-notice'></div><h3>Banco sperimentale · "+list.length+" ipotesi</h3>"+list.map(item=>{
     const date=item.createdAt?new Date(item.createdAt).toLocaleString("it-IT"):"Data non disponibile";
     const ingredients=item.plateComposition?(item.plateTitle||"Composizione del piatto"):item.sourceIdea?((item.sourceIngredients||[]).join(" + ")+" → "+(item.candidate?nome(item.candidate):"pista dalla fonte")):[...(item.anchors||[]),item.candidate].filter(Boolean).map(k=>nome(k)).join(" + ");
     const mode=item.mode==="estrema"?"Sperimentazione estrema":"Creatività applicabile";
     return "<article class='lab-bench-item'><b>"+esc(ingredients)+"</b><p>"+esc(item.plateComposition?"Composizione del piatto":mode)+" · "+esc(item.goal||"sorprendi")+" · "+esc(date)+"</p>"+(item.plateComposition?"<p><b>Protagonisti:</b> "+(item.anchors||[]).map(k=>esc(nome(k))).join(" + ")+"</p><ul>"+Object.values(item.plateRoles||{}).map(r=>"<li><b>"+esc(r.label)+":</b> "+esc(r.name)+"</li>").join("")+"</ul>"+(item.plateMethod?"<p><b>Tecnica / organizzazione:</b> "+esc(item.plateMethod)+"</p>":"")+"<p><b>Controlli:</b> "+(item.plateChecks||[]).map(esc).join(" · ")+"</p>"+labRecipeForm(item)+(item.recipe?"<div class='lab-notice'><b>Scheda ricetta compilata</b> · resa "+esc(item.recipe.yield||"non indicata")+" porzioni · "+(item.recipe.ingredients||[]).length+" ingredienti registrati</div>":""):"")+(item.sourceTitle?"<p><b>Fonte:</b> "+esc(item.sourceTitle)+"</p>":"")+(item.sourceIdea?"<p><b>Ipotesi:</b> "+esc(item.sourceIdea)+"</p>":"")+(item.sourceRationale?"<p><b>Motivazione:</b> "+esc(item.sourceRationale)+"</p>":"")+(item.sourceTest?"<p><b>Test:</b> "+esc(item.sourceTest)+"</p>":"")+(item.constraints?"<p><b>Vincoli:</b> "+esc(item.constraints)+"</p>":"")+"<p><span class='lab-tag'>"+esc(item.status==="testata"?"Testata":item.status==="scartata"?"Scartata":"Da testare")+"</span></p><button type='button' data-lab-status='testata' data-lab-id='"+esc(item.id)+"'>Segna testata</button> <button type='button' data-lab-status='scartata' data-lab-id='"+esc(item.id)+"'>Scarta</button> <button type='button' data-lab-remove='"+esc(item.id)+"'>Elimina</button></article>";
   }).join("");
+  labPrepRender();
 }
 
 function labExportBench(){
@@ -2065,10 +2128,10 @@ function setupCreativeLab(){
   $("labGenerate").addEventListener("click",labGenerate);
   $("labShowBench").addEventListener("click",()=>{const box=$("labBench");if(box.hidden){labRenderBench();$("labShowBench").textContent="Aggiorna banco sperimentale";}else{box.hidden=true;$("labShowBench").textContent="Apri banco sperimentale";}});
   $("labExportBench").addEventListener("click",labExportBench);
-  $("labBench").addEventListener("click",e=>{const statusBtn=e.target.closest("[data-lab-status]");const removeBtn=e.target.closest("[data-lab-remove]");if(statusBtn)labUpdateBenchItem(statusBtn.getAttribute("data-lab-id"),statusBtn.getAttribute("data-lab-status"));if(removeBtn)labUpdateBenchItem(removeBtn.getAttribute("data-lab-remove"),"remove");});
-  $("labBench").addEventListener("submit",e=>{const form=e.target.closest("[data-lab-recipe-form]");if(!form)return;e.preventDefault();labSaveRecipeForm(form);});
-  $("labBench").addEventListener("input",e=>{const form=e.target.closest("[data-lab-recipe-form]");if(form)labRecipeCostRefresh(form);});
-  $("labBench").addEventListener("change",e=>{const form=e.target.closest("[data-lab-recipe-form]");if(form)labRecipeCostRefresh(form);});
+  $("labBench").addEventListener("click",e=>{const statusBtn=e.target.closest("[data-lab-status]");const removeBtn=e.target.closest("[data-lab-remove]");const prepDelete=e.target.closest("[data-prep-delete]");if(statusBtn)labUpdateBenchItem(statusBtn.getAttribute("data-lab-id"),statusBtn.getAttribute("data-lab-status"));if(removeBtn)labUpdateBenchItem(removeBtn.getAttribute("data-lab-remove"),"remove");if(prepDelete){const id=prepDelete.getAttribute("data-prep-delete");localStorage.setItem("foodpairing_reusable_preparations",JSON.stringify(labPreparations().filter(p=>String(p.id)!==String(id))));labRenderBench();}});
+  $("labBench").addEventListener("submit",e=>{const prepForm=e.target.closest("[data-lab-prep-form]");if(prepForm){e.preventDefault();labPrepSaveForm(prepForm);return;}const form=e.target.closest("[data-lab-recipe-form]");if(!form)return;e.preventDefault();labSaveRecipeForm(form);});
+  $("labBench").addEventListener("input",e=>{const prepForm=e.target.closest("[data-lab-prep-form]");if(prepForm){labPrepCostRefresh(prepForm);return;}const form=e.target.closest("[data-lab-recipe-form]");if(form){if(e.target.name==="ingredientName")labRecipeUsePreparation(form,e.target);labRecipeCostRefresh(form);}});
+  $("labBench").addEventListener("change",e=>{const prepForm=e.target.closest("[data-lab-prep-form]");if(prepForm){labPrepCostRefresh(prepForm);return;}const form=e.target.closest("[data-lab-recipe-form]");if(form)labRecipeCostRefresh(form);});
   $("labResults").addEventListener("click",e=>{
     const btn=e.target.closest("[data-lab-save]");
     if(!btn)return;
