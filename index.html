@@ -2027,15 +2027,13 @@ function labPrepSaveForm(form){
 function labRecipeUsePreparation(form,input){
  const names=Array.from(form.querySelectorAll('[name="ingredientName"]')),idx=names.indexOf(input);
  if(idx<0)return;
- const key=norm(input.value),prep=labPreparations().find(p=>norm(p.title)===key);
- if(!prep)return;
+ const prep=labPreparations().find(p=>norm(p.title)===norm(input.value));
  const prices=Array.from(form.querySelectorAll('[name="ingredientPriceKg"]'));
+ if(!prep||!prices[idx]){if(prices[idx])delete prices[idx].dataset.preparationId;delete input.dataset.preparationId;return;}
+ prices[idx].dataset.preparationId=prep.id;input.dataset.preparationId=prep.id;
  const c=labPrepCost(prep);
- if(c.complete&&prices[idx]&&!prices[idx].value.trim()){
-  prices[idx].value=c.costKg.toFixed(4);
-  prices[idx].dataset.preparationId=prep.id;
-  const label=prices[idx].parentElement?.querySelector("label");if(label)label.textContent="Prezzo €/kg · da preparazione";
- }
+ if(c.complete)prices[idx].value=c.costKg.toFixed(4);
+ const label=prices[idx].parentElement?.querySelector("label");if(label)label.textContent="Prezzo €/kg · preparazione collegata";
 }
 function labRecipeIngredients(item){
  const existing=Array.isArray(item.recipeIngredients)&&item.recipeIngredients.length?item.recipeIngredients:null;
@@ -2046,12 +2044,24 @@ function labRecipeIngredients(item){
 function labRecipeCostRefresh(form){
  const names=Array.from(form.querySelectorAll('[name="ingredientName"]')),grams=Array.from(form.querySelectorAll('[name="ingredientGrams"]')),prices=Array.from(form.querySelectorAll('[name="ingredientPriceKg"]'));
  let total=0,known=0,missing=0,active=0;
- names.forEach((el,i)=>{if(!el.value.trim())return;active++;const g=(grams[i]?.value||"").trim(),p=(prices[i]?.value||"").trim();if(g!==""&&p!==""){total+=(Number(g)/1000)*Number(p);known++;}else missing++;});
+ const preps=labPreparations(),euro=n=>n.toLocaleString('it-IT',{style:'currency',currency:'EUR'});
+ names.forEach((el,i)=>{
+  const name=el.value.trim();if(!name)return;active++;
+  const priceInput=prices[i],gramsValue=(grams[i]?.value||"").trim();
+  let prepId=priceInput?.dataset.preparationId||"",prep=preps.find(p=>String(p.id)===String(prepId));
+  if(!prep){prep=preps.find(p=>norm(p.title)===norm(name));if(prep&&priceInput)priceInput.dataset.preparationId=prep.id;}
+  let priceValue=(priceInput?.value||"").trim();
+  if(prep){const pc=labPrepCost(prep);if(pc.complete){priceValue=String(pc.costKg);if(priceInput){priceInput.value=pc.costKg.toFixed(4);priceInput.dataset.preparationId=prep.id;} }}
+  const rowCost=gramsValue!==""&&priceValue!==""?(Number(gramsValue)/1000)*Number(priceValue):null;
+  const row=el.closest('.grid'),summary=row?.querySelector('[data-ingredient-cost]');
+  if(summary)summary.textContent=rowCost===null?"Costo dose: da completare":"Costo dose: "+euro(rowCost)+(prep?" · preparazione collegata":"");
+  if(gramsValue!==""&&priceValue!==""){total+=(Number(gramsValue)/1000)*Number(priceValue);known++;}else missing++;
+ });
  const yieldCount=Math.max(1,Number(form.querySelector('[name="yield"]')?.value)||1),target=Number(form.querySelector('[name="targetFoodCost"]')?.value)||30,vat=Number(form.querySelector('[name="vatRate"]')?.value)||0;
  const priceNet=(total/yieldCount)/(target/100),priceGross=priceNet*(1+vat/100),box=form.querySelector('[data-recipe-cost-summary]');
  if(!box)return;
- const euro=n=>n.toLocaleString('it-IT',{style:'currency',currency:'EUR'}),complete=active>0&&known===active&&missing===0;
- box.innerHTML="<b>Stima food cost ingredienti</b><p>Costo totale ricetta: <b>"+euro(total)+"</b></p><p>Costo ingredienti per porzione: <b>"+euro(total/yieldCount)+"</b></p><p>Prezzo teorico al "+target+"% di food cost: <b>"+euro(priceNet)+"</b> netto · <b>"+euro(priceGross)+"</b> con IVA "+vat+"%</p><p>"+(complete?"Tutti gli ingredienti hanno quantità e prezzo inseriti.":"Stima parziale: completa grammi e prezzo €/kg per ogni ingrediente.")+"</p><small>Solo costo ingredienti: non include manodopera, energia, costi fissi, commissioni o scarti non considerati.</small>";
+ const complete=active>0&&known===active&&missing===0;
+ box.innerHTML="<b>Stima food cost ingredienti</b><p>Costo totale ricetta: <b>"+euro(total)+"</b></p><p>Costo ingredienti per porzione: <b>"+euro(total/yieldCount)+"</b></p><p>Prezzo teorico al "+target+"% di food cost: <b>"+euro(priceNet)+"</b> netto · <b>"+euro(priceGross)+"</b> con IVA "+vat+"%</p><p>"+(complete?"Tutti gli ingredienti hanno quantità e prezzo inseriti.":"Stima parziale: completa grammi e prezzo €/kg per ogni ingrediente.")+"</p><small>Il costo delle preparazioni collegate viene aggiornato dai prezzi registrati nell'archivio. Solo costo ingredienti: non include manodopera, energia, costi fissi, commissioni o scarti non considerati.</small>";
 }
 function labRecipeForm(item){
  const recipe=item.recipe||{};
@@ -2059,8 +2069,8 @@ function labRecipeForm(item){
  return "<details class='lab-recipe-editor' style='margin-top:12px'><summary><b>"+(item.recipe?"Apri / modifica scheda ricetta":"Compila scheda ricetta pratica")+"</b></summary><form data-lab-recipe-form='"+esc(item.id)+"' class='lab-recipe-form'>"+
  "<p class='muted'>Le dosi sono lasciate vuote: inserisci quantità provate o calcolate, senza considerare le proposte creative come ricette validate.</p>"+
  "<div class='grid'><div><label>Resa prevista (porzioni)</label><input name='yield' type='number' min='1' step='1' value='"+esc(recipe.yield||"10")+"' required></div><div><label>Nome della ricetta</label><input name='title' value='"+esc(recipe.title||item.plateTitle||"")+"' required></div></div>"+
- "<h4>Ingredienti, quantità e prezzi</h4><p class='muted'>Inserisci il prezzo d'acquisto in €/kg e la quantità usata nell'intera ricetta. Per articoli acquistati a pezzo, converti il prezzo in €/kg oppure annota la conversione nelle note.</p><div class='lab-recipe-ingredients'>"+rows.map((r,i)=>"<div class='grid' style='margin-bottom:8px'><div><label>Ingrediente "+(i+1)+"</label><input name='ingredientName' value='"+esc(r.name||"")+"' required></div><div><label>Grammi totali</label><input name='ingredientGrams' type='number' min='0' step='0.1' value='"+esc(r.grams||"")+"' placeholder='g ricetta'></div><div><label>Prezzo €/kg</label><input name='ingredientPriceKg' type='number' min='0' step='0.01' value='"+esc(r.priceKg||"")+"' placeholder='€/kg'></div></div>").join("")+
- "<div class='grid' style='margin-bottom:8px'><div><label>Ingrediente aggiuntivo</label><input name='ingredientName' value='' placeholder='Aggiungi ingrediente'></div><div><label>Grammi totali</label><input name='ingredientGrams' type='number' min='0' step='0.1' value='' placeholder='g ricetta'></div><div><label>Prezzo €/kg</label><input name='ingredientPriceKg' type='number' min='0' step='0.01' value='' placeholder='€/kg'></div></div></div>"+
+ "<h4>Ingredienti, quantità e prezzi</h4><p class='muted'>Inserisci il prezzo d'acquisto in €/kg e la quantità usata nell'intera ricetta. Per articoli acquistati a pezzo, converti il prezzo in €/kg oppure annota la conversione nelle note.</p><div class='lab-recipe-ingredients'>"+rows.map((r,i)=>"<div class='grid' style='margin-bottom:8px'><div><label>Ingrediente / preparazione "+(i+1)+"</label><input name='ingredientName' value='"+esc(r.name||"")+"' data-preparation-id='"+esc(r.preparationId||"")+"' required><small data-ingredient-cost class='muted'>Costo dose: da completare</small></div><div><label>Grammi totali</label><input name='ingredientGrams' type='number' min='0' step='0.1' value='"+esc(r.grams||"")+"' placeholder='g ricetta'></div><div><label>Prezzo €/kg</label><input name='ingredientPriceKg' type='number' min='0' step='0.01' value='"+esc(r.priceKg||"")+"' placeholder='€/kg'></div></div>").join("")+
+ "<div class='grid' style='margin-bottom:8px'><div><label>Ingrediente / preparazione aggiuntiva</label><input name='ingredientName' value='' placeholder='Nome esatto della preparazione se già salvata'><small data-ingredient-cost class='muted'>Costo dose: da completare</small></div><div><label>Grammi totali</label><input name='ingredientGrams' type='number' min='0' step='0.1' value='' placeholder='g ricetta'></div><div><label>Prezzo €/kg</label><input name='ingredientPriceKg' type='number' min='0' step='0.01' value='' placeholder='€/kg'></div></div></div>"+
  "<div class='grid'><div><label>Food cost obiettivo (%)</label><input name='targetFoodCost' type='number' min='1' max='100' step='0.5' value='"+esc(recipe.targetFoodCost||"30")+"'></div><div><label>IVA vendita (%)</label><input name='vatRate' type='number' min='0' max='100' step='1' value='"+esc(recipe.vatRate||"10")+"'></div></div><div class='lab-notice' data-recipe-cost-summary aria-live='polite'></div>"+
  "<label>Preparazioni anticipate</label><textarea name='prep' rows='3' placeholder='Cosa preparare prima del servizio, in quale ordine…'>"+esc(recipe.prep||"")+"</textarea>"+
  "<label>Conservazione e scadenza interna da validare</label><textarea name='storage' rows='2' placeholder='Contenitore, temperatura, data/ora, etichetta e durata da validare secondo procedura HACCP…'>"+esc(recipe.storage||"")+"</textarea>"+
@@ -2074,7 +2084,7 @@ function labSaveRecipeForm(form){
  if(!item)return;
  const vals=name=>Array.from(form.querySelectorAll('[name="'+name+'"]')).map(el=>String(el.value||"").trim());
  const names=vals("ingredientName"),grams=vals("ingredientGrams"),prices=vals("ingredientPriceKg");
- const ingredients=names.map((name,i)=>({name,grams:grams[i]||"",priceKg:prices[i]||"",note:""})).filter(x=>x.name);
+ const ingredients=names.map((name,i)=>{const input=Array.from(form.querySelectorAll('[name="ingredientName"]'))[i],priceInput=Array.from(form.querySelectorAll('[name="ingredientPriceKg"]'))[i];return {name,grams:grams[i]||"",priceKg:prices[i]||"",preparationId:priceInput?.dataset.preparationId||input?.dataset.preparationId||"",note:""};}).filter(x=>x.name);
  if(!ingredients.length){$("labStatus").textContent="Inserisci almeno un ingrediente.";return;}
  item.recipe={title:form.querySelector('[name="title"]').value.trim(),yield:form.querySelector('[name="yield"]').value,ingredients,targetFoodCost:form.querySelector('[name="targetFoodCost"]').value||"30",vatRate:form.querySelector('[name="vatRate"]').value||"10",prep:form.querySelector('[name="prep"]').value.trim(),storage:form.querySelector('[name="storage"]').value.trim(),regeneration:form.querySelector('[name="regeneration"]').value.trim(),plating:form.querySelector('[name="plating"]').value.trim(),notes:form.querySelector('[name="notes"]').value.trim(),updatedAt:new Date().toISOString()};
  item.recipeIngredients=ingredients;
