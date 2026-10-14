@@ -1975,6 +1975,42 @@ function findFromInputValue(raw){
   return matches.length===1?matches[0]:null;
 }
 
+function labRecipeIngredients(item){
+ const existing=Array.isArray(item.recipeIngredients)&&item.recipeIngredients.length?item.recipeIngredients:null;
+ if(existing)return existing;
+ const names=[...(item.anchors||[]).map(k=>nome(k)),...Object.values(item.plateRoles||{}).map(r=>r.name||nome(r.key)).filter(Boolean)];
+ return [...new Set(names)].map(name=>({name,grams:"",note:""}));
+}
+function labRecipeForm(item){
+ const recipe=item.recipe||{};
+ const rows=labRecipeIngredients(item);
+ return "<details class='lab-recipe-editor' style='margin-top:12px'><summary><b>"+(item.recipe?"Apri / modifica scheda ricetta":"Compila scheda ricetta pratica")+"</b></summary><form data-lab-recipe-form='"+esc(item.id)+"' class='lab-recipe-form'>"+
+ "<p class='muted'>Le dosi sono lasciate vuote: inserisci quantità provate o calcolate, senza considerare le proposte creative come ricette validate.</p>"+
+ "<div class='grid'><div><label>Resa prevista (porzioni)</label><input name='yield' type='number' min='1' step='1' value='"+esc(recipe.yield||"10")+"' required></div><div><label>Nome della ricetta</label><input name='title' value='"+esc(recipe.title||item.plateTitle||"")+"' required></div></div>"+
+ "<h4>Ingredienti e grammature</h4><div class='lab-recipe-ingredients'>"+rows.map((r,i)=>"<div class='grid' style='margin-bottom:8px'><div><label>Ingrediente "+(i+1)+"</label><input name='ingredientName' value='"+esc(r.name||"")+"' required></div><div><label>Grammi totali (vuoto se da definire)</label><input name='ingredientGrams' type='number' min='0' step='0.1' value='"+esc(r.grams||"")+"' placeholder='Da definire'></div></div>").join("")+
+ "<div class='grid' style='margin-bottom:8px'><div><label>Ingrediente aggiuntivo</label><input name='ingredientName' value='' placeholder='Aggiungi ingrediente'></div><div><label>Grammi totali</label><input name='ingredientGrams' type='number' min='0' step='0.1' value='' placeholder='Da definire'></div></div></div>"+
+ "<label>Preparazioni anticipate</label><textarea name='prep' rows='3' placeholder='Cosa preparare prima del servizio, in quale ordine…'>"+esc(recipe.prep||"")+"</textarea>"+
+ "<label>Conservazione e scadenza interna da validare</label><textarea name='storage' rows='2' placeholder='Contenitore, temperatura, data/ora, etichetta e durata da validare secondo procedura HACCP…'>"+esc(recipe.storage||"")+"</textarea>"+
+ "<label>Rigenerazione / finitura al pass</label><textarea name='regeneration' rows='3' placeholder='Attrezzatura, temperatura, tempi verificati, finitura…'>"+esc(recipe.regeneration||item.plateMethod||"")+"</textarea>"+
+ "<label>Impiattamento e porzione</label><textarea name='plating' rows='2' placeholder='Grammatura per porzione, ordine degli elementi, piatto…'>"+esc(recipe.plating||"")+"</textarea>"+
+ "<label>Note di prova / costi / allergeni da verificare</label><textarea name='notes' rows='2' placeholder='Esito test, food cost, allergeni e punti da correggere…'>"+esc(recipe.notes||"")+"</textarea>"+
+ "<button type='submit'>Salva scheda ricetta</button></form></details>";
+}
+function labSaveRecipeForm(form){
+ const id=form.getAttribute("data-lab-recipe-form"),list=labSavedHypotheses(),item=list.find(x=>String(x.id)===String(id));
+ if(!item)return;
+ const vals=name=>Array.from(form.querySelectorAll('[name="'+name+'"]')).map(el=>String(el.value||"").trim());
+ const names=vals("ingredientName"),grams=vals("ingredientGrams");
+ const ingredients=names.map((name,i)=>({name,grams:grams[i]||"",note:""})).filter(x=>x.name);
+ if(!ingredients.length){$("labStatus").textContent="Inserisci almeno un ingrediente.";return;}
+ item.recipe={title:form.querySelector('[name="title"]').value.trim(),yield:form.querySelector('[name="yield"]').value,ingredients,prep:form.querySelector('[name="prep"]').value.trim(),storage:form.querySelector('[name="storage"]').value.trim(),regeneration:form.querySelector('[name="regeneration"]').value.trim(),plating:form.querySelector('[name="plating"]').value.trim(),notes:form.querySelector('[name="notes"]').value.trim(),updatedAt:new Date().toISOString()};
+ item.recipeIngredients=ingredients;
+ item.updatedAt=new Date().toISOString();
+ try{localStorage.setItem("foodpairing_creative_hypotheses",JSON.stringify(list));}
+ catch(e){$("labStatus").textContent="Salvataggio non riuscito: "+(e.message||"spazio non disponibile");return;}
+ $("labStatus").textContent="Scheda ricetta salvata nel banco sperimentale.";
+ labRenderBench();
+}
 function labRenderBench(){
   const box=$("labBench");
   if(!box)return;
@@ -1985,7 +2021,7 @@ function labRenderBench(){
     const date=item.createdAt?new Date(item.createdAt).toLocaleString("it-IT"):"Data non disponibile";
     const ingredients=item.plateComposition?(item.plateTitle||"Composizione del piatto"):item.sourceIdea?((item.sourceIngredients||[]).join(" + ")+" → "+(item.candidate?nome(item.candidate):"pista dalla fonte")):[...(item.anchors||[]),item.candidate].filter(Boolean).map(k=>nome(k)).join(" + ");
     const mode=item.mode==="estrema"?"Sperimentazione estrema":"Creatività applicabile";
-    return "<article class='lab-bench-item'><b>"+esc(ingredients)+"</b><p>"+esc(item.plateComposition?"Composizione del piatto":mode)+" · "+esc(item.goal||"sorprendi")+" · "+esc(date)+"</p>"+(item.plateComposition?"<p><b>Protagonisti:</b> "+(item.anchors||[]).map(k=>esc(nome(k))).join(" + ")+"</p><ul>"+Object.values(item.plateRoles||{}).map(r=>"<li><b>"+esc(r.label)+":</b> "+esc(r.name)+"</li>").join("")+"</ul>"+(item.plateMethod?"<p><b>Tecnica / organizzazione:</b> "+esc(item.plateMethod)+"</p>":"")+"<p><b>Controlli:</b> "+(item.plateChecks||[]).map(esc).join(" · ")+"</p>":"")+(item.sourceTitle?"<p><b>Fonte:</b> "+esc(item.sourceTitle)+"</p>":"")+(item.sourceIdea?"<p><b>Ipotesi:</b> "+esc(item.sourceIdea)+"</p>":"")+(item.sourceRationale?"<p><b>Motivazione:</b> "+esc(item.sourceRationale)+"</p>":"")+(item.sourceTest?"<p><b>Test:</b> "+esc(item.sourceTest)+"</p>":"")+(item.constraints?"<p><b>Vincoli:</b> "+esc(item.constraints)+"</p>":"")+"<p><span class='lab-tag'>"+esc(item.status==="testata"?"Testata":item.status==="scartata"?"Scartata":"Da testare")+"</span></p><button type='button' data-lab-status='testata' data-lab-id='"+esc(item.id)+"'>Segna testata</button> <button type='button' data-lab-status='scartata' data-lab-id='"+esc(item.id)+"'>Scarta</button> <button type='button' data-lab-remove='"+esc(item.id)+"'>Elimina</button></article>";
+    return "<article class='lab-bench-item'><b>"+esc(ingredients)+"</b><p>"+esc(item.plateComposition?"Composizione del piatto":mode)+" · "+esc(item.goal||"sorprendi")+" · "+esc(date)+"</p>"+(item.plateComposition?"<p><b>Protagonisti:</b> "+(item.anchors||[]).map(k=>esc(nome(k))).join(" + ")+"</p><ul>"+Object.values(item.plateRoles||{}).map(r=>"<li><b>"+esc(r.label)+":</b> "+esc(r.name)+"</li>").join("")+"</ul>"+(item.plateMethod?"<p><b>Tecnica / organizzazione:</b> "+esc(item.plateMethod)+"</p>":"")+"<p><b>Controlli:</b> "+(item.plateChecks||[]).map(esc).join(" · ")+"</p>"+labRecipeForm(item)+(item.recipe?"<div class='lab-notice'><b>Scheda ricetta compilata</b> · resa "+esc(item.recipe.yield||"non indicata")+" porzioni · "+(item.recipe.ingredients||[]).length+" ingredienti registrati</div>":""):"")+(item.sourceTitle?"<p><b>Fonte:</b> "+esc(item.sourceTitle)+"</p>":"")+(item.sourceIdea?"<p><b>Ipotesi:</b> "+esc(item.sourceIdea)+"</p>":"")+(item.sourceRationale?"<p><b>Motivazione:</b> "+esc(item.sourceRationale)+"</p>":"")+(item.sourceTest?"<p><b>Test:</b> "+esc(item.sourceTest)+"</p>":"")+(item.constraints?"<p><b>Vincoli:</b> "+esc(item.constraints)+"</p>":"")+"<p><span class='lab-tag'>"+esc(item.status==="testata"?"Testata":item.status==="scartata"?"Scartata":"Da testare")+"</span></p><button type='button' data-lab-status='testata' data-lab-id='"+esc(item.id)+"'>Segna testata</button> <button type='button' data-lab-status='scartata' data-lab-id='"+esc(item.id)+"'>Scarta</button> <button type='button' data-lab-remove='"+esc(item.id)+"'>Elimina</button></article>";
   }).join("");
 }
 
@@ -2019,6 +2055,7 @@ function setupCreativeLab(){
   $("labShowBench").addEventListener("click",()=>{const box=$("labBench");if(box.hidden){labRenderBench();$("labShowBench").textContent="Aggiorna banco sperimentale";}else{box.hidden=true;$("labShowBench").textContent="Apri banco sperimentale";}});
   $("labExportBench").addEventListener("click",labExportBench);
   $("labBench").addEventListener("click",e=>{const statusBtn=e.target.closest("[data-lab-status]");const removeBtn=e.target.closest("[data-lab-remove]");if(statusBtn)labUpdateBenchItem(statusBtn.getAttribute("data-lab-id"),statusBtn.getAttribute("data-lab-status"));if(removeBtn)labUpdateBenchItem(removeBtn.getAttribute("data-lab-remove"),"remove");});
+  $("labBench").addEventListener("submit",e=>{const form=e.target.closest("[data-lab-recipe-form]");if(!form)return;e.preventDefault();labSaveRecipeForm(form);});
   $("labResults").addEventListener("click",e=>{
     const btn=e.target.closest("[data-lab-save]");
     if(!btn)return;
