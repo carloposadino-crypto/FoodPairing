@@ -1878,25 +1878,62 @@ function labPlateRoleScore(key,anchors,role){
   score+=Math.min(2,known*.55)+Math.min(1.5,avg*.3);
   return {key,score,known,avg,shared,rule:r};
 }
-function labGeneratePlate(anchors,constraintText,excludedTerms){
-  const status=$("labStatus"),out=$("labResults");
-  const excluded=new Set(anchors);
-  const pool=Object.keys(db).filter(k=>!excluded.has(k)&&!anchors.some(a=>labSameLineage(k,a))&&!labConstraintExcludes(k,excludedTerms));
-  const roles=["acid","creamy","crunchy","bridge","fresh"];
-  const results=roles.map(role=>{
-    const ranked=pool.map(k=>labPlateRoleScore(k,anchors,role)).filter(x=>x.score>0.1).sort((a,b)=>b.score-a.score||b.known-a.known||a.key.localeCompare(b.key));
-    const chosen=[],roots=new Set();
-    for(const item of ranked){const root=labRoot(item.key);if(roots.has(root))continue;roots.add(root);chosen.push(item);if(chosen.length===3)break;}
-    return {role,items:chosen};
-  });
-  const missing=results.filter(x=>!x.items.length).map(x=>x.role);
-  status.textContent="Composizione generata: scegli una proposta per ogni funzione e poi verifica il piatto all'assaggio.";
-  out.innerHTML=(constraintText?"<div class='lab-notice'><b>Vincoli inseriti:</b> "+esc(constraintText)+". Le esclusioni riconosciute sono state applicate; tecnica, tempi e costi richiedono valutazione pratica.</div>":"")+
-    "<div class='lab-notice'><b>Come leggerla:</b> gli elementi sono suggerimenti funzionali, non abbinamenti certificati. Il punteggio ordina candidati per parole chiave, profili e relazioni disponibili nel database.</div>"+
-    results.map(group=>"<article class='lab-result'><div class='lab-result-head'><div><h3>"+esc(group.items[0]?.rule.label||({acid:"Elemento acido",creamy:"Componente cremosa",crunchy:"Parte croccante",bridge:"Ponte aromatico",fresh:"Accento fresco/aromatico"}[group.role]))+"</h3><p>"+esc(({acid:"Per dare slancio e alleggerire la componente grassa.",creamy:"Per dare continuità, morbidezza e legare gli elementi.",crunchy:"Per introdurre contrasto di consistenza.",bridge:"Per collegare gli ingredienti con profili condivisi.",fresh:"Per aggiungere freschezza e profumo."})[group.role])+"</p></div></div>"+
-    (group.items.length?group.items.map((x,i)=>"<div class='pair-reason'><b>"+(i+1)+". "+esc(nome(x.key))+"</b><div>"+esc(db[x.key]?.categoria||"Categoria non indicata")+" · "+(x.known?x.known+"/"+anchors.length+" relazioni con gli ingredienti di partenza":"nessuna relazione registrata con gli ingredienti di partenza")+"</div><div>"+(x.shared?"Profili condivisi: "+x.shared:"")+"</div></div>").join(""):"<p>Nessun candidato sufficientemente caratterizzato nell'archivio.</p>")+"</article>").join("")+
-    "<article class='lab-result'><h3>La tua struttura di partenza</h3><p><b>Protagonisti:</b> "+anchors.map(a=>esc(nome(a))).join(" + ")+"</p><p><b>Metodo:</b> scegli un candidato per funzione, poi fai una prova comparativa in piccole quantità. Se un ruolo non serve al piatto, non è obbligatorio inserirlo.</p><p><b>Controllo finale:</b> equilibrio acido/grasso, intensità aromatica, consistenze, temperatura di servizio e compatibilità con la tecnica.</p></article>";
+let labPlateCurrent=null;
+const labPlateRoles={
+ acid:{label:"Elemento acido",desc:"Per dare slancio e alleggerire la componente grassa."},
+ creamy:{label:"Componente cremosa",desc:"Per dare continuità, morbidezza e legare gli elementi."},
+ crunchy:{label:"Parte croccante",desc:"Per introdurre contrasto di consistenza."},
+ bridge:{label:"Ponte aromatico",desc:"Per collegare gli ingredienti con profili condivisi."},
+ fresh:{label:"Accento fresco/aromatico",desc:"Per aggiungere freschezza e profumo."}
+};
+function labPlateSelection(){
+ const chosen={};
+ for(const role of Object.keys(labPlateRoles)){const el=$("plateRole_"+role),key=el?.value||"";if(key)chosen[role]=key;}
+ return chosen;
 }
+function labPlatePreview(){
+ const preview=$("labPlatePreview");if(!preview||!labPlateCurrent)return;
+ const chosen=labPlateSelection();
+ const items=Object.entries(chosen).map(([role,key])=>"<li><b>"+esc(labPlateRoles[role].label)+":</b> "+esc(nome(key))+"</li>").join("");
+ preview.innerHTML="<h3>Bozza della composizione</h3><p><b>Protagonisti:</b> "+labPlateCurrent.anchors.map(k=>esc(nome(k))).join(" + ")+"</p>"+(items?"<ul>"+items+"</ul>":"<p>Seleziona almeno un elemento funzionale per completare la bozza.</p>")+"<p><b>Nota:</b> ogni elemento è facoltativo. Togli ciò che non serve all'equilibrio del piatto.</p>";
+}
+function labSavePlate(){
+ if(!labPlateCurrent)return;
+ const chosen=labPlateSelection();
+ if(!Object.keys(chosen).length){$("labStatus").textContent="Scegli almeno un elemento funzionale prima di creare la scheda.";return;}
+ const title=String($("labPlateTitle")?.value||"").trim()||("Prova con "+labPlateCurrent.anchors.map(nome).join(" e "));
+ const method=String($("labPlateMethod")?.value||"").trim();
+ const list=labSavedHypotheses();
+ const record={id:Date.now()+"_plate",createdAt:new Date().toISOString(),candidate:null,anchors:labPlateCurrent.anchors,mode:"composizione",goal:"composizione_del_piatto",constraints:labPlateCurrent.constraints,status:"da_testare",plateComposition:true,plateTitle:title,plateRoles:Object.fromEntries(Object.entries(chosen).map(([r,k])=>[r,{key:k,name:nome(k),label:labPlateRoles[r].label}])),plateMethod:method,plateChecks:["Equilibrio acido/grasso","Intensità aromatica e persistenza","Contrasto di consistenze","Temperatura e ordine di servizio","Resa dopo preparazione anticipata e rigenerazione"]};
+ list.unshift(record);
+ try{localStorage.setItem("foodpairing_creative_hypotheses",JSON.stringify(list.slice(0,200)));}
+ catch(e){$("labStatus").textContent="Non riesco a salvare la scheda in questo browser: "+(e.message||"spazio non disponibile");return;}
+ $("labStatus").textContent="Scheda di prova «"+title+"» salvata nel banco sperimentale su questo dispositivo.";
+ if($("labBench")&&!$("labBench").hidden)labRenderBench();
+}
+function labGeneratePlate(anchors,constraintText,excludedTerms){
+ const status=$("labStatus"),out=$("labResults"),excluded=new Set(anchors);
+ const pool=Object.keys(db).filter(k=>!excluded.has(k)&&!anchors.some(a=>labSameLineage(k,a))&&!labConstraintExcludes(k,excludedTerms));
+ const results=Object.keys(labPlateRoles).map(role=>{
+   const ranked=pool.map(k=>labPlateRoleScore(k,anchors,role)).filter(x=>x.score>0.1).sort((a,b)=>b.score-a.score||b.known-a.known||a.key.localeCompare(b.key));
+   const chosen=[],roots=new Set();
+   for(const item of ranked){const root=labRoot(item.key);if(roots.has(root))continue;roots.add(root);chosen.push(item);if(chosen.length===3)break;}
+   return {role,items:chosen};
+ });
+ labPlateCurrent={anchors:[...anchors],constraints:constraintText,results};
+ status.textContent="Composizione generata: scegli gli elementi che vuoi mantenere e crea una scheda di prova.";
+ out.innerHTML=(constraintText?"<div class='lab-notice'><b>Vincoli inseriti:</b> "+esc(constraintText)+". Le esclusioni riconosciute sono state applicate; tecnica, tempi e costi richiedono valutazione pratica.</div>":"")+
+ "<div class='lab-notice'><b>Come leggerla:</b> suggerimenti funzionali ordinati da euristiche locali, non abbinamenti certificati. Puoi lasciare vuoto qualsiasi ruolo.</div>"+
+ results.map(group=>"<article class='lab-result'><h3>"+esc(labPlateRoles[group.role].label)+"</h3><p>"+esc(labPlateRoles[group.role].desc)+"</p>"+(group.items.length?"<label for='plateRole_"+group.role+"'>Scegli una proposta (facoltativo)</label><select id='plateRole_"+group.role+"' data-plate-role='"+group.role+"'><option value=''>Non inserirlo</option>"+group.items.map((x,i)=>"<option value='"+esc(x.key)+"' "+(i===0?"selected":"")+">"+esc(nome(x.key))+" · "+(x.known?x.known+"/"+anchors.length+" relazioni note":"poche relazioni note")+"</option>").join("")+"</select><div class='lab-notice'>"+group.items.map(x=>"<div><b>"+esc(nome(x.key))+"</b>"+(x.shared.length?" · profili condivisi: "+esc(x.shared.join(", ")):"")+"</div>").join("")+"</div>":"<p>Nessun candidato sufficientemente caratterizzato nell'archivio.</p>")+"</article>").join("")+
+ "<article class='lab-result'><h3>Trasforma la scelta in una scheda di prova</h3><p><b>Protagonisti:</b> "+anchors.map(k=>esc(nome(k))).join(" + ")+"</p><label for='labPlateTitle'>Nome provvisorio del piatto</label><input id='labPlateTitle' placeholder='Es. Zucca, gorgonzola e nocciola' value=''>"+
+ "<label for='labPlateMethod'>Tecnica / organizzazione da verificare</label><textarea id='labPlateMethod' rows='3' placeholder='Es. crema preparata in anticipo, elemento croccante aggiunto al pass, servizio rapido…'></textarea>"+
+ "<div id='labPlatePreview' class='lab-notice'></div><button type='button' id='labPlateSave'>Salva scheda di prova nel banco</button></article>";
+ for(const role of Object.keys(labPlateRoles)){const el=$("plateRole_"+role);if(el)el.addEventListener("change",labPlatePreview);}
+ $("labPlateSave").addEventListener("click",labSavePlate);
+ $("labPlateTitle").value="Prova: "+anchors.map(nome).join(" + ");
+ labPlatePreview();
+}
+
 function labGenerate(){
   const status=$("labStatus"),out=$("labResults");
   out.innerHTML="";
@@ -1946,9 +1983,9 @@ function labRenderBench(){
   if(!list.length){box.innerHTML="<div class='lab-notice'>Il banco è vuoto. Genera una pista e premi «Salva come ipotesi da testare» per iniziare.</div>";return}
   box.innerHTML="<h3>Banco sperimentale · "+list.length+" ipotesi</h3>"+list.map(item=>{
     const date=item.createdAt?new Date(item.createdAt).toLocaleString("it-IT"):"Data non disponibile";
-    const ingredients=item.sourceIdea?((item.sourceIngredients||[]).join(" + ")+" → "+(item.candidate?nome(item.candidate):"pista dalla fonte")):[...(item.anchors||[]),item.candidate].filter(Boolean).map(k=>nome(k)).join(" + ");
+    const ingredients=item.plateComposition?(item.plateTitle||"Composizione del piatto"):item.sourceIdea?((item.sourceIngredients||[]).join(" + ")+" → "+(item.candidate?nome(item.candidate):"pista dalla fonte")):[...(item.anchors||[]),item.candidate].filter(Boolean).map(k=>nome(k)).join(" + ");
     const mode=item.mode==="estrema"?"Sperimentazione estrema":"Creatività applicabile";
-    return "<article class='lab-bench-item'><b>"+esc(ingredients)+"</b><p>"+esc(mode)+" · "+esc(item.goal||"sorprendi")+" · "+esc(date)+"</p>"+(item.sourceTitle?"<p><b>Fonte:</b> "+esc(item.sourceTitle)+"</p>":"")+(item.sourceIdea?"<p><b>Ipotesi:</b> "+esc(item.sourceIdea)+"</p>":"")+(item.sourceRationale?"<p><b>Motivazione:</b> "+esc(item.sourceRationale)+"</p>":"")+(item.sourceTest?"<p><b>Test:</b> "+esc(item.sourceTest)+"</p>":"")+(item.constraints?"<p><b>Vincoli:</b> "+esc(item.constraints)+"</p>":"")+"<p><span class='lab-tag'>"+esc(item.status==="testata"?"Testata":item.status==="scartata"?"Scartata":"Da testare")+"</span></p><button type='button' data-lab-status='testata' data-lab-id='"+esc(item.id)+"'>Segna testata</button> <button type='button' data-lab-status='scartata' data-lab-id='"+esc(item.id)+"'>Scarta</button> <button type='button' data-lab-remove='"+esc(item.id)+"'>Elimina</button></article>";
+    return "<article class='lab-bench-item'><b>"+esc(ingredients)+"</b><p>"+esc(item.plateComposition?"Composizione del piatto":mode)+" · "+esc(item.goal||"sorprendi")+" · "+esc(date)+"</p>"+(item.plateComposition?"<p><b>Protagonisti:</b> "+(item.anchors||[]).map(k=>esc(nome(k))).join(" + ")+"</p><ul>"+Object.values(item.plateRoles||{}).map(r=>"<li><b>"+esc(r.label)+":</b> "+esc(r.name)+"</li>").join("")+"</ul>"+(item.plateMethod?"<p><b>Tecnica / organizzazione:</b> "+esc(item.plateMethod)+"</p>":"")+"<p><b>Controlli:</b> "+(item.plateChecks||[]).map(esc).join(" · ")+"</p>":"")+(item.sourceTitle?"<p><b>Fonte:</b> "+esc(item.sourceTitle)+"</p>":"")+(item.sourceIdea?"<p><b>Ipotesi:</b> "+esc(item.sourceIdea)+"</p>":"")+(item.sourceRationale?"<p><b>Motivazione:</b> "+esc(item.sourceRationale)+"</p>":"")+(item.sourceTest?"<p><b>Test:</b> "+esc(item.sourceTest)+"</p>":"")+(item.constraints?"<p><b>Vincoli:</b> "+esc(item.constraints)+"</p>":"")+"<p><span class='lab-tag'>"+esc(item.status==="testata"?"Testata":item.status==="scartata"?"Scartata":"Da testare")+"</span></p><button type='button' data-lab-status='testata' data-lab-id='"+esc(item.id)+"'>Segna testata</button> <button type='button' data-lab-status='scartata' data-lab-id='"+esc(item.id)+"'>Scarta</button> <button type='button' data-lab-remove='"+esc(item.id)+"'>Elimina</button></article>";
   }).join("");
 }
 
