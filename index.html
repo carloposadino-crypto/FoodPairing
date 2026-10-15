@@ -2115,13 +2115,33 @@ function labSaveRecipeForm(form){
  $("labStatus").textContent="Scheda ricetta salvata nel banco sperimentale.";
  labRenderBench();
 }
+function labMenuEconomicsHtml(list){
+ const euro=n=>Number(n).toLocaleString("it-IT",{style:"currency",currency:"EUR"});
+ const rows=(list||[]).filter(item=>item&&item.recipe&&Array.isArray(item.recipe.ingredients)&&item.recipe.ingredients.length);
+ if(!rows.length)return "<div class='lab-notice'><b>Riepilogo economico menu</b><p>Compila e salva almeno una scheda ricetta per confrontare i piatti.</p></div>";
+ const data=rows.map(item=>{
+  const r=item.recipe,ingredients=r.ingredients||[],yieldCount=Number(r.yield)||0,vat=Number(r.vatRate)||0;
+  let total=0,complete=yieldCount>0&&ingredients.length>0;
+  ingredients.forEach(x=>{const g=String(x.grams??"").trim(),p=String(x.priceKg??"").trim();if(g===""||p===""||!Number.isFinite(Number(g))||!Number.isFinite(Number(p))){complete=false;return;}total+=(Number(g)/1000)*Number(p);});
+  const costPortion=yieldCount>0?total/yieldCount:0,saleGross=String(r.salePrice??"").trim()!==""?Number(r.salePrice):null,saleNet=saleGross!==null&&Number.isFinite(saleGross)?saleGross/(1+vat/100):null,margin=saleNet===null?null:saleNet-costPortion,foodCost=saleNet>0?costPortion/saleNet*100:null;
+  return {title:r.title||item.plateTitle||"Piatto senza nome",complete,total,costPortion,saleGross,margin,foodCost,yieldCount};
+ });
+ const valid=data.filter(x=>x.complete),ranked=valid.filter(x=>x.margin!==null).sort((a,b)=>b.margin-a.margin);
+ const summary="<div class='lab-notice' style='margin:12px 0'><h3>Riepilogo economico menu</h3><p>Confronto delle schede ricetta salvate nel banco sperimentale. Il margine indica solo ricavo netto IVA meno costo ingredienti: non è utile netto.</p>"+
+ (ranked.length?"<p><b>Margine ingredienti più alto per porzione:</b> "+esc(ranked[0].title)+" · "+euro(ranked[0].margin)+"</p>":"<p>Inserisci il prezzo di vendita effettivo per confrontare i margini.</p>")+
+ "<div style='overflow-x:auto'><table style='width:100%;border-collapse:collapse'><thead><tr><th style='text-align:left;padding:6px'>Piatto</th><th style='text-align:right;padding:6px'>Costo/porz.</th><th style='text-align:right;padding:6px'>Prezzo IVA incl.</th><th style='text-align:right;padding:6px'>Margine ingredienti</th><th style='text-align:right;padding:6px'>Food cost</th></tr></thead><tbody>"+
+ data.map(x=>"<tr><td style='padding:6px;border-top:1px solid var(--border,#ddd)'>"+esc(x.title)+(x.complete?"":" <small>(dati incompleti)</small>")+"</td><td style='text-align:right;padding:6px;border-top:1px solid var(--border,#ddd)'>"+(x.complete?euro(x.costPortion):"—")+"</td><td style='text-align:right;padding:6px;border-top:1px solid var(--border,#ddd)'>"+(x.saleGross===null?"—":euro(x.saleGross))+"</td><td style='text-align:right;padding:6px;border-top:1px solid var(--border,#ddd)'>"+(!x.complete||x.margin===null?"—":euro(x.margin))+"</td><td style='text-align:right;padding:6px;border-top:1px solid var(--border,#ddd)'>"+(x.foodCost===null?"—":x.foodCost.toLocaleString("it-IT",{maximumFractionDigits:1})+"%")+"</td></tr>").join("")+
+ "</tbody></table></div><small>Le righe con dati incompleti non entrano nel confronto dei costi. I valori dipendono dai prezzi e dalle dosi inseriti nelle singole schede.</small></div>";
+ return summary;
+}
+
 function labRenderBench(){
   const box=$("labBench");
   if(!box)return;
   const list=labSavedHypotheses();
   box.hidden=false;
   if(!list.length){box.innerHTML="<div id='labPrepArchive' class='lab-notice'></div><div class='lab-notice'>Il banco è vuoto. Genera una pista e premi «Salva come ipotesi da testare» per iniziare.</div>";labPrepRender();return}
-  box.innerHTML="<div id='labPrepArchive' class='lab-notice'></div><h3>Banco sperimentale · "+list.length+" ipotesi</h3>"+list.map(item=>{
+  box.innerHTML="<div id='labPrepArchive' class='lab-notice'></div><h3>Banco sperimentale · "+list.length+" ipotesi</h3>"+labMenuEconomicsHtml(list)+list.map(item=>{
     const date=item.createdAt?new Date(item.createdAt).toLocaleString("it-IT"):"Data non disponibile";
     const ingredients=item.plateComposition?(item.plateTitle||"Composizione del piatto"):item.sourceIdea?((item.sourceIngredients||[]).join(" + ")+" → "+(item.candidate?nome(item.candidate):"pista dalla fonte")):[...(item.anchors||[]),item.candidate].filter(Boolean).map(k=>nome(k)).join(" + ");
     const mode=item.mode==="estrema"?"Sperimentazione estrema":"Creatività applicabile";
