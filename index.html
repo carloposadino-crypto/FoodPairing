@@ -1895,8 +1895,36 @@ function labPlateSelection(){
  for(const role of Object.keys(labPlateRoles)){const el=$("plateRole_"+role),key=el?.value||"";if(key)chosen[role]=key;}
  return chosen;
 }
+const labSensoryDimensions=[
+ {key:"acidita",label:"Acidità"},{key:"dolcezza",label:"Dolcezza"},{key:"amarezza",label:"Amarezza"},{key:"sapidita",label:"Sapidità"},
+ {key:"umami",label:"Umami"},{key:"grassezza",label:"Grassezza"},{key:"aroma",label:"Intensità aromatica"},{key:"croccantezza",label:"Croccantezza"}
+];
+function labSensoryProfiles(){
+ try{const v=JSON.parse(localStorage.getItem("foodpairing_sensory_profiles")||"{}");return v&&typeof v==="object"&&!Array.isArray(v)?v:{};}catch(e){return {}}
+}
+function labSaveSensoryValue(el){
+ const key=el?.dataset?.sensoryIngredient,field=el?.dataset?.sensoryField;
+ if(!key||!field)return;
+ const profiles=labSensoryProfiles();
+ profiles[key]=profiles[key]&&typeof profiles[key]==="object"?profiles[key]:{};
+ profiles[key][field]=el.value;
+ try{localStorage.setItem("foodpairing_sensory_profiles",JSON.stringify(profiles));}
+ catch(e){const status=$("labStatus");if(status)status.textContent="Profilo non salvato: memoria locale non disponibile.";}
+ labPlatePreview();
+}
+function labSensoryEditor(all){
+ const profiles=labSensoryProfiles();
+ const options=(value)=>["<option value=''>Non valutato</option>","<option value='1' "+(String(value)==="1"?"selected":"")+">Basso</option>","<option value='2' "+(String(value)==="2"?"selected":"")+">Medio</option>","<option value='3' "+(String(value)==="3"?"selected":"")+">Alto</option>"].join("");
+ return "<details class='lab-sensory-editor' style='margin:12px 0'><summary><b>Profilo sensoriale degli ingredienti</b></summary><p class='muted'>Compila solo ciò che hai valutato assaggiando o documentato. I valori sono personali e vengono salvati su questo dispositivo, non nel database condiviso.</p>"+
+ [...new Set(all)].map(key=>{
+  const p=profiles[key]||{};
+  return "<details style='margin:8px 0;padding:8px;border:1px solid var(--border,#ccc);border-radius:8px'><summary>"+esc(nome(key))+"</summary><div class='grid' style='grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:8px'>"+
+  labSensoryDimensions.map(d=>"<label style='display:block'>"+d.label+"<select data-sensory-ingredient='"+esc(key)+"' data-sensory-field='"+d.key+"' onchange='labSaveSensoryValue(this)' style='display:block;width:100%'>"+options(p[d.key])+"</select></label>").join("")+
+  "<label style='display:block'>Origine della valutazione<select data-sensory-ingredient='"+esc(key)+"' data-sensory-field='origine' onchange='labSaveSensoryValue(this)' style='display:block;width:100%'><option value=''>Non indicata</option><option value='stima' "+(p.origine==="stima"?"selected":"")+">Stima del cuoco</option><option value='documentato' "+(p.origine==="documentato"?"selected":"")+">Dato documentato</option></select></label></div></details>";
+ }).join("")+"</details>";
+}
 function labPlateSensoryAnalysis(anchors,chosen){
- const all=[...anchors,...Object.values(chosen)],pairs=[];
+ const all=[...new Set([...anchors,...Object.values(chosen)])],pairs=[];
  for(let i=0;i<all.length;i++)for(let j=i+1;j<all.length;j++){
   const ev=labPairInfo(all[i],all[j]);
   if(ev.score>0||ev.shared.length)pairs.push({a:all[i],b:all[j],score:ev.score,source:ev.source,shared:ev.shared,direct:ev.direct});
@@ -1905,6 +1933,12 @@ function labPlateSensoryAnalysis(anchors,chosen){
  const families=new Set(all.map(labFamily).filter(Boolean)).size;
  const evidence=known.length?"<p><b>Relazioni presenti:</b> "+known.length+" coppie con punteggio nel database; "+direct.length+" con legame diretto o verificato secondo i dati disponibili.</p><ul>"+known.slice(0,5).map(p=>"<li>"+esc(nome(p.a))+" + "+esc(nome(p.b))+": punteggio "+Number(p.score).toFixed(1)+" ("+esc(p.source||"fonte non specificata")+")</li>").join("")+"</ul>":"<p>Nessuna relazione con punteggio trovata. È assenza di dati, non prova di incompatibilità.</p>";
  const profile=profilePairs.length?"<p><b>Profili condivisi registrati:</b> "+profilePairs.slice(0,5).map(p=>esc(nome(p.a))+" + "+esc(nome(p.b))+": "+esc(p.shared.join(", "))).join("; ")+".</p>":"<p>Non risultano profili condivisi registrati, oppure i profili non sono disponibili.</p>";
+ const profiles=labSensoryProfiles(),rated=[];
+ for(const d of labSensoryDimensions){
+  const values=all.map(k=>Number(profiles[k]?.[d.key]||0)).filter(v=>v>0);
+  if(values.length)rated.push({label:d.label,count:values.length,total:values.reduce((a,b)=>a+b,0),max:Math.max(...values)});
+ }
+ const sensorySummary=rated.length?"<p><b>Valutazioni inserite:</b> "+rated.map(x=>esc(x.label)+": "+x.count+"/"+all.length+" ingredienti valutati").join("; ")+".</p><ul>"+rated.filter(x=>x.count>=2).map(x=>"<li>"+esc(x.label)+": somma indicativa "+x.total+" sui valori inseriti; non è un punteggio scientifico di equilibrio.</li>").join("")+"</ul>":"<p>Non hai ancora registrato attributi sensoriali per questa composizione. Nessun valore viene inventato dal sistema.</p>";
  const prompts=[];
  if(!chosen.acid)prompts.push("Valuta all'assaggio se serve una componente acida, soprattutto se il boccone risulta grasso o pesante.");
  if(!chosen.crunchy)prompts.push("Verifica se una consistenza croccante migliorerebbe il contrasto; non è obbligatoria.");
@@ -1913,7 +1947,7 @@ function labPlateSensoryAnalysis(anchors,chosen){
  if(!chosen.sauce)prompts.push("Chiediti se serve una salsa, un fondo o un jus per succulenza e continuità.");
  if(!chosen.earthy)prompts.push("Considera una nota amara o terrosa solo se serve profondità: non aggiungerla automaticamente.");
  if(!prompts.length)prompts.push("Verifica che ogni componente sia percepibile e non copra il protagonista.");
- return "<section class='lab-notice' aria-live='polite'><h3>Analisi sensoriale preliminare</h3><p><b>Elementi analizzati:</b> "+all.map(k=>esc(nome(k))).join(" · ")+"</p><p><b>Famiglie distinte nel database:</b> "+families+" (indicatore descrittivo, non misura di equilibrio).</p>"+evidence+profile+"<h4>Ipotesi da verificare con l'assaggio</h4><ul>"+prompts.map(p=>"<li>"+esc(p)+"</li>").join("")+"</ul><p class='muted'><b>Limite:</b> il sistema non può dedurre con certezza dolcezza, acidità, amarezza, sapidità, grasso o consistenza se questi dati non sono registrati. Le ipotesi non sostituiscono l'assaggio.</p></section>";
+ return "<section class='lab-notice' aria-live='polite'><h3>Analisi sensoriale preliminare</h3><p><b>Elementi analizzati:</b> "+all.map(k=>esc(nome(k))).join(" · ")+"</p><p><b>Famiglie distinte nel database:</b> "+families+" (indicatore descrittivo, non misura di equilibrio).</p>"+evidence+profile+labSensoryEditor(all)+"<h4>Lettura delle valutazioni personali</h4>"+sensorySummary+"<h4>Ipotesi da verificare con l'assaggio</h4><ul>"+prompts.map(p=>"<li>"+esc(p)+"</li>").join("")+"</ul><p class='muted'><b>Limite:</b> i punteggi del database descrivono relazioni tra ingredienti, non misurano automaticamente gusto o consistenza. Le valutazioni inserite qui sono stime personali o dati documentati indicati dall'utente; verificare sempre con l'assaggio.</p></section>";
 }
 function labPlatePreview(){
  const preview=$("labPlatePreview");if(!preview||!labPlateCurrent)return;
