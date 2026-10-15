@@ -1862,7 +1862,9 @@ function labPlateRoleScore(key,anchors,role){
     creamy:{label:"Componente cremosa",desc:"Per dare continuità, morbidezza e legare gli elementi.",terms:["crema","panna","burro","formagg","ricotta","mascarpone","besciamella","pure","patata","uovo","maionese","emulsion","vellutata","yogurt"]},
     crunchy:{label:"Parte croccante",desc:"Per introdurre contrasto di consistenza e un finale più netto.",terms:["nocciol","mandorl","noce","pistacch","pinol","seme","pangratt","grissin","pane","croccant","chips","cialda","tost","granella","cracker"]},
     bridge:{label:"Ponte aromatico",desc:"Per collegare gli ingredienti attraverso profili condivisi.",terms:[]},
-    fresh:{label:"Accento fresco/aromatico",desc:"Per aggiungere freschezza, profumo o una nota vegetale.",terms:["erbe","basilico","prezzemol","menta","timo","rosmarin","salvia","erba cipollina","aneto","maggiorana","cerfoglio","scorza","germogl","sedano","insalata","rucola"]}
+    fresh:{label:"Accento fresco/aromatico",desc:"Per aggiungere freschezza, profumo o una nota vegetale.",terms:["erbe","basilico","prezzemol","menta","timo","rosmarin","salvia","erba cipollina","aneto","maggiorana","cerfoglio","scorza","germogl","sedano","insalata","rucola"]},
+    sauce:{label:"Salsa, fondo o jus",desc:"Per dare continuità, succulenza e concentrare il sapore del protagonista.",terms:["fondo","jus","salsa","riduz","brodo","glassa","demi-glace","sugo","vinaigrette","emulsion","burro montato","crema"]},
+    earthy:{label:"Nota amara o terrosa",desc:"Per aggiungere profondità e un finale più adulto, senza appesantire.",terms:["radicchio","cicoria","catalogna","indivia","carciof","cavolo","rape","porcin","fung","tartufo","cacao","caffè","caffe","tostato"]}
   };
   const r=rules[role];let hit=0;
   for(const term of r.terms)if(hay.includes(norm(term)))hit+=1;
@@ -1884,7 +1886,9 @@ const labPlateRoles={
  creamy:{label:"Componente cremosa",desc:"Per dare continuità, morbidezza e legare gli elementi."},
  crunchy:{label:"Parte croccante",desc:"Per introdurre contrasto di consistenza."},
  bridge:{label:"Ponte aromatico",desc:"Per collegare gli ingredienti con profili condivisi."},
- fresh:{label:"Accento fresco/aromatico",desc:"Per aggiungere freschezza e profumo."}
+ fresh:{label:"Accento fresco/aromatico",desc:"Per aggiungere freschezza e profumo."},
+ sauce:{label:"Salsa, fondo o jus",desc:"Per dare succulenza e concentrare il sapore."},
+ earthy:{label:"Nota amara o terrosa",desc:"Per aggiungere profondità e un finale più adulto."}
 };
 function labPlateSelection(){
  const chosen={};
@@ -1924,7 +1928,7 @@ function labGeneratePlate(anchors,constraintText,excludedTerms){
  status.textContent="Composizione generata: scegli gli elementi che vuoi mantenere e crea una scheda di prova.";
  out.innerHTML=(constraintText?"<div class='lab-notice'><b>Vincoli inseriti:</b> "+esc(constraintText)+". Le esclusioni riconosciute sono state applicate; tecnica, tempi e costi richiedono valutazione pratica.</div>":"")+
  "<div class='lab-notice'><b>Come leggerla:</b> suggerimenti funzionali ordinati da euristiche locali, non abbinamenti certificati. Puoi lasciare vuoto qualsiasi ruolo.</div>"+
- results.map(group=>"<article class='lab-result'><h3>"+esc(labPlateRoles[group.role].label)+"</h3><p>"+esc(labPlateRoles[group.role].desc)+"</p>"+(group.items.length?"<label for='plateRole_"+group.role+"'>Scegli una proposta (facoltativo)</label><select id='plateRole_"+group.role+"' data-plate-role='"+group.role+"'><option value=''>Non inserirlo</option>"+group.items.map((x,i)=>"<option value='"+esc(x.key)+"' "+(i===0?"selected":"")+">"+esc(nome(x.key))+" · "+(x.known?x.known+"/"+anchors.length+" relazioni note":"poche relazioni note")+"</option>").join("")+"</select><div class='lab-notice'>"+group.items.map(x=>"<div><b>"+esc(nome(x.key))+"</b>"+(x.shared.length?" · profili condivisi: "+esc(x.shared.join(", ")):"")+"</div>").join("")+"</div>":"<p>Nessun candidato sufficientemente caratterizzato nell'archivio.</p>")+"</article>").join("")+
+ results.map(group=>"<article class='lab-result'><h3>"+esc(labPlateRoles[group.role].label)+"</h3><p>"+esc(labPlateRoles[group.role].desc)+"</p>"+(group.items.length?"<label for='plateRole_"+group.role+"'>Scegli una proposta (facoltativo)</label><select id='plateRole_"+group.role+"' data-plate-role='"+group.role+"'><option value=''>Non inserirlo</option>"+group.items.map((x,i)=>"<option value='"+esc(x.key)+"' "+""+">"+esc(nome(x.key))+" · "+(x.known?x.known+"/"+anchors.length+" relazioni note":"poche relazioni note")+"</option>").join("")+"</select><div class='lab-notice'>"+group.items.map(x=>"<div><b>"+esc(nome(x.key))+"</b>"+(x.shared.length?" · profili condivisi: "+esc(x.shared.join(", ")):"")+"</div>").join("")+"</div>":"<p>Nessun candidato sufficientemente caratterizzato nell'archivio.</p>")+"</article>").join("")+
  "<article class='lab-result'><h3>Trasforma la scelta in una scheda di prova</h3><p><b>Protagonisti:</b> "+anchors.map(k=>esc(nome(k))).join(" + ")+"</p><label for='labPlateTitle'>Nome provvisorio del piatto</label><input id='labPlateTitle' placeholder='Es. Zucca, gorgonzola e nocciola' value=''>"+
  "<label for='labPlateMethod'>Tecnica / organizzazione da verificare</label><textarea id='labPlateMethod' rows='3' placeholder='Es. crema preparata in anticipo, elemento croccante aggiunto al pass, servizio rapido…'></textarea>"+
  "<div id='labPlatePreview' class='lab-notice'></div><button type='button' id='labPlateSave'>Salva scheda di prova nel banco</button></article>";
