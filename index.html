@@ -1940,6 +1940,48 @@ function labSensoryBalanceAnalysis(all){
  if(!notes.length)return "<h4>Ridondanze e contrasti</h4><p>Nessuna criticità ricavabile dai profili inseriti. Questo non dimostra che il piatto sia equilibrato: molti attributi potrebbero non essere ancora valutati.</p>";
  return "<h4>Ridondanze e contrasti da verificare</h4><ul>"+notes.map(n=>"<li><b>"+(n.type==="attenzione"?"Possibile sovrapposizione":n.type==="contrasto"?"Possibile contrasto":"Consistenza")+":</b> "+esc(n.text)+"</li>").join("")+"</ul><p class='muted'>Queste sono ipotesi basate esclusivamente sui profili compilati. Valori mancanti non equivalgono a valori bassi; verifica con assaggio e consistenza reale.</p>";
 }
+function labGuidedComponentComparison(anchors,chosen){
+ const profiles=labSensoryProfiles(),dims=labSensoryDimensions,parts=[];
+ const protagonists=anchors.map(k=>({key:k,name:nome(k)}));
+ for(const [role,key] of Object.entries(chosen)){
+  const component=profiles[key]||{},comparisons=[];
+  for(const anchor of protagonists){
+   const base=profiles[anchor.key]||{},shared=[];
+   for(const d of dims){
+    const a=Number(base[d.key]||0),b=Number(component[d.key]||0);
+    if(a>0&&b>0)shared.push({label:d.label,a,b,diff:Math.abs(a-b)});
+   }
+   if(shared.length)comparisons.push({anchor,shared});
+  }
+  let body="";
+  if(!comparisons.length){
+   body="<p>Confronto non ancora possibile: completa almeno alcuni attributi sensoriali sia del protagonista sia di questo elemento. I campi non valutati restano sconosciuti.</p>";
+  }else{
+   body=comparisons.map(c=>{
+    const overlap=c.shared.filter(x=>x.a>=2&&x.b>=2&&x.diff===0);
+    const contrast=c.shared.filter(x=>x.diff>=2);
+    const near=c.shared.filter(x=>x.diff===1);
+    const findings=[];
+    if(overlap.length)findings.push("Tratti potenzialmente ridondanti rispetto a "+esc(c.anchor.name)+": "+overlap.map(x=>esc(x.label.toLowerCase())).join(", ")+".");
+    if(contrast.length)findings.push("Contrasti sensoriali marcati registrati: "+contrast.map(x=>esc(x.label.toLowerCase())+" ("+(x.a===1?"basso":x.a===2?"medio":"alto")+" nel protagonista, "+(x.b===1?"basso":x.b===2?"medio":"alto")+" nell'elemento)").join("; ")+".");
+    if(near.length)findings.push("Differenze contenute: "+near.map(x=>esc(x.label.toLowerCase())).join(", ")+".");
+    if(!findings.length)findings.push("I valori confrontabili sono simili o bassi; non emerge un contrasto netto dai dati registrati.");
+    return "<p><b>Rispetto a "+esc(c.anchor.name)+":</b> "+findings.join(" ")+"</p>";
+   }).join("");
+  }
+  let trial="Prova a modificare una sola variabile di questo elemento e confronta le due versioni all'assaggio.";
+  const known=protagonists.flatMap(a=>{const p=profiles[a.key]||{};return dims.map(d=>({d,a:Number(p[d.key]||0),b:Number(component[d.key]||0)})).filter(x=>x.a>0&&x.b>0);});
+  const overlapFat=known.some(x=>x.d.key==="grassezza"&&x.a>=2&&x.b>=2);
+  const overlapSweet=known.some(x=>x.d.key==="dolcezza"&&x.a>=2&&x.b>=2);
+  const contrastCrunch=Number(component.croccantezza||0)>0&&protagonists.some(a=>Number(profiles[a.key]?.croccantezza||0)>0&&Math.abs(Number(profiles[a.key].croccantezza)-Number(component.croccantezza))>=2);
+  if(overlapFat)trial="Se il boccone risulta pesante, prova una versione meno grassa o più leggera di questo elemento; verifica poi se serve anche acidità.";
+  else if(overlapSweet)trial="Se il risultato è troppo dolce, prova una versione meno dolce di questo elemento oppure riducine la presenza.";
+  else if(contrastCrunch)trial="Assaggia la differenza di consistenza nel boccone completo: mantieni il contrasto solo se resta percepibile dopo l'impiattamento.";
+  parts.push("<details style='margin:8px 0;padding:10px;border:1px solid var(--border,#ccc);border-radius:8px'><summary><b>"+esc(labPlateRoles[role]?.label||role)+": "+esc(nome(key))+"</b></summary>"+body+"<p><b>Prova pratica:</b> "+esc(trial)+"</p></details>");
+ }
+ if(!parts.length)return "<p>Seleziona almeno un elemento funzionale per avviare il confronto guidato.</p>";
+ return "<section class='lab-notice' style='margin-top:12px'><h4>Confronto guidato: protagonista e componenti</h4><p>Apri ogni componente per confrontarla con il protagonista usando solo i profili compilati. Le indicazioni suggeriscono prove, non giudizi automatici sul piatto.</p>"+parts.join("")+"</section>";
+}
 function labPlateSensoryAnalysis(anchors,chosen){
  const all=[...new Set([...anchors,...Object.values(chosen)])],pairs=[];
  for(let i=0;i<all.length;i++)for(let j=i+1;j<all.length;j++){
@@ -1964,7 +2006,7 @@ function labPlateSensoryAnalysis(anchors,chosen){
  if(!chosen.sauce)prompts.push("Chiediti se serve una salsa, un fondo o un jus per succulenza e continuità.");
  if(!chosen.earthy)prompts.push("Considera una nota amara o terrosa solo se serve profondità: non aggiungerla automaticamente.");
  if(!prompts.length)prompts.push("Verifica che ogni componente sia percepibile e non copra il protagonista.");
- return "<section class='lab-notice' aria-live='polite'><h3>Analisi sensoriale preliminare</h3><p><b>Elementi analizzati:</b> "+all.map(k=>esc(nome(k))).join(" · ")+"</p><p><b>Famiglie distinte nel database:</b> "+families+" (indicatore descrittivo, non misura di equilibrio).</p>"+evidence+profile+labSensoryEditor(all)+"<h4>Lettura delle valutazioni personali</h4>"+sensorySummary+labSensoryBalanceAnalysis(all)+"<h4>Ipotesi da verificare con l'assaggio</h4><ul>"+prompts.map(p=>"<li>"+esc(p)+"</li>").join("")+"</ul><p class='muted'><b>Limite:</b> i punteggi del database descrivono relazioni tra ingredienti, non misurano automaticamente gusto o consistenza. Le valutazioni inserite qui sono stime personali o dati documentati indicati dall'utente; verificare sempre con l'assaggio.</p></section>";
+ return "<section class='lab-notice' aria-live='polite'><h3>Analisi sensoriale preliminare</h3><p><b>Elementi analizzati:</b> "+all.map(k=>esc(nome(k))).join(" · ")+"</p><p><b>Famiglie distinte nel database:</b> "+families+" (indicatore descrittivo, non misura di equilibrio).</p>"+evidence+profile+labSensoryEditor(all)+labGuidedComponentComparison(anchors,chosen)+"<h4>Lettura delle valutazioni personali</h4>"+sensorySummary+labSensoryBalanceAnalysis(all)+"<h4>Ipotesi da verificare con l'assaggio</h4><ul>"+prompts.map(p=>"<li>"+esc(p)+"</li>").join("")+"</ul><p class='muted'><b>Limite:</b> i punteggi del database descrivono relazioni tra ingredienti, non misurano automaticamente gusto o consistenza. Le valutazioni inserite qui sono stime personali o dati documentati indicati dall'utente; verificare sempre con l'assaggio.</p></section>";
 }
 function labPlatePreview(){
  const preview=$("labPlatePreview");if(!preview||!labPlateCurrent)return;
