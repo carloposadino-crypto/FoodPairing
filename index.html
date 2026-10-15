@@ -2133,13 +2133,35 @@ function labMenuEconomicsHtml(list){
   return a.title.localeCompare(b.title,"it");
  });
  const over=data.filter(x=>x.complete&&x.delta!==null&&x.delta>1);
- const summary="<div class='lab-notice' style='margin:12px 0'><h3>Riepilogo economico menu</h3><p>Confronto delle schede ricetta salvate nel banco sperimentale. Il margine indica solo ricavo netto IVA meno costo ingredienti: non è utile netto.</p>"+
+ const summary="<div class='lab-notice' style='margin:12px 0'><h3>Riepilogo economico menu</h3><p><button type='button' data-lab-export-menu>Esporta confronto in CSV</button></p><p>Confronto delle schede ricetta salvate nel banco sperimentale. Il margine indica solo ricavo netto IVA meno costo ingredienti: non è utile netto.</p>"+
  (ranked.length?"<p><b>Margine ingredienti più alto per porzione:</b> "+esc(ranked[0].title)+" · "+euro(ranked[0].margin)+"</p>":"<p>Inserisci il prezzo di vendita effettivo per confrontare i margini.</p>")+
  (over.length?"<p><b>Da rivedere:</b> "+over.map(x=>esc(x.title)).join(", ")+". Il food cost supera di oltre un punto percentuale l’obiettivo impostato nella rispettiva scheda.</p>":"")+
  "<div style='overflow-x:auto'><table style='width:100%;border-collapse:collapse'><thead><tr><th style='text-align:left;padding:6px'>Piatto</th><th style='text-align:right;padding:6px'>Costo/porz.</th><th style='text-align:right;padding:6px'>Prezzo IVA incl.</th><th style='text-align:right;padding:6px'>Margine ingredienti</th><th style='text-align:right;padding:6px'>Food cost</th><th style='text-align:right;padding:6px'>Obiettivo</th><th style='text-align:left;padding:6px'>Esito</th></tr></thead><tbody>"+
  ordered.map(x=>"<tr><td style='padding:6px;border-top:1px solid var(--border,#ddd)'>"+esc(x.title)+(x.complete?"":" <small>(dati incompleti)</small>")+"</td><td style='text-align:right;padding:6px;border-top:1px solid var(--border,#ddd)'>"+(x.complete?euro(x.costPortion):"—")+"</td><td style='text-align:right;padding:6px;border-top:1px solid var(--border,#ddd)'>"+(x.saleGross===null?"—":euro(x.saleGross))+"</td><td style='text-align:right;padding:6px;border-top:1px solid var(--border,#ddd)'>"+(!x.complete||x.margin===null?"—":euro(x.margin))+"</td><td style='text-align:right;padding:6px;border-top:1px solid var(--border,#ddd)'>"+(x.foodCost===null?"—":x.foodCost.toLocaleString("it-IT",{maximumFractionDigits:1})+"%")+"</td><td style='text-align:right;padding:6px;border-top:1px solid var(--border,#ddd)'>"+x.target.toLocaleString("it-IT",{maximumFractionDigits:1})+"%</td><td style='padding:6px;border-top:1px solid var(--border,#ddd)'>"+esc(x.status)+(x.delta===null?"": " ("+(x.delta>0?"+":"")+x.delta.toLocaleString("it-IT",{maximumFractionDigits:1})+" pp)")+"</td></tr>").join("")+
  "</tbody></table></div><small>Il food cost è confrontato con l’obiettivo salvato nella singola scheda. “Oltre obiettivo” significa che lo supera di più di 1 punto percentuale. Il costo ingredienti non include manodopera, energia, costi fissi, commissioni o scarti non conteggiati.</small></div>";
  return summary;
+}
+
+function labExportMenuCsv(){
+ const list=labSavedHypotheses();
+ const rows=[["Piatto","Resa porzioni","Costo ingredienti ricetta EUR","Costo ingredienti porzione EUR","Prezzo vendita IVA inclusa EUR","Margine ingredienti porzione EUR","Food cost percentuale","Obiettivo food cost percentuale","Scostamento punti percentuali","Stato dati"]];
+ const euroNum=n=>Number.isFinite(n)?n.toFixed(2).replace(".",","):"";
+ list.forEach(item=>{
+  const r=item&&item.recipe;if(!r||!Array.isArray(r.ingredients)||!r.ingredients.length)return;
+  const yieldCount=Number(r.yield)||0,vat=Number(r.vatRate)||0,target=Number(r.targetFoodCost)||30;
+  let total=0,complete=yieldCount>0;
+  r.ingredients.forEach(x=>{const g=String(x.grams??"").trim(),p=String(x.priceKg??"").trim();if(g===""||p===""||!Number.isFinite(Number(g))||!Number.isFinite(Number(p))){complete=false;return;}total+=(Number(g)/1000)*Number(p);});
+  const cost=yieldCount>0?total/yieldCount:0,saleGross=String(r.salePrice??"").trim()!==""?Number(r.salePrice):null,saleNet=saleGross!==null&&Number.isFinite(saleGross)?saleGross/(1+vat/100):null,margin=saleNet===null?null:saleNet-cost,foodCost=saleNet>0?cost/saleNet*100:null,delta=foodCost===null?null:foodCost-target,status=!complete?"Dati incompleti":delta===null?"Prezzo da inserire":delta>1?"Oltre obiettivo":delta< -1?"Sotto obiettivo":"In linea";
+  const title=r.title||item.plateTitle||"Piatto senza nome";
+  rows.push([title,yieldCount||"",complete?euroNum(total):"",complete?euroNum(cost):"",saleGross===null?"":euroNum(saleGross),complete&&margin!==null?euroNum(margin):"",foodCost===null?"":euroNum(foodCost),target.toLocaleString("it-IT"),delta===null?"":euroNum(delta),status]);
+ });
+ if(rows.length===1){$("labStatus").textContent="Nessuna scheda ricetta salvata da esportare.";return;}
+ const csv="\\uFEFF"+rows.map(row=>row.map(value=>'"'+String(value??"").replace(/"/g,'""')+'"').join(";")).join("\\r\\n");
+ const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
+ const url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download="foodpairing-confronto-economico-menu.csv";
+ document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+ $("labStatus").textContent="Esportazione CSV del confronto economico avviata.";
 }
 
 function labRenderBench(){
@@ -2186,7 +2208,7 @@ function setupCreativeLab(){
   $("labGenerate").addEventListener("click",labGenerate);
   $("labShowBench").addEventListener("click",()=>{const box=$("labBench");if(box.hidden){labRenderBench();$("labShowBench").textContent="Aggiorna banco sperimentale";}else{box.hidden=true;$("labShowBench").textContent="Apri banco sperimentale";}});
   $("labExportBench").addEventListener("click",labExportBench);
-  $("labBench").addEventListener("click",e=>{const statusBtn=e.target.closest("[data-lab-status]");const removeBtn=e.target.closest("[data-lab-remove]");const prepDelete=e.target.closest("[data-prep-delete]");if(statusBtn)labUpdateBenchItem(statusBtn.getAttribute("data-lab-id"),statusBtn.getAttribute("data-lab-status"));if(removeBtn)labUpdateBenchItem(removeBtn.getAttribute("data-lab-remove"),"remove");if(prepDelete){const id=prepDelete.getAttribute("data-prep-delete");localStorage.setItem("foodpairing_reusable_preparations",JSON.stringify(labPreparations().filter(p=>String(p.id)!==String(id))));labRenderBench();}});
+  $("labBench").addEventListener("click",e=>{const menuExportBtn=e.target.closest("[data-lab-export-menu]");if(menuExportBtn){labExportMenuCsv();return;}const statusBtn=e.target.closest("[data-lab-status]");const removeBtn=e.target.closest("[data-lab-remove]");const prepDelete=e.target.closest("[data-prep-delete]");if(statusBtn)labUpdateBenchItem(statusBtn.getAttribute("data-lab-id"),statusBtn.getAttribute("data-lab-status"));if(removeBtn)labUpdateBenchItem(removeBtn.getAttribute("data-lab-remove"),"remove");if(prepDelete){const id=prepDelete.getAttribute("data-prep-delete");localStorage.setItem("foodpairing_reusable_preparations",JSON.stringify(labPreparations().filter(p=>String(p.id)!==String(id))));labRenderBench();}});
   $("labBench").addEventListener("submit",e=>{const editForm=e.target.closest("[data-lab-prep-edit-form]");if(editForm){e.preventDefault();labPrepUpdateForm(editForm);return;}const prepForm=e.target.closest("[data-lab-prep-form]");if(prepForm){e.preventDefault();labPrepSaveForm(prepForm);return;}const form=e.target.closest("[data-lab-recipe-form]");if(!form)return;e.preventDefault();labSaveRecipeForm(form);});
   $("labBench").addEventListener("input",e=>{const prepForm=e.target.closest("[data-lab-prep-form], [data-lab-prep-edit-form]");if(prepForm){labPrepCostRefresh(prepForm);return;}const form=e.target.closest("[data-lab-recipe-form]");if(form){if(e.target.name==="ingredientName")labRecipeUsePreparation(form,e.target);labRecipeCostRefresh(form);}});
   $("labBench").addEventListener("change",e=>{const prepForm=e.target.closest("[data-lab-prep-form], [data-lab-prep-edit-form]");if(prepForm){labPrepCostRefresh(prepForm);return;}const form=e.target.closest("[data-lab-recipe-form]");if(form)labRecipeCostRefresh(form);});
