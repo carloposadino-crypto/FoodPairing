@@ -1895,11 +1895,31 @@ function labPlateSelection(){
  for(const role of Object.keys(labPlateRoles)){const el=$("plateRole_"+role),key=el?.value||"";if(key)chosen[role]=key;}
  return chosen;
 }
+function labPlateSensoryAnalysis(anchors,chosen){
+ const all=[...anchors,...Object.values(chosen)],pairs=[];
+ for(let i=0;i<all.length;i++)for(let j=i+1;j<all.length;j++){
+  const ev=labPairInfo(all[i],all[j]);
+  if(ev.score>0||ev.shared.length)pairs.push({a:all[i],b:all[j],score:ev.score,source:ev.source,shared:ev.shared,direct:ev.direct});
+ }
+ const known=pairs.filter(p=>p.score>0),direct=known.filter(p=>p.direct),profilePairs=pairs.filter(p=>p.shared.length);
+ const families=new Set(all.map(labFamily).filter(Boolean)).size;
+ const evidence=known.length?"<p><b>Relazioni presenti:</b> "+known.length+" coppie con punteggio nel database; "+direct.length+" con legame diretto o verificato secondo i dati disponibili.</p><ul>"+known.slice(0,5).map(p=>"<li>"+esc(nome(p.a))+" + "+esc(nome(p.b))+": punteggio "+Number(p.score).toFixed(1)+" ("+esc(p.source||"fonte non specificata")+")</li>").join("")+"</ul>":"<p>Nessuna relazione con punteggio trovata. È assenza di dati, non prova di incompatibilità.</p>";
+ const profile=profilePairs.length?"<p><b>Profili condivisi registrati:</b> "+profilePairs.slice(0,5).map(p=>esc(nome(p.a))+" + "+esc(nome(p.b))+": "+esc(p.shared.join(", "))).join("; ")+".</p>":"<p>Non risultano profili condivisi registrati, oppure i profili non sono disponibili.</p>";
+ const prompts=[];
+ if(!chosen.acid)prompts.push("Valuta all'assaggio se serve una componente acida, soprattutto se il boccone risulta grasso o pesante.");
+ if(!chosen.crunchy)prompts.push("Verifica se una consistenza croccante migliorerebbe il contrasto; non è obbligatoria.");
+ if(!chosen.fresh)prompts.push("Valuta se un accento fresco o erbaceo aiuterebbe il finale.");
+ if(!chosen.creamy)prompts.push("Controlla se manca una componente morbida o legante, oppure se il piatto è già coerente.");
+ if(!chosen.sauce)prompts.push("Chiediti se serve una salsa, un fondo o un jus per succulenza e continuità.");
+ if(!chosen.earthy)prompts.push("Considera una nota amara o terrosa solo se serve profondità: non aggiungerla automaticamente.");
+ if(!prompts.length)prompts.push("Verifica che ogni componente sia percepibile e non copra il protagonista.");
+ return "<section class='lab-notice' aria-live='polite'><h3>Analisi sensoriale preliminare</h3><p><b>Elementi analizzati:</b> "+all.map(k=>esc(nome(k))).join(" · ")+"</p><p><b>Famiglie distinte nel database:</b> "+families+" (indicatore descrittivo, non misura di equilibrio).</p>"+evidence+profile+"<h4>Ipotesi da verificare con l'assaggio</h4><ul>"+prompts.map(p=>"<li>"+esc(p)+"</li>").join("")+"</ul><p class='muted'><b>Limite:</b> il sistema non può dedurre con certezza dolcezza, acidità, amarezza, sapidità, grasso o consistenza se questi dati non sono registrati. Le ipotesi non sostituiscono l'assaggio.</p></section>";
+}
 function labPlatePreview(){
  const preview=$("labPlatePreview");if(!preview||!labPlateCurrent)return;
  const chosen=labPlateSelection();
  const items=Object.entries(chosen).map(([role,key])=>"<li><b>"+esc(labPlateRoles[role].label)+":</b> "+esc(nome(key))+"</li>").join("");
- preview.innerHTML="<h3>Bozza della composizione</h3><p><b>Protagonisti:</b> "+labPlateCurrent.anchors.map(k=>esc(nome(k))).join(" + ")+"</p>"+(items?"<ul>"+items+"</ul>":"<p>Seleziona almeno un elemento funzionale per completare la bozza.</p>")+"<p><b>Nota:</b> ogni elemento è facoltativo. Togli ciò che non serve all'equilibrio del piatto.</p>";
+ preview.innerHTML="<h3>Bozza della composizione</h3><p><b>Protagonisti:</b> "+labPlateCurrent.anchors.map(k=>esc(nome(k))).join(" + ")+"</p>"+(items?"<ul>"+items+"</ul>":"<p>Seleziona almeno un elemento funzionale per completare la bozza.</p>")+"<p><b>Nota:</b> ogni elemento è facoltativo. Togli ciò che non serve all'equilibrio del piatto.</p>"+labPlateSensoryAnalysis(labPlateCurrent.anchors,chosen);
 }
 function labSavePlate(){
  if(!labPlateCurrent)return;
@@ -1908,7 +1928,7 @@ function labSavePlate(){
  const title=String($("labPlateTitle")?.value||"").trim()||("Prova con "+labPlateCurrent.anchors.map(nome).join(" e "));
  const method=String($("labPlateMethod")?.value||"").trim();
  const list=labSavedHypotheses();
- const record={id:Date.now()+"_plate",createdAt:new Date().toISOString(),candidate:null,anchors:labPlateCurrent.anchors,mode:"composizione",goal:"composizione_del_piatto",constraints:labPlateCurrent.constraints,status:"da_testare",plateComposition:true,plateTitle:title,plateRoles:Object.fromEntries(Object.entries(chosen).map(([r,k])=>[r,{key:k,name:nome(k),label:labPlateRoles[r].label}])),plateMethod:method,plateChecks:["Equilibrio acido/grasso","Intensità aromatica e persistenza","Contrasto di consistenze","Temperatura e ordine di servizio","Resa dopo preparazione anticipata e rigenerazione"]};
+ const record={id:Date.now()+"_plate",createdAt:new Date().toISOString(),candidate:null,anchors:labPlateCurrent.anchors,mode:"composizione",goal:"composizione_del_piatto",constraints:labPlateCurrent.constraints,status:"da_testare",plateComposition:true,plateTitle:title,plateRoles:Object.fromEntries(Object.entries(chosen).map(([r,k])=>[r,{key:k,name:nome(k),label:labPlateRoles[r].label}])),plateMethod:method,plateSensoryNote:"Analisi preliminare basata sui dati del database; verificare le ipotesi con l’assaggio.",plateChecks:["Equilibrio acido/grasso","Intensità aromatica e persistenza","Contrasto di consistenze","Temperatura e ordine di servizio","Resa dopo preparazione anticipata e rigenerazione"]};
  list.unshift(record);
  try{localStorage.setItem("foodpairing_creative_hypotheses",JSON.stringify(list.slice(0,200)));}
  catch(e){$("labStatus").textContent="Non riesco a salvare la scheda in questo browser: "+(e.message||"spazio non disponibile");return;}
