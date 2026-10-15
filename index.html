@@ -2038,7 +2038,7 @@ function labComparePlateAlternatives(role){
   const pair=anchors.map(a=>({anchor:a,info:labPairInfo(a,key)})).filter(x=>x.info.score>0);
   const shared=[...new Set(anchors.flatMap(labProfile))].filter(p=>labProfile(key).includes(p));
   const p=profiles[key]||{};
-  const sensory=dims.filter(d=>Number(p[d.key]||0)>0).map(d=>d.label+": "+({1:"basso",2:"medio",3:"alto"}[Number(p[d.key)])).join("; ");
+  const sensory=dims.filter(d=>Number(p[d.key]||0)>0).map(d=>d.label+": "+({1:"basso",2:"medio",3:"alto"}[Number(p[d.key])])).join("; ");
   return {key,pair,shared,sensory};
  };
  const a=summarize(first),b=summarize(second);
