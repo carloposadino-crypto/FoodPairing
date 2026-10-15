@@ -2028,6 +2028,39 @@ function labSavePlate(){
  $("labStatus").textContent="Scheda di prova «"+title+"» salvata nel banco sperimentale su questo dispositivo.";
  if($("labBench")&&!$("labBench").hidden)labRenderBench();
 }
+function labComparePlateAlternatives(role){
+ const first=$("plateRole_"+role)?.value||"",second=$("plateAltRole_"+role)?.value||"",out=$("plateCompare_"+role);
+ if(!out)return;
+ if(!first||!second){out.innerHTML="<p>Scegli sia la proposta principale sia l'alternativa da confrontare.</p>";return;}
+ if(first===second){out.innerHTML="<p>Hai scelto lo stesso ingrediente due volte. Seleziona due proposte diverse.</p>";return;}
+ const anchors=labPlateCurrent?.anchors||[],profiles=labSensoryProfiles(),dims=labSensoryDimensions;
+ const summarize=(key)=>{
+  const pair=anchors.map(a=>({anchor:a,info:labPairInfo(a,key)})).filter(x=>x.info.score>0);
+  const shared=[...new Set(anchors.flatMap(labProfile))].filter(p=>labProfile(key).includes(p));
+  const p=profiles[key]||{};
+  const sensory=dims.filter(d=>Number(p[d.key]||0)>0).map(d=>d.label+": "+({1:"basso",2:"medio",3:"alto"}[Number(p[d.key)])).join("; ");
+  return {key,pair,shared,sensory};
+ };
+ const a=summarize(first),b=summarize(second);
+ const render=(x)=>"<section><h4>"+esc(nome(x.key))+"</h4><p><b>Relazioni nel database con i protagonisti:</b> "+(x.pair.length?x.pair.map(p=>esc(nome(p.anchor))+" "+Number(p.info.score).toFixed(1)).join("; "):"nessuna con punteggio registrato")+"</p><p><b>Profili condivisi registrati:</b> "+(x.shared.length?x.shared.map(esc).join(", "):"nessuno rilevato")+"</p><p><b>Profilo sensoriale personale:</b> "+(x.sensory?esc(x.sensory):"non ancora compilato")+"</p></section>";
+ const differences=[];
+ for(const d of dims){const av=Number(profiles[first]?.[d.key]||0),bv=Number(profiles[second]?.[d.key]||0);if(av>0&&bv>0&&av!==bv)differences.push(d.label.toLowerCase()+": "+({1:"basso",2:"medio",3:"alto"}[av])+" contro "+({1:"basso",2:"medio",3:"alto"}[bv]));}
+ const missing=dims.filter(d=>!(Number(profiles[first]?.[d.key]||0)>0&&Number(profiles[second]?.[d.key]||0)>0)).map(d=>d.label);
+ out.innerHTML="<h4>Confronto delle alternative</h4><div class='grid' style='grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px'>"+render(a)+render(b)+"</div><p><b>Differenze sensoriali confrontabili:</b> "+(differences.length?esc(differences.join("; ")):"nessuna differenza registrata tra i campi compilati")+".</p>"+(missing.length?"<p><b>Dati mancanti:</b> "+esc(missing.join(", "))+". Non vengono interpretati come valori bassi.</p>":"")+"<p><b>Come decidere:</b> usa i legami del database come indizio, non come classifica di bontà. Prepara due assaggi mantenendo invariati protagonista, quantità, tecnica e temperatura; cambia solo l'alternativa e annota quale valorizza meglio il piatto. Il sistema non assegna un vincitore automatico.</p><label for='plateCompareNote_"+role+"'>Esito dell'assaggio (facoltativo)</label><textarea id='plateCompareNote_"+role+"' rows='2' placeholder='Es. A più pulita; B copre il protagonista…'></textarea><button type='button' data-save-compare-note='"+role+"'>Salva nota nel banco sperimentale</button><p id='plateCompareSaved_"+role+"' aria-live='polite'></p>";
+ const save=out.querySelector("[data-save-compare-note='"+role+"']");
+ if(save)save.addEventListener("click",()=>{
+  const note=String(out.querySelector("#plateCompareNote_"+role)?.value||"").trim();
+  const msg=out.querySelector("#plateCompareSaved_"+role);
+  if(!note){if(msg)msg.textContent="Scrivi prima una nota sull'assaggio.";return;}
+  try{
+   const records=labSavedHypotheses();
+   records.unshift({id:Date.now()+"_compare",createdAt:new Date().toISOString(),mode:"confronto_alternative",plateComposition:true,anchors,role,label:labPlateRoles[role]?.label||role,alternativeA:{key:first,name:nome(first)},alternativeB:{key:second,name:nome(second)},sensoryProfiles:{[first]:profiles[first]||{},[second]:profiles[second]||{}},tastingNote:note,status:"assaggio_eseguito"});
+   localStorage.setItem("foodpairing_creative_hypotheses",JSON.stringify(records.slice(0,200)));
+   if(msg)msg.textContent="Confronto e nota salvati nel banco sperimentale su questo dispositivo.";
+   if($("labBench")&&!$("labBench").hidden)labRenderBench();
+  }catch(e){if(msg)msg.textContent="Non riesco a salvare la nota in questo browser.";}
+ });
+}
 function labGeneratePlate(anchors,constraintText,excludedTerms){
  const status=$("labStatus"),out=$("labResults"),excluded=new Set(anchors);
  const pool=Object.keys(db).filter(k=>!excluded.has(k)&&!anchors.some(a=>labSameLineage(k,a))&&!labConstraintExcludes(k,excludedTerms));
@@ -2041,11 +2074,14 @@ function labGeneratePlate(anchors,constraintText,excludedTerms){
  status.textContent="Composizione generata: scegli gli elementi che vuoi mantenere e crea una scheda di prova.";
  out.innerHTML=(constraintText?"<div class='lab-notice'><b>Vincoli inseriti:</b> "+esc(constraintText)+". Le esclusioni riconosciute sono state applicate; tecnica, tempi e costi richiedono valutazione pratica.</div>":"")+
  "<div class='lab-notice'><b>Come leggerla:</b> suggerimenti funzionali ordinati da euristiche locali, non abbinamenti certificati. Puoi lasciare vuoto qualsiasi ruolo.</div>"+
- results.map(group=>"<article class='lab-result'><h3>"+esc(labPlateRoles[group.role].label)+"</h3><p>"+esc(labPlateRoles[group.role].desc)+"</p>"+(group.items.length?"<label for='plateRole_"+group.role+"'>Scegli una proposta (facoltativo)</label><select id='plateRole_"+group.role+"' data-plate-role='"+group.role+"'><option value=''>Non inserirlo</option>"+group.items.map((x,i)=>"<option value='"+esc(x.key)+"' "+""+">"+esc(nome(x.key))+" · "+(x.known?x.known+"/"+anchors.length+" relazioni note":"poche relazioni note")+"</option>").join("")+"</select><div class='lab-notice'>"+group.items.map(x=>"<div><b>"+esc(nome(x.key))+"</b>"+(x.shared.length?" · profili condivisi: "+esc(x.shared.join(", ")):"")+"</div>").join("")+"</div>":"<p>Nessun candidato sufficientemente caratterizzato nell'archivio.</p>")+"</article>").join("")+
+ results.map(group=>"<article class='lab-result'><h3>"+esc(labPlateRoles[group.role].label)+"</h3><p>"+esc(labPlateRoles[group.role].desc)+"</p>"+(group.items.length?"<label for='plateRole_"+group.role+"'>Scelta principale (facoltativa)</label><select id='plateRole_"+group.role+"' data-plate-role='"+group.role+"'><option value=''>Non inserirlo</option>"+group.items.map(x=>"<option value='"+esc(x.key)+"'>"+esc(nome(x.key))+" · "+(x.known?x.known+"/"+anchors.length+" relazioni note":"poche relazioni note")+"</option>").join("")+"</select><label for='plateAltRole_"+group.role+"'>Confronta con un'alternativa</label><select id='plateAltRole_"+group.role+"'><option value=''>Scegli una seconda proposta</option>"+group.items.map(x=>"<option value='"+esc(x.key)+"'>"+esc(nome(x.key))+"</option>").join("")+"</select><button type='button' data-plate-compare='"+group.role+"'>Confronta le due proposte</button><div id='plateCompare_"+group.role+"' class='lab-notice' aria-live='polite'></div><div class='lab-notice'>"+group.items.map(x=>"<div><b>"+esc(nome(x.key))+"</b>"+(x.shared.length?" · profili condivisi: "+esc(x.shared.join(", ")):"")+"</div>").join("")+"</div>":"<p>Nessun candidato sufficientemente caratterizzato nell'archivio.</p>")+"</article>").join("")+
  "<article class='lab-result'><h3>Trasforma la scelta in una scheda di prova</h3><p><b>Protagonisti:</b> "+anchors.map(k=>esc(nome(k))).join(" + ")+"</p><label for='labPlateTitle'>Nome provvisorio del piatto</label><input id='labPlateTitle' placeholder='Es. Zucca, gorgonzola e nocciola' value=''>"+
  "<label for='labPlateMethod'>Tecnica / organizzazione da verificare</label><textarea id='labPlateMethod' rows='3' placeholder='Es. crema preparata in anticipo, elemento croccante aggiunto al pass, servizio rapido…'></textarea>"+
  "<div id='labPlatePreview' class='lab-notice'></div><button type='button' id='labPlateSave'>Salva scheda di prova nel banco</button></article>";
- for(const role of Object.keys(labPlateRoles)){const el=$("plateRole_"+role);if(el)el.addEventListener("change",labPlatePreview);}
+ for(const role of Object.keys(labPlateRoles)){
+  const el=$("plateRole_"+role);if(el)el.addEventListener("change",labPlatePreview);
+  const compare=$("[data-plate-compare='"+role+"']");if(compare)compare.addEventListener("click",()=>labComparePlateAlternatives(role));
+ }
  $("labPlateSave").addEventListener("click",labSavePlate);
  $("labPlateTitle").value="Prova: "+anchors.map(nome).join(" + ");
  labPlatePreview();
