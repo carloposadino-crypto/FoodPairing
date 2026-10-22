@@ -2080,7 +2080,7 @@ function labGeneratePlate(anchors,constraintText,excludedTerms){
  "<div id='labPlatePreview' class='lab-notice'></div><button type='button' id='labPlateSave'>Salva scheda di prova nel banco</button></article>";
  for(const role of Object.keys(labPlateRoles)){
   const el=$("plateRole_"+role);if(el)el.addEventListener("change",labPlatePreview);
-  const compare=$("[data-plate-compare='"+role+"']");if(compare)compare.addEventListener("click",()=>labComparePlateAlternatives(role));
+  const compare=document.querySelector("[data-plate-compare='"+role+"']");if(compare)compare.addEventListener("click",()=>labComparePlateAlternatives(role));
  }
  $("labPlateSave").addEventListener("click",labSavePlate);
  $("labPlateTitle").value="Prova: "+anchors.map(nome).join(" + ");
