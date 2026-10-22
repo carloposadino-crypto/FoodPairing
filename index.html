@@ -738,20 +738,24 @@ function compareCombinations(a,b){return b.min-a.min||b.avg-a.avg||b.profile-a.p
 function label(min,avg){if(min>=4&&avg>=4.5)return"Abbinamento molto forte";if(min>=4&&avg>=4)return"Abbinamento forte";if(min>=3&&avg>=3.5)return"Buon abbinamento";return"Da valutare"}
 async function load(){
   const status=$("status");
+  const stamp=Date.now();
   const sources=[
-    "./database.json?v="+Date.now(),
-    "database.json?v="+Date.now()
+    "https://carloposadino-crypto.github.io/FoodPairing/database.json?v="+stamp,
+    "./database.json?v="+stamp
   ];
   let lastError=null;
   for(const url of sources){
+    let timer=null;
     try{
-      status.textContent="Caricamento database...";
-      const r=await fetch(url,{cache:"no-store"});
-      if(!r.ok)throw new Error("HTTP "+r.status);
+      status.textContent="Caricamento database…";
+      const controller=new AbortController();
+      timer=setTimeout(()=>controller.abort(),12000);
+      const r=await fetch(url,{cache:"no-store",signal:controller.signal});
+      if(!r.ok)throw new Error("HTTP "+r.status+" ("+url.split("?")[0]+")");
       const raw=await r.json();
       if(!raw||typeof raw!=="object"||Array.isArray(raw))throw new Error("Formato database non valido");
-      pairingTypes=raw._pairing_types||null;
       const data={...raw};
+      pairingTypes=data._pairing_types||null;
       delete data._pairing_types;
       delete data._metadata;
       const keys=Object.keys(data);
@@ -775,15 +779,19 @@ async function load(){
       status.textContent="Database caricato: "+keys.length+" ingredienti";
       return true;
     }catch(e){
-      lastError=e;
-      console.warn("FoodPairing database source failed",url,e);
+      lastError=e?.name==="AbortError"
+        ?new Error("richiesta scaduta dopo 12 secondi")
+        :e;
+      console.warn("FoodPairing database source failed",url,lastError);
+    }finally{
+      if(timer!==null)clearTimeout(timer);
     }
   }
   db={};
   pairingTypes=null;
   const reason=lastError?.message||"caricamento fallito";
   console.error("FoodPairing database error:",reason);
-  status.textContent="ERRORE database: "+reason;
+  status.textContent="ERRORE database: "+reason+". Ricarica la pagina; se persiste, prova in una scheda anonima.";
   return false;
 }
 function autocomplete(inputId,boxId){
